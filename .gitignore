@@ -1,0 +1,12 @@
+/node_modules
+.eslintcache
+/lib
+.env
+.idea
+.vscode
+reports/
+.DS_Store
+test-results/
+playwright-report/
+yarn.lock
+
