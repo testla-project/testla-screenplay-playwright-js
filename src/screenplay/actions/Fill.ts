@@ -15,7 +15,13 @@ export class Fill extends Action {
      * @param actor
      */
     public async performAs(actor: Actor): Promise<void> {
+<<<<<<< HEAD
         return (BrowseTheWeb.as(actor) as BrowseTheWeb).fill(this.locator, this.input);
+=======
+        await (await (BrowseTheWeb.as(actor) as BrowseTheWeb)
+            .findLocator(this.locator))
+            .fill(this.input);
+>>>>>>> 7aec5dcbb22fd87ccab980c4584ffc558ebdecf4
     }
 
     /**
@@ -24,7 +30,11 @@ export class Fill extends Action {
      * @param selector the selector.
      * @param input the input.
      */
+<<<<<<< HEAD
     public static in(selector: string, input: string): Fill {
+=======
+    public static with(selector: string, input: string): Fill {
+>>>>>>> 7aec5dcbb22fd87ccab980c4584ffc558ebdecf4
         return new Fill(selector, input);
     }
 }
