@@ -15,11 +15,7 @@ export class Hover extends Action {
      * @param actor
      */
     public performAs(actor: Actor): Promise<void> {
-<<<<<<< HEAD
         return BrowseTheWeb.as(actor).hover(this.selector, this.modifiers);
-=======
-        return (BrowseTheWeb.as(actor) as BrowseTheWeb).hoverOver(this.selector, this.modifiers);
->>>>>>> 7aec5dcbb22fd87ccab980c4584ffc558ebdecf4
     }
 
     /**

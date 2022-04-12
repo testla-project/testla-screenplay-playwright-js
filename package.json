@@ -1,17 +1,11 @@
 {
-<<<<<<< HEAD
   "name": "@testla/screenplay-playwright",
   "version": "0.1.0",
-=======
-  "name": "testla-screenplay-playwright-js",
-  "version": "1.0.0",
->>>>>>> 7aec5dcbb22fd87ccab980c4584ffc558ebdecf4
   "description": "",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "commitHooks": false,
   "scripts": {
-<<<<<<< HEAD
     "build": "rm -r lib || true && tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint:ts": "tsc --noEmit",
@@ -23,20 +17,6 @@
   },
   "files": [
     "lib/**/*"
-=======
-    "lint": "concurrently \"yarn lint:js\" \"yarn lint:ts\"",
-    "lint:ts": "tsc --noEmit",
-    "lint:js": "eslint . --cache",
-    "test": "playwright test",
-    "test:chrome": "playwright test --project=chromium",
-    "test:firefox": "playwright test --project=firefox",
-    "test:webkit": "playwright test --project=webkit",
-    "test:list": "playwright test --list"
-  },
-  "files": [
-    "lib/**/*",
-    "doc/**/*"
->>>>>>> 7aec5dcbb22fd87ccab980c4584ffc558ebdecf4
   ],
   "repository": {
     "type": "git",
@@ -65,7 +45,6 @@
     "eslint-config-airbnb": "^19.0.4",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-jsx-a11y": "^6.5.1",
-<<<<<<< HEAD
     "eslint-plugin-react": "^7.29.4",
     "typescript": "^4.6.3"
   },
@@ -77,20 +56,6 @@
     "@playwright/test": "^1.20.2",
     "@testla/screenplay": "^0.2.0",
     "playwright": "^1.20.2"
-=======
-    "eslint-plugin-playwright": "^0.8.0",
-    "eslint-plugin-react": "^7.29.4",
-    "typescript": "^4.6.3"
-  },
-  "dependencies": {
-    "@playwright/test": "^1.19.1",
-    "@testla/screenplay": "^0.1.0",
-    "dotenv": "^16.0.0",
-    "eslint": "^8.9.0",
-    "eslint-plugin-react-hooks": "^4.4.0",
-    "playwright": "^1.19.1",
-    "typescript": "^4.5.5"
->>>>>>> 7aec5dcbb22fd87ccab980c4584ffc558ebdecf4
   },
   "engines": {
     "node": ">=12.x.x"
