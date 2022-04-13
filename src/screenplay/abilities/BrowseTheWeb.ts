@@ -142,4 +142,22 @@ export class BrowseTheWeb extends Ability {
     public async type(selector: string, input: string) {
         return this.page.type(selector, input);
     }
+
+    /**
+     * Click the element specified by the selector.
+     *
+     * @param selector the selector of the element to click.
+     */
+    public async click(selector: string) {
+        return this.page.click(selector);
+    }
+
+    /**
+     * Double click the element specified by the selector.
+     *
+     * @param selector the selector of the element to double click.
+     */
+    public async dblclick(selector: string) {
+        return this.page.dblclick(selector);
+    }
 }

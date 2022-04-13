@@ -21,9 +21,7 @@ export class DoubleClick extends Action {
                 .findSubselector(this.selector, this.hasText, this.subselector))
                 .dblclick();
         } else {
-            await (await (BrowseTheWeb.as(actor) as BrowseTheWeb)
-                .findSelector(this.selector))
-                .dblclick();
+            await BrowseTheWeb.as(actor).dblclick(this.selector);
         }
     }
 

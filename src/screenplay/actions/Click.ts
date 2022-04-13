@@ -20,9 +20,7 @@ export class Click extends Action {
                 .findSubselector(this.selector, this.hasText, this.subselector))
                 .click();
         } else {
-            await (await (BrowseTheWeb.as(actor) as BrowseTheWeb)
-                .findSelector(this.selector))
-                .click();
+            await BrowseTheWeb.as(actor).click(this.selector);
         }
     }
 
