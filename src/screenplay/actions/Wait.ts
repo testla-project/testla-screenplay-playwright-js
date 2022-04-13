@@ -24,7 +24,7 @@ export class Wait extends Action {
      */
     public performAs(actor: Actor): Promise<any> {
         if (this.action.mode === 'loadState') {
-            return (BrowseTheWeb.as(actor) as BrowseTheWeb).waitForState(this.action.payload.state);
+            return (BrowseTheWeb.as(actor) as BrowseTheWeb).waitForLoadState(this.action.payload.state);
         }
         if (this.action.mode === 'selector') {
             return (BrowseTheWeb.as(actor) as BrowseTheWeb)
@@ -39,7 +39,7 @@ export class Wait extends Action {
      * @param state either 'load', 'domcontentloaded' or 'networkidle'
      */
     public static forLoadState(state: 'load' | 'domcontentloaded' | 'networkidle'): Wait {
-        return new Wait({ mode: 'loadState', payload: { state }});
+        return new Wait({ mode: 'loadState', payload: { state } });
     }
 
     /**
@@ -48,6 +48,6 @@ export class Wait extends Action {
      * @param selector the selector.
      */
     public static forSelector(selector: string): Wait {
-        return new Wait({ mode: 'selector', payload: { selector }});
+        return new Wait({ mode: 'selector', payload: { selector } });
     }
 }

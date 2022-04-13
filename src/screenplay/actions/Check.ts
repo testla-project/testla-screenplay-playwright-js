@@ -20,7 +20,7 @@ export class Check extends Action {
                 .findSubselector(this.selector, this.hasText, this.subselector))
                 .check();
         } else {
-            await (BrowseTheWeb.as(actor) as BrowseTheWeb).checkBox(this.selector);
+            await BrowseTheWeb.as(actor).checkBox(this.selector);
         }
     }
 

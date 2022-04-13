@@ -1,4 +1,4 @@
-import { expect, Locator, Page } from '@playwright/test';
+import { Locator, Page } from '@playwright/test';
 import { ElementHandle, Response } from 'playwright';
 import { Ability, Actor } from '@testla/screenplay';
 
@@ -57,7 +57,7 @@ export class BrowseTheWeb extends Ability {
      *
      * @param url the url to access.
      */
-    public async navigate(url: string): Promise<Response | null> {
+    public async goto(url: string): Promise<Response | null> {
         return this.page.goto(url);
     }
 
@@ -66,7 +66,7 @@ export class BrowseTheWeb extends Ability {
      *
      * @param status the status to wait for. Allowed: "load" | "domcontentloaded" | "networkidle".
      */
-    public async waitForState(status: 'load' | 'domcontentloaded' | 'networkidle'): Promise<void> {
+    public async waitForLoadState(status: 'load' | 'domcontentloaded' | 'networkidle'): Promise<void> {
         switch (status) {
             case 'networkidle': return this.page.waitForLoadState(status); break;
             case 'domcontentloaded': return this.page.waitForLoadState(status); break;
@@ -91,7 +91,7 @@ export class BrowseTheWeb extends Ability {
      *
      * @param input the key(s). multiple keys can be pressed by concatenating with "+"
      */
-    public async pressKey(input: string): Promise<void> {
+    public async press(input: string): Promise<void> {
         return this.page.keyboard.press(input);
     }
 
@@ -125,10 +125,9 @@ export class BrowseTheWeb extends Ability {
 
     /**
      * Fill the element specified by the selector with the given input.
-     * 
-     * @param selector 
-     * @param input 
-     * @returns 
+     *
+     * @param selector the selector of the source element.
+     * @param input the input to fill the element with.
      */
     public async fill(selector: string, input: string) {
         return this.page.fill(selector, input);
@@ -136,10 +135,9 @@ export class BrowseTheWeb extends Ability {
 
     /**
      * Type the given input into the element specified by the selector.
-     * 
-     * @param selector 
-     * @param input 
-     * @returns 
+     *
+     * @param selector the selector of the source element.
+     * @param input the input to type into the element.
      */
     public async type(selector: string, input: string) {
         return this.page.type(selector, input);

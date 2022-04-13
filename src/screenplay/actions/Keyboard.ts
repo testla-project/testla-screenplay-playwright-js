@@ -15,7 +15,7 @@ export class Keyboard extends Action {
      * @param actor
      */
     public async performAs(actor: Actor): Promise<void> {
-        return BrowseTheWeb.as(actor).pressKey(this.input);
+        return BrowseTheWeb.as(actor).press(this.input);
     }
 
     /**

@@ -15,7 +15,7 @@ export class Fill extends Action {
      * @param actor
      */
     public async performAs(actor: Actor): Promise<void> {
-        return (BrowseTheWeb.as(actor) as BrowseTheWeb).fill(this.locator, this.input);
+        return BrowseTheWeb.as(actor).fill(this.locator, this.input);
     }
 
     /**

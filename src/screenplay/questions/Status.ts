@@ -8,7 +8,6 @@ class VisibleStatus extends Question<boolean> {
             .findLocator(this.locator)).isVisible();
     }
 
-    // eslint-disable-next-line no-useless-constructor
     public constructor(private locator: string) {
         super();
     }
@@ -23,7 +22,6 @@ class EnableStatus extends Question<boolean> {
             .findLocator(this.locator)).isEnabled();
     }
 
-    // eslint-disable-next-line no-useless-constructor
     public constructor(private locator: string) {
         super();
     }

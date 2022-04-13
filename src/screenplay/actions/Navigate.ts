@@ -15,7 +15,7 @@ export class Navigate extends Action {
      * @param actor
      */
     public performAs(actor: Actor): Promise<any> {
-        return BrowseTheWeb.as(actor).navigate(this.url);
+        return BrowseTheWeb.as(actor).goto(this.url);
     }
 
     /**
