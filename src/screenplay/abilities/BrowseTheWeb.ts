@@ -52,6 +52,22 @@ export class BrowseTheWeb extends Ability {
         return subselector ? element.locator(subselector) : element;
     }
 
+    public async clickOnSubSelector(selector: string, hasText: string, subselector: string) {
+        // eslint-disable-next-line no-return-await
+        return await (await this.findSubselector(selector, hasText, subselector)).click();
+        // const locator = this.findSubselector(selector, hasText, subselector);
+        // return (await locator).click();
+        // const element = this.page.locator(selector, { hasText });
+        // return element.locator(subselector).click();
+    }
+
+    public async doubleClickOnSubSelector(selector: string, hasText: string, subselector: string) {
+        // eslint-disable-next-line no-return-await
+        return await (await this.findSubselector(selector, hasText, subselector)).dblclick();
+        // const element = this.page.locator(selector, { hasText });
+        // return element.locator(subselector).dblclick();
+    }
+
     /**
      * Use the page to navigate to the specified URL.
      *
@@ -147,8 +163,12 @@ export class BrowseTheWeb extends Ability {
      * Click the element specified by the selector.
      *
      * @param selector the selector of the element to click.
+     * @param hasText text property of the element to click.
      */
-    public async click(selector: string) {
+    public async click(selector: string, hasText?: string) {
+        if (hasText !== undefined) {
+            return this.page.locator(selector, { hasText }).click();
+        }
         return this.page.click(selector);
     }
 
@@ -157,7 +177,10 @@ export class BrowseTheWeb extends Ability {
      *
      * @param selector the selector of the element to double click.
      */
-    public async dblclick(selector: string) {
+    public async dblclick(selector: string, hasText?: string) {
+        if (hasText !== undefined) {
+            return this.page.locator(selector, { hasText }).dblclick();
+        }
         return this.page.dblclick(selector);
     }
 }

@@ -16,12 +16,18 @@ export class DoubleClick extends Action {
      * @param actor
      */
     public async performAs(actor: Actor): Promise<void> {
-        if (this.hasText !== undefined) {
-            await (await (BrowseTheWeb.as(actor) as BrowseTheWeb)
-                .findSubselector(this.selector, this.hasText, this.subselector))
-                .dblclick();
+        // if (this.hasText !== undefined) {
+        //     await (await (BrowseTheWeb.as(actor) as BrowseTheWeb)
+        //         .findSubselector(this.selector, this.hasText, this.subselector))
+        //         .dblclick();
+        // } else {
+        //     await BrowseTheWeb.as(actor).dblclick(this.selector);
+        // }
+
+        if (this.hasText !== undefined && this.subselector !== undefined) {
+            await BrowseTheWeb.as(actor).doubleClickOnSubSelector(this.selector, this.hasText, this.subselector);
         } else {
-            await BrowseTheWeb.as(actor).dblclick(this.selector);
+            await BrowseTheWeb.as(actor).dblclick(this.selector, this.hasText);
         }
     }
 

@@ -15,12 +15,21 @@ export class Click extends Action {
      * @param actor
      */
     public async performAs(actor: Actor): Promise<void> {
-        if (this.hasText !== undefined) {
-            await (await (BrowseTheWeb.as(actor) as BrowseTheWeb)
-                .findSubselector(this.selector, this.hasText, this.subselector))
-                .click();
+        // Why do we use the hasText identification to define that we are looking for a subselector?
+        // It should be the subselector identification.
+
+        // if (this.hasText !== undefined) {
+        //     await (await (BrowseTheWeb.as(actor) as BrowseTheWeb)
+        //         .findSubselector(this.selector, this.hasText, this.subselector))
+        //         .click();
+        // } else {
+        //     await BrowseTheWeb.as(actor).click(this.selector);
+        // }
+
+        if (this.hasText !== undefined && this.subselector !== undefined) {
+            await BrowseTheWeb.as(actor).clickOnSubSelector(this.selector, this.hasText, this.subselector);
         } else {
-            await BrowseTheWeb.as(actor).click(this.selector);
+            await BrowseTheWeb.as(actor).click(this.selector, this.hasText);
         }
     }
 
