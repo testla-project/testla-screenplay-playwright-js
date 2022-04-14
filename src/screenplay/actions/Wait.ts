@@ -24,11 +24,10 @@ export class Wait extends Action {
      */
     public performAs(actor: Actor): Promise<any> {
         if (this.action.mode === 'loadState') {
-            return (BrowseTheWeb.as(actor) as BrowseTheWeb).waitForLoadState(this.action.payload.state);
+            return BrowseTheWeb.as(actor).waitForLoadState(this.action.payload.state);
         }
         if (this.action.mode === 'selector') {
-            return (BrowseTheWeb.as(actor) as BrowseTheWeb)
-                .waitForSelector(this.action.payload.selector);
+            return BrowseTheWeb.as(actor).waitForSelector(this.action.payload.selector);
         }
         throw new Error('Error: no match for Wait.performAs()!');
     }
