@@ -1,40 +1,31 @@
-// eslint-disable-next-line max-classes-per-file
 import { Actor, Question } from '@testla/screenplay';
 import { BrowseTheWeb } from '../abilities/BrowseTheWeb';
 
-class VisibleStatus extends Question<boolean> {
-    public async answeredBy(actor: Actor): Promise<boolean> {
-        return (await (BrowseTheWeb.as(actor) as BrowseTheWeb)
-            .findLocator(this.locator)).isVisible();
-    }
+/**
+ * Question Class. Get a specified state for a selector like visible or enabled.
+ */
+export class Status extends Question<boolean> {
+    private mode: 'visible' | 'enabled';
 
-    public constructor(private locator: string) {
+    private constructor(mode: 'visible' | 'enabled', private locator: string) {
         super();
+        this.mode = mode;
     }
 
-    public toString(): string {
-        return `Status of element '${this.locator.toString()}'`;
-    }
-}
-class EnableStatus extends Question<boolean> {
-    public async answeredBy(actor: Actor): Promise<boolean> {
-        return (await (BrowseTheWeb.as(actor) as BrowseTheWeb)
-            .findLocator(this.locator)).isEnabled();
+    public answeredBy(actor: Actor): Promise<boolean> {
+        if (this.mode === 'visible') {
+            return BrowseTheWeb.as(actor).isVisible(this.locator);
+        } if (this.mode === 'enabled') {
+            return BrowseTheWeb.as(actor).isEnabled(this.locator);
+        }
+        throw new Error('Unknown mode');
     }
 
-    public constructor(private locator: string) {
-        super();
+    static isVisible(locator: string): Status {
+        return new Status('visible', locator);
     }
-}
 
-export class Status {
-    // is the specified locator visible?
-    public static visible = {
-        of: (locator: string): VisibleStatus => new VisibleStatus(locator),
-    };
-
-    // is the specified locator enabled?
-    public static enable = {
-        of: (locator: string): EnableStatus => new EnableStatus(locator),
-    };
+    static isEnabled(locator: string): Status {
+        return new Status('enabled', locator);
+    }
 }

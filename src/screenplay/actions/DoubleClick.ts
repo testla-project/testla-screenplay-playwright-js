@@ -6,7 +6,7 @@ import { BrowseTheWeb } from '../abilities/BrowseTheWeb';
  */
 export class DoubleClick extends Action {
     // eslint-disable-next-line no-useless-constructor
-    private constructor(private selector: string, private hasText?: string, private subselector?: string) {
+    private constructor(private selector: string, private hasText?: string) {
         super();
     }
 
@@ -16,19 +16,7 @@ export class DoubleClick extends Action {
      * @param actor
      */
     public async performAs(actor: Actor): Promise<void> {
-        // if (this.hasText !== undefined) {
-        //     await (await (BrowseTheWeb.as(actor) as BrowseTheWeb)
-        //         .findSubselector(this.selector, this.hasText, this.subselector))
-        //         .dblclick();
-        // } else {
-        //     await BrowseTheWeb.as(actor).dblclick(this.selector);
-        // }
-
-        if (this.hasText !== undefined && this.subselector !== undefined) {
-            await BrowseTheWeb.as(actor).doubleClickOnSubSelector(this.selector, this.hasText, this.subselector);
-        } else {
-            await BrowseTheWeb.as(actor).dblclick(this.selector, this.hasText);
-        }
+        await BrowseTheWeb.as(actor).dblclick(this.selector, this.hasText);
     }
 
     /**
@@ -36,9 +24,8 @@ export class DoubleClick extends Action {
      *
      * @param selector the string representing the selector.
      * @param hasText (optional): the text the subselector should have.
-     * @param subselector (optional): the subselector.
      */
-    public static on(selector: string, hasText?: string, subselector?: string): DoubleClick {
-        return new DoubleClick(selector, hasText, subselector);
+    public static on(selector: string, hasText?: string): DoubleClick {
+        return new DoubleClick(selector, hasText);
     }
 }

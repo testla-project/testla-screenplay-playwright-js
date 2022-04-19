@@ -39,33 +39,30 @@ export class BrowseTheWeb extends Ability {
     }
 
     /**
+     * Validate a locator on the page is visible.
+     *
+     * @param selector the locator to search for.
+     */
+    public async isVisible(selector: string): Promise<boolean> {
+        return this.page.isVisible(selector);
+    }
+
+    /**
+     * Validate a locator on the page is enabled.
+     *
+     * @param selector the locator to search for.
+     */
+    public async isEnabled(selector: string): Promise<boolean> {
+        return this.page.isEnabled(selector);
+    }
+
+    /**
      * Find a selector on the page.
      *
      * @param selector
      */
     public async findSelector(selector: string): Promise<ElementHandle<SVGElement | HTMLElement>> {
         return this.page.waitForSelector(selector);
-    }
-
-    public async findSubselector(selector: string, hasText: string, subselector?: string): Promise<Locator> {
-        const element = this.page.locator(selector, { hasText });
-        return subselector ? element.locator(subselector) : element;
-    }
-
-    public async clickOnSubSelector(selector: string, hasText: string, subselector: string) {
-        // eslint-disable-next-line no-return-await
-        return await (await this.findSubselector(selector, hasText, subselector)).click();
-        // const locator = this.findSubselector(selector, hasText, subselector);
-        // return (await locator).click();
-        // const element = this.page.locator(selector, { hasText });
-        // return element.locator(subselector).click();
-    }
-
-    public async doubleClickOnSubSelector(selector: string, hasText: string, subselector: string) {
-        // eslint-disable-next-line no-return-await
-        return await (await this.findSubselector(selector, hasText, subselector)).dblclick();
-        // const element = this.page.locator(selector, { hasText });
-        // return element.locator(subselector).dblclick();
     }
 
     /**
