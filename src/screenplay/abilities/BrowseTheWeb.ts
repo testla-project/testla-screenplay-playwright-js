@@ -1,5 +1,5 @@
 import { Locator, Page } from '@playwright/test';
-import { ElementHandle, Response } from 'playwright';
+import { Response } from 'playwright';
 import { Ability, Actor } from '@testla/screenplay';
 
 /**

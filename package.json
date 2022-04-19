@@ -1,7 +1,7 @@
 {
   "name": "@testla/screenplay-playwright",
   "version": "0.1.0",
-  "description": "",
+  "description": "Implementation of the Playwright abilities, actions and questions.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "commitHooks": false,
@@ -23,6 +23,7 @@
     "url": "git+https://github.com/testla-project/testla-screenplay-playwright-js.git"
   },
   "keywords": [
+    "playwright",
     "screenplay",
     "testla",
     "testing",
