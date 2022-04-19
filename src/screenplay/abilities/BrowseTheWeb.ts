@@ -39,33 +39,6 @@ export class BrowseTheWeb extends Ability {
     }
 
     /**
-     * Validate a locator on the page is visible.
-     *
-     * @param selector the locator to search for.
-     */
-    public async isVisible(selector: string): Promise<boolean> {
-        return this.page.isVisible(selector);
-    }
-
-    /**
-     * Validate a locator on the page is enabled.
-     *
-     * @param selector the locator to search for.
-     */
-    public async isEnabled(selector: string): Promise<boolean> {
-        return this.page.isEnabled(selector);
-    }
-
-    /**
-     * Find a selector on the page.
-     *
-     * @param selector
-     */
-    public async findSelector(selector: string): Promise<ElementHandle<SVGElement | HTMLElement>> {
-        return this.page.waitForSelector(selector);
-    }
-
-    /**
      * Use the page to navigate to the specified URL.
      *
      * @param url the url to access.
@@ -178,5 +151,23 @@ export class BrowseTheWeb extends Ability {
             return this.page.locator(selector, { hasText }).dblclick();
         }
         return this.page.dblclick(selector);
+    }
+
+    /**
+     * Validate a locator on the page is visible.
+     *
+     * @param selector the locator to search for.
+     */
+    public async isVisible(selector: string): Promise<boolean> {
+        return this.page.isVisible(selector);
+    }
+
+    /**
+     * Validate a locator on the page is enabled.
+     *
+     * @param selector the locator to search for.
+     */
+    public async isEnabled(selector: string): Promise<boolean> {
+        return this.page.isEnabled(selector);
     }
 }
