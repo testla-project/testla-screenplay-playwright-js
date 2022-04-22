@@ -1,4 +1,5 @@
 import { Action, Actor } from '@testla/screenplay';
+import { SelectorOptions } from '../../types';
 import { BrowseTheWeb } from '../abilities/BrowseTheWeb';
 
 /**
@@ -6,7 +7,10 @@ import { BrowseTheWeb } from '../abilities/BrowseTheWeb';
  * selector string.
  */
 export class DragAndDrop extends Action {
-    private constructor(private sourceSelector: string, private targetSelector: string) {
+    private constructor(private sourceSelector: string, private targetSelector: string, private options?: {
+        source?: SelectorOptions;
+        target?: SelectorOptions;
+    }) {
         super();
     }
 
@@ -14,7 +18,7 @@ export class DragAndDrop extends Action {
      * drag the specified selector and drop it on the target.
      */
     public performAs(actor: Actor): Promise<void> {
-        return BrowseTheWeb.as(actor).dragAndDrop(this.sourceSelector, this.targetSelector);
+        return BrowseTheWeb.as(actor).dragAndDrop(this.sourceSelector, this.targetSelector, this.options);
     }
 
     /**
@@ -23,7 +27,10 @@ export class DragAndDrop extends Action {
      * @param sourceSelector the selector of the source element.
      * @param targetSelector the selector of the target element.
      */
-    public static execute(sourceSelector: string, targetSelector: string): DragAndDrop {
-        return new DragAndDrop(sourceSelector, targetSelector);
+    public static execute(sourceSelector: string, targetSelector: string, options?: {
+        source?: SelectorOptions;
+        target?: SelectorOptions;
+    }): DragAndDrop {
+        return new DragAndDrop(sourceSelector, targetSelector, options);
     }
 }

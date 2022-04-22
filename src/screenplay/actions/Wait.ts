@@ -1,4 +1,5 @@
 import { Action, Actor } from '@testla/screenplay';
+import { SelectorOptions } from '../../types';
 import { BrowseTheWeb } from '../abilities/BrowseTheWeb';
 
 /**
@@ -27,7 +28,7 @@ export class Wait extends Action {
             return BrowseTheWeb.as(actor).waitForLoadState(this.action.payload.state);
         }
         if (this.action.mode === 'selector') {
-            return BrowseTheWeb.as(actor).waitForSelector(this.action.payload.selector);
+            return BrowseTheWeb.as(actor).waitForSelector(this.action.payload.selector, this.action.payload.options);
         }
         throw new Error('Error: no match for Wait.performAs()!');
     }
@@ -46,7 +47,7 @@ export class Wait extends Action {
      *
      * @param selector the selector.
      */
-    public static forSelector(selector: string): Wait {
-        return new Wait({ mode: 'selector', payload: { selector } });
+    public static forSelector(selector: string, options?: SelectorOptions): Wait {
+        return new Wait({ mode: 'selector', payload: { selector, options } });
     }
 }
