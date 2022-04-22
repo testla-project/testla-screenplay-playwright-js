@@ -1,4 +1,5 @@
 import { Action, Actor } from '@testla/screenplay';
+import { SelectorOptions } from '../../types';
 import { BrowseTheWeb } from '../abilities/BrowseTheWeb';
 
 /**
@@ -24,11 +25,10 @@ export class Wait extends Action {
      */
     public performAs(actor: Actor): Promise<any> {
         if (this.action.mode === 'loadState') {
-            return (BrowseTheWeb.as(actor) as BrowseTheWeb).waitForState(this.action.payload.state);
+            return BrowseTheWeb.as(actor).waitForLoadState(this.action.payload.state);
         }
         if (this.action.mode === 'selector') {
-            return (BrowseTheWeb.as(actor) as BrowseTheWeb)
-                .waitForSelector(this.action.payload.selector);
+            return BrowseTheWeb.as(actor).waitForSelector(this.action.payload.selector, this.action.payload.options);
         }
         throw new Error('Error: no match for Wait.performAs()!');
     }
@@ -39,15 +39,16 @@ export class Wait extends Action {
      * @param state either 'load', 'domcontentloaded' or 'networkidle'
      */
     public static forLoadState(state: 'load' | 'domcontentloaded' | 'networkidle'): Wait {
-        return new Wait({ mode: 'loadState', payload: { state }});
+        return new Wait({ mode: 'loadState', payload: { state } });
     }
 
     /**
      * Wait for a specific selector to exist.
      *
      * @param selector the selector.
+     * @param options (optional) advanced selector lookup options.
      */
-    public static forSelector(selector: string): Wait {
-        return new Wait({ mode: 'selector', payload: { selector }});
+    public static forSelector(selector: string, options?: SelectorOptions): Wait {
+        return new Wait({ mode: 'selector', payload: { selector, options } });
     }
 }

@@ -1,11 +1,12 @@
 import { Action, Actor } from '@testla/screenplay';
+import { SelectorOptions } from '../../types';
 import { BrowseTheWeb } from '../abilities/BrowseTheWeb';
 
 /**
  * Activity Class. Type specified input into an element specified by a selector string.
  */
 export class Type extends Action {
-    private constructor(private locator: string, private input: string) {
+    private constructor(private locator: string, private input: string, private options?: SelectorOptions) {
         super();
     }
 
@@ -15,7 +16,7 @@ export class Type extends Action {
      * @param actor
      */
     public async performAs(actor: Actor): Promise<void> {
-        return BrowseTheWeb.as(actor).type(this.locator, this.input);
+        return BrowseTheWeb.as(actor).type(this.locator, this.input, this.options);
     }
 
     /**
@@ -23,8 +24,9 @@ export class Type extends Action {
      *
      * @param selector the selector.
      * @param input the input.
+     * @param options (optional) advanced selector lookup options.
      */
-    public static in(selector: string, input: string): Type {
-        return new Type(selector, input);
+    public static in(selector: string, input: string, options?: SelectorOptions): Type {
+        return new Type(selector, input, options);
     }
 }
