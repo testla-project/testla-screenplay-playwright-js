@@ -23,7 +23,7 @@ export class Hover extends Action {
      * Specify which selector should be hovered over
      *
      * @param selector The selector that should be hovered over.
-     * @param modifiers Modifier keys to press. Ensures that only these modifiers are pressed during the operation.
+     * @param options (optional) advanced selector lookup options + Modifier keys to press. Ensures that only these modifiers are pressed during the operation.
      */
     public static over(selector: string, options?: SelectorOptions & { modifiers?: ('Alt' | 'Control' | 'Meta' | 'Shift')[] }): Hover {
         return new Hover(selector, options);

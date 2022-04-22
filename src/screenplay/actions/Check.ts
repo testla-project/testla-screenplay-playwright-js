@@ -23,7 +23,7 @@ export class Check extends Action {
      * specify which element should be clicked on
      *
      * @param selector the string representing the selector.
-     * @param hasText (optional): the text the subselector should have.
+     * @param options (optional): advanced selector lookup options.
      */
     public static element(selector: string, options?: SelectorOptions): Check {
         return new Check(selector, options);

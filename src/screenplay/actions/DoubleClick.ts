@@ -24,7 +24,7 @@ export class DoubleClick extends Action {
      * specify which element should be clicked on
      *
      * @param selector the string representing the selector.
-     * @param hasText (optional): the text the subselector should have.
+     * @param options (optional): advanced selector lookup options.
      */
     public static on(selector: string, options?: SelectorOptions): DoubleClick {
         return new DoubleClick(selector, options);

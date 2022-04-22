@@ -26,6 +26,7 @@ export class DragAndDrop extends Action {
      *
      * @param sourceSelector the selector of the source element.
      * @param targetSelector the selector of the target element.
+     * @param options (optional) advanced selector lookup options.
      */
     public static execute(sourceSelector: string, targetSelector: string, options?: {
         source?: SelectorOptions;

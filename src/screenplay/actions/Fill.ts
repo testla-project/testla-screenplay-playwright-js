@@ -24,6 +24,7 @@ export class Fill extends Action {
      *
      * @param selector the selector.
      * @param input the input.
+     * @param options (optional) advanced selector lookup options.
      */
     public static in(selector: string, input: string, options?: SelectorOptions): Fill {
         return new Fill(selector, input, options);

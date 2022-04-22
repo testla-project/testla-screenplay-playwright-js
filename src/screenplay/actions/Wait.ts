@@ -46,6 +46,7 @@ export class Wait extends Action {
      * Wait for a specific selector to exist.
      *
      * @param selector the selector.
+     * @param options (optional) advanced selector lookup options.
      */
     public static forSelector(selector: string, options?: SelectorOptions): Wait {
         return new Wait({ mode: 'selector', payload: { selector, options } });
