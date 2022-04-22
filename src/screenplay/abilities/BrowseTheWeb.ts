@@ -132,7 +132,7 @@ export class BrowseTheWeb extends Ability {
      * @param hasText text property of the element to click.
      */
     public async click(selector: string, options?: SelectorOptions) {
-        if (options?.hasText !== undefined) {
+        if (options) {
             const resolvedLocator = recursiveLocatorLookup({ page: this.page, selector, options });
             return resolvedLocator.click();
         }
