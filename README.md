@@ -63,7 +63,7 @@ Fill.in('mySelector', 'myInput');
 Hover.over('mySelector', ('Alt' | 'Control' | 'Meta' | 'Shift')[]);
 
 // Press the specified key on the keyboard
-Keyboard.press('myKeys');
+Press.key('myKeys');
 
 // Navigate to a URL using the specified url string
 Navigate.to('myUrl');
@@ -101,12 +101,12 @@ class Login extends Task {
 }
 ```
 
-### Available Question - Status
+### Available Question - Element
 
 ```js
 // Get a specified state for a selector like visible or enabled
-Status.isVisible('mySelector');
-Status.isEnabled('mySelector');
+Element.isVisible('mySelector');
+Element.isEnabled('mySelector');
 ```
 
 ### Define a test case
@@ -114,7 +114,7 @@ Status.isEnabled('mySelector');
 The final step is to define a test case using the Task defined above.
 
 ```js
-import { Actor, BrowseTheWeb } from '@testla/screenplay-playwright';
+import { Actor, BrowseTheWeb, Element, Login } from '@testla/screenplay-playwright';
 
 // Example test case with Playwright
 test.describe('My Test', () => {
@@ -128,7 +128,7 @@ test.describe('My Test', () => {
         await actor.attemptsTo(Login.toApp());
 
         // Check if the login was successful - use the Status question
-        expect(await actor.asks(Status.isEnabled('#logged-in-indicator'))).toBe(true);
+        expect(await actor.asks(Element.isEnabled('#logged-in-indicator'))).toBe(true);
     });
 });
 ```

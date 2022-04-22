@@ -53,12 +53,7 @@ export class BrowseTheWeb extends Ability {
      * @param status the status to wait for. Allowed: "load" | "domcontentloaded" | "networkidle".
      */
     public async waitForLoadState(status: 'load' | 'domcontentloaded' | 'networkidle'): Promise<void> {
-        switch (status) {
-            case 'networkidle': return this.page.waitForLoadState(status);
-            case 'domcontentloaded': return this.page.waitForLoadState(status);
-            case 'load': return this.page.waitForLoadState(status);
-            default: throw new Error('Error: invalid state passed to Wait.for()!');
-        }
+        return this.page.waitForLoadState(status);
     }
 
     /**

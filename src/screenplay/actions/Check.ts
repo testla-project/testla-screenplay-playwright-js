@@ -5,7 +5,7 @@ import { BrowseTheWeb } from '../abilities/BrowseTheWeb';
  * Activity Class. Check a checkbox specified by a selector string.
  */
 export class Check extends Action {
-    private constructor(private selector: string, private hasText?: string) {
+    private constructor(private selector: string) {
         super();
     }
 
@@ -24,7 +24,7 @@ export class Check extends Action {
      * @param selector the string representing the selector.
      * @param hasText (optional): the text the subselector should have.
      */
-    public static element(selector: string, hasText?: string): Check {
-        return new Check(selector, hasText);
+    public static element(selector: string): Check {
+        return new Check(selector);
     }
 }

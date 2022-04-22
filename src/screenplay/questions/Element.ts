@@ -4,7 +4,7 @@ import { BrowseTheWeb } from '../abilities/BrowseTheWeb';
 /**
  * Question Class. Get a specified state for a selector like visible or enabled.
  */
-export class Status extends Question<boolean> {
+export class Element extends Question<boolean> {
     private mode: 'visible' | 'enabled';
 
     private constructor(mode: 'visible' | 'enabled', private locator: string) {
@@ -21,11 +21,11 @@ export class Status extends Question<boolean> {
         throw new Error('Unknown mode');
     }
 
-    static isVisible(locator: string): Status {
-        return new Status('visible', locator);
+    static isVisible(locator: string): Element {
+        return new Element('visible', locator);
     }
 
-    static isEnabled(locator: string): Status {
-        return new Status('enabled', locator);
+    static isEnabled(locator: string): Element {
+        return new Element('enabled', locator);
     }
 }

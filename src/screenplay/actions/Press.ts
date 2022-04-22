@@ -4,7 +4,7 @@ import { BrowseTheWeb } from '../abilities/BrowseTheWeb';
 /**
  * Activity Class. Press the specified key on the keyboard.
  */
-export class Keyboard extends Action {
+export class Press extends Action {
     private constructor(private input: string) {
         super();
     }
@@ -21,9 +21,9 @@ export class Keyboard extends Action {
     /**
      * Press a key on the keyboard. (or multiple keys with +, e.g. Shift+A)
      *
-     * @param input the key(s) to press.
+     * @param keys the key(s) to press.
      */
-    public static press(input: string): Keyboard {
-        return new Keyboard(input);
+    public static key(keys: string): Press {
+        return new Press(keys);
     }
 }
