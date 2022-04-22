@@ -1,6 +1,8 @@
 import { Locator, Page } from '@playwright/test';
 import { Response } from 'playwright';
 import { Ability, Actor } from '@testla/screenplay';
+import { SelectorOptions, SubSelector } from '../../types';
+import { recursiveLocatorLookup } from '../utils';
 
 /**
  * This class represents the actor's ability to use a Browser.
@@ -129,9 +131,10 @@ export class BrowseTheWeb extends Ability {
      * @param selector the selector of the element to click.
      * @param hasText text property of the element to click.
      */
-    public async click(selector: string, hasText?: string) {
-        if (hasText !== undefined) {
-            return this.page.locator(selector, { hasText }).click();
+    public async click(selector: string, options?: SelectorOptions) {
+        if (options?.hasText !== undefined) {
+            const resolvedLocator = recursiveLocatorLookup({ page: this.page, selector, options });
+            return resolvedLocator.click();
         }
         return this.page.click(selector);
     }
