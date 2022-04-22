@@ -224,4 +224,4 @@ test.describe('My Test', () => {
 });
 ```
 
-[However, you can of course define your own actions, abilities and questions.](https://www.npmjs.com/package/@testla/screenplay#define-an-ability) 
+[However, you can of course define your own actions, abilities and questions. See our core package:](https://www.npmjs.com/package/@testla/screenplay) 
