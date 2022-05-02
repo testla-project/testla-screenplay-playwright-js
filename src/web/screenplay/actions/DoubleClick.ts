@@ -3,7 +3,7 @@ import { SelectorOptions } from '../../types';
 import { BrowseTheWeb } from '../abilities/BrowseTheWeb';
 
 /**
- * Activity Class. Click on an element specified by a selector string.
+ * Action Class. Click on an element specified by a selector string.
  */
 export class DoubleClick extends Action {
     // eslint-disable-next-line no-useless-constructor

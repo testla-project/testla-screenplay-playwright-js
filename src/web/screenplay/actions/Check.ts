@@ -3,7 +3,7 @@ import { SelectorOptions } from '../../types';
 import { BrowseTheWeb } from '../abilities/BrowseTheWeb';
 
 /**
- * Activity Class. Check a checkbox specified by a selector string.
+ * Action Class. Check a checkbox specified by a selector string.
  */
 export class Check extends Action {
     private constructor(private selector: string, private options?: SelectorOptions) {

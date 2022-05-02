@@ -3,7 +3,7 @@ import { SelectorOptions } from '../../types';
 import { BrowseTheWeb } from '../abilities/BrowseTheWeb';
 
 /**
- * Activity Class. DragAndDrop an element specified by a selector string and drop it on an element specified by another
+ * Action Class. DragAndDrop an element specified by a selector string and drop it on an element specified by another
  * selector string.
  */
 export class DragAndDrop extends Action {

@@ -3,29 +3,44 @@ import { APIRequestContext, APIResponse } from 'playwright';
 import { RequestMethod, Response, REQUEST_METHOD } from '../../types';
 
 export class UseRestAPI extends Ability {
-    // private requestContextPromise = request.newContext();
-
     private constructor(private requestContext: APIRequestContext) {
         super();
     }
 
-    public static using(request: APIRequestContext) {
-        return new UseRestAPI(request);
+    /**
+     * Initialize this Ability by passing an already existing Playwright APIRequestContext object.
+     *
+     * @param requestContext the Playwright APIRequestContext that will be used to send REST requests.
+     */
+    public static using(requestContext: APIRequestContext) {
+        return new UseRestAPI(requestContext);
     }
 
+    /**
+     * Use this Ability as an Actor.
+     *
+     * @param actor
+     */
     public static as(actor: Actor): UseRestAPI {
         return actor.withAbilityTo(this) as UseRestAPI;
     }
 
-    public async sendPlaywrightRequest(method: RequestMethod, urlFull: string, headers?: any, data?: any): Promise<Response> {
+    /**
+     * Send a HTTP request (GET, POST, PATCH, PUT, HEAD or DELETE) to the specified url. Headers and data can also be sent.
+     *
+     * @param method GET, POST, PATCH, PUT, HEAD or DELETE.
+     * @param urlFull the full URL to the target.
+     * @param headers (optional) the headers object.
+     * @param data (optional) the data to be sent.
+     * @returns a Response object consisting of status, body and headers.
+     */
+    public async sendRequest(method: RequestMethod, urlFull: string, headers?: any, data?: any): Promise<Response> {
         const options = {
             headers,
             ...(data !== undefined) && { data }, // add data to options object if there is data to send
         };
-        // console.log(options);
 
         let res: APIResponse;
-        // const requestContext: APIRequestContext = await this.requestContextPromise;
         switch (method) {
             case REQUEST_METHOD.GET:
                 console.log(`sending GET request to: ${urlFull}`);
@@ -53,7 +68,7 @@ export class UseRestAPI extends Ability {
                 break;
 
             default:
-                throw new Error('Error: not supported.');
+                throw new Error('Error: HTTP method not supported.');
         }
         try {
             // try to return the JSON response.

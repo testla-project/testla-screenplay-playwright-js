@@ -3,7 +3,7 @@ import { SelectorOptions } from '../../types';
 import { BrowseTheWeb } from '../abilities/BrowseTheWeb';
 
 /**
- * Activity Class. Type specified input into an element specified by a selector string.
+ * Action Class. Type specified input into an element specified by a selector string.
  */
 export class Type extends Action {
     private constructor(private locator: string, private input: string, private options?: SelectorOptions) {

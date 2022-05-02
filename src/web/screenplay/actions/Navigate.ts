@@ -2,7 +2,7 @@ import { Action, Actor } from '@testla/screenplay';
 import { BrowseTheWeb } from '../abilities/BrowseTheWeb';
 
 /**
- * Activity Class. Navigate to a URL using the specified url string.
+ * Action Class. Navigate to a URL using the specified url string.
  */
 export class Navigate extends Action {
     private constructor(private url: string) {
