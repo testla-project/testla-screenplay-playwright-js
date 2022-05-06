@@ -7,7 +7,7 @@ This package uses the [Testla screenplay core package](https://www.npmjs.com/pac
 
 ## How to use this package?
 
-This package comes with 1 ability, 1 question and 10 actions already implemented:
+This package comes with 2 abilities, 2 question and 16 actions already implemented:
 
 ### Ability - BrowseTheWeb
 
@@ -101,16 +101,8 @@ Wait until the element of the specified selector exists.
 ```js
 BrowseTheWeb.as(actor).waitForSelector('mySelector', { hasText: 'myText', subSelector: ['mySubSelector', { hasText: 'anotherText' } ]});
 ```
-
-### Initialize the Actor and the Ability
-```js
-const actor = Actor.named('James')
-            .with('username', 'John Doe')
-            .with('password', 'MySecretPassword');
-            .can(BrowseTheWeb.using(page));
-``` 
  
-### Available Actions
+### Available Actions (Web)
 
 ```js
 // Check a checkbox specified by a selector string
@@ -160,6 +152,100 @@ Wait.forSelector('mySelector');
 Wait.forSelector('mySelector', { hasText: 'myText', subSelector: ['mySubSelector', { hasText: 'anotherText' } ]});
 ```
 
+### Ability - UseAPI
+
+#### as(actor: Actor)
+Use the Ability as an Actor. Used by Actions to get access to the ability functions. For examples see below.
+
+#### using(requestContext: APIRequestContext)
+Initialize this Ability by passing an already existing Playwright APIRequestContext object.
+
+#### sendRequest(method: RequestMethod, url: string, headers?: any, responseFormat?: ResponseBodyFormat, data?: any)
+Send a request (GET, POST, PATCH, PUT, HEAD or DELETE) to the specified url. Headers, a desired format for the response's body and data can also be sent.
+
+#### checkStatus(response: Response, status: number)
+Verify if the given response's status is equal to the expected status.
+
+#### checkBody(response: Response, body: ResponseBodyFormat)
+Verify if the given response's body is equal to the expected body.
+
+#### checkHeaders(response: Response, headers: Headers)
+Verify if the given response's headers are equal to the expected headers.
+
+
+### Available Actions (API)
+```js
+// Send a DELETE request.
+Delete.from('https://my-fancy-url.com');
+Delete.from('https://my-fancy-url.com')
+    .withHeaders({
+        key: value,
+    })
+    .withData({
+        key: value,
+    })
+    .withResponseFormat('text');
+
+// Send a GET request.
+Get.from('https://my-fancy-url.com');
+Get.from('https://my-fancy-url.com')
+    .withHeaders({
+        key: value,
+    })
+    .withResponseFormat('text');
+
+// Send a HEAD request.
+Head.from('https://my-fancy-url.com');
+Head.from('https://my-fancy-url.com')
+    .withHeaders({
+        key: value,
+    })
+    .withResponseFormat('text');
+
+// Send a PATCH request.
+Patch.to('https://my-fancy-url.com');
+Patch.to('https://my-fancy-url.com')
+    .withHeaders({
+        key: value,
+    })
+    .withData({
+        key: value,
+    })
+    .withResponseFormat('text');
+
+// Send a POST request.
+Post.to('https://my-fancy-url.com');
+Post.to('https://my-fancy-url.com')
+    .withHeaders({
+        key: value,
+    })
+    .withData({
+        key: value,
+    })
+    .withResponseFormat('text');
+
+// Send a PUT request.
+Put.to('https://my-fancy-url.com');
+Put.to('https://my-fancy-url.com')
+    .withHeaders({
+        key: value,
+    })
+    .withData({
+        key: value,
+    })
+    .withResponseFormat('text');
+```
+
+
+### Initialize the Actor and the Ability
+```js
+const actor = Actor.named('James')
+            .with('username', 'John Doe')
+            .with('password', 'MySecretPassword');
+            .can(BrowseTheWeb.using(page))
+            .can(UseAPI.using(request));
+``` 
+
 ### Use Actions in a task
 
 Tasks group actions into logical entities. Here is a task that uses the actions Navigate, Fill and Click.
@@ -176,6 +262,7 @@ class Login extends Task {
             Fill.with('#username', actor.states('username') || ''),
             Fill.with('#password', actor.states('password') || ''),
             Click.on('#login-button'),
+            Get.from('https://www.my-fancy-url.com')
         );
     }
 
@@ -185,7 +272,7 @@ class Login extends Task {
 }
 ```
 
-### Available Question - Element
+### Available Questions (Web)
 
 ```js
 // Get a specified state for a selector like visible or enabled
@@ -200,6 +287,19 @@ Element.isEnabled('mySelector');
 Element.isEnabled('mySelector', { hasText: 'myText', subSelector: ['mySubSelector', { hasText: 'anotherText' } ]});
 ```
 
+### Available Questions (API)
+
+```js
+// Verify the attributes of a given response.
+Response.hasStatusCode(response, 200);
+Response.bodyEquals(response, {
+    key: value,
+});
+Response.hasHeaders(response, {
+    key: value,
+});
+```
+
 ### Define a test case
 
 The final step is to define a test case using the Task defined above.
@@ -209,11 +309,12 @@ import { Actor, BrowseTheWeb, Element, Login } from '@testla/screenplay-playwrig
 
 // Example test case with Playwright
 test.describe('My Test', () => {
-    test('My first test', async ({ page }) => {
+    test('My first test', async ({ page, request }) => {
         const actor = Actor.named('James')
             .with('username', 'John Doe')
             .with('password', 'MySecretPassword');
-            .can(BrowseTheWeb.using(page));
+            .can(BrowseTheWeb.using(page))
+            .can(UseAPI.using(request));
 
         // Execute the task Login - with defined Actions
         await actor.attemptsTo(Login.toApp());

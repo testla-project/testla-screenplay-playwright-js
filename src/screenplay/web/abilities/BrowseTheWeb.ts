@@ -1,7 +1,7 @@
 import { Page } from '@playwright/test';
 import { Response } from 'playwright';
 import { Ability, Actor } from '@testla/screenplay';
-import { SelectorOptions } from '../../types';
+import { SelectorOptions } from '../types';
 import { recursiveLocatorLookup } from '../utils';
 
 /**

@@ -1,5 +1,5 @@
 import { Action, Actor } from '@testla/screenplay';
-import { SelectorOptions } from '../../types';
+import { SelectorOptions } from '../types';
 import { BrowseTheWeb } from '../abilities/BrowseTheWeb';
 
 /**
