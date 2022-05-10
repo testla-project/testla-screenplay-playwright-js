@@ -107,7 +107,11 @@ export class UseAPI extends Ability {
     // eslint-disable-next-line class-methods-use-this
     public checkHeaders(response: Response, headers: Headers): Promise<boolean> {
         const neededKeys = Object.keys(headers);
+        const neededValues = Object.values(headers);
 
-        return Promise.resolve(neededKeys.every((key) => Object.keys(response.headers).includes(key)));
+        return Promise.resolve(
+            neededKeys.every((key) => Object.keys(response.headers).includes(key))
+            && neededValues.every((value) => Object.values(response.headers).includes(value)),
+        );
     }
 }
