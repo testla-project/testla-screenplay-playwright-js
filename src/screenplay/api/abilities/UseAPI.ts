@@ -1,7 +1,10 @@
 import { Ability, Actor } from '@testla/screenplay';
+import { type } from 'os';
 import { APIRequestContext, APIResponse } from 'playwright';
 import { RequestMethod, REQUEST_METHOD } from '../constants';
-import { Headers, Response, ResponseBodyFormat } from '../types';
+import {
+    Headers, Response, ResponseBodyFormat, ResponseBodyType,
+} from '../types';
 
 export class UseAPI extends Ability {
     private constructor(private requestContext: APIRequestContext) {
@@ -89,12 +92,22 @@ export class UseAPI extends Ability {
     }
 
     // eslint-disable-next-line class-methods-use-this
-    public checkBody(response: Response, body: ResponseBodyFormat): Promise<boolean> {
-        return Promise.resolve(response.body === body);
+    public checkBody(response: Response, body: ResponseBodyType): Promise<boolean> {
+        if (typeof response.body === 'string' && typeof body === 'string') {
+            // response body is plain text -> can check for string equality
+            return Promise.resolve(response.body === body);
+        } if (typeof response.body === 'object' && typeof body === 'object') {
+            // response body is in json format OR null -> can check with JSON.stringify
+            return Promise.resolve(JSON.stringify(response.body) === JSON.stringify(body));
+        }
+        // response.body and body do not have same type -> return false
+        return Promise.resolve(false);
     }
 
     // eslint-disable-next-line class-methods-use-this
     public checkHeaders(response: Response, headers: Headers): Promise<boolean> {
-        return Promise.resolve(response.headers === headers);
+        const neededKeys = Object.keys(headers);
+
+        return Promise.resolve(neededKeys.every((key) => Object.keys(response.headers).includes(key)));
     }
 }

@@ -290,14 +290,16 @@ Element.isEnabled('mySelector', { hasText: 'myText', subSelector: ['mySubSelecto
 ### Available Questions (API)
 
 ```js
+response = { body: { key: value }, status: 200, headers: [{ 'content-type': 'application/json' }] };
+
 // Verify the attributes of a given response.
-Response.hasStatusCode(response, 200);
-Response.bodyEquals(response, {
-    key: value,
-});
-Response.hasHeaders(response, {
-    key: value,
-});
+Response.hasStatusCode(response, 200); // true
+
+Response.bodyEquals(response, { key: value }); // true
+Response.bodyEquals({ key: value }, 'text' ); // false
+
+Response.hasHeaders(response, { 'content-type': 'application/json' }); // true
+Response.hasHeaders(response, { 'key': 'value' }); // false
 ```
 
 ### Define a test case
