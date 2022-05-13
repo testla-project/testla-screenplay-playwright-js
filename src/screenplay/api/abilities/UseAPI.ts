@@ -2,7 +2,7 @@ import { Ability, Actor } from '@testla/screenplay';
 import { APIRequestContext, APIResponse } from 'playwright';
 import { RequestMethod, REQUEST_METHOD } from '../constants';
 import {
-    Headers, Response, ResponseBodyFormat, ResponseBodyType,
+    Response, ResponseBodyFormat, ResponseBodyType,
 } from '../types';
 
 export class UseAPI extends Ability {
