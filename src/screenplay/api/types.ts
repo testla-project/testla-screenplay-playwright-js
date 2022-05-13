@@ -1,5 +1,3 @@
-import { type } from 'os';
-
 /**
  * HTTP Headers type
  */

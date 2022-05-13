@@ -28,7 +28,7 @@ export class Response extends Question<boolean> {
     }
 
     /**
-     * Verifies if the response has the expected status code.
+     * Verify if the given status is equal to the given response's status.
      *
      * @param response the response to check.
      * @param statusCode the expected status code.
@@ -38,7 +38,7 @@ export class Response extends Question<boolean> {
     }
 
     /**
-     * Verifies if the response has the expected body.
+     * Verify if the given body is equal to the given response's body.
      *
      * @param response the response to check.
      * @param body the expected body.
@@ -48,7 +48,7 @@ export class Response extends Question<boolean> {
     }
 
     /**
-     * Verifies if the response has the expected headers.
+     * Verify if the given headers are included in the given response.
      *
      * @param response the response to check.
      * @param headers the expected header.

@@ -169,8 +169,9 @@ Verify if the given response's status is equal to the expected status.
 #### checkBody(response: Response, body: ResponseBodyFormat)
 Verify if the given response's body is equal to the expected body.
 
-#### checkHeaders(response: Response, headers: Headers)
-Verify if the given response's headers are equal to the expected headers.
+#### checkHeaders(response: Response, headers: {[key: string]: string | undefined })
+Verify if the given headers are included in the given response's headers. 
+If the header has a value !== undefined, both key and value will be checked. If a header has a value === undefined, only the key will be checked.
 
 
 ### Available Actions (API)
@@ -290,15 +291,16 @@ Element.isEnabled('mySelector', { hasText: 'myText', subSelector: ['mySubSelecto
 ### Available Questions (API)
 
 ```js
-response = { body: { key: value }, status: 200, headers: [{ 'content-type': 'application/json' }] };
+response = { body: { key: value }, status: 200, headers: { 'content-type': 'application/json' } };
 
 // Verify the attributes of a given response.
 Response.hasStatusCode(response, 200); // true
 
 Response.bodyEquals(response, { key: value }); // true
-Response.bodyEquals({ key: value }, 'text' ); // false
+Response.bodyEquals(response, 'text' ); // false
 
-Response.hasHeaders(response, { 'content-type': 'application/json' }); // true
+Response.hasHeaders(response, { 'content-type': 'application/json' }); // true, checks both key and value
+Response.hasHeaders(response, { 'content-type': undefined }); // true, only checks for key
 Response.hasHeaders(response, { 'key': 'value' }); // false
 ```
 

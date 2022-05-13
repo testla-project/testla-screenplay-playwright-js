@@ -1,5 +1,4 @@
 import { Ability, Actor } from '@testla/screenplay';
-import { type } from 'os';
 import { APIRequestContext, APIResponse } from 'playwright';
 import { RequestMethod, REQUEST_METHOD } from '../constants';
 import {
@@ -86,11 +85,23 @@ export class UseAPI extends Ability {
         });
     }
 
+    /**
+     * Verify if the given status is equal to the given response's status.
+     *
+     * @param response the response to check
+     * @param status the status to check
+     */
     // eslint-disable-next-line class-methods-use-this
     public checkStatus(response: Response, status: number): Promise<boolean> {
         return Promise.resolve(response.status === status);
     }
 
+    /**
+     * Verify if the given body is equal to the given response's body.
+     *
+     * @param response the response to check
+     * @param body the body to check
+     */
     // eslint-disable-next-line class-methods-use-this
     public checkBody(response: Response, body: ResponseBodyType): Promise<boolean> {
         if (typeof response.body === 'string' && typeof body === 'string') {
@@ -104,14 +115,16 @@ export class UseAPI extends Ability {
         return Promise.resolve(false);
     }
 
+    /**
+     * Verify if the given headers are included in the given response.
+     *
+     * @param response the response to check
+     * @param headers the headers to check
+     */
     // eslint-disable-next-line class-methods-use-this
-    public checkHeaders(response: Response, headers: Headers): Promise<boolean> {
-        const neededKeys = Object.keys(headers);
-        const neededValues = Object.values(headers);
-
-        return Promise.resolve(
-            neededKeys.every((key) => Object.keys(response.headers).includes(key))
-            && neededValues.every((value) => Object.values(response.headers).includes(value)),
-        );
+    public checkHeaders(response: Response, headers: {[key: string]: string | undefined }): Promise<boolean> {
+        const allResponseHeaderKeys = Object.keys(response.headers);
+        return Promise.resolve(Object.entries(headers).every((header) => allResponseHeaderKeys.includes(header[0]) // lookup that header key is available
+            && (header[1] === undefined || response.headers[header[0]] === header[1]))); // either header value is undefined -> value doesn't interest us or we check the value for equality
     }
 }
