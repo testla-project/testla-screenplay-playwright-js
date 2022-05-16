@@ -1,9 +1,9 @@
 import { Action, Actor } from '@testla/screenplay';
-import { SelectorOptions } from '../../types';
+import { SelectorOptions } from '../types';
 import { BrowseTheWeb } from '../abilities/BrowseTheWeb';
 
 /**
- * Activity Class. Wait for either a specified loading state or for a selector to become visible/active.
+ * Action Class. Wait for either a specified loading state or for a selector to become visible/active.
  */
 export class Wait extends Action {
     // the object that determines what to wait for (loading state, selector or selector == expected).

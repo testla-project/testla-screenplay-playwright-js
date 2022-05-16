@@ -1,5 +1,5 @@
 import { Locator, Page } from '@playwright/test';
-import { SelectorOptions, SubSelector } from '../types';
+import { SelectorOptions, SubSelector } from './types';
 
 const subLocatorLookup = async ({
     page, locator, timeout, subSelector,

@@ -1,11 +1,11 @@
 import { Action, Actor } from '@testla/screenplay';
-import { SelectorOptions } from '../../types';
+import { SelectorOptions } from '../types';
 import { BrowseTheWeb } from '../abilities/BrowseTheWeb';
 
 /**
- * Activity Class. Click on an element specified by a selector string.
+ * Action Class. Check a checkbox specified by a selector string.
  */
-export class Click extends Action {
+export class Check extends Action {
     private constructor(private selector: string, private options?: SelectorOptions) {
         super();
     }
@@ -16,7 +16,7 @@ export class Click extends Action {
      * @param actor
      */
     public async performAs(actor: Actor): Promise<void> {
-        await BrowseTheWeb.as(actor).click(this.selector, this.options);
+        await BrowseTheWeb.as(actor).checkBox(this.selector, this.options);
     }
 
     /**
@@ -25,7 +25,7 @@ export class Click extends Action {
      * @param selector the string representing the selector.
      * @param options (optional): advanced selector lookup options.
      */
-    public static on(selector: string, options?: SelectorOptions): Click {
-        return new Click(selector, options);
+    public static element(selector: string, options?: SelectorOptions): Check {
+        return new Check(selector, options);
     }
 }

@@ -2,7 +2,7 @@ import { Action, Actor } from '@testla/screenplay';
 import { BrowseTheWeb } from '../abilities/BrowseTheWeb';
 
 /**
- * Activity Class. Press the specified key on the keyboard.
+ * Action Class. Press the specified key on the keyboard.
  */
 export class Press extends Action {
     private constructor(private input: string) {

@@ -1,9 +1,9 @@
 import { Action, Actor } from '@testla/screenplay';
-import { SelectorOptions } from '../../types';
+import { SelectorOptions } from '../types';
 import { BrowseTheWeb } from '../abilities/BrowseTheWeb';
 
 /**
- * Activity Class. Fill an element specified by a selector string with the specified input.
+ * Action Class. Fill an element specified by a selector string with the specified input.
  */
 export class Fill extends Action {
     private constructor(private locator: string, private input: string, private options?: SelectorOptions) {

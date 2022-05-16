@@ -1,9 +1,9 @@
 import { Action, Actor } from '@testla/screenplay';
-import { SelectorOptions } from '../../types';
+import { SelectorOptions } from '../types';
 import { BrowseTheWeb } from '../abilities/BrowseTheWeb';
 
 /**
- * Activity Class. Hover over an element specified by a selector string.
+ * Action Class. Hover over an element specified by a selector string.
  */
 export class Hover extends Action {
     private constructor(private selector: string, private options?: SelectorOptions & { modifiers?: ('Alt' | 'Control' | 'Meta' | 'Shift')[] }) {
