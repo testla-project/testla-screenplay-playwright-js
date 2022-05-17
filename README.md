@@ -525,11 +525,13 @@ Response.hasHeaders(response, { 'content-type': 'application/json' });
 Tasks group actions into logical entities. Here is a task that uses the actions Navigate, Fill and Click from the web capabilities and Get from api capabilities.
 
 ```js
+// file: ./task/Login.ts
+
 import {
     Actor, Task, Click, Fill, Navigate, Wait,
 } from '@testla/screenplay-playwright';
 
-class Login extends Task {
+export class Login extends Task {
     public async performAs(actor: Actor): Promise<void> {
         return actor.attemptsTo(
             Navigate.to('https://www.my-fancy-url.com'),
@@ -563,7 +565,8 @@ const actor = Actor.named('James')
 The final step is to define a test case using the Task defined above.
 
 ```js
-import { Actor, BrowseTheWeb, Element, Login } from '@testla/screenplay-playwright';
+import { Actor, BrowseTheWeb, Element } from '@testla/screenplay-playwright';
+import { Login } from './task/Login';
 
 // Example test case with Playwright
 test.describe('My Test', () => {
