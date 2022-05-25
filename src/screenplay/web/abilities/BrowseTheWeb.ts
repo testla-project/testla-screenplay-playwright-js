@@ -31,6 +31,11 @@ export class BrowseTheWeb extends Ability {
         super();
     }
 
+    // Get the page object
+    public async getPage(): Promise<Page> {
+        return this.page;
+    }
+
     /**
      * Use the page to navigate to the specified URL.
      *
