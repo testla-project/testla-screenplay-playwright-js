@@ -26,7 +26,11 @@ export class BrowseTheWeb extends Ability {
         return actor.withAbilityTo(this) as BrowseTheWeb;
     }
 
-    // add the abilities to the actor.
+    /**
+     * Initialize this Ability by passing an already existing Playwright Page object.
+     *
+     * @param page the Playwright Page that will be used to browse.
+     */
     private constructor(private page: Page) {
         super();
     }
@@ -166,6 +170,7 @@ export class BrowseTheWeb extends Ability {
      *
      * @param selector the locator to search for.
      * @param options (optional) advanced selector lookup options.
+     * @returns true if the locator is visible, false otherwise.
      */
     public async isVisible(selector: string, options?: SelectorOptions): Promise<boolean> {
         try {
@@ -181,6 +186,7 @@ export class BrowseTheWeb extends Ability {
      *
      * @param selector the locator to search for.
      * @param options (optional) advanced selector lookup options.
+     * @returns true if the element is enabled, false otherwise.
      */
     public async isEnabled(selector: string, options?: SelectorOptions): Promise<boolean> {
         try {
