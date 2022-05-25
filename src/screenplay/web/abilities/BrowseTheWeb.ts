@@ -31,8 +31,12 @@ export class BrowseTheWeb extends Ability {
         super();
     }
 
-    // Get the page object
-    public async getPage(): Promise<Page> {
+    /**
+     * Get the page object
+     *
+     * @returns the page object
+     */
+    public getPage(): Page {
         return this.page;
     }
 
