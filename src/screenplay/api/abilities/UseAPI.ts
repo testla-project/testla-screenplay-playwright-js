@@ -11,9 +11,19 @@ export class UseAPI extends Ability {
     }
 
     /**
+     * Get the request context object
+     *
+     * @returns ApiRequestContext
+     */
+    public getRequestContext(): APIRequestContext {
+        return this.requestContext;
+    }
+
+    /**
      * Initialize this Ability by passing an already existing Playwright APIRequestContext object.
      *
      * @param requestContext the Playwright APIRequestContext that will be used to send REST requests.
+     * @returns UseAPI
      */
     public static using(requestContext: APIRequestContext) {
         return new UseAPI(requestContext);
@@ -23,6 +33,7 @@ export class UseAPI extends Ability {
      * Use this Ability as an Actor.
      *
      * @param actor
+     * @returns UseAPI
      */
     public static as(actor: Actor): UseAPI {
         return actor.withAbilityTo(this) as UseAPI;
@@ -90,6 +101,7 @@ export class UseAPI extends Ability {
      *
      * @param response the response to check
      * @param status the status to check
+     * @returns true if the status is equal, false otherwise
      */
     // eslint-disable-next-line class-methods-use-this
     public checkStatus(response: Response, status: number): Promise<boolean> {
@@ -101,6 +113,7 @@ export class UseAPI extends Ability {
      *
      * @param response the response to check
      * @param body the body to check
+     * @returns true if the body is equal, false otherwise
      */
     // eslint-disable-next-line class-methods-use-this
     public checkBody(response: Response, body: ResponseBodyType): Promise<boolean> {
@@ -120,6 +133,7 @@ export class UseAPI extends Ability {
      *
      * @param response the response to check
      * @param headers the headers to check
+     * @returns true if the headers are included, false otherwise
      */
     // eslint-disable-next-line class-methods-use-this
     public checkHeaders(response: Response, headers: {[key: string]: string | undefined }): Promise<boolean> {
