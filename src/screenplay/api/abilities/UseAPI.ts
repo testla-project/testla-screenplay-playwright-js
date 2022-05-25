@@ -10,6 +10,11 @@ export class UseAPI extends Ability {
         super();
     }
 
+    // Get the request object
+    public async getRequestContext(): Promise<APIRequestContext> {
+        return this.requestContext;
+    }
+
     /**
      * Initialize this Ability by passing an already existing Playwright APIRequestContext object.
      *
