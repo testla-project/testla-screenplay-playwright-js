@@ -16,4 +16,4 @@ export type Response = {
     headers: Headers,
 };
 
-export type ResponseBodyFormat = 'json' | 'text' | 'none';
+export type ResponseBodyFormat = 'json' | 'text' | 'buffer' | 'none';

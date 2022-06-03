@@ -83,6 +83,8 @@ export class UseAPI extends Ability {
         let resBody;
         if (responseFormat === 'text') {
             resBody = await res.text();
+        } else if (responseFormat === 'buffer') {
+            resBody = await res.body();
         } else if (responseFormat === 'none') {
             resBody = null;
         } else {
