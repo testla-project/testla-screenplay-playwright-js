@@ -1,4 +1,4 @@
-import { Page } from '@playwright/test';
+import { Cookie, Page } from '@playwright/test';
 import { Response } from 'playwright';
 import { Ability, Actor } from '@testla/screenplay';
 import { SelectorOptions } from '../types';
@@ -180,5 +180,35 @@ export class BrowseTheWeb extends Ability {
         } catch (e) {
             return Promise.resolve(false);
         }
+    }
+
+    // ------------------------------------- Issue 8 -------------------------------------
+
+    /**
+     * Get the cookies of the current browser context. If no URLs are specified, this method returns all cookies. If URLs are specified, only cookies that affect those URLs are returned.
+     */
+    public async getBrowserCookies(urls?: string | string[] | undefined): Promise<Cookie[]> {
+        return this.page.context().cookies(urls);
+    }
+
+    /**
+     * Adds cookies into this browser context. All pages within this context will have these cookies installed. Cookies can be obtained via browserContext.cookies([urls]).
+     */
+    public async addBrowserCookies(cookies: Cookie[]): Promise<void> {
+        return this.page.context().addCookies(cookies);
+    }
+
+    /**
+     * Clear the browser context cookies.
+     */
+    public async clearBrowserCookies(): Promise<void> {
+        return this.page.context().clearCookies();
+    }
+
+    /**
+     * Returns storage state for the browser context, contains current cookies and local storage snapshot.
+     */
+    public async getBrowserStorageState(options?: {path?: string | undefined} | undefined) {
+        return this.page.context().storageState(options);
     }
 }

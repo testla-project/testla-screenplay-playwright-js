@@ -1,3 +1,4 @@
+import { expect } from '@playwright/test';
 import { Actor, Question } from '@testla/screenplay';
 import { UseAPI } from '../abilities/UseAPI';
 import { Headers, Response as ResponseType, ResponseBodyType } from '../types';
@@ -6,6 +7,9 @@ import { Headers, Response as ResponseType, ResponseBodyType } from '../types';
  * Question Class. Get a specified state for a selector like visible or enabled.
  */
 export class Response extends Question<boolean> {
+    // if true -> Response.not was called, answeredBy has to check for opposite
+    private static expectNot = false;
+
     private action: {
         mode: 'status' | 'body' | 'header';
         payload?: any
@@ -16,15 +20,44 @@ export class Response extends Question<boolean> {
         this.action = action;
     }
 
-    public answeredBy(actor: Actor): Promise<boolean> {
+    public async answeredBy(actor: Actor): Promise<boolean> {
         if (this.action.mode === 'status') {
-            return UseAPI.as(actor).checkStatus(this.response, this.action.payload.status);
+            if (Response.expectNot) {
+                Response.expectNot = false;
+                expect(await UseAPI.as(actor).checkStatus(this.response, this.action.payload.status)).toBe(false);
+                return true; // have to return something, if the question fails there will be an exception anyways
+            }
+            // else branch
+            expect(await UseAPI.as(actor).checkStatus(this.response, this.action.payload.status)).toBe(true);
+            return true; // have to return something, if the question fails there will be an exception anyways
         } if (this.action.mode === 'body') {
-            return UseAPI.as(actor).checkBody(this.response, this.action.payload.body);
+            if (Response.expectNot) {
+                Response.expectNot = false;
+                expect(await UseAPI.as(actor).checkBody(this.response, this.action.payload.body)).toBe(false);
+                return true; // have to return something, if the question fails there will be an exception anyways
+            }
+            // else branch
+            expect(await UseAPI.as(actor).checkBody(this.response, this.action.payload.body)).toBe(true);
+            return true; // have to return something, if the question fails there will be an exception anyways
         } if (this.action.mode === 'header') {
-            return UseAPI.as(actor).checkHeaders(this.response, this.action.payload.headers);
+            if (Response.expectNot) {
+                Response.expectNot = false;
+                expect(await UseAPI.as(actor).checkHeaders(this.response, this.action.payload.headers)).toBe(false);
+                return true; // have to return something, if the question fails there will be an exception anyways
+            }
+            // else branch
+            expect(await UseAPI.as(actor).checkHeaders(this.response, this.action.payload.headers)).toBe(true);
+            return true; // have to return something, if the question fails there will be an exception anyways
         }
         throw new Error('Unknown mode');
+    }
+
+    /**
+     * make the Question check for the opposite.
+     */
+    static get not() {
+        Response.expectNot = true;
+        return Response;
     }
 
     /**
@@ -43,7 +76,7 @@ export class Response extends Question<boolean> {
      * @param response the response to check.
      * @param body the expected body.
      */
-    static bodyEquals(response: ResponseType, body: ResponseBodyType): Response {
+    static hasBody(response: ResponseType, body: ResponseBodyType): Response {
         return new Response(response, { mode: 'body', payload: { body } });
     }
 
