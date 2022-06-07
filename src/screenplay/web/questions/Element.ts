@@ -20,20 +20,22 @@ export class Element extends Question<boolean> {
     public async answeredBy(actor: Actor): Promise<boolean> {
         if (this.mode === 'visible') {
             if (Element.expectNot) {
+                // .not was called -> perform opposite check
                 Element.expectNot = false;
                 expect(await BrowseTheWeb.as(actor).isVisible(this.selector, this.options)).toBe(false);
                 return true; // have to return something, if the question fails there will be an exception anyways
             }
-            // else branch
+            // else branch: .not was not called -> perform regular check
             expect(await BrowseTheWeb.as(actor).isVisible(this.selector, this.options)).toBe(true);
             return true; // have to return something, if the question fails there will be an exception anyways
         } if (this.mode === 'enabled') {
             if (Element.expectNot) {
+                // .not was called -> perform opposite check
                 Element.expectNot = false;
                 expect(await BrowseTheWeb.as(actor).isEnabled(this.selector, this.options)).toBe(false);
                 return true;
             }
-            // else branch
+            // else branch: .not was not called -> perform regular check
             expect(await BrowseTheWeb.as(actor).isEnabled(this.selector, this.options)).toBe(true);
             return true;
         }

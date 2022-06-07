@@ -1,5 +1,6 @@
 import { Ability, Actor } from '@testla/screenplay';
 import { APIRequestContext, APIResponse } from 'playwright';
+import { ARequest } from '../actions/ARequest';
 import { RequestMethod, REQUEST_METHOD } from '../constants';
 import {
     Response, ResponseBodyFormat, ResponseBodyType,
@@ -126,5 +127,21 @@ export class UseAPI extends Ability {
         const allResponseHeaderKeys = Object.keys(response.headers);
         return Promise.resolve(Object.entries(headers).every((header) => allResponseHeaderKeys.includes(header[0]) // lookup that header key is available
             && (header[1] === undefined || response.headers[header[0]] === header[1]))); // either header value is undefined -> value doesn't interest us or we check the value for equality
+    }
+
+    /**
+     * Verify if the response time for the given request is equal or under the given time or not.
+     *
+     * @param request the request to check the response time for.
+     * @param time the time that the response time should be under.
+     */
+    // eslint-disable-next-line class-methods-use-this
+    public async checkResponseTime(request: ARequest, time: number, actor: Actor): Promise<boolean> {
+        // do the response time check
+        const before = Date.now();
+        await request.performAs(actor);
+        const after = Date.now();
+
+        return Promise.resolve(after - before <= time);
     }
 }
