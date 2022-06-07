@@ -5,7 +5,7 @@ export type Headers = {
     [key: string]: string
 };
 
-export type ResponseBodyType = object | string | null;
+export type ResponseBodyType = Buffer | object | string | null;
 
 /**
  * Response type which is returned from any request
