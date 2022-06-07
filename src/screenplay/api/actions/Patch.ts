@@ -36,6 +36,7 @@ export class Patch extends ARequest {
 
     /**
      * Add data to the HTTP PATCH request to send.
+     * PATCH requests bodies hold partial updates of the entities to be updated.
      *
      * @param data the data.
      */

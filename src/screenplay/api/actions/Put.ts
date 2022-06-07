@@ -36,6 +36,7 @@ export class Put extends ARequest {
 
     /**
      * Add data to the HTTP PUT request to send.
+     * PUT requests bodies hold the full entity information to be updated.
      *
      * @param data the data.
      */

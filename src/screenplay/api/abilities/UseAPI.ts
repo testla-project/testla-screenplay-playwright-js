@@ -123,6 +123,14 @@ export class UseAPI extends Ability {
             // response body is plain text -> can check for string equality
             return Promise.resolve(response.body === body);
         } if (typeof response.body === 'object' && typeof body === 'object') {
+            // check for buffer
+            if (Buffer.isBuffer(response.body) && Buffer.isBuffer(body)) {
+                return Promise.resolve(response.body.equals(body));
+            }
+            if (Buffer.isBuffer(response.body) || Buffer.isBuffer(body)) {
+                // response.body and body do not have same type -> return false
+                return Promise.resolve(false);
+            }
             // response body is in json format OR null -> can check with JSON.stringify
             return Promise.resolve(JSON.stringify(response.body) === JSON.stringify(body));
         }
