@@ -507,6 +507,8 @@ Checks if the response equals a given body.
 Response.bodyEquals(response, { key: value });
 // text format
 Response.bodyEquals(response, 'text' );
+// buffer format
+Response.bodyEquals(response, Buffer.from('abc') );
 ```
 
 #### Response.hasHeaders(response: Response, headers: Headers)
