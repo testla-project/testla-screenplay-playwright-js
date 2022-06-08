@@ -153,7 +153,7 @@ export class UseAPI extends Ability {
      * Verify if the reponse (including receiving body) was received within a given duration.
      *
      * @param response the response to check
-     * @param duration expected duration not to be exceeded
+     * @param duration expected duration (in milliseconds) not to be exceeded
      * @returns true if response was received within given duration, false otherwise
      */
     // eslint-disable-next-line class-methods-use-this

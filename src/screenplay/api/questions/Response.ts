@@ -66,9 +66,9 @@ export class Response extends Question<boolean> {
      * Verify if the reponse (including receiving body) was received within a given duration.
      *
      * @param response the response to check
-     * @param duration expected duration not to be exceeded
+     * @param duration expected duration (in milliseconds) not to be exceeded
      */
-    static within(response: ResponseType, duration: number) {
+    static wasReceivedWithin(response: ResponseType, duration: number) {
         return new Response(response, { mode: 'duration', payload: { duration } });
     }
 }
