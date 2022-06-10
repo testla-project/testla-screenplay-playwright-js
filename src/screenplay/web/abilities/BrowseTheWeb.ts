@@ -218,6 +218,11 @@ export class BrowseTheWeb extends Ability {
         return this.page.context().clearCookies();
     }
 
+    /**
+     * Get a local storage item.
+     *
+     * @param key the key that specifies the item.
+     */
     public async getLocalStorageItem(key: string): Promise<any> {
         return this.page.evaluate((key) => {
             const value = localStorage.getItem(key);
@@ -228,6 +233,12 @@ export class BrowseTheWeb extends Ability {
         }, key);
     }
 
+    /**
+     * Set a local storage item.
+     *
+     * @param key the key that specifies the item.
+     * @param value the value to set.
+     */
     public async setLocalStorageItem(key: string, value: any): Promise<void> {
         return this.page.evaluate(({ key, value }) => {
             localStorage.setItem(key, JSON.stringify(value));
@@ -235,13 +246,23 @@ export class BrowseTheWeb extends Ability {
         }, { key, value });
     }
 
-    public async deleteLocalStorageItem(key: string): Promise<void> {
+    /**
+     * Delete a local storage item.
+     *
+     * @param key the key that specifies the item.
+     */
+    public async removeLocalStorageItem(key: string): Promise<void> {
         return this.page.evaluate((key) => {
             localStorage.removeItem(key);
             return Promise.resolve();
         }, key);
     }
 
+    /**
+     * Get a session storage item.
+     *
+     * @param key the key that specifies the item.
+     */
     public async getSessionStorageItem(key: string): Promise<any> {
         return this.page.evaluate((key) => {
             const value = sessionStorage.getItem(key);
@@ -252,6 +273,12 @@ export class BrowseTheWeb extends Ability {
         }, key);
     }
 
+    /**
+     * Set a session storage item.
+     *
+     * @param key the key that specifies the item.
+     * @param value the value to set.
+     */
     public async setSessionStorageItem(key: string, value: any): Promise<void> {
         return this.page.evaluate(({ key, value }) => {
             sessionStorage.setItem(key, JSON.stringify(value));
@@ -259,7 +286,12 @@ export class BrowseTheWeb extends Ability {
         }, { key, value });
     }
 
-    public async SessionLocalStorageItem(key: string): Promise<void> {
+    /**
+     * Delete a session storage item.
+     *
+     * @param key the key that specifies the item.
+     */
+    public async removeSessionLocalStorageItem(key: string): Promise<void> {
         return this.page.evaluate((key) => {
             sessionStorage.removeItem(key);
             return Promise.resolve();
