@@ -7,7 +7,6 @@ import { BrowseTheWeb } from '../abilities/BrowseTheWeb';
  * Question Class. Get a specified state for a selector like visible or enabled.
  */
 export class Element extends Question<boolean> {
-    // if true -> Element.not was called, answeredBy has to check for opposite
     private static checkMode: 'is' | 'not';
 
     private constructor(private mode: 'visible' | 'enabled', private selector: string, private options?: SelectorOptions & { wait?: boolean }) {
@@ -64,7 +63,7 @@ export class Element extends Question<boolean> {
      * @param selector the selector
      * @param options (optional) advanced selector lookup options.
      */
-    static isVisible(selector: string, options?: SelectorOptions & { wait?: boolean }): Element {
+    static visible(selector: string, options?: SelectorOptions & { wait?: boolean }): Element {
         const newOptions = { ...options };
         delete newOptions.wait;
 
@@ -81,7 +80,7 @@ export class Element extends Question<boolean> {
      * @param selector the selector
      * @param options (optional) advanced selector lookup options.
      */
-    static isEnabled(selector: string, options?: SelectorOptions): Element {
+    static enabled(selector: string, options?: SelectorOptions): Element {
         return new Element('enabled', selector, options);
     }
 }
