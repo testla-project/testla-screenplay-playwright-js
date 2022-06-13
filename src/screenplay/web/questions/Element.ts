@@ -7,36 +7,28 @@ import { BrowseTheWeb } from '../abilities/BrowseTheWeb';
  * Question Class. Get a specified state for a selector like visible or enabled.
  */
 export class Element extends Question<boolean> {
-    private static checkMode: 'is' | 'not';
+    private mode: 'visible' | 'enabled' = 'visible';
 
-    private constructor(private mode: 'visible' | 'enabled', private selector: string, private options?: SelectorOptions & { wait?: boolean }) {
+    // the selector of the element to check.
+    private selector = '';
+
+    // optional selector options.
+    private options?: SelectorOptions & { wait?: boolean };
+
+    private constructor(private checkMode: 'is' | 'not') {
         super();
-        this.mode = mode;
     }
 
     public async answeredBy(actor: Actor): Promise<boolean> {
         if (this.mode === 'visible') {
-            if (Element.checkMode === 'is') {
-                // .is was called -> perform positive check
-                expect(await BrowseTheWeb.as(actor).isVisible(this.selector, this.options)).toBe(true);
-                return true; // have to return something, if the question fails there will be an exception anyways
-            }
-            if (Element.checkMode === 'not') {
-                // .not was called -> perform negtive check
-                expect(await BrowseTheWeb.as(actor).isVisible(this.selector, this.options)).toBe(false);
-                return true; // have to return something, if the question fails there will be an exception anyways
-            }
-        } if (this.mode === 'enabled') {
-            if (Element.checkMode === 'is') {
-                // .is was called -> perform positive check
-                expect(await BrowseTheWeb.as(actor).isEnabled(this.selector, this.options)).toBe(true);
-                return true;
-            }
-            if (Element.checkMode === 'not') {
-                // .not was called -> perform negtive check
-                expect(await BrowseTheWeb.as(actor).isEnabled(this.selector, this.options)).toBe(false);
-                return true;
-            }
+            // if .is was called -> positive check, if .not was called -> negative check
+            expect(await BrowseTheWeb.as(actor).isVisible(this.selector, this.options)).toBe(this.checkMode === 'is');
+            return true; // if the question fails there will be an exception
+        }
+        if (this.mode === 'enabled') {
+            // if .is was called -> positive check, if .not was called -> negative check
+            expect(await BrowseTheWeb.as(actor).isEnabled(this.selector, this.options)).toBe(this.checkMode === 'is');
+            return true; // if the question fails there will be an exception
         }
         throw new Error('Unknown mode: Element.answeredBy');
     }
@@ -45,16 +37,14 @@ export class Element extends Question<boolean> {
      * make the Question check for the positive.
      */
     static get is() {
-        Element.checkMode = 'is';
-        return Element;
+        return new Element('is');
     }
 
     /**
      * make the Question check for the negative.
      */
     static get not() {
-        Element.checkMode = 'not';
-        return Element;
+        return new Element('not');
     }
 
     /**
@@ -63,7 +53,7 @@ export class Element extends Question<boolean> {
      * @param selector the selector
      * @param options (optional) advanced selector lookup options.
      */
-    static visible(selector: string, options?: SelectorOptions & { wait?: boolean }): Element {
+    public visible(selector: string, options?: SelectorOptions & { wait?: boolean }): Element {
         const newOptions = { ...options };
         delete newOptions.wait;
 
@@ -71,7 +61,11 @@ export class Element extends Question<boolean> {
         // the default to 1ms is a defacto instant
         if (options?.wait === false) { newOptions.timeout = 1; }
 
-        return new Element('visible', selector, newOptions);
+        this.mode = 'visible';
+        this.selector = selector;
+        this.options = newOptions;
+
+        return this;
     }
 
     /**
@@ -80,7 +74,11 @@ export class Element extends Question<boolean> {
      * @param selector the selector
      * @param options (optional) advanced selector lookup options.
      */
-    static enabled(selector: string, options?: SelectorOptions): Element {
-        return new Element('enabled', selector, options);
+    public enabled(selector: string, options?: SelectorOptions): Element {
+        this.mode = 'enabled';
+        this.selector = selector;
+        this.options = options;
+
+        return this;
     }
 }
