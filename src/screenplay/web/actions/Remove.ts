@@ -35,7 +35,7 @@ export class Remove extends Action {
     }
 
     /**
-     * Remove a session storage item.
+     * Remove a session storage item, if a key/value pair with the given key exists.
      *
      * @param key the key that specifies the item.
      */
@@ -44,7 +44,7 @@ export class Remove extends Action {
     }
 
     /**
-     * Remove a local storage item.
+     * Remove a local storage item, if a key/value pair with the given key exists.
      *
      * @param key the key that specifies the item.
      */

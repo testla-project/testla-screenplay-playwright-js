@@ -205,7 +205,7 @@ export class BrowseTheWeb extends Ability {
     }
 
     /**
-     * Adds cookies into this browser context. All pages within this context will have these cookies installed. Cookies can be obtained via browserContext.cookies([urls]).
+     * Adds cookies into this browser context. All pages within this context will have these cookies installed. Cookies can be obtained via BrowseTheWeb.getCookies([urls]).
      */
     public async addCookies(cookies: Cookie[]): Promise<void> {
         return this.page.context().addCookies(cookies);
@@ -234,7 +234,7 @@ export class BrowseTheWeb extends Ability {
     }
 
     /**
-     * Set a local storage item.
+     * Set a local storage item identified by the given key + value, creating a new key/value pair if none existed for key previously.
      *
      * @param key the key that specifies the item.
      * @param value the value to set.
@@ -247,7 +247,7 @@ export class BrowseTheWeb extends Ability {
     }
 
     /**
-     * Delete a local storage item.
+     * Delete a local storage item, if a key/value pair with the given key exists.
      *
      * @param key the key that specifies the item.
      */
@@ -274,7 +274,7 @@ export class BrowseTheWeb extends Ability {
     }
 
     /**
-     * Set a session storage item.
+     * Set a session storage item identified by the given key + value, creating a new key/value pair if none existed for key previously.
      *
      * @param key the key that specifies the item.
      * @param value the value to set.
@@ -287,7 +287,7 @@ export class BrowseTheWeb extends Ability {
     }
 
     /**
-     * Delete a session storage item.
+     * Delete a session storage item, if a key/value pair with the given key exists.
      *
      * @param key the key that specifies the item.
      */

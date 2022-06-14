@@ -21,6 +21,10 @@ Initializes the Ability by passing a Playwright Page object.
 
 Use the Ability as an Actor. Required by Actions to get access to the ability functions. Examples can be found below.
 
+### addCookies(cookies: Cookie[])
+
+Add cookies into this browser context. All pages within this context will have these cookies installed. Cookies can be obtained via BrowseTheWeb.getCookies([urls]).
+
 #### checkBox(selector: string, options?: SelectorOptions)
 
 Check the specified checkbox.
@@ -31,6 +35,10 @@ BrowseTheWeb.as(actor).checkBox('mySelector');
 // or with options
 BrowseTheWeb.as(actor).checkBox('mySelector', { hasText: 'myText', subSelector: ['mySubSelector', { hasText: 'anotherText' } ]});
 ```
+
+### clearCookies()
+
+Clear the browser context cookies.
 
 #### click(selector: string, options?: SelectorOptions)
 
@@ -78,6 +86,18 @@ BrowseTheWeb.as(actor).fill('mySelector', 'myInput');
 // or with options
 BrowseTheWeb.as(actor).fill('mySelector', 'myInput', { hasText: 'myText', subSelector: ['mySubSelector', { hasText: 'anotherText' } ]});
 ```
+
+### getCookies(urls?: string | string[] | undefined)
+
+Get the cookies of the current browser context. If no URLs are specified, this method returns all cookies. If URLs are specified, only cookies that affect those URLs are returned.
+
+### getLocalStorageItem(key: string)
+
+Get a local storage item specified by the given key.
+
+### getSessionStorageItem(key: string)
+
+Get a session storage item specified by given key.
 
 #### goto(url: string)
 
@@ -135,6 +155,22 @@ BrowseTheWeb.as(actor).press('A');
 BrowseTheWeb.as(actor).press('Control+A');
 ```
 
+### removeLocalStorageItem(key: string)
+
+Delete a local storage item, if a key/value pair with the given key exists.
+
+### removeSessionLocalStorageItem(key: string)
+
+Delete a session storage item, if a key/value pair with the given key exists.
+
+### setLocalStorageItem(key: string, value: any)
+
+Set a local storage item identified by the given key + value, creating a new key/value pair if none existed for key previously.
+
+### setSessionStorageItem(key: string, value: any)
+
+Set a session storage item identified by the given key + value, creating a new key/value pair if none existed for key previously.
+
 #### type(selector: string, input: string, options?: SelectorOptions)
 
 Type the given input into the element specified by the selector.
@@ -166,6 +202,30 @@ BrowseTheWeb.as(actor).waitForSelector('mySelector', { hasText: 'myText', subSel
 ```
  
 ### Web Actions
+
+### Add.cookies(cookies: Cookie[])
+
+Add the specified cookies.
+
+```js
+Add.cookies(myCookies);
+```
+
+### Add.localStorageItem(key: string, value: any)
+
+Add a local storage item identified by the given key + value, creating a new key/value pair if none existed for key previously.
+
+```js
+Add.localStorageItem('myKey', 'myValue');
+```
+
+### Add.sessionStorageItem(key: string, value: any)
+
+Add a session storage item identified by the given key + value, creating a new key/value pair if none existed for key previously.
+
+```js
+Add.sessionStorageItem('myKey', 'myValue');
+```
 
 #### Check.element(selector: string, options?: SelectorOptions)
 
@@ -213,6 +273,33 @@ DragAndDrop.execute('sourceSelector', 'targetSelector', {
 });
 ```
 
+### Fetch.cookies(urls?: string | string[] | undefined)
+
+Get the specified cookies. If no urls are speciefied, get all cookies.
+
+```js
+// get all cookies
+Fetch.cookies();
+// get url-specific cookies
+Fetch.cookies(myUrl);
+```
+
+### Fetch.localStorageItem(key: string)
+
+Get a local storage item.
+
+```js
+Fetch.localStorageItem('myKey');
+```
+
+### Fetch.sessionStorageItem(key: string)
+
+Get a session storage item.
+
+```js
+Fetch.sessionStorageItem('myKey');
+```
+
 #### Fill.in(selector: string, value: string, options?: SelectorOptions)
 
 Fill a given string into an input element
@@ -256,6 +343,30 @@ Use the browser page to navigate to a specified url
 
 ```js
 Navigate.to('myUrl');
+```
+
+### Remove.cookies()
+
+Clear all browser cookies.
+
+```js
+Remove.cookies();
+```
+
+### Remove.localStorageItem(key: string)
+
+Remove a local storage item, if a key/value pair with the given key exists.
+
+```js
+Remove.localStorageItem('myKey');
+```
+
+### Remove.sessionStorageItem(key: string)
+
+Remove a session storage item, if a key/value pair with the given key exists.
+
+```js
+Remove.sessionStorageItem('myKey');
 ```
 
 #### Type.in(selector: string, value: string, options?: SelectorOptions)

@@ -29,27 +29,29 @@ export class Add extends Action {
     }
 
     /**
-     * Get the specified cookies.
+     * Add the specified cookies.
      *
-     * @param urls (optional): If URLs are specified, only cookies that affect those URLs are returned. If no URLs are specified, this all cookies are returned.
+     * @param cookies the cookies to add.
      */
     public static cookies(cookies: Cookie[]): Add {
         return new Add('cookies', cookies);
     }
 
     /**
-     * Get a session storage item.
+     * Add a session storage item identified by the given key + value, creating a new key/value pair if none existed for key previously.
      *
      * @param key the key that specifies the item.
+     * @param value the value of the item.
      */
     public static sessionStorageItem(key: string, value: any): Add {
         return new Add('sessionStorage', { key, value });
     }
 
     /**
-     * Get a local storage item.
+     * Add a local storage item identified by the given key + value, creating a new key/value pair if none existed for key previously.
      *
      * @param key the key that specifies the item.
+     * @param value the value of the item.
      */
     public static localStorageItem(key: string, value: any): Add {
         return new Add('localStorage', { key, value });
