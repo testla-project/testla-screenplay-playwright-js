@@ -182,18 +182,44 @@ export class BrowseTheWeb extends Ability {
     }
 
     /**
-     * Validate a locator on the page is enabled.
+     * Validate if a locator on the page is enabled or disabled.
      *
+     * @param mode the property of the selector that needs to be checked. either 'enabled' or 'disabled'.
      * @param selector the locator to search for.
      * @param options (optional) advanced selector lookup options.
-     * @returns true if the element is enabled, false otherwise.
+     * @param timeout (optional) maximum timeout to wait for.
+     * @returns true if the element is enabled/disabled, false if the timeout was reached.
      */
-    public async isEnabled(selector: string, options?: SelectorOptions): Promise<boolean> {
-        try {
-            return (await recursiveLocatorLookup({ page: this.page, selector, options }))
-                .isEnabled();
-        } catch (e) {
-            return Promise.resolve(false);
-        }
+    public async isEnabled(mode: 'enabled' | 'disabled', selector: string, options?: SelectorOptions, timeout?: number): Promise<boolean> {
+        const started = Date.now();
+        // execute the enabled-check every second until timeout or expected result is returned
+        return new Promise((resolve) => {
+            const interval = setInterval(async () => {
+                const element = await recursiveLocatorLookup({ page: this.page, selector, options });
+                if (mode === 'enabled') {
+                    // if element is enabled -> return true
+                    if (await element.isEnabled()) {
+                        resolve(true);
+                        clearInterval(interval);
+                    }
+                    // if element is disabled -> return true
+                } else if (await element.isDisabled()) {
+                    resolve(true);
+                    clearInterval(interval);
+                }
+
+                // if there is a timeout, check if it was reached
+                if (timeout !== undefined) {
+                    // if timeout is reached and the check always failed -> return false
+                    if (Date.now() - started > (timeout)) {
+                        resolve(false);
+                        clearInterval(interval);
+                    }
+                    // if there is no timeout set, check only once
+                } else {
+                    clearInterval(interval);
+                }
+            }, 1000);
+        });
     }
 }

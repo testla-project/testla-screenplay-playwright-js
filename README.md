@@ -461,31 +461,31 @@ Put.to('https://my-fancy-url.com')
 
 ### Available Web Questions
 
-#### Element.isVisible(selector: string, options?: SelectorOptions & { wait?: boolean })
+#### Element.is.visible(selector: string, options?: SelectorOptions & { wait?: boolean }) + Element.not.visible(selector: string, options?: SelectorOptions & { wait?: boolean })
 
-Validates weather an element is visible or not. By default it is waited for this event to happen btu limited by the global playwright timeout settings.
+Validates weather an element is visible (Element.is.visible) or not (Element.not.visible). By default it is waited for this event to happen but limited by the global playwright timeout settings.
 By settings wait to false in the options section this can be overridden.
 
 ```js
 // simple call with just selector
-Element.isVisible('mySelector');
+Element.is.visible('mySelector');
 // or with options
-Element.isVisible('mySelector', {
+Element.not.visible('mySelector', {
     hasText: 'myText',
     subSelector: ['mySubSelector', { hasText: 'anotherText' } ]
     wait: false // false means that the selector has to be available without any wait time.
 });
 ```
 
-#### Element.isEnabled(selector: string, options?: SelectorOptions)
+#### Element.is.enabled(selector: string, options?: SelectorOptions) + Element.not.enabled(selector: string, options?: SelectorOptions)
 
-Validates weather an element is enabled or not.
+Validates weather an element is enabled (Element.is.enabled) or not (Element.not.enabled).
 
 ```js
 // simple call with just selector
-Element.isEnabled('mySelector');
+Element.is.enabled('mySelector');
 // or with options
-Element.isEnabled('mySelector', { hasText: 'myText', subSelector: ['mySubSelector', { hasText: 'anotherText' } ]});
+Element.not.enabled('mySelector', { hasText: 'myText', subSelector: ['mySubSelector', { hasText: 'anotherText' } ]});
 ```
 
 ### Available Api Questions
@@ -498,15 +498,15 @@ Checks if the response has a given status code.
 Response.hasStatusCode(response, 200);
 ```
 
-#### Response.bodyEquals(response: Response, body: ResponseBodyType)
+#### Response.hasBody(response: Response, body: ResponseBodyType)
 
 Checks if the response equals a given body.
 
 ```js
 // json format
-Response.bodyEquals(response, { key: value });
+Response.hasBody(response, { key: value });
 // text format
-Response.bodyEquals(response, 'text' );
+Response.hasBody(response, 'text' );
 ```
 
 #### Response.hasHeaders(response: Response, headers: Headers)
@@ -581,7 +581,7 @@ test.describe('My Test', () => {
         await actor.attemptsTo(Login.toApp());
 
         // Check if the login was successful - use the status question from the web package
-        expect(await actor.asks(Element.isVisible('#logged-in-indicator'))).toBe(true);
+        await actor.asks(Element.is.visible('#logged-in-indicator'));
     });
 });
 ```

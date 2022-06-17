@@ -15,6 +15,9 @@ export class Element extends Question<boolean> {
     // optional selector options.
     private options?: SelectorOptions & { wait?: boolean };
 
+    // optional timeout to wait.
+    private timeout?: number;
+
     private constructor(private checkMode: 'is' | 'not') {
         super();
     }
@@ -27,7 +30,7 @@ export class Element extends Question<boolean> {
         }
         if (this.mode === 'enabled') {
             // if .is was called -> positive check, if .not was called -> negative check
-            expect(await BrowseTheWeb.as(actor).isEnabled(this.selector, this.options)).toBe(this.checkMode === 'is');
+            expect(await BrowseTheWeb.as(actor).isEnabled(this.checkMode === 'is' ? 'enabled' : 'disabled', this.selector, this.options, this.timeout)).toBe(true);
             return true; // if the question fails there will be an exception
         }
         throw new Error('Unknown mode: Element.answeredBy');
@@ -74,10 +77,11 @@ export class Element extends Question<boolean> {
      * @param selector the selector
      * @param options (optional) advanced selector lookup options.
      */
-    public enabled(selector: string, options?: SelectorOptions): Element {
+    public enabled(selector: string, options?: SelectorOptions & { timeout?: number }): Element {
         this.mode = 'enabled';
         this.selector = selector;
         this.options = options;
+        this.timeout = options?.timeout;
 
         return this;
     }
