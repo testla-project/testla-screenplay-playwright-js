@@ -211,22 +211,6 @@ Add the specified cookies.
 Add.cookies(myCookies);
 ```
 
-### Add.localStorageItem(key: string, value: any)
-
-Add a local storage item identified by the given key + value, creating a new key/value pair if none existed for key previously.
-
-```js
-Add.localStorageItem('myKey', 'myValue');
-```
-
-### Add.sessionStorageItem(key: string, value: any)
-
-Add a session storage item identified by the given key + value, creating a new key/value pair if none existed for key previously.
-
-```js
-Add.sessionStorageItem('myKey', 'myValue');
-```
-
 #### Check.element(selector: string, options?: SelectorOptions)
 
 Checks a checkbox
@@ -237,6 +221,14 @@ Check.element('mySelector');
 // or with options
 Check.element('mySelector', { hasText: 'myText', subSelector: ['mySubSelector', { hasText: 'anotherText' } ]});
 ```
+### Clear.cookies()
+
+Clear all browser cookies.
+
+```js
+Clear.cookies();
+```
+
 #### Click.on(selector: string, options?: SelectorOptions)
 
 Click an element
@@ -273,33 +265,6 @@ DragAndDrop.execute('sourceSelector', 'targetSelector', {
 });
 ```
 
-### Fetch.cookies(urls?: string | string[] | undefined)
-
-Get the specified cookies. If no urls are speciefied, get all cookies.
-
-```js
-// get all cookies
-Fetch.cookies();
-// get url-specific cookies
-Fetch.cookies(myUrl);
-```
-
-### Fetch.localStorageItem(key: string)
-
-Get a local storage item.
-
-```js
-Fetch.localStorageItem('myKey');
-```
-
-### Fetch.sessionStorageItem(key: string)
-
-Get a session storage item.
-
-```js
-Fetch.sessionStorageItem('myKey');
-```
-
 #### Fill.in(selector: string, value: string, options?: SelectorOptions)
 
 Fill a given string into an input element
@@ -309,6 +274,33 @@ Fill a given string into an input element
 Fill.in('mySelector', 'myInput');
 // or with options
 Fill.in('mySelector', 'myInput', { hasText: 'myText', subSelector: ['mySubSelector', { hasText: 'anotherText' } ]});
+```
+
+### Get.cookies(urls?: string | string[] | undefined)
+
+Get the specified cookies. If no urls are speciefied, get all cookies.
+
+```js
+// get all cookies
+Get.cookies();
+// get url-specific cookies
+Get.cookies(myUrl);
+```
+
+### Get.localStorageItem(key: string)
+
+Get a local storage item.
+
+```js
+Get.localStorageItem('myKey');
+```
+
+### Get.sessionStorageItem(key: string)
+
+Get a session storage item.
+
+```js
+Get.sessionStorageItem('myKey');
 ```
 
 #### Hover.over(selector: string, options?: SelectorOptions & { modifiers?: ('Alt' | 'Control' | 'Meta' | 'Shift')[] })
@@ -345,14 +337,6 @@ Use the browser page to navigate to a specified url
 Navigate.to('myUrl');
 ```
 
-### Remove.cookies()
-
-Clear all browser cookies.
-
-```js
-Remove.cookies();
-```
-
 ### Remove.localStorageItem(key: string)
 
 Remove a local storage item, if a key/value pair with the given key exists.
@@ -367,6 +351,22 @@ Remove a session storage item, if a key/value pair with the given key exists.
 
 ```js
 Remove.sessionStorageItem('myKey');
+```
+
+### Set.localStorageItem(key: string, value: any)
+
+Set a local storage item identified by the given key + value, creating a new key/value pair if none existed for key previously.
+
+```js
+Set.localStorageItem('myKey', 'myValue');
+```
+
+### Set.sessionStorageItem(key: string, value: any)
+
+Set a session storage item identified by the given key + value, creating a new key/value pair if none existed for key previously.
+
+```js
+Set.sessionStorageItem('myKey', 'myValue');
 ```
 
 #### Type.in(selector: string, value: string, options?: SelectorOptions)
