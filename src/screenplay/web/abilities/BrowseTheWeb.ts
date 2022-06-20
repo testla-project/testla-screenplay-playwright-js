@@ -1,4 +1,4 @@
-import { Page } from '@playwright/test';
+import { expect, Page } from '@playwright/test';
 import { Response } from 'playwright';
 import { Ability, Actor } from '@testla/screenplay';
 import { SelectorOptions } from '../types';
@@ -184,13 +184,30 @@ export class BrowseTheWeb extends Ability {
     /**
      * Validate if a locator on the page is enabled or disabled.
      *
-     * @param mode the property of the selector that needs to be checked. either 'enabled' or 'disabled'.
+     * @param mode the expected property of the selector that needs to be checked. either 'enabled' or 'disabled'.
      * @param selector the locator to search for.
      * @param options (optional) advanced selector lookup options.
      * @param timeout (optional) maximum timeout to wait for.
      * @returns true if the element is enabled/disabled, false if the timeout was reached.
      */
     public async isEnabled(mode: 'enabled' | 'disabled', selector: string, options?: SelectorOptions, timeout?: number): Promise<boolean> {
+        // if there is no timeout set: check the condition only once
+        if (timeout === undefined) {
+            if (mode === 'enabled') {
+                return (await recursiveLocatorLookup({ page: this.page, selector, options })).isEnabled();
+            }
+            return (await recursiveLocatorLookup({ page: this.page, selector, options })).isDisabled();
+        }
+
+        this.page.setDefaultTimeout(30000);
+        if (mode === 'enabled') {
+            // expect((await recursiveLocatorLookup({ page: this.page, selector, options }))).toBeEnabled({ timeout }); // timeout does not work???
+            const result = await (await recursiveLocatorLookup({ page: this.page, selector, options })).isEnabled({ timeout }); // timeout does not work???
+            return result;
+        }
+        return (await recursiveLocatorLookup({ page: this.page, selector, options })).isDisabled({ timeout }); // timeout does not work???
+
+        /*
         const started = Date.now();
         // execute the enabled-check every second until timeout or expected result is returned
         return new Promise((resolve) => {
@@ -208,18 +225,13 @@ export class BrowseTheWeb extends Ability {
                     clearInterval(interval);
                 }
 
-                // if there is a timeout, check if it was reached
-                if (timeout !== undefined) {
-                    // if timeout is reached and the check always failed -> return false
-                    if (Date.now() - started > (timeout)) {
-                        resolve(false);
-                        clearInterval(interval);
-                    }
-                    // if there is no timeout set, check only once
-                } else {
+                // if timeout is reached and the check always failed -> return false
+                if (Date.now() - started > (timeout)) {
+                    resolve(false);
                     clearInterval(interval);
                 }
             }, 1000);
         });
+*/
     }
 }
