@@ -104,7 +104,7 @@ export class UseAPI extends Ability {
      * @returns true if the status is equal, false otherwise
      */
     // eslint-disable-next-line class-methods-use-this
-    public checkStatus(response: Response, status: number): Promise<boolean> {
+    public async checkStatus(response: Response, status: number): Promise<boolean> {
         return Promise.resolve(response.status === status);
     }
 
@@ -116,7 +116,7 @@ export class UseAPI extends Ability {
      * @returns true if the body is equal, false otherwise
      */
     // eslint-disable-next-line class-methods-use-this
-    public checkBody(response: Response, body: ResponseBodyType): Promise<boolean> {
+    public async checkBody(response: Response, body: ResponseBodyType): Promise<boolean> {
         if (typeof response.body === 'string' && typeof body === 'string') {
             // response body is plain text -> can check for string equality
             return Promise.resolve(response.body === body);
@@ -136,7 +136,7 @@ export class UseAPI extends Ability {
      * @returns true if the headers are included, false otherwise
      */
     // eslint-disable-next-line class-methods-use-this
-    public checkHeaders(response: Response, headers: {[key: string]: string | undefined }): Promise<boolean> {
+    public async checkHeaders(response: Response, headers: {[key: string]: string | undefined }): Promise<boolean> {
         const allResponseHeaderKeys = Object.keys(response.headers);
         return Promise.resolve(Object.entries(headers).every((header) => allResponseHeaderKeys.includes(header[0]) // lookup that header key is available
             && (header[1] === undefined || response.headers[header[0]] === header[1]))); // either header value is undefined -> value doesn't interest us or we check the value for equality

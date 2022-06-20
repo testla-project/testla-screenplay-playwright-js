@@ -463,8 +463,8 @@ Put.to('https://my-fancy-url.com')
 
 #### Element.is.visible(selector: string, options?: SelectorOptions & { wait?: boolean }) + Element.not.visible(selector: string, options?: SelectorOptions & { wait?: boolean })
 
-Validates weather an element is visible (Element.is.visible) or not (Element.not.visible). By default it is waited for this event to happen but limited by the global playwright timeout settings.
-By settings wait to false in the options section this can be overridden.
+Validates whether an element is visible (Element.is.visible) or not (Element.not.visible). By default it is waited for this event to happen but limited by the global playwright timeout settings.
+By setting wait to false in the options section this can be overridden.
 
 ```js
 // simple call with just selector

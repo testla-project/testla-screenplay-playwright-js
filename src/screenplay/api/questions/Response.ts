@@ -39,7 +39,7 @@ export class Response extends Question<boolean> {
     /**
      * make the Question check for the positive.
      */
-    static get is() {
+    static get has() {
         return new Response('is');
     }
 
@@ -56,7 +56,7 @@ export class Response extends Question<boolean> {
      * @param response the response to check.
      * @param statusCode the expected status code.
      */
-    public hasStatusCode(response: ResponseType, statusCode: number): Response {
+    public statusCode(response: ResponseType, statusCode: number): Response {
         this.response = response;
         this.action = { mode: 'status', payload: { statusCode } };
 
@@ -69,7 +69,7 @@ export class Response extends Question<boolean> {
      * @param response the response to check.
      * @param body the expected body.
      */
-    public hasBody(response: ResponseType, body: ResponseBodyType): Response {
+    public body(response: ResponseType, body: ResponseBodyType): Response {
         this.response = response;
         this.action = { mode: 'body', payload: { body } };
 
@@ -82,7 +82,7 @@ export class Response extends Question<boolean> {
      * @param response the response to check.
      * @param headers the expected header.
      */
-    public hasHeaders(response: ResponseType, headers: Headers): Response {
+    public headers(response: ResponseType, headers: Headers): Response {
         this.response = response;
         this.action = { mode: 'header', payload: { headers } };
 

@@ -26,12 +26,12 @@ export class Element extends Question<boolean> {
         if (this.mode === 'visible') {
             // if .is was called -> positive check, if .not was called -> negative check
             expect(await BrowseTheWeb.as(actor).isVisible(this.selector, this.options)).toBe(this.checkMode === 'is');
-            return true; // if the question fails there will be an exception
+            return Promise.resolve(true); // if the question fails there will be an exception
         }
         if (this.mode === 'enabled') {
             // if .is was called -> positive check, if .not was called -> negative check
             expect(await BrowseTheWeb.as(actor).isEnabled(this.checkMode === 'is' ? 'enabled' : 'disabled', this.selector, this.options, this.timeout)).toBe(true);
-            return true; // if the question fails there will be an exception
+            return Promise.resolve(true); // if the question fails there will be an exception
         }
         throw new Error('Unknown mode: Element.answeredBy');
     }

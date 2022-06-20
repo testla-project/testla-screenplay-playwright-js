@@ -1,4 +1,4 @@
-import { expect, Page } from '@playwright/test';
+import { Page } from '@playwright/test';
 import { Response } from 'playwright';
 import { Ability, Actor } from '@testla/screenplay';
 import { SelectorOptions } from '../types';
@@ -199,15 +199,6 @@ export class BrowseTheWeb extends Ability {
             return (await recursiveLocatorLookup({ page: this.page, selector, options })).isDisabled();
         }
 
-        this.page.setDefaultTimeout(30000);
-        if (mode === 'enabled') {
-            // expect((await recursiveLocatorLookup({ page: this.page, selector, options }))).toBeEnabled({ timeout }); // timeout does not work???
-            const result = await (await recursiveLocatorLookup({ page: this.page, selector, options })).isEnabled({ timeout }); // timeout does not work???
-            return result;
-        }
-        return (await recursiveLocatorLookup({ page: this.page, selector, options })).isDisabled({ timeout }); // timeout does not work???
-
-        /*
         const started = Date.now();
         // execute the enabled-check every second until timeout or expected result is returned
         return new Promise((resolve) => {
@@ -226,12 +217,11 @@ export class BrowseTheWeb extends Ability {
                 }
 
                 // if timeout is reached and the check always failed -> return false
-                if (Date.now() - started > (timeout)) {
+                if (Date.now() - started > (timeout)) { // or take default timeout
                     resolve(false);
                     clearInterval(interval);
                 }
-            }, 1000);
+            }, 100);
         });
-*/
     }
 }
