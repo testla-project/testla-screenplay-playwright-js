@@ -4,6 +4,7 @@ import { BrowseTheWeb } from '../abilities/BrowseTheWeb';
 /**
  * Action Class. Remove either Cookies, Session Storage Items or Local Storage Items from the Browser.
  */
+// separate Remove (sesion items) and Clear (cookies)
 export class Remove extends Action {
     private constructor(private mode: 'cookies' | 'sessionStorage' | 'localStorage', private payload?: any) {
         super();

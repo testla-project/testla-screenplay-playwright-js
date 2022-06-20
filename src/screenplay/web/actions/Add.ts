@@ -5,6 +5,7 @@ import { BrowseTheWeb } from '../abilities/BrowseTheWeb';
 /**
  * Action Class. Add either Cookies, Session Storage Items or Local Storage Items to the Browser.
  */
+// separate Set (storage) and Add (cookies)
 export class Add extends Action {
     private constructor(private mode: 'cookies' | 'sessionStorage' | 'localStorage', private payload: any) {
         super();

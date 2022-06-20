@@ -16,7 +16,7 @@ export class Fetch extends Action {
      */
     public performAs(actor: Actor): Promise<any> {
         if (this.mode === 'cookies') {
-            return BrowseTheWeb.as(actor).addCookies(this.payload);
+            return BrowseTheWeb.as(actor).getCookies(this.payload);
         }
         if (this.mode === 'sessionStorage') {
             return BrowseTheWeb.as(actor).getSessionStorageItem(this.payload);
