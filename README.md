@@ -324,7 +324,9 @@ Verify if the given response's body is equal to the expected body. The check inc
 // json response
 UseApi.as(actor).checkBody(response, { text: 'test' });
 // text response
-UseApi.as(actor).checkBody(response, { 'test' });
+UseApi.as(actor).checkBody(response, 'test');
+// buffer response
+UseApi.as(actor).checkBody(response, Buffer.from('abc'));
 ```
 
 #### checkHeaders(response: Response, headers: {[key: string]: string | undefined })
@@ -507,6 +509,8 @@ Checks if the response equals a given body.
 Response.bodyEquals(response, { key: value });
 // text format
 Response.bodyEquals(response, 'text' );
+// buffer format
+Response.bodyEquals(response, Buffer.from('abc') );
 ```
 
 #### Response.hasHeaders(response: Response, headers: Headers)
