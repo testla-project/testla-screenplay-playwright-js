@@ -4,7 +4,7 @@ import { BrowseTheWeb } from '../abilities/BrowseTheWeb';
 /**
  * Action Class. Get either Cookies, Session Storage Items or Local Storage Items from the Browser.
  */
-export class Fetch extends Action {
+export class Get extends Action {
     private constructor(private mode: 'cookies' | 'sessionStorage' | 'localStorage', private payload: any) {
         super();
     }
@@ -32,8 +32,8 @@ export class Fetch extends Action {
      *
      * @param urls (optional): If URLs are specified, only cookies that affect those URLs are returned. If no URLs are specified, this all cookies are returned.
      */
-    public static cookies(urls?: string | string[] | undefined): Fetch {
-        return new Fetch('cookies', urls);
+    public static cookies(urls?: string | string[] | undefined): Get {
+        return new Get('cookies', urls);
     }
 
     /**
@@ -41,8 +41,8 @@ export class Fetch extends Action {
      *
      * @param key the key that specifies the item.
      */
-    public static sessionStorageItem(key: string): Fetch {
-        return new Fetch('sessionStorage', key);
+    public static sessionStorageItem(key: string): Get {
+        return new Get('sessionStorage', key);
     }
 
     /**
@@ -50,7 +50,7 @@ export class Fetch extends Action {
      *
      * @param key the key that specifies the item.
      */
-    public static localStorageItem(key: string): Fetch {
-        return new Fetch('localStorage', key);
+    public static localStorageItem(key: string): Get {
+        return new Get('localStorage', key);
     }
 }

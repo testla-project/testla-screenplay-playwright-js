@@ -2,11 +2,10 @@ import { Action, Actor } from '@testla/screenplay';
 import { BrowseTheWeb } from '../abilities/BrowseTheWeb';
 
 /**
- * Action Class. Remove either Cookies, Session Storage Items or Local Storage Items from the Browser.
+ * Action Class. Remove either Session Storage Items or Local Storage Items from the Browser.
  */
-// separate Remove (sesion items) and Clear (cookies)
 export class Remove extends Action {
-    private constructor(private mode: 'cookies' | 'sessionStorage' | 'localStorage', private payload?: any) {
+    private constructor(private mode: 'sessionStorage' | 'localStorage', private payload?: any) {
         super();
     }
 
@@ -16,9 +15,6 @@ export class Remove extends Action {
      * @param actor
      */
     public performAs(actor: Actor): Promise<any> {
-        if (this.mode === 'cookies') {
-            return BrowseTheWeb.as(actor).clearCookies();
-        }
         if (this.mode === 'sessionStorage') {
             return BrowseTheWeb.as(actor).removeSessionLocalStorageItem(this.payload);
         }
@@ -26,13 +22,6 @@ export class Remove extends Action {
             return BrowseTheWeb.as(actor).removeLocalStorageItem(this.payload);
         }
         throw new Error('Error: no match for Remove.performAs()!');
-    }
-
-    /**
-     * Clear all browser cookies.
-     */
-    public static cookies(): Remove {
-        return new Remove('cookies');
     }
 
     /**
