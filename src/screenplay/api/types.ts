@@ -2,7 +2,7 @@
  * HTTP Headers type
  */
 export type Headers = {
-    [key: string]: string
+    [key: string]: string;
 };
 
 export type ResponseBodyType = Buffer | object | string | null;
@@ -11,9 +11,10 @@ export type ResponseBodyType = Buffer | object | string | null;
  * Response type which is returned from any request
  */
 export type Response = {
-    body: ResponseBodyType,
-    status: number,
-    headers: Headers,
+    body: ResponseBodyType;
+    status: number;
+    headers: Headers;
+    duration: number;
 };
 
 export type ResponseBodyFormat = 'json' | 'text' | 'buffer' | 'none';

@@ -341,6 +341,15 @@ UseApi.as(actor).checkHeaders(response, { contentType: undefined });
 UseApi.as(actor).checkHeaders(response, { contentType: 'application/json' });
 ```
 
+#### checkDuration(response: Response, duration: number)
+
+Verify if the reponse (including receiving body) was received within a given duration.
+
+```js
+// check if response was received within 2s
+UseApi.as(actor).checkDuration(response, 2000);
+```
+
 ### API Actions
 
 #### Delete.from(url: string)
@@ -522,6 +531,15 @@ Checks if the response holds the given headers either by key (value to be set to
 Response.hasHeaders(response, { 'content-type': undefined });
 // lookup for key/value combination to be present
 Response.hasHeaders(response, { 'content-type': 'application/json' });
+```
+
+#### Response.wasReceivedWithin(response: Response, duration: number)
+
+Checks if the reponse (including receiving body) was received within a given duration.
+
+```js
+// check if response was received within 2s
+Response.wasReceivedWithin(response, 2000);
 ```
 
 ### Group Actions into a Task
