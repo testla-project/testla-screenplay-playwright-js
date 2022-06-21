@@ -25,7 +25,7 @@ export class Element extends Question<boolean> {
     public async answeredBy(actor: Actor): Promise<boolean> {
         if (this.mode === 'visible') {
             // if .is was called -> positive check, if .not was called -> negative check
-            expect(await BrowseTheWeb.as(actor).isVisible(this.selector, this.options)).toBe(this.checkMode === 'is');
+            expect(await BrowseTheWeb.as(actor).isVisible(this.checkMode === 'is' ? 'visible' : 'hidden', this.selector, this.options, this.timeout)).toBe(true);
             return Promise.resolve(true); // if the question fails there will be an exception
         }
         if (this.mode === 'enabled') {
@@ -56,17 +56,11 @@ export class Element extends Question<boolean> {
      * @param selector the selector
      * @param options (optional) advanced selector lookup options.
      */
-    public visible(selector: string, options?: SelectorOptions & { wait?: boolean }): Element {
-        const newOptions = { ...options };
-        delete newOptions.wait;
-
-        // it is possible to expect an instant availability -> for that the option wait must explicitely set to false
-        // the default to 1ms is a defacto instant
-        if (options?.wait === false) { newOptions.timeout = 1; }
-
+    public visible(selector: string, options?: SelectorOptions & { timeout?: number }): Element {
         this.mode = 'visible';
         this.selector = selector;
-        this.options = newOptions;
+        this.options = options;
+        this.timeout = options?.timeout;
 
         return this;
     }

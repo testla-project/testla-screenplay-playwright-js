@@ -166,19 +166,47 @@ export class BrowseTheWeb extends Ability {
     }
 
     /**
-     * Validate a locator on the page is visible.
+     * Validate if a locator on the page is visible or hidden.
      *
+     * @param mode the expected property of the selector that needs to be checked. either 'visible' or 'hidden'.
      * @param selector the locator to search for.
      * @param options (optional) advanced selector lookup options.
-     * @returns true if the locator is visible, false otherwise.
+     * @param timeout (optional) maximum timeout to wait for.
+     * @returns true if the element is visible/hidden as expected, false if the timeout was reached.
      */
-    public async isVisible(selector: string, options?: SelectorOptions): Promise<boolean> {
-        try {
-            await recursiveLocatorLookup({ page: this.page, selector, options });
-            return Promise.resolve(true);
-        } catch (e) {
-            return Promise.resolve(false);
+    public async isVisible(mode: 'visible' | 'hidden', selector: string, options?: SelectorOptions, timeout?: number): Promise<boolean> {
+        // if there is no timeout set: check the condition only once
+        if (timeout === undefined) {
+            if (mode === 'visible') {
+                return (await recursiveLocatorLookup({ page: this.page, selector, options })).isVisible();
+            }
+            return (await recursiveLocatorLookup({ page: this.page, selector, options })).isHidden();
         }
+
+        const started = Date.now();
+        // execute the enabled-check every second until timeout or expected result is returned
+        return new Promise((resolve) => {
+            const interval = setInterval(async () => {
+                const element = await recursiveLocatorLookup({ page: this.page, selector, options });
+                if (mode === 'visible') {
+                    // if element is enabled -> return true
+                    if (await element.isVisible()) {
+                        resolve(true);
+                        clearInterval(interval);
+                    }
+                    // if element is disabled -> return true
+                } else if (await element.isHidden()) {
+                    resolve(true);
+                    clearInterval(interval);
+                }
+
+                // if timeout is reached and the check always failed -> return false
+                if (Date.now() - started > (timeout)) { // or take default timeout
+                    resolve(false);
+                    clearInterval(interval);
+                }
+            }, 100);
+        });
     }
 
     /**
@@ -188,7 +216,7 @@ export class BrowseTheWeb extends Ability {
      * @param selector the locator to search for.
      * @param options (optional) advanced selector lookup options.
      * @param timeout (optional) maximum timeout to wait for.
-     * @returns true if the element is enabled/disabled, false if the timeout was reached.
+     * @returns true if the element is enabled/disabled as expected, false if the timeout was reached.
      */
     public async isEnabled(mode: 'enabled' | 'disabled', selector: string, options?: SelectorOptions, timeout?: number): Promise<boolean> {
         // if there is no timeout set: check the condition only once
