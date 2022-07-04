@@ -175,38 +175,15 @@ export class BrowseTheWeb extends Ability {
      * @returns true if the element is visible/hidden as expected, false if the timeout was reached.
      */
     public async isVisible(mode: 'visible' | 'hidden', selector: string, options?: SelectorOptions, timeout?: number): Promise<boolean> {
-        // if there is no timeout set: check the condition only once
-        if (timeout === undefined) {
-            if (mode === 'visible') {
-                return (await recursiveLocatorLookup({ page: this.page, selector, options })).isVisible();
-            }
-            return (await recursiveLocatorLookup({ page: this.page, selector, options })).isHidden();
+        if (mode === 'visible') {
+            return Promise.resolve(
+                await (await recursiveLocatorLookup({ page: this.page, selector, options })).isVisible({ timeout }),
+            );
         }
-
-        const started = Date.now();
-        // execute the enabled-check every second until timeout or expected result is returned
-        return new Promise((resolve) => {
-            const interval = setInterval(async () => {
-                const element = await recursiveLocatorLookup({ page: this.page, selector, options });
-                if (mode === 'visible') {
-                    // if element is enabled -> return true
-                    if (await element.isVisible()) {
-                        resolve(true);
-                        clearInterval(interval);
-                    }
-                    // if element is disabled -> return true
-                } else if (await element.isHidden()) {
-                    resolve(true);
-                    clearInterval(interval);
-                }
-
-                // if timeout is reached and the check always failed -> return false
-                if (Date.now() - started > (timeout)) { // or take default timeout
-                    resolve(false);
-                    clearInterval(interval);
-                }
-            }, 100);
-        });
+        // case 'hidden'
+        return Promise.resolve(
+            await (await recursiveLocatorLookup({ page: this.page, selector, options })).isHidden({ timeout }),
+        );
     }
 
     /**
@@ -219,37 +196,14 @@ export class BrowseTheWeb extends Ability {
      * @returns true if the element is enabled/disabled as expected, false if the timeout was reached.
      */
     public async isEnabled(mode: 'enabled' | 'disabled', selector: string, options?: SelectorOptions, timeout?: number): Promise<boolean> {
-        // if there is no timeout set: check the condition only once
-        if (timeout === undefined) {
-            if (mode === 'enabled') {
-                return (await recursiveLocatorLookup({ page: this.page, selector, options })).isEnabled();
-            }
-            return (await recursiveLocatorLookup({ page: this.page, selector, options })).isDisabled();
+        if (mode === 'enabled') {
+            return Promise.resolve(
+                await (await recursiveLocatorLookup({ page: this.page, selector, options })).isEnabled({ timeout }),
+            );
         }
-
-        const started = Date.now();
-        // execute the enabled-check every second until timeout or expected result is returned
-        return new Promise((resolve) => {
-            const interval = setInterval(async () => {
-                const element = await recursiveLocatorLookup({ page: this.page, selector, options });
-                if (mode === 'enabled') {
-                    // if element is enabled -> return true
-                    if (await element.isEnabled()) {
-                        resolve(true);
-                        clearInterval(interval);
-                    }
-                    // if element is disabled -> return true
-                } else if (await element.isDisabled()) {
-                    resolve(true);
-                    clearInterval(interval);
-                }
-
-                // if timeout is reached and the check always failed -> return false
-                if (Date.now() - started > (timeout)) { // or take default timeout
-                    resolve(false);
-                    clearInterval(interval);
-                }
-            }, 100);
-        });
+        // case 'disabled'
+        return Promise.resolve(
+            await (await recursiveLocatorLookup({ page: this.page, selector, options })).isDisabled({ timeout }),
+        );
     }
 }
