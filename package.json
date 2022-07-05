@@ -51,7 +51,7 @@
   },
   "peerDependencies": {
     "@playwright/test": "^1.22.2",
-    "playwright": "^1.22.2"
+    "playwright": "^1.23.1"
   },
   "dependencies": {
     "@testla/screenplay": "^0.2.0"
