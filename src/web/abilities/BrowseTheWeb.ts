@@ -291,7 +291,7 @@ export class BrowseTheWeb extends Ability {
      *
      * @param key the key that specifies the item.
      */
-    public async removeSessionLocalStorageItem(key: string): Promise<void> {
+    public async removeSessionStorageItem(key: string): Promise<void> {
         return this.page.evaluate((key) => {
             sessionStorage.removeItem(key);
             return Promise.resolve();
