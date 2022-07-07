@@ -689,9 +689,9 @@ Tasks group actions into logical entities. Here is a task that uses the actions 
 ```js
 // file: ./task/Login.ts
 
-import {
-    Actor, Task, Click, Fill, Navigate, Wait,
-} from '@testla/screenplay-playwright';
+import { Actor, Task } from '@testla/screenplay-playwright';
+import { Click, Fill, Navigate } from '@testla/screenplay-playwright/web';
+import { Get} from '@testla/screenplay-playwright/api';
 
 export class Login extends Task {
     public async performAs(actor: Actor): Promise<void> {
@@ -727,7 +727,8 @@ const actor = Actor.named('James')
 The final step is to define a test case using the Task defined above.
 
 ```js
-import { Actor, BrowseTheWeb, Element } from '@testla/screenplay-playwright';
+import { Actor } from '@testla/screenplay-playwright';
+import { BrowseTheWeb, Element } from '@testla/screenplay-playwright/web';
 import { Login } from './task/Login';
 
 // Example test case with Playwright
