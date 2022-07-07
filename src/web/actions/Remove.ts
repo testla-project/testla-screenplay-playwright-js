@@ -16,7 +16,7 @@ export class Remove extends Action {
      */
     public performAs(actor: Actor): Promise<any> {
         if (this.mode === 'sessionStorage') {
-            return BrowseTheWeb.as(actor).removeSessionLocalStorageItem(this.payload);
+            return BrowseTheWeb.as(actor).removeSessionStorageItem(this.payload);
         }
         if (this.mode === 'localStorage') {
             return BrowseTheWeb.as(actor).removeLocalStorageItem(this.payload);
