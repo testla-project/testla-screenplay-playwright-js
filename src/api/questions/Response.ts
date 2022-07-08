@@ -7,11 +7,11 @@ import { Headers, Response as ResponseType, ResponseBodyType } from '../types';
  */
 export class Response extends Question<boolean> {
     private action: {
-        mode: 'status' | 'body' | 'header';
+        mode: 'status' | 'body' | 'header' | 'duration';
         payload?: any
     };
 
-    private constructor(private response: ResponseType, action: { mode: 'status' | 'body' | 'header', payload: number | ResponseBodyType | Headers}) {
+    private constructor(private response: ResponseType, action: { mode: 'status' | 'body' | 'header' | 'duration', payload: number | ResponseBodyType | Headers}) {
         super();
         this.action = action;
     }
@@ -19,10 +19,15 @@ export class Response extends Question<boolean> {
     public answeredBy(actor: Actor): Promise<boolean> {
         if (this.action.mode === 'status') {
             return UseAPI.as(actor).checkStatus(this.response, this.action.payload.status);
-        } if (this.action.mode === 'body') {
+        }
+        if (this.action.mode === 'body') {
             return UseAPI.as(actor).checkBody(this.response, this.action.payload.body);
-        } if (this.action.mode === 'header') {
+        }
+        if (this.action.mode === 'header') {
             return UseAPI.as(actor).checkHeaders(this.response, this.action.payload.headers);
+        }
+        if (this.action.mode === 'duration') {
+            return UseAPI.as(actor).checkDuration(this.response, this.action.payload.duration);
         }
         throw new Error('Unknown mode');
     }
@@ -55,5 +60,15 @@ export class Response extends Question<boolean> {
      */
     static hasHeaders(response: ResponseType, headers: Headers): Response {
         return new Response(response, { mode: 'header', payload: { headers } });
+    }
+
+    /**
+     * Verify if the reponse (including receiving body) was received within a given duration.
+     *
+     * @param response the response to check
+     * @param duration expected duration (in milliseconds) not to be exceeded
+     */
+    static wasReceivedWithin(response: ResponseType, duration: number) {
+        return new Response(response, { mode: 'duration', payload: { duration } });
     }
 }

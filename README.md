@@ -486,7 +486,9 @@ Verify if the given response's body is equal to the expected body. The check inc
 // json response
 UseApi.as(actor).checkBody(response, { text: 'test' });
 // text response
-UseApi.as(actor).checkBody(response, { 'test' });
+UseApi.as(actor).checkBody(response, 'test');
+// buffer response
+UseApi.as(actor).checkBody(response, Buffer.from('abc'));
 ```
 
 #### checkHeaders(response: Response, headers: {[key: string]: string | undefined })
@@ -499,6 +501,15 @@ If the header has a value !== undefined, both key and value will be checked. If 
 UseApi.as(actor).checkHeaders(response, { contentType: undefined });
 // check key and value
 UseApi.as(actor).checkHeaders(response, { contentType: 'application/json' });
+```
+
+#### checkDuration(response: Response, duration: number)
+
+Verify if the reponse (including receiving body) was received within a given duration.
+
+```js
+// check if response was received within 2s
+UseApi.as(actor).checkDuration(response, 2000);
 ```
 
 ### API Actions
@@ -669,6 +680,8 @@ Checks if the response equals a given body.
 Response.bodyEquals(response, { key: value });
 // text format
 Response.bodyEquals(response, 'text' );
+// buffer format
+Response.bodyEquals(response, Buffer.from('abc') );
 ```
 
 #### Response.hasHeaders(response: Response, headers: Headers)
@@ -680,6 +693,15 @@ Checks if the response holds the given headers either by key (value to be set to
 Response.hasHeaders(response, { 'content-type': undefined });
 // lookup for key/value combination to be present
 Response.hasHeaders(response, { 'content-type': 'application/json' });
+```
+
+#### Response.wasReceivedWithin(response: Response, duration: number)
+
+Checks if the reponse (including receiving body) was received within a given duration.
+
+```js
+// check if response was received within 2s
+Response.wasReceivedWithin(response, 2000);
 ```
 
 ### Group Actions into a Task

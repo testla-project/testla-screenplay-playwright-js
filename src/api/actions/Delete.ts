@@ -8,8 +8,6 @@ import { ARequest } from './ARequest';
  * Action Class. Send a HTTP DELETE Request.
  */
 export class Delete extends ARequest {
-    private data?: any;
-
     private responseBodyFormat: ResponseBodyFormat = 'json';
 
     private constructor(private url: string) {
@@ -22,7 +20,7 @@ export class Delete extends ARequest {
      * @param actor
      */
     public async performAs(actor: Actor): Promise<Response> {
-        return UseAPI.as(actor).sendRequest(REQUEST_METHOD.DELETE, this.url, this.headers, this.data);
+        return UseAPI.as(actor).sendRequest(REQUEST_METHOD.DELETE, this.url, this.headers, this.responseBodyFormat);
     }
 
     /**
@@ -32,16 +30,6 @@ export class Delete extends ARequest {
      */
     public static from(fullUrl: string): Delete {
         return new Delete(fullUrl);
-    }
-
-    /**
-     * Add data to the HTTP DELETE request to send.
-     *
-     * @param data the data.
-     */
-    public withData(data: any): Delete {
-        this.data = data;
-        return this;
     }
 
     /**
