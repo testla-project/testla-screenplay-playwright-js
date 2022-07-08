@@ -632,6 +632,16 @@ Put.to('https://my-fancy-url.com')
     .withResponseFormat('text');
 ```
 
+### Generic Actions which do not require any particular Ability
+
+#### Sleep.for(ms: number)
+
+Pause the execution of further test steps for a given interval in milliseconds
+
+```js
+Sleep.for(5000);
+```
+
 ### Available Web Questions
 
 #### Element.isVisible(selector: string, options?: SelectorOptions & { wait?: boolean })
