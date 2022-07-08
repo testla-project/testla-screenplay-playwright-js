@@ -17,9 +17,9 @@ export class Sleep extends Action {
     }
 
     /**
-     * Add the specified cookies.
+     * Pause the execution of further test steps for a given interval in milliseconds.
      *
-     * @param cookies the cookies to add.
+     * @param ms interval in milliseconds.
      */
     public static for(ms: number): Sleep {
         return new Sleep(ms);
