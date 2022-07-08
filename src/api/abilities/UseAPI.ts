@@ -55,6 +55,9 @@ export class UseAPI extends Ability {
             data,
         };
 
+        // track time before sending request
+        const START_TIME = Date.now();
+
         let res: APIResponse;
         switch (method) {
             case REQUEST_METHOD.GET:
@@ -83,16 +86,22 @@ export class UseAPI extends Ability {
         let resBody;
         if (responseFormat === 'text') {
             resBody = await res.text();
+        } else if (responseFormat === 'buffer') {
+            resBody = await res.body();
         } else if (responseFormat === 'none') {
             resBody = null;
         } else {
             resBody = await res.json();
         }
 
+        // track time after receiving response
+        const END_TIME = Date.now();
+
         return Promise.resolve({
             status: res.status(),
             body: resBody,
             headers: res.headers(),
+            duration: END_TIME - START_TIME,
         });
     }
 
@@ -121,6 +130,14 @@ export class UseAPI extends Ability {
             // response body is plain text -> can check for string equality
             return Promise.resolve(response.body === body);
         } if (typeof response.body === 'object' && typeof body === 'object') {
+            // check for buffer
+            if (Buffer.isBuffer(response.body) && Buffer.isBuffer(body)) {
+                return Promise.resolve(response.body.equals(body));
+            }
+            if (Buffer.isBuffer(response.body) || Buffer.isBuffer(body)) {
+                // response.body and body do not have same type -> return false
+                return Promise.resolve(false);
+            }
             // response body is in json format OR null -> can check with JSON.stringify
             return Promise.resolve(JSON.stringify(response.body) === JSON.stringify(body));
         }
@@ -140,5 +157,17 @@ export class UseAPI extends Ability {
         const allResponseHeaderKeys = Object.keys(response.headers);
         return Promise.resolve(Object.entries(headers).every((header) => allResponseHeaderKeys.includes(header[0]) // lookup that header key is available
             && (header[1] === undefined || response.headers[header[0]] === header[1]))); // either header value is undefined -> value doesn't interest us or we check the value for equality
+    }
+
+    /**
+     * Verify if the reponse (including receiving body) was received within a given duration.
+     *
+     * @param response the response to check
+     * @param duration expected duration (in milliseconds) not to be exceeded
+     * @returns true if response was received within given duration, false otherwise
+     */
+    // eslint-disable-next-line class-methods-use-this
+    public checkDuration(response: Response, duration: number): Promise<boolean> {
+        return Promise.resolve(response.duration <= duration);
     }
 }

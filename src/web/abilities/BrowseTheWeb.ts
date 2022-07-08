@@ -1,4 +1,4 @@
-import { Page } from '@playwright/test';
+import { Cookie, Page } from '@playwright/test';
 import { Response } from 'playwright';
 import { Ability, Actor } from '@testla/screenplay';
 import { SelectorOptions } from '../types';
@@ -205,5 +205,106 @@ export class BrowseTheWeb extends Ability {
         return Promise.resolve(
             await (await recursiveLocatorLookup({ page: this.page, selector, options })).isDisabled({ timeout }),
         );
+    }
+
+    /**
+     * Get the cookies of the current browser context. If no URLs are specified, this method returns all cookies. If URLs are specified, only cookies that affect those URLs are returned.
+     */
+    public async getCookies(urls?: string | string[] | undefined): Promise<Cookie[]> {
+        return this.page.context().cookies(urls);
+    }
+
+    /**
+     * Adds cookies into this browser context. All pages within this context will have these cookies installed. Cookies can be obtained via BrowseTheWeb.getCookies([urls]).
+     */
+    public async addCookies(cookies: Cookie[]): Promise<void> {
+        return this.page.context().addCookies(cookies);
+    }
+
+    /**
+     * Clear the browser context cookies.
+     */
+    public async clearCookies(): Promise<void> {
+        return this.page.context().clearCookies();
+    }
+
+    /**
+     * Get a local storage item.
+     *
+     * @param key the key that specifies the item.
+     */
+    public async getLocalStorageItem(key: string): Promise<any> {
+        return this.page.evaluate((key) => {
+            const value = localStorage.getItem(key);
+            if (value) {
+                return Promise.resolve(JSON.parse(value));
+            }
+            return Promise.reject();
+        }, key);
+    }
+
+    /**
+     * Set a local storage item identified by the given key + value, creating a new key/value pair if none existed for key previously.
+     *
+     * @param key the key that specifies the item.
+     * @param value the value to set.
+     */
+    public async setLocalStorageItem(key: string, value: any): Promise<void> {
+        return this.page.evaluate(({ key, value }) => {
+            localStorage.setItem(key, JSON.stringify(value));
+            return Promise.resolve();
+        }, { key, value });
+    }
+
+    /**
+     * Delete a local storage item, if a key/value pair with the given key exists.
+     *
+     * @param key the key that specifies the item.
+     */
+    public async removeLocalStorageItem(key: string): Promise<void> {
+        return this.page.evaluate((key) => {
+            localStorage.removeItem(key);
+            return Promise.resolve();
+        }, key);
+    }
+
+    /**
+     * Get a session storage item.
+     *
+     * @param key the key that specifies the item.
+     */
+    public async getSessionStorageItem(key: string): Promise<any> {
+        return this.page.evaluate((key) => {
+            const value = sessionStorage.getItem(key);
+            if (value) {
+                return Promise.resolve(JSON.parse(value));
+            }
+            return Promise.reject();
+        }, key);
+    }
+
+    /**
+     * Set a session storage item identified by the given key + value, creating a new key/value pair if none existed for key previously.
+     *
+     * @param key the key that specifies the item.
+     * @param value the value to set.
+     */
+    public async setSessionStorageItem(key: string, value: any): Promise<void> {
+        return this.page.evaluate(({ key, value }) => {
+            sessionStorage.setItem(key, JSON.stringify(value));
+            return Promise.resolve();
+        }, { key, value });
+    }
+
+    /**
+     * Delete a session storage item, if a key/value pair with the given key exists.
+     *
+     * @param key the key that specifies the item.
+     */
+    public async removeSessionStorageItem(key: string): Promise<void> {
+        return this.page.evaluate((key) => {
+            sessionStorage.removeItem(key);
+            return Promise.resolve();
+        }, key);
     }
 }

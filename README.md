@@ -21,6 +21,18 @@ Initializes the Ability by passing a Playwright Page object.
 
 Use the Ability as an Actor. Required by Actions to get access to the ability functions. Examples can be found below.
 
+#### addCookies(cookies: Cookie[])
+
+Add cookies into this browser context. All pages within this context will have these cookies installed. Cookies can be obtained via BrowseTheWeb.getCookies([urls]).
+
+```js
+BrowseTheWeb.as(actor).addCookies([{
+    name: 'my cookie',
+    value: 'my value',
+    url: 'http://www.myapp.com',
+}]);
+```
+
 #### checkBox(selector: string, options?: SelectorOptions)
 
 Check the specified checkbox.
@@ -30,6 +42,14 @@ Check the specified checkbox.
 BrowseTheWeb.as(actor).checkBox('mySelector');
 // or with options
 BrowseTheWeb.as(actor).checkBox('mySelector', { hasText: 'myText', subSelector: ['mySubSelector', { hasText: 'anotherText' } ]});
+```
+
+#### clearCookies()
+
+Clear the browser context cookies.
+
+```js
+BrowseTheWeb.as(actor).clearCookies();
 ```
 
 #### click(selector: string, options?: SelectorOptions)
@@ -77,6 +97,35 @@ Fill the element specified by the selector with the given input.
 BrowseTheWeb.as(actor).fill('mySelector', 'myInput');
 // or with options
 BrowseTheWeb.as(actor).fill('mySelector', 'myInput', { hasText: 'myText', subSelector: ['mySubSelector', { hasText: 'anotherText' } ]});
+```
+
+#### getCookies(urls?: string | string[])
+
+Get the cookies of the current browser context. If no URLs are specified, this method returns all cookies. If URLs are specified, only cookies that affect those URLs are returned.
+
+```js
+// get all cookies
+BrowseTheWeb.as(actor).getCookies();
+// get cookies for one single domain
+BrowseTheWeb.as(actor).getCookies('https:www.myapp.com');
+// get cookies for two domains
+BrowseTheWeb.as(actor).getCookies(['https:www.myapp.com', 'https:www.another-app.com']);
+```
+
+#### getLocalStorageItem(key: string)
+
+Get a local storage item specified by the given key.
+
+```js
+BrowseTheWeb.as(actor).getLocalStorageItem('some key');
+```
+
+#### getSessionStorageItem(key: string)
+
+Get a session storage item specified by given key.
+
+```js
+BrowseTheWeb.as(actor).getSessionStorageItem('some key');
 ```
 
 #### goto(url: string)
@@ -135,6 +184,38 @@ BrowseTheWeb.as(actor).press('A');
 BrowseTheWeb.as(actor).press('Control+A');
 ```
 
+#### removeLocalStorageItem(key: string)
+
+Delete a local storage item, if a key/value pair with the given key exists.
+
+```js
+BrowseTheWeb.as(actor).removeLocalStorageItem('some key');
+```
+
+#### removeSessionStorageItem(key: string)
+
+Delete a session storage item, if a key/value pair with the given key exists.
+
+```js
+BrowseTheWeb.as(actor).removeSessionStorageItem('some key');
+```
+
+#### setLocalStorageItem(key: string, value: any)
+
+Set a local storage item identified by the given key + value, creating a new key/value pair if none existed for key previously.
+
+```js
+BrowseTheWeb.as(actor).setLocalStorageItem('some key', 'some value');
+```
+
+#### setSessionStorageItem(key: string, value: any)
+
+Set a session storage item identified by the given key + value, creating a new key/value pair if none existed for key previously.
+
+```js
+BrowseTheWeb.as(actor).setSessionStorageItem('some key', 'some value');
+```
+
 #### type(selector: string, input: string, options?: SelectorOptions)
 
 Type the given input into the element specified by the selector.
@@ -167,6 +248,18 @@ BrowseTheWeb.as(actor).waitForSelector('mySelector', { hasText: 'myText', subSel
  
 ### Web Actions
 
+#### Add.cookies(cookies: Cookie[])
+
+Add the specified cookies.
+
+```js
+Add.cookies([{
+    name: 'my cookie',
+    value: 'my value',
+    url: 'http://www.myapp.com',
+}]);
+```
+
 #### Check.element(selector: string, options?: SelectorOptions)
 
 Checks a checkbox
@@ -177,6 +270,14 @@ Check.element('mySelector');
 // or with options
 Check.element('mySelector', { hasText: 'myText', subSelector: ['mySubSelector', { hasText: 'anotherText' } ]});
 ```
+#### Clear.cookies()
+
+Clear all browser cookies.
+
+```js
+Clear.cookies();
+```
+
 #### Click.on(selector: string, options?: SelectorOptions)
 
 Click an element
@@ -224,6 +325,35 @@ Fill.in('mySelector', 'myInput');
 Fill.in('mySelector', 'myInput', { hasText: 'myText', subSelector: ['mySubSelector', { hasText: 'anotherText' } ]});
 ```
 
+#### Get.cookies(urls?: string | string[])
+
+Get the specified cookies. If no urls are speciefied, get all cookies.
+
+```js
+// get all cookies
+Get.cookies();
+// get cookies for a single domain
+Get.cookies('https://www.myapp.com');
+// get cookies for two domains
+Get.cookies(['https://www.myapp.com', 'https://www.another-app.com']);
+```
+
+#### Get.localStorageItem(key: string)
+
+Get a local storage item.
+
+```js
+Get.localStorageItem('some key');
+```
+
+#### Get.sessionStorageItem(key: string)
+
+Get a session storage item.
+
+```js
+Get.sessionStorageItem('some key');
+```
+
 #### Hover.over(selector: string, options?: SelectorOptions & { modifiers?: ('Alt' | 'Control' | 'Meta' | 'Shift')[] })
 
 Hover an element
@@ -256,6 +386,38 @@ Use the browser page to navigate to a specified url
 
 ```js
 Navigate.to('myUrl');
+```
+
+#### Remove.localStorageItem(key: string)
+
+Remove a local storage item, if a key/value pair with the given key exists.
+
+```js
+Remove.localStorageItem('some key');
+```
+
+#### Remove.sessionStorageItem(key: string)
+
+Remove a session storage item, if a key/value pair with the given key exists.
+
+```js
+Remove.sessionStorageItem('some key');
+```
+
+#### Set.localStorageItem(key: string, value: any)
+
+Set a local storage item identified by the given key + value, creating a new key/value pair if none existed for key previously.
+
+```js
+Set.localStorageItem('some key', 'some value');
+```
+
+#### Set.sessionStorageItem(key: string, value: any)
+
+Set a session storage item identified by the given key + value, creating a new key/value pair if none existed for key previously.
+
+```js
+Set.sessionStorageItem('some key', 'some value');
 ```
 
 #### Type.in(selector: string, value: string, options?: SelectorOptions)
@@ -324,7 +486,9 @@ Verify if the given response's body is equal to the expected body. The check inc
 // json response
 UseApi.as(actor).checkBody(response, { text: 'test' });
 // text response
-UseApi.as(actor).checkBody(response, { 'test' });
+UseApi.as(actor).checkBody(response, 'test');
+// buffer response
+UseApi.as(actor).checkBody(response, Buffer.from('abc'));
 ```
 
 #### checkHeaders(response: Response, headers: {[key: string]: string | undefined })
@@ -337,6 +501,15 @@ If the header has a value !== undefined, both key and value will be checked. If 
 UseApi.as(actor).checkHeaders(response, { contentType: undefined });
 // check key and value
 UseApi.as(actor).checkHeaders(response, { contentType: 'application/json' });
+```
+
+#### checkDuration(response: Response, duration: number)
+
+Verify if the reponse (including receiving body) was received within a given duration.
+
+```js
+// check if response was received within 2s
+UseApi.as(actor).checkDuration(response, 2000);
 ```
 
 ### API Actions
@@ -495,18 +668,20 @@ Element.not.enabled('mySelector', { hasText: 'myText', subSelector: ['mySubSelec
 Checks if the response has a given status code.
 
 ```js
-Response.hasStatusCode(response, 200);
+Response.has.statusCode(response, 200);
 ```
 
-#### Response.hasBody(response: Response, body: ResponseBodyType)
+#### Response.has.body(response: Response, body: ResponseBodyType)
 
 Checks if the response equals a given body.
 
 ```js
 // json format
-Response.hasBody(response, { key: value });
+Response.has.body(response, { key: value });
 // text format
-Response.hasBody(response, 'text' );
+Response.not.body(response, 'text' );
+// buffer format
+Response.has.body(response, Buffer.from('abc') );
 ```
 
 #### Response.hasHeaders(response: Response, headers: Headers)
@@ -515,9 +690,18 @@ Checks if the response holds the given headers either by key (value to be set to
 
 ```js
 // only check for header presence by passing undefined as the value
-Response.hasHeaders(response, { 'content-type': undefined });
+Response.has.headers(response, { 'content-type': undefined });
 // lookup for key/value combination to be present
-Response.hasHeaders(response, { 'content-type': 'application/json' });
+Response.not.headers(response, { 'content-type': 'application/json' });
+```
+
+#### Response.has.beenReceivedWithin(response: Response, duration: number)
+
+Checks if the reponse (including receiving body) was received within a given duration.
+
+```js
+// check if response was received within 2s
+Response.has.beenReceivedWithin(response, 2000);
 ```
 
 ### Group Actions into a Task
@@ -527,9 +711,9 @@ Tasks group actions into logical entities. Here is a task that uses the actions 
 ```js
 // file: ./task/Login.ts
 
-import {
-    Actor, Task, Click, Fill, Navigate, Wait,
-} from '@testla/screenplay-playwright';
+import { Actor, Task } from '@testla/screenplay-playwright';
+import { Click, Fill, Navigate } from '@testla/screenplay-playwright/web';
+import { Get} from '@testla/screenplay-playwright/api';
 
 export class Login extends Task {
     public async performAs(actor: Actor): Promise<void> {
@@ -565,7 +749,8 @@ const actor = Actor.named('James')
 The final step is to define a test case using the Task defined above.
 
 ```js
-import { Actor, BrowseTheWeb, Element } from '@testla/screenplay-playwright';
+import { Actor } from '@testla/screenplay-playwright';
+import { BrowseTheWeb, Element } from '@testla/screenplay-playwright/web';
 import { Login } from './task/Login';
 
 // Example test case with Playwright

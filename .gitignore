@@ -4,5 +4,3 @@
 .DS_Store
 .idea/
 src/example.spec.ts
-src/screenplay/web/index.ts
-src/screenplay/api/index.ts

@@ -4,14 +4,22 @@ import { UseAPI } from '../abilities/UseAPI';
 import { Headers, Response as ResponseType, ResponseBodyType } from '../types';
 
 /**
- * Question Class. Get a specified state for a selector like visible or enabled.
+ * Question Class. Verify certain aspects of an API Response.
  */
 export class Response extends Question<boolean> {
     // the response to check.
-    private response: ResponseType = { body: null, status: 0, headers: {} };
+    private response: ResponseType = {
+        body: null,
+        status: 0,
+        headers: {},
+        duration: 0,
+    };
 
     // the expected values to check + which values to check.
-    private action: { mode: 'status' | 'body' | 'header'; payload?: any } = { mode: 'status' };
+    private action!: {
+        mode: 'status' | 'body' | 'header' | 'duration';
+        payload?: any;
+    };
 
     private constructor(private checkMode: 'is' | 'not') {
         super();
@@ -21,17 +29,22 @@ export class Response extends Question<boolean> {
         if (this.action.mode === 'status') {
             // if .is was called -> positive check, if .not was called -> negative check
             expect(await UseAPI.as(actor).checkStatus(this.response, this.action.payload.status)).toBe(this.checkMode === 'is');
-            return true; // if the question fails there will be an exception
+            return Promise.resolve(true); // if the question fails there will be an exception
         }
         if (this.action.mode === 'body') {
             // if .is was called -> positive check, if .not was called -> negative check
             expect(await UseAPI.as(actor).checkBody(this.response, this.action.payload.body)).toBe(this.checkMode === 'is');
-            return true; // if the question fails there will be an exception
+            return Promise.resolve(true); // if the question fails there will be an exception
         }
         if (this.action.mode === 'header') {
             // if .is was called -> positive check, if .not was called -> negative check
             expect(await UseAPI.as(actor).checkHeaders(this.response, this.action.payload.headers)).toBe(this.checkMode === 'is');
-            return true; // if the question fails there will be an exception
+            return Promise.resolve(true); // if the question fails there will be an exception
+        }
+        if (this.action.mode === 'duration') {
+            // if .is was called -> positive check, if .not was called -> negative check
+            expect(await UseAPI.as(actor).checkDuration(this.response, this.action.payload.duration)).toBe(this.checkMode === 'is');
+            return Promise.resolve(true);
         }
         throw new Error('Unknown mode for Response.answeredBy');
     }
@@ -85,6 +98,19 @@ export class Response extends Question<boolean> {
     public headers(response: ResponseType, headers: Headers): Response {
         this.response = response;
         this.action = { mode: 'header', payload: { headers } };
+
+        return this;
+    }
+
+    /**
+     * Verify if the reponse (including receiving body) was received within a given duration.
+     *
+     * @param response the response to check
+     * @param duration expected duration (in milliseconds) not to be exceeded
+     */
+    public beenReceivedWithin(response: ResponseType, duration: number): Response {
+        this.response = response;
+        this.action = { mode: 'duration', payload: { duration } };
 
         return this;
     }
