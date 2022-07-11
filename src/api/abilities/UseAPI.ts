@@ -1,3 +1,4 @@
+import { expect } from '@playwright/test';
 import { Ability, Actor } from '@testla/screenplay';
 import { APIRequestContext, APIResponse } from 'playwright';
 import { RequestMethod, REQUEST_METHOD } from '../constants';
@@ -106,68 +107,82 @@ export class UseAPI extends Ability {
     }
 
     /**
-     * Verify if the given status is equal to the given response's status.
+     * Verify if the given status is equal or unequal to the given response's status.
      *
-     * @param response the response to check
-     * @param status the status to check
-     * @returns true if the status is equal, false otherwise
+     * @param mode the result to check for.
+     * @param response the response to check.
+     * @param status the status to check.
+     * @returns true if the status is equal/unequal as expected.
      */
     // eslint-disable-next-line class-methods-use-this
-    public async checkStatus(response: Response, status: number): Promise<boolean> {
-        return Promise.resolve(response.status === status);
+    public async checkStatus(mode: 'equal' | 'unequal', response: Response, status: number): Promise<boolean> {
+        expect(response.status === status).toBe(mode === 'equal');
+        return Promise.resolve(true);
     }
 
     /**
-     * Verify if the given body is equal to the given response's body.
+     * Verify if the given body is equal or unequal to the given response's body.
      *
-     * @param response the response to check
-     * @param body the body to check
-     * @returns true if the body is equal, false otherwise
+     * @param mode the result to check for.
+     * @param response the response to check.
+     * @param body the body to check.
+     * @returns true if the body equal/unequal as expected.
      */
     // eslint-disable-next-line class-methods-use-this
-    public async checkBody(response: Response, body: ResponseBodyType): Promise<boolean> {
+    public async checkBody(mode: 'equal' | 'unequal', response: Response, body: ResponseBodyType): Promise<boolean> {
         if (typeof response.body === 'string' && typeof body === 'string') {
             // response body is plain text -> can check for string equality
-            return Promise.resolve(response.body === body);
+            expect(response.body === body).toBe(mode === 'equal');
+            return Promise.resolve(true);
         } if (typeof response.body === 'object' && typeof body === 'object') {
             // check for buffer
             if (Buffer.isBuffer(response.body) && Buffer.isBuffer(body)) {
-                return Promise.resolve(response.body.equals(body));
+                expect(response.body.equals(body)).toBe(mode === 'equal');
+                return Promise.resolve(true);
             }
             if (Buffer.isBuffer(response.body) || Buffer.isBuffer(body)) {
-                // response.body and body do not have same type -> return false
-                return Promise.resolve(false);
+                // response.body and body do not have same type -> bodies are unequal
+                expect(mode === 'unequal').toBe(true);
+                return Promise.resolve(true);
             }
             // response body is in json format OR null -> can check with JSON.stringify
-            return Promise.resolve(JSON.stringify(response.body) === JSON.stringify(body));
+            expect(JSON.stringify(response.body) === JSON.stringify(body)).toBe(mode === 'equal');
+            return Promise.resolve(true);
         }
-        // response.body and body do not have same type -> return false
-        return Promise.resolve(false);
+        // response.body and body do not have same type -> bodies are unequal
+        expect(mode === 'unequal').toBe(true);
+        return Promise.resolve(true);
     }
 
     /**
-     * Verify if the given headers are included in the given response.
+     * Verify if the given headers are included/excluded in the given response.
      *
-     * @param response the response to check
-     * @param headers the headers to check
-     * @returns true if the headers are included, false otherwise
+     * @param mode the result to check for.
+     * @param response the response to check.
+     * @param headers the headers to check.
+     * @returns true if the headers are is included/excluded as expected.
      */
     // eslint-disable-next-line class-methods-use-this
-    public async checkHeaders(response: Response, headers: {[key: string]: string | undefined }): Promise<boolean> {
+    public async checkHeaders(mode: 'included' | 'excluded', response: Response, headers: {[key: string]: string | undefined }): Promise<boolean> {
         const allResponseHeaderKeys = Object.keys(response.headers);
-        return Promise.resolve(Object.entries(headers).every((header) => allResponseHeaderKeys.includes(header[0]) // lookup that header key is available
-            && (header[1] === undefined || response.headers[header[0]] === header[1]))); // either header value is undefined -> value doesn't interest us or we check the value for equality
+        expect(
+            Object.entries(headers).every((header) => allResponseHeaderKeys.includes(header[0]) // lookup that header key is available
+            && (header[1] === undefined || response.headers[header[0]] === header[1])), // either header value is undefined -> value doesn't interest us or we check the value for equality
+        ).toBe(mode === 'included');
+        return Promise.resolve(true);
     }
 
     /**
-     * Verify if the reponse (including receiving body) was received within a given duration.
+     * Verify if the reponse (including receiving body) was received within a given duration or not.
      *
+     * @param mode the result to check for.
      * @param response the response to check
      * @param duration expected duration (in milliseconds) not to be exceeded
      * @returns true if response was received within given duration, false otherwise
      */
     // eslint-disable-next-line class-methods-use-this
-    public checkDuration(response: Response, duration: number): Promise<boolean> {
-        return Promise.resolve(response.duration <= duration);
+    public checkDuration(mode: 'lessOrEqual' | 'unequal', response: Response, duration: number): Promise<boolean> {
+        expect(response.duration <= duration).toBe(mode === 'lessOrEqual');
+        return Promise.resolve(true);
     }
 }

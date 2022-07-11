@@ -1,5 +1,4 @@
 import { Actor, Question } from '@testla/screenplay';
-import { expect } from '@playwright/test';
 import { SelectorOptions } from '../types';
 import { BrowseTheWeb } from '../abilities/BrowseTheWeb';
 
@@ -25,13 +24,15 @@ export class Element extends Question<boolean> {
     public async answeredBy(actor: Actor): Promise<boolean> {
         if (this.mode === 'visible') {
             // if .is was called -> positive check, if .not was called -> negative check
-            expect(await BrowseTheWeb.as(actor).isVisible(this.checkMode === 'is' ? 'visible' : 'hidden', this.selector, this.options, this.timeout)).toBe(true);
-            return Promise.resolve(true); // if the question fails there will be an exception
+            return Promise.resolve(
+                await BrowseTheWeb.as(actor).isVisibleOrHidden(this.checkMode === 'is' ? 'visible' : 'hidden', this.selector, this.options, this.timeout),
+            ); // if the ability method is not the expected result there will be an exception
         }
         if (this.mode === 'enabled') {
             // if .is was called -> positive check, if .not was called -> negative check
-            expect(await BrowseTheWeb.as(actor).isEnabled(this.checkMode === 'is' ? 'enabled' : 'disabled', this.selector, this.options, this.timeout)).toBe(true);
-            return Promise.resolve(true); // if the question fails there will be an exception
+            return Promise.resolve(
+                await BrowseTheWeb.as(actor).isEnabledOrDisabled(this.checkMode === 'is' ? 'enabled' : 'disabled', this.selector, this.options, this.timeout),
+            ); // if the ability method is not the expected result there will be an exception
         }
         throw new Error('Unknown mode: Element.answeredBy');
     }
@@ -39,14 +40,14 @@ export class Element extends Question<boolean> {
     /**
      * make the Question check for the positive.
      */
-    static get is() {
+    static get toBe() {
         return new Element('is');
     }
 
     /**
      * make the Question check for the negative.
      */
-    static get not() {
+    static get notToBe() {
         return new Element('not');
     }
 

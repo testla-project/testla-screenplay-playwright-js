@@ -1,4 +1,4 @@
-import { Cookie, Page } from '@playwright/test';
+import { Cookie, expect, Page } from '@playwright/test';
 import { Response } from 'playwright';
 import { Ability, Actor } from '@testla/screenplay';
 import { SelectorOptions } from '../types';
@@ -174,16 +174,13 @@ export class BrowseTheWeb extends Ability {
      * @param timeout (optional) maximum timeout to wait for.
      * @returns true if the element is visible/hidden as expected, false if the timeout was reached.
      */
-    public async isVisible(mode: 'visible' | 'hidden', selector: string, options?: SelectorOptions, timeout?: number): Promise<boolean> {
+    public async isVisibleOrHidden(mode: 'visible' | 'hidden', selector: string, options?: SelectorOptions, timeout?: number): Promise<boolean> {
         if (mode === 'visible') {
-            return Promise.resolve(
-                await (await recursiveLocatorLookup({ page: this.page, selector, options })).isVisible({ timeout }),
-            );
+            await expect(await recursiveLocatorLookup(({ page: this.page, selector, options }))).toBeVisible({ timeout });
+        } else {
+            await expect(await recursiveLocatorLookup(({ page: this.page, selector, options }))).toBeHidden({ timeout });
         }
-        // case 'hidden'
-        return Promise.resolve(
-            await (await recursiveLocatorLookup({ page: this.page, selector, options })).isHidden({ timeout }),
-        );
+        return Promise.resolve(true);
     }
 
     /**
@@ -195,16 +192,13 @@ export class BrowseTheWeb extends Ability {
      * @param timeout (optional) maximum timeout to wait for.
      * @returns true if the element is enabled/disabled as expected, false if the timeout was reached.
      */
-    public async isEnabled(mode: 'enabled' | 'disabled', selector: string, options?: SelectorOptions, timeout?: number): Promise<boolean> {
+    public async isEnabledOrDisabled(mode: 'enabled' | 'disabled', selector: string, options?: SelectorOptions, timeout?: number): Promise<boolean> {
         if (mode === 'enabled') {
-            return Promise.resolve(
-                await (await recursiveLocatorLookup({ page: this.page, selector, options })).isEnabled({ timeout }),
-            );
+            await expect(await recursiveLocatorLookup(({ page: this.page, selector, options }))).toBeEnabled({ timeout });
+        } else {
+            await expect(await recursiveLocatorLookup(({ page: this.page, selector, options }))).toBeDisabled({ timeout });
         }
-        // case 'disabled'
-        return Promise.resolve(
-            await (await recursiveLocatorLookup({ page: this.page, selector, options })).isDisabled({ timeout }),
-        );
+        return Promise.resolve(true);
     }
 
     /**

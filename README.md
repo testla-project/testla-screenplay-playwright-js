@@ -151,26 +151,26 @@ BrowseTheWeb.as(actor).hover('mySelector', {
 });
 ```
 
-#### isEnabled(selector: string, options?: SelectorOptions)
+#### isEnabledOrDisabled(mode: 'enabled' | 'disabled', selector: string, options?: SelectorOptions, timeout?: number)
 
-Verify if a locator on the page is enabled.
+Verify if a locator on the page is enabled or disabled.
 
 ```js
 // simple call with just selector
-BrowseTheWeb.as(actor).isEnabled('mySelector');
+BrowseTheWeb.as(actor).isEnabledOrDisabled('enabled', 'mySelector');
 // or with options
-BrowseTheWeb.as(actor).isEnabled('mySelector', { hasText: 'myText', subSelector: ['mySubSelector', { hasText: 'anotherText' } ]});
+BrowseTheWeb.as(actor).isEnabledOrDisabled('disabled', 'mySelector', { hasText: 'myText', subSelector: ['mySubSelector', { hasText: 'anotherText' } ]});
 ```
 
-#### isVisible(selector: string, options?: SelectorOptions)
+#### isVisibleOrHidden(mode: 'visible' | 'hidden', selector: string, options?: SelectorOptions, timeout?: number)
 
 Verify if a locator on the page is visible.
 
 ```js
 // simple call with just selector
-BrowseTheWeb.as(actor).isVisible('mySelector');
+BrowseTheWeb.as(actor).isVisibleOrHidden('visible', 'mySelector');
 // or with options
-BrowseTheWeb.as(actor).isVisible('mySelector', { hasText: 'myText', subSelector: ['mySubSelector', { hasText: 'anotherText' } ]});
+BrowseTheWeb.as(actor).isVisibleOrHidden('hidden', 'mySelector', { hasText: 'myText', subSelector: ['mySubSelector', { hasText: 'anotherText' } ]});
 ```
 
 #### press(keys: string)
@@ -470,7 +470,7 @@ Send a request (GET, POST, PATCH, PUT, HEAD or DELETE) to the specified url. Hea
 UseApi.as(actor).sendRequest(REQUEST_METHOD.POST, '/items', { authorization: 'Bearer dfh.dasgeq65qg.eyjkhf' }, 'json', { title: 'new item' });
 ```
 
-#### checkStatus(response: Response, status: number)
+#### checkStatus(mode: 'equal' | 'unequal', response: Response, status: number)
 
 Verify if the given response's status is equal to the expected status.
 
@@ -478,7 +478,7 @@ Verify if the given response's status is equal to the expected status.
 UseApi.as(actor).checkStatus(response, 200);
 ```
 
-#### checkBody(response: Response, body: ResponseBodyFormat)
+#### checkBody(mode: 'equal' | 'unequal', response: Response, body: ResponseBodyType)
 
 Verify if the given response's body is equal to the expected body. The check includes type safety.
 
@@ -491,7 +491,7 @@ UseApi.as(actor).checkBody(response, 'test');
 UseApi.as(actor).checkBody(response, Buffer.from('abc'));
 ```
 
-#### checkHeaders(response: Response, headers: {[key: string]: string | undefined })
+#### checkHeaders(mode: 'included' | 'excluded', response: Response, headers: {[key: string]: string | undefined })
 
 Verify if the given headers are included in the given response's headers. 
 If the header has a value !== undefined, both key and value will be checked. If a header has a value === undefined, only the key will be checked.
@@ -503,7 +503,7 @@ UseApi.as(actor).checkHeaders(response, { contentType: undefined });
 UseApi.as(actor).checkHeaders(response, { contentType: 'application/json' });
 ```
 
-#### checkDuration(response: Response, duration: number)
+#### checkDuration(mode: 'lessOrEqual' | 'unequal', response: Response, duration: number)
 
 Verify if the reponse (including receiving body) was received within a given duration.
 
@@ -679,7 +679,7 @@ Checks if the response equals a given body.
 // json format
 Response.has.body(response, { key: value });
 // text format
-Response.not.body(response, 'text' );
+Response.hasNot.body(response, 'text' );
 // buffer format
 Response.has.body(response, Buffer.from('abc') );
 ```
@@ -692,7 +692,7 @@ Checks if the response holds the given headers either by key (value to be set to
 // only check for header presence by passing undefined as the value
 Response.has.headers(response, { 'content-type': undefined });
 // lookup for key/value combination to be present
-Response.not.headers(response, { 'content-type': 'application/json' });
+Response.hasNot.headers(response, { 'content-type': 'application/json' });
 ```
 
 #### Response.has.beenReceivedWithin(response: Response, duration: number)
