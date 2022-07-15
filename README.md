@@ -157,9 +157,9 @@ Verify if a locator on the page is enabled or disabled.
 
 ```js
 // simple call with just selector
-BrowseTheWeb.as(actor).checkEnabledState('enabled', 'mySelector');
+BrowseTheWeb.as(actor).checkEnabledState('mySelector', 'enabled');
 // or with options
-BrowseTheWeb.as(actor).checkEnabledState('disabled', 'mySelector', { hasText: 'myText', subSelector: ['mySubSelector', { hasText: 'anotherText' } ]});
+BrowseTheWeb.as(actor).checkEnabledState('mySelector', 'disabled', { hasText: 'myText', subSelector: ['mySubSelector', { hasText: 'anotherText' } ]});
 ```
 
 #### checkVisibilityState(selector: string, mode: 'visible' | 'hidden', options?: SelectorOptions, timeout?: number)
@@ -168,9 +168,9 @@ Verify if a locator on the page is visible.
 
 ```js
 // simple call with just selector
-BrowseTheWeb.as(actor).checkVisibilityState('visible', 'mySelector');
+BrowseTheWeb.as(actor).checkVisibilityState('mySelector', 'visible');
 // or with options
-BrowseTheWeb.as(actor).checkVisibilityState('hidden', 'mySelector', { hasText: 'myText', subSelector: ['mySubSelector', { hasText: 'anotherText' } ]});
+BrowseTheWeb.as(actor).checkVisibilityState('mySelector', 'hidden', { hasText: 'myText', subSelector: ['mySubSelector', { hasText: 'anotherText' } ]});
 ```
 
 #### press(keys: string)
@@ -470,46 +470,46 @@ Send a request (GET, POST, PATCH, PUT, HEAD or DELETE) to the specified url. Hea
 UseApi.as(actor).sendRequest(REQUEST_METHOD.POST, '/items', { authorization: 'Bearer dfh.dasgeq65qg.eyjkhf' }, 'json', { title: 'new item' });
 ```
 
-#### checkStatus(mode: 'equal' | 'unequal', response: Response, status: number)
+#### checkStatus(response: Response, status: number, mode: 'equal' | 'unequal')
 
 Verify if the given response's status is equal to the expected status.
 
 ```js
-UseApi.as(actor).checkStatus(response, 200);
+UseApi.as(actor).checkStatus(response, 200, 'equal');
 ```
 
-#### checkBody(mode: 'equal' | 'unequal', response: Response, body: ResponseBodyType)
+#### checkBody(response: Response, body: ResponseBodyType, mode: 'equal' | 'unequal')
 
 Verify if the given response's body is equal to the expected body. The check includes type safety.
 
 ```js
 // json response
-UseApi.as(actor).checkBody(response, { text: 'test' });
+UseApi.as(actor).checkBody(response, { text: 'test' }, 'equal');
 // text response
-UseApi.as(actor).checkBody(response, 'test');
+UseApi.as(actor).checkBody(response, 'test', 'unequal');
 // buffer response
-UseApi.as(actor).checkBody(response, Buffer.from('abc'));
+UseApi.as(actor).checkBody(response, Buffer.from('abc'), 'equal');
 ```
 
-#### checkHeaders(mode: 'included' | 'excluded', response: Response, headers: {[key: string]: string | undefined })
+#### checkHeaders(response: Response, headers: {[key: string]: string | undefined }, mode: 'included' | 'excluded')
 
 Verify if the given headers are included in the given response's headers. 
 If the header has a value !== undefined, both key and value will be checked. If a header has a value === undefined, only the key will be checked.
 
 ```js
 // check only keys
-UseApi.as(actor).checkHeaders(response, { contentType: undefined });
+UseApi.as(actor).checkHeaders(response, { contentType: undefined }, 'included');
 // check key and value
-UseApi.as(actor).checkHeaders(response, { contentType: 'application/json' });
+UseApi.as(actor).checkHeaders(response, { contentType: 'application/json' }, 'excluded');
 ```
 
-#### checkDuration(mode: 'lessOrEqual' | 'unequal', response: Response, duration: number)
+#### checkDuration(response: Response, duration: number, mode: 'lessOrEqual' | 'greater')
 
 Verify if the reponse (including receiving body) was received within a given duration.
 
 ```js
 // check if response was received within 2s
-UseApi.as(actor).checkDuration(response, 2000);
+UseApi.as(actor).checkDuration(response, 2000, 'lessOrEqual');
 ```
 
 ### API Actions
