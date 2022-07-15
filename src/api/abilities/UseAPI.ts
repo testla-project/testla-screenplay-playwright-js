@@ -181,7 +181,7 @@ export class UseAPI extends Ability {
      * @returns true if response was received within given duration, false otherwise
      */
     // eslint-disable-next-line class-methods-use-this
-    public checkDuration(mode: 'lessOrEqual' | 'unequal', response: Response, duration: number): Promise<boolean> {
+    public checkDuration(mode: 'lessOrEqual' | 'greater', response: Response, duration: number): Promise<boolean> {
         expect(response.duration <= duration).toBe(mode === 'lessOrEqual');
         return Promise.resolve(true);
     }

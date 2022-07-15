@@ -17,7 +17,7 @@ export class Element extends Question<boolean> {
     // optional timeout to wait.
     private timeout?: number;
 
-    private constructor(private checkMode: 'is' | 'not') {
+    private constructor(private checkMode: 'toBe' | 'notToBe') {
         super();
     }
 
@@ -25,13 +25,13 @@ export class Element extends Question<boolean> {
         if (this.mode === 'visible') {
             // if .is was called -> positive check, if .not was called -> negative check
             return Promise.resolve(
-                await BrowseTheWeb.as(actor).isVisibleOrHidden(this.checkMode === 'is' ? 'visible' : 'hidden', this.selector, this.options, this.timeout),
+                await BrowseTheWeb.as(actor).checkVisibilityState(this.checkMode === 'toBe' ? 'visible' : 'hidden', this.selector, this.options, this.timeout),
             ); // if the ability method is not the expected result there will be an exception
         }
         if (this.mode === 'enabled') {
             // if .is was called -> positive check, if .not was called -> negative check
             return Promise.resolve(
-                await BrowseTheWeb.as(actor).isEnabledOrDisabled(this.checkMode === 'is' ? 'enabled' : 'disabled', this.selector, this.options, this.timeout),
+                await BrowseTheWeb.as(actor).checkEnabledState(this.checkMode === 'toBe' ? 'enabled' : 'disabled', this.selector, this.options, this.timeout),
             ); // if the ability method is not the expected result there will be an exception
         }
         throw new Error('Unknown mode: Element.answeredBy');
@@ -41,14 +41,14 @@ export class Element extends Question<boolean> {
      * make the Question check for the positive.
      */
     static get toBe() {
-        return new Element('is');
+        return new Element('toBe');
     }
 
     /**
      * make the Question check for the negative.
      */
     static get notToBe() {
-        return new Element('not');
+        return new Element('notToBe');
     }
 
     /**

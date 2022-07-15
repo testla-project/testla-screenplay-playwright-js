@@ -174,7 +174,7 @@ export class BrowseTheWeb extends Ability {
      * @param timeout (optional) maximum timeout to wait for.
      * @returns true if the element is visible/hidden as expected, false if the timeout was reached.
      */
-    public async isVisibleOrHidden(mode: 'visible' | 'hidden', selector: string, options?: SelectorOptions, timeout?: number): Promise<boolean> {
+    public async checkVisibilityState(mode: 'visible' | 'hidden', selector: string, options?: SelectorOptions, timeout?: number): Promise<boolean> {
         if (mode === 'visible') {
             await expect(await recursiveLocatorLookup(({ page: this.page, selector, options }))).toBeVisible({ timeout });
         } else {
@@ -192,7 +192,7 @@ export class BrowseTheWeb extends Ability {
      * @param timeout (optional) maximum timeout to wait for.
      * @returns true if the element is enabled/disabled as expected, false if the timeout was reached.
      */
-    public async isEnabledOrDisabled(mode: 'enabled' | 'disabled', selector: string, options?: SelectorOptions, timeout?: number): Promise<boolean> {
+    public async checkEnabledState(mode: 'enabled' | 'disabled', selector: string, options?: SelectorOptions, timeout?: number): Promise<boolean> {
         if (mode === 'enabled') {
             await expect(await recursiveLocatorLookup(({ page: this.page, selector, options }))).toBeEnabled({ timeout });
         } else {

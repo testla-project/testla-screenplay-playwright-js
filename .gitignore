@@ -3,4 +3,3 @@
 /lib
 .DS_Store
 .idea/
-src/example.spec.ts

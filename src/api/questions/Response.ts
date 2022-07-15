@@ -20,7 +20,7 @@ export class Response extends Question<boolean> {
         payload?: any;
     };
 
-    private constructor(private checkMode: 'is' | 'not') {
+    private constructor(private checkMode: 'has' | 'hasNot') {
         super();
     }
 
@@ -28,25 +28,25 @@ export class Response extends Question<boolean> {
         if (this.action.mode === 'status') {
             // if .is was called -> positive check, if .not was called -> negative check
             return Promise.resolve(
-                await UseAPI.as(actor).checkStatus(this.checkMode === 'is' ? 'equal' : 'unequal', this.response, this.action.payload.statusCode),
+                await UseAPI.as(actor).checkStatus(this.checkMode === 'has' ? 'equal' : 'unequal', this.response, this.action.payload.statusCode),
             ); // if the ability method is not the expected result there will be an exception
         }
         if (this.action.mode === 'body') {
             // if .is was called -> positive check, if .not was called -> negative check
             return Promise.resolve(
-                await UseAPI.as(actor).checkBody(this.checkMode === 'is' ? 'equal' : 'unequal', this.response, this.action.payload.body),
+                await UseAPI.as(actor).checkBody(this.checkMode === 'has' ? 'equal' : 'unequal', this.response, this.action.payload.body),
             ); // if the ability method is not the expected result there will be an exception
         }
         if (this.action.mode === 'header') {
             // if .is was called -> positive check, if .not was called -> negative check
             return Promise.resolve(
-                await UseAPI.as(actor).checkHeaders(this.checkMode === 'is' ? 'included' : 'excluded', this.response, this.action.payload.headers),
+                await UseAPI.as(actor).checkHeaders(this.checkMode === 'has' ? 'included' : 'excluded', this.response, this.action.payload.headers),
             ); // if the ability method is not the expected result there will be an exception
         }
         if (this.action.mode === 'duration') {
             // if .is was called -> positive check, if .not was called -> negative check
             return Promise.resolve(
-                await UseAPI.as(actor).checkDuration(this.checkMode === 'is' ? 'lessOrEqual' : 'unequal', this.response, this.action.payload.duration),
+                await UseAPI.as(actor).checkDuration(this.checkMode === 'has' ? 'lessOrEqual' : 'greater', this.response, this.action.payload.duration),
             ); // if the ability method is not the expected result there will be an exception
         }
         throw new Error('Unknown mode for Response.answeredBy');
@@ -56,14 +56,14 @@ export class Response extends Question<boolean> {
      * make the Question check for the positive.
      */
     static get has() {
-        return new Response('is');
+        return new Response('has');
     }
 
     /**
      * make the Question check for the negative.
      */
     static get hasNot() {
-        return new Response('not');
+        return new Response('hasNot');
     }
 
     /**

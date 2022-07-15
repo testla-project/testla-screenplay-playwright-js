@@ -8,7 +8,7 @@ import { ARequest } from './ARequest';
  * Action Class. Send a HTTP GET Request.
  */
 export class Get extends ARequest {
-    private responseBodyFormat: ResponseBodyFormat = 'text';
+    private responseBodyFormat: ResponseBodyFormat = 'json';
 
     private constructor(private url: string) {
         super();

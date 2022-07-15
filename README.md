@@ -151,26 +151,26 @@ BrowseTheWeb.as(actor).hover('mySelector', {
 });
 ```
 
-#### isEnabledOrDisabled(mode: 'enabled' | 'disabled', selector: string, options?: SelectorOptions, timeout?: number)
+#### checkEnabledState(mode: 'enabled' | 'disabled', selector: string, options?: SelectorOptions, timeout?: number)
 
 Verify if a locator on the page is enabled or disabled.
 
 ```js
 // simple call with just selector
-BrowseTheWeb.as(actor).isEnabledOrDisabled('enabled', 'mySelector');
+BrowseTheWeb.as(actor).checkEnabledState('enabled', 'mySelector');
 // or with options
-BrowseTheWeb.as(actor).isEnabledOrDisabled('disabled', 'mySelector', { hasText: 'myText', subSelector: ['mySubSelector', { hasText: 'anotherText' } ]});
+BrowseTheWeb.as(actor).checkEnabledState('disabled', 'mySelector', { hasText: 'myText', subSelector: ['mySubSelector', { hasText: 'anotherText' } ]});
 ```
 
-#### isVisibleOrHidden(mode: 'visible' | 'hidden', selector: string, options?: SelectorOptions, timeout?: number)
+#### checkVisibilityState(mode: 'visible' | 'hidden', selector: string, options?: SelectorOptions, timeout?: number)
 
 Verify if a locator on the page is visible.
 
 ```js
 // simple call with just selector
-BrowseTheWeb.as(actor).isVisibleOrHidden('visible', 'mySelector');
+BrowseTheWeb.as(actor).checkVisibilityState('visible', 'mySelector');
 // or with options
-BrowseTheWeb.as(actor).isVisibleOrHidden('hidden', 'mySelector', { hasText: 'myText', subSelector: ['mySubSelector', { hasText: 'anotherText' } ]});
+BrowseTheWeb.as(actor).checkVisibilityState('hidden', 'mySelector', { hasText: 'myText', subSelector: ['mySubSelector', { hasText: 'anotherText' } ]});
 ```
 
 #### press(keys: string)
@@ -634,31 +634,31 @@ Put.to('https://my-fancy-url.com')
 
 ### Available Web Questions
 
-#### Element.is.visible(selector: string, options?: SelectorOptions & { wait?: boolean }) + Element.not.visible(selector: string, options?: SelectorOptions & { wait?: boolean })
+#### Element.toBe.visible(selector: string, options?: SelectorOptions & { wait?: boolean }) + Element.notToBe.visible(selector: string, options?: SelectorOptions & { wait?: boolean })
 
-Validates whether an element is visible (Element.is.visible) or not (Element.not.visible). By default it is waited for this event to happen but limited by the global playwright timeout settings.
+Validates whether an element is visible (Element.toBe.visible) or not (Element.notToBe.visible). By default it is waited for this event to happen but limited by the global playwright timeout settings.
 By setting wait to false in the options section this can be overridden.
 
 ```js
 // simple call with just selector
-Element.is.visible('mySelector');
+Element.toBe.visible('mySelector');
 // or with options
-Element.not.visible('mySelector', {
+Element.notToBe.visible('mySelector', {
     hasText: 'myText',
     subSelector: ['mySubSelector', { hasText: 'anotherText' } ]
     wait: false // false means that the selector has to be available without any wait time.
 });
 ```
 
-#### Element.is.enabled(selector: string, options?: SelectorOptions) + Element.not.enabled(selector: string, options?: SelectorOptions)
+#### Element.toBe.enabled(selector: string, options?: SelectorOptions) + Element.notToBe.enabled(selector: string, options?: SelectorOptions)
 
-Validates weather an element is enabled (Element.is.enabled) or not (Element.not.enabled).
+Validates weather an element is enabled (Element.toBe.enabled) or not (Element.notToBe.enabled).
 
 ```js
 // simple call with just selector
-Element.is.enabled('mySelector');
+Element.toBe.enabled('mySelector');
 // or with options
-Element.not.enabled('mySelector', { hasText: 'myText', subSelector: ['mySubSelector', { hasText: 'anotherText' } ]});
+Element.notToBe.enabled('mySelector', { hasText: 'myText', subSelector: ['mySubSelector', { hasText: 'anotherText' } ]});
 ```
 
 ### Available Api Questions
@@ -766,7 +766,7 @@ test.describe('My Test', () => {
         await actor.attemptsTo(Login.toApp());
 
         // Check if the login was successful - use the status question from the web package
-        await actor.asks(Element.is.visible('#logged-in-indicator'));
+        await actor.asks(Element.toBe.visible('#logged-in-indicator'));
     });
 });
 ```
