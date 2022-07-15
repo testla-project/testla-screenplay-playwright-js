@@ -174,7 +174,7 @@ export class BrowseTheWeb extends Ability {
      * @param timeout (optional) maximum timeout to wait for.
      * @returns true if the element is visible/hidden as expected, false if the timeout was reached.
      */
-    public async checkVisibilityState(mode: 'visible' | 'hidden', selector: string, options?: SelectorOptions, timeout?: number): Promise<boolean> {
+    public async checkVisibilityState(selector: string, mode: 'visible' | 'hidden', options?: SelectorOptions, timeout?: number): Promise<boolean> {
         if (mode === 'visible') {
             await expect(await recursiveLocatorLookup(({ page: this.page, selector, options }))).toBeVisible({ timeout });
         } else {
@@ -186,13 +186,13 @@ export class BrowseTheWeb extends Ability {
     /**
      * Validate if a locator on the page is enabled or disabled.
      *
-     * @param mode the expected property of the selector that needs to be checked. either 'enabled' or 'disabled'.
      * @param selector the locator to search for.
+     * @param mode the expected property of the selector that needs to be checked. either 'enabled' or 'disabled'.
      * @param options (optional) advanced selector lookup options.
      * @param timeout (optional) maximum timeout to wait for.
      * @returns true if the element is enabled/disabled as expected, false if the timeout was reached.
      */
-    public async checkEnabledState(mode: 'enabled' | 'disabled', selector: string, options?: SelectorOptions, timeout?: number): Promise<boolean> {
+    public async checkEnabledState(selector: string, mode: 'enabled' | 'disabled', options?: SelectorOptions, timeout?: number): Promise<boolean> {
         if (mode === 'enabled') {
             await expect(await recursiveLocatorLookup(({ page: this.page, selector, options }))).toBeEnabled({ timeout });
         } else {

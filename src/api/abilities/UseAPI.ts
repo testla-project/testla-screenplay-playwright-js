@@ -115,7 +115,7 @@ export class UseAPI extends Ability {
      * @returns true if the status is equal/unequal as expected.
      */
     // eslint-disable-next-line class-methods-use-this
-    public async checkStatus(mode: 'equal' | 'unequal', response: Response, status: number): Promise<boolean> {
+    public async checkStatus(response: Response, status: number, mode: 'equal' | 'unequal'): Promise<boolean> {
         expect(response.status === status).toBe(mode === 'equal');
         return Promise.resolve(true);
     }
@@ -129,7 +129,7 @@ export class UseAPI extends Ability {
      * @returns true if the body equal/unequal as expected.
      */
     // eslint-disable-next-line class-methods-use-this
-    public async checkBody(mode: 'equal' | 'unequal', response: Response, body: ResponseBodyType): Promise<boolean> {
+    public async checkBody(response: Response, body: ResponseBodyType, mode: 'equal' | 'unequal'): Promise<boolean> {
         if (typeof response.body === 'string' && typeof body === 'string') {
             // response body is plain text -> can check for string equality
             expect(response.body === body).toBe(mode === 'equal');
@@ -163,7 +163,7 @@ export class UseAPI extends Ability {
      * @returns true if the headers are is included/excluded as expected.
      */
     // eslint-disable-next-line class-methods-use-this
-    public async checkHeaders(mode: 'included' | 'excluded', response: Response, headers: {[key: string]: string | undefined }): Promise<boolean> {
+    public async checkHeaders(response: Response, headers: {[key: string]: string | undefined }, mode: 'included' | 'excluded'): Promise<boolean> {
         const allResponseHeaderKeys = Object.keys(response.headers);
         expect(
             Object.entries(headers).every((header) => allResponseHeaderKeys.includes(header[0]) // lookup that header key is available
@@ -181,7 +181,7 @@ export class UseAPI extends Ability {
      * @returns true if response was received within given duration, false otherwise
      */
     // eslint-disable-next-line class-methods-use-this
-    public checkDuration(mode: 'lessOrEqual' | 'greater', response: Response, duration: number): Promise<boolean> {
+    public checkDuration(response: Response, duration: number, mode: 'lessOrEqual' | 'greater'): Promise<boolean> {
         expect(response.duration <= duration).toBe(mode === 'lessOrEqual');
         return Promise.resolve(true);
     }

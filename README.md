@@ -151,7 +151,7 @@ BrowseTheWeb.as(actor).hover('mySelector', {
 });
 ```
 
-#### checkEnabledState(mode: 'enabled' | 'disabled', selector: string, options?: SelectorOptions, timeout?: number)
+#### checkEnabledState(selector: string, mode: 'enabled' | 'disabled', options?: SelectorOptions, timeout?: number)
 
 Verify if a locator on the page is enabled or disabled.
 
@@ -162,7 +162,7 @@ BrowseTheWeb.as(actor).checkEnabledState('enabled', 'mySelector');
 BrowseTheWeb.as(actor).checkEnabledState('disabled', 'mySelector', { hasText: 'myText', subSelector: ['mySubSelector', { hasText: 'anotherText' } ]});
 ```
 
-#### checkVisibilityState(mode: 'visible' | 'hidden', selector: string, options?: SelectorOptions, timeout?: number)
+#### checkVisibilityState(selector: string, mode: 'visible' | 'hidden', options?: SelectorOptions, timeout?: number)
 
 Verify if a locator on the page is visible.
 
@@ -673,7 +673,7 @@ Response.has.statusCode(response, 200);
 
 #### Response.has.body(response: Response, body: ResponseBodyType)
 
-Checks if the response equals a given body.
+Checks if the response body equals a given body.
 
 ```js
 // json format
@@ -686,7 +686,7 @@ Response.has.body(response, Buffer.from('abc') );
 
 #### Response.hasHeaders(response: Response, headers: Headers)
 
-Checks if the response holds the given headers either by key (value to be set to undefined) or key/value lookup.
+Checks if the response has the given headers either by key (value to be set to undefined) or key/value lookup.
 
 ```js
 // only check for header presence by passing undefined as the value
