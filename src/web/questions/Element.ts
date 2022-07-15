@@ -12,10 +12,7 @@ export class Element extends Question<boolean> {
     private selector = '';
 
     // optional selector options.
-    private options?: SelectorOptions & { wait?: boolean };
-
-    // optional timeout to wait.
-    private timeout?: number;
+    private options?: SelectorOptions;
 
     private constructor(private checkMode: 'toBe' | 'notToBe') {
         super();
@@ -25,13 +22,13 @@ export class Element extends Question<boolean> {
         if (this.mode === 'visible') {
             // if .is was called -> positive check, if .not was called -> negative check
             return Promise.resolve(
-                await BrowseTheWeb.as(actor).checkVisibilityState(this.selector, this.checkMode === 'toBe' ? 'visible' : 'hidden', this.options, this.timeout),
+                await BrowseTheWeb.as(actor).checkVisibilityState(this.selector, this.checkMode === 'toBe' ? 'visible' : 'hidden', this.options),
             ); // if the ability method is not the expected result there will be an exception
         }
         if (this.mode === 'enabled') {
             // if .is was called -> positive check, if .not was called -> negative check
             return Promise.resolve(
-                await BrowseTheWeb.as(actor).checkEnabledState(this.selector, this.checkMode === 'toBe' ? 'enabled' : 'disabled', this.options, this.timeout),
+                await BrowseTheWeb.as(actor).checkEnabledState(this.selector, this.checkMode === 'toBe' ? 'enabled' : 'disabled', this.options),
             ); // if the ability method is not the expected result there will be an exception
         }
         throw new Error('Unknown mode: Element.answeredBy');
@@ -57,11 +54,10 @@ export class Element extends Question<boolean> {
      * @param selector the selector
      * @param options (optional) advanced selector lookup options.
      */
-    public visible(selector: string, options?: SelectorOptions & { timeout?: number }): Element {
+    public visible(selector: string, options?: SelectorOptions): Element {
         this.mode = 'visible';
         this.selector = selector;
         this.options = options;
-        this.timeout = options?.timeout;
 
         return this;
     }
@@ -72,11 +68,10 @@ export class Element extends Question<boolean> {
      * @param selector the selector
      * @param options (optional) advanced selector lookup options.
      */
-    public enabled(selector: string, options?: SelectorOptions & { timeout?: number }): Element {
+    public enabled(selector: string, options?: SelectorOptions): Element {
         this.mode = 'enabled';
         this.selector = selector;
         this.options = options;
-        this.timeout = options?.timeout;
 
         return this;
     }
