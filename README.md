@@ -634,10 +634,17 @@ Put.to('https://my-fancy-url.com')
 
 ### Available Web Questions
 
-#### Element.toBe.visible(selector: string, options?: SelectorOptions & { wait?: boolean }) + Element.notToBe.visible(selector: string, options?: SelectorOptions & { wait?: boolean })
+#### Element.toBe
 
-Validates whether an element is visible (Element.toBe.visible) or not (Element.notToBe.visible). By default it is waited for this event to happen but limited by the global playwright timeout settings.
-By setting wait to false in the options section this can be overridden.
+Checks if a condition is true.
+
+#### Element.notToBe
+
+Checks if a condition is false.
+
+#### Element.*.visible(selector: string, options?: SelectorOptions)
+
+Validates weather an element is visible. A mode operator must be prepended.
 
 ```js
 // simple call with just selector
@@ -646,13 +653,12 @@ Element.toBe.visible('mySelector');
 Element.notToBe.visible('mySelector', {
     hasText: 'myText',
     subSelector: ['mySubSelector', { hasText: 'anotherText' } ]
-    wait: false // false means that the selector has to be available without any wait time.
 });
 ```
 
-#### Element.toBe.enabled(selector: string, options?: SelectorOptions) + Element.notToBe.enabled(selector: string, options?: SelectorOptions)
+#### Element.*.enabled(selector: string, options?: SelectorOptions)
 
-Validates weather an element is enabled (Element.toBe.enabled) or not (Element.notToBe.enabled).
+Validates weather an element is enabled. A mode operator must be prepended.
 
 ```js
 // simple call with just selector
@@ -663,17 +669,26 @@ Element.notToBe.enabled('mySelector', { hasText: 'myText', subSelector: ['mySubS
 
 ### Available Api Questions
 
-#### Response.hasStatusCode(response: Response, code: number)
+#### Response.has
 
-Checks if the response has a given status code.
+Checks if a condition is true.
+
+#### Response.hasNot
+
+Checks if a condition is false.
+
+#### Response.*.statusCode(response: Response, code: number)
+
+Checks if the response has a given status code. A mode operator must be prepended.
 
 ```js
 Response.has.statusCode(response, 200);
+Response.hasNot.statusCode(response, 200);
 ```
 
-#### Response.has.body(response: Response, body: ResponseBodyType)
+#### Response.*.body(response: Response, body: ResponseBodyType)
 
-Checks if the response body equals a given body.
+Checks if the response body equals a given body. A mode operator must be prepended.
 
 ```js
 // json format
@@ -684,9 +699,9 @@ Response.hasNot.body(response, 'text' );
 Response.has.body(response, Buffer.from('abc') );
 ```
 
-#### Response.hasHeaders(response: Response, headers: Headers)
+#### Response.*.headers(response: Response, headers: Headers)
 
-Checks if the response has the given headers either by key (value to be set to undefined) or key/value lookup.
+Checks if the response has the given headers either by key (value to be set to undefined) or key/value lookup. A mode operator must be prepended.
 
 ```js
 // only check for header presence by passing undefined as the value
@@ -695,13 +710,15 @@ Response.has.headers(response, { 'content-type': undefined });
 Response.hasNot.headers(response, { 'content-type': 'application/json' });
 ```
 
-#### Response.has.beenReceivedWithin(response: Response, duration: number)
+#### Response.*.beenReceivedWithin(response: Response, duration: number)
 
-Checks if the reponse (including receiving body) was received within a given duration.
+Checks if the reponse (including receiving body) was received within a given duration. A mode operator must be prepended.
 
 ```js
 // check if response was received within 2s
 Response.has.beenReceivedWithin(response, 2000);
+// check if response was not received within 2s
+Response.hasNot.beenReceivedWithin(response, 2000);
 ```
 
 ### Group Actions into a Task
