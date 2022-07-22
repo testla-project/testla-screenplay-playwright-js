@@ -644,7 +644,7 @@ Checks if a condition is false.
 
 #### Element.*.visible(selector: string, options?: SelectorOptions)
 
-Validates weather an element is visible. A mode operator must be prepended.
+Validates wether an element is visible. A mode operator must be prepended.
 
 ```js
 // simple call with just selector
@@ -658,7 +658,7 @@ Element.notToBe.visible('mySelector', {
 
 #### Element.*.enabled(selector: string, options?: SelectorOptions)
 
-Validates weather an element is enabled. A mode operator must be prepended.
+Validates wether an element is enabled. A mode operator must be prepended.
 
 ```js
 // simple call with just selector
