@@ -3,33 +3,67 @@ import { UseAPI } from '../abilities/UseAPI';
 import { Headers, Response as ResponseType, ResponseBodyType } from '../types';
 
 /**
- * Question Class. Get a specified state for a selector like visible or enabled.
+ * Question Class. Verify certain aspects of an API Response.
  */
 export class Response extends Question<boolean> {
-    private action: {
-        mode: 'status' | 'body' | 'header' | 'duration';
-        payload?: any
+    // the response to check.
+    private response: ResponseType = {
+        body: null,
+        status: 0,
+        headers: {},
+        duration: 0,
     };
 
-    private constructor(private response: ResponseType, action: { mode: 'status' | 'body' | 'header' | 'duration', payload: number | ResponseBodyType | Headers}) {
+    // the expected values to check + which values to check.
+    private action!: {
+        mode: 'status' | 'body' | 'header' | 'duration';
+        payload?: any;
+    };
+
+    private constructor(private checkMode: 'has' | 'hasNot') {
         super();
-        this.action = action;
     }
 
-    public answeredBy(actor: Actor): Promise<boolean> {
+    public async answeredBy(actor: Actor): Promise<boolean> {
         if (this.action.mode === 'status') {
-            return UseAPI.as(actor).checkStatus(this.response, this.action.payload.status);
+            // if .is was called -> positive check, if .not was called -> negative check
+            return Promise.resolve(
+                await UseAPI.as(actor).checkStatus(this.response, this.action.payload.statusCode, this.checkMode === 'has' ? 'equal' : 'unequal'),
+            ); // if the ability method is not the expected result there will be an exception
         }
         if (this.action.mode === 'body') {
-            return UseAPI.as(actor).checkBody(this.response, this.action.payload.body);
+            // if .is was called -> positive check, if .not was called -> negative check
+            return Promise.resolve(
+                await UseAPI.as(actor).checkBody(this.response, this.action.payload.body, this.checkMode === 'has' ? 'equal' : 'unequal'),
+            ); // if the ability method is not the expected result there will be an exception
         }
         if (this.action.mode === 'header') {
-            return UseAPI.as(actor).checkHeaders(this.response, this.action.payload.headers);
+            // if .is was called -> positive check, if .not was called -> negative check
+            return Promise.resolve(
+                await UseAPI.as(actor).checkHeaders(this.response, this.action.payload.headers, this.checkMode === 'has' ? 'included' : 'excluded'),
+            ); // if the ability method is not the expected result there will be an exception
         }
         if (this.action.mode === 'duration') {
-            return UseAPI.as(actor).checkDuration(this.response, this.action.payload.duration);
+            // if .is was called -> positive check, if .not was called -> negative check
+            return Promise.resolve(
+                await UseAPI.as(actor).checkDuration(this.response, this.action.payload.duration, this.checkMode === 'has' ? 'lessOrEqual' : 'greater'),
+            ); // if the ability method is not the expected result there will be an exception
         }
-        throw new Error('Unknown mode');
+        throw new Error('Unknown mode for Response.answeredBy');
+    }
+
+    /**
+     * make the Question check for the positive.
+     */
+    static get has() {
+        return new Response('has');
+    }
+
+    /**
+     * make the Question check for the negative.
+     */
+    static get hasNot() {
+        return new Response('hasNot');
     }
 
     /**
@@ -38,8 +72,11 @@ export class Response extends Question<boolean> {
      * @param response the response to check.
      * @param statusCode the expected status code.
      */
-    static hasStatusCode(response: ResponseType, statusCode: number): Response {
-        return new Response(response, { mode: 'status', payload: { status: statusCode } });
+    public statusCode(response: ResponseType, statusCode: number): Response {
+        this.response = response;
+        this.action = { mode: 'status', payload: { statusCode } };
+
+        return this;
     }
 
     /**
@@ -48,8 +85,11 @@ export class Response extends Question<boolean> {
      * @param response the response to check.
      * @param body the expected body.
      */
-    static bodyEquals(response: ResponseType, body: ResponseBodyType): Response {
-        return new Response(response, { mode: 'body', payload: { body } });
+    public body(response: ResponseType, body: ResponseBodyType): Response {
+        this.response = response;
+        this.action = { mode: 'body', payload: { body } };
+
+        return this;
     }
 
     /**
@@ -58,8 +98,11 @@ export class Response extends Question<boolean> {
      * @param response the response to check.
      * @param headers the expected header.
      */
-    static hasHeaders(response: ResponseType, headers: Headers): Response {
-        return new Response(response, { mode: 'header', payload: { headers } });
+    public headers(response: ResponseType, headers: Headers): Response {
+        this.response = response;
+        this.action = { mode: 'header', payload: { headers } };
+
+        return this;
     }
 
     /**
@@ -68,7 +111,10 @@ export class Response extends Question<boolean> {
      * @param response the response to check
      * @param duration expected duration (in milliseconds) not to be exceeded
      */
-    static wasReceivedWithin(response: ResponseType, duration: number) {
-        return new Response(response, { mode: 'duration', payload: { duration } });
+    public beenReceivedWithin(response: ResponseType, duration: number): Response {
+        this.response = response;
+        this.action = { mode: 'duration', payload: { duration } };
+
+        return this;
     }
 }

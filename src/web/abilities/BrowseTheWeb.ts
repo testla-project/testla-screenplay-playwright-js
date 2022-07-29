@@ -1,4 +1,4 @@
-import { Cookie, Page } from '@playwright/test';
+import { Cookie, expect, Page } from '@playwright/test';
 import { Response } from 'playwright';
 import { Ability, Actor } from '@testla/screenplay';
 import { SelectorOptions } from '../types';
@@ -166,35 +166,38 @@ export class BrowseTheWeb extends Ability {
     }
 
     /**
-     * Validate a locator on the page is visible.
+     * Validate if a locator on the page is visible or hidden.
      *
+     * @param mode the expected property of the selector that needs to be checked. either 'visible' or 'hidden'.
      * @param selector the locator to search for.
      * @param options (optional) advanced selector lookup options.
-     * @returns true if the locator is visible, false otherwise.
+     * @param timeout (optional) maximum timeout to wait for.
+     * @returns true if the element is visible/hidden as expected, false if the timeout was reached.
      */
-    public async isVisible(selector: string, options?: SelectorOptions): Promise<boolean> {
-        try {
-            await recursiveLocatorLookup({ page: this.page, selector, options });
-            return Promise.resolve(true);
-        } catch (e) {
-            return Promise.resolve(false);
+    public async checkVisibilityState(selector: string, mode: 'visible' | 'hidden', options?: SelectorOptions): Promise<boolean> {
+        if (mode === 'visible') {
+            await expect(await recursiveLocatorLookup(({ page: this.page, selector, options }))).toBeVisible({ timeout: options?.timeout });
+        } else {
+            await expect(await recursiveLocatorLookup(({ page: this.page, selector, options }))).toBeHidden({ timeout: options?.timeout });
         }
+        return Promise.resolve(true);
     }
 
     /**
-     * Validate a locator on the page is enabled.
+     * Validate if a locator on the page is enabled or disabled.
      *
      * @param selector the locator to search for.
+     * @param mode the expected property of the selector that needs to be checked. either 'enabled' or 'disabled'.
      * @param options (optional) advanced selector lookup options.
-     * @returns true if the element is enabled, false otherwise.
+     * @returns true if the element is enabled/disabled as expected, false if the timeout was reached.
      */
-    public async isEnabled(selector: string, options?: SelectorOptions): Promise<boolean> {
-        try {
-            return (await recursiveLocatorLookup({ page: this.page, selector, options }))
-                .isEnabled();
-        } catch (e) {
-            return Promise.resolve(false);
+    public async checkEnabledState(selector: string, mode: 'enabled' | 'disabled', options?: SelectorOptions): Promise<boolean> {
+        if (mode === 'enabled') {
+            await expect(await recursiveLocatorLookup(({ page: this.page, selector, options }))).toBeEnabled({ timeout: options?.timeout });
+        } else {
+            await expect(await recursiveLocatorLookup(({ page: this.page, selector, options }))).toBeDisabled({ timeout: options?.timeout });
         }
+        return Promise.resolve(true);
     }
 
     /**

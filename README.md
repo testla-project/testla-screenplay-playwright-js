@@ -151,26 +151,26 @@ BrowseTheWeb.as(actor).hover('mySelector', {
 });
 ```
 
-#### isEnabled(selector: string, options?: SelectorOptions)
+#### checkEnabledState(selector: string, mode: 'enabled' | 'disabled', options?: SelectorOptions, timeout?: number)
 
-Verify if a locator on the page is enabled.
+Verify if a locator on the page is enabled or disabled.
 
 ```js
 // simple call with just selector
-BrowseTheWeb.as(actor).isEnabled('mySelector');
+BrowseTheWeb.as(actor).checkEnabledState('mySelector', 'enabled');
 // or with options
-BrowseTheWeb.as(actor).isEnabled('mySelector', { hasText: 'myText', subSelector: ['mySubSelector', { hasText: 'anotherText' } ]});
+BrowseTheWeb.as(actor).checkEnabledState('mySelector', 'disabled', { hasText: 'myText', subSelector: ['mySubSelector', { hasText: 'anotherText' } ]});
 ```
 
-#### isVisible(selector: string, options?: SelectorOptions)
+#### checkVisibilityState(selector: string, mode: 'visible' | 'hidden', options?: SelectorOptions, timeout?: number)
 
 Verify if a locator on the page is visible.
 
 ```js
 // simple call with just selector
-BrowseTheWeb.as(actor).isVisible('mySelector');
+BrowseTheWeb.as(actor).checkVisibilityState('mySelector', 'visible');
 // or with options
-BrowseTheWeb.as(actor).isVisible('mySelector', { hasText: 'myText', subSelector: ['mySubSelector', { hasText: 'anotherText' } ]});
+BrowseTheWeb.as(actor).checkVisibilityState('mySelector', 'hidden', { hasText: 'myText', subSelector: ['mySubSelector', { hasText: 'anotherText' } ]});
 ```
 
 #### press(keys: string)
@@ -470,46 +470,46 @@ Send a request (GET, POST, PATCH, PUT, HEAD or DELETE) to the specified url. Hea
 UseApi.as(actor).sendRequest(REQUEST_METHOD.POST, '/items', { authorization: 'Bearer dfh.dasgeq65qg.eyjkhf' }, 'json', { title: 'new item' });
 ```
 
-#### checkStatus(response: Response, status: number)
+#### checkStatus(response: Response, status: number, mode: 'equal' | 'unequal')
 
 Verify if the given response's status is equal to the expected status.
 
 ```js
-UseApi.as(actor).checkStatus(response, 200);
+UseApi.as(actor).checkStatus(response, 200, 'equal');
 ```
 
-#### checkBody(response: Response, body: ResponseBodyFormat)
+#### checkBody(response: Response, body: ResponseBodyType, mode: 'equal' | 'unequal')
 
 Verify if the given response's body is equal to the expected body. The check includes type safety.
 
 ```js
 // json response
-UseApi.as(actor).checkBody(response, { text: 'test' });
+UseApi.as(actor).checkBody(response, { text: 'test' }, 'equal');
 // text response
-UseApi.as(actor).checkBody(response, 'test');
+UseApi.as(actor).checkBody(response, 'test', 'unequal');
 // buffer response
-UseApi.as(actor).checkBody(response, Buffer.from('abc'));
+UseApi.as(actor).checkBody(response, Buffer.from('abc'), 'equal');
 ```
 
-#### checkHeaders(response: Response, headers: {[key: string]: string | undefined })
+#### checkHeaders(response: Response, headers: {[key: string]: string | undefined }, mode: 'included' | 'excluded')
 
 Verify if the given headers are included in the given response's headers. 
 If the header has a value !== undefined, both key and value will be checked. If a header has a value === undefined, only the key will be checked.
 
 ```js
 // check only keys
-UseApi.as(actor).checkHeaders(response, { contentType: undefined });
+UseApi.as(actor).checkHeaders(response, { contentType: undefined }, 'included');
 // check key and value
-UseApi.as(actor).checkHeaders(response, { contentType: 'application/json' });
+UseApi.as(actor).checkHeaders(response, { contentType: 'application/json' }, 'excluded');
 ```
 
-#### checkDuration(response: Response, duration: number)
+#### checkDuration(response: Response, duration: number, mode: 'lessOrEqual' | 'greater')
 
 Verify if the reponse (including receiving body) was received within a given duration.
 
 ```js
 // check if response was received within 2s
-UseApi.as(actor).checkDuration(response, 2000);
+UseApi.as(actor).checkDuration(response, 2000, 'lessOrEqual');
 ```
 
 ### API Actions
@@ -644,74 +644,91 @@ Sleep.for(5000);
 
 ### Available Web Questions
 
-#### Element.isVisible(selector: string, options?: SelectorOptions & { wait?: boolean })
+#### Element.toBe
 
-Validates weather an element is visible or not. By default it is waited for this event to happen btu limited by the global playwright timeout settings.
-By settings wait to false in the options section this can be overridden.
+Checks if a condition is true.
+
+#### Element.notToBe
+
+Checks if a condition is false.
+
+#### Element.*.visible(selector: string, options?: SelectorOptions)
+
+Validates wether an element is visible. A mode operator must be prepended.
 
 ```js
 // simple call with just selector
-Element.isVisible('mySelector');
+Element.toBe.visible('mySelector');
 // or with options
-Element.isVisible('mySelector', {
+Element.notToBe.visible('mySelector', {
     hasText: 'myText',
     subSelector: ['mySubSelector', { hasText: 'anotherText' } ]
-    wait: false // false means that the selector has to be available without any wait time.
 });
 ```
 
-#### Element.isEnabled(selector: string, options?: SelectorOptions)
+#### Element.*.enabled(selector: string, options?: SelectorOptions)
 
-Validates weather an element is enabled or not.
+Validates wether an element is enabled. A mode operator must be prepended.
 
 ```js
 // simple call with just selector
-Element.isEnabled('mySelector');
+Element.toBe.enabled('mySelector');
 // or with options
-Element.isEnabled('mySelector', { hasText: 'myText', subSelector: ['mySubSelector', { hasText: 'anotherText' } ]});
+Element.notToBe.enabled('mySelector', { hasText: 'myText', subSelector: ['mySubSelector', { hasText: 'anotherText' } ]});
 ```
 
 ### Available Api Questions
 
-#### Response.hasStatusCode(response: Response, code: number)
+#### Response.has
 
-Checks if the response has a given status code.
+Checks if a condition is true.
+
+#### Response.hasNot
+
+Checks if a condition is false.
+
+#### Response.*.statusCode(response: Response, code: number)
+
+Checks if the response has a given status code. A mode operator must be prepended.
 
 ```js
-Response.hasStatusCode(response, 200);
+Response.has.statusCode(response, 200);
+Response.hasNot.statusCode(response, 200);
 ```
 
-#### Response.bodyEquals(response: Response, body: ResponseBodyType)
+#### Response.*.body(response: Response, body: ResponseBodyType)
 
-Checks if the response equals a given body.
+Checks if the response body equals a given body. A mode operator must be prepended.
 
 ```js
 // json format
-Response.bodyEquals(response, { key: value });
+Response.has.body(response, { key: value });
 // text format
-Response.bodyEquals(response, 'text' );
+Response.hasNot.body(response, 'text' );
 // buffer format
-Response.bodyEquals(response, Buffer.from('abc') );
+Response.has.body(response, Buffer.from('abc') );
 ```
 
-#### Response.hasHeaders(response: Response, headers: Headers)
+#### Response.*.headers(response: Response, headers: Headers)
 
-Checks if the response holds the given headers either by key (value to be set to undefined) or key/value lookup.
+Checks if the response has the given headers either by key (value to be set to undefined) or key/value lookup. A mode operator must be prepended.
 
 ```js
 // only check for header presence by passing undefined as the value
-Response.hasHeaders(response, { 'content-type': undefined });
+Response.has.headers(response, { 'content-type': undefined });
 // lookup for key/value combination to be present
-Response.hasHeaders(response, { 'content-type': 'application/json' });
+Response.hasNot.headers(response, { 'content-type': 'application/json' });
 ```
 
-#### Response.wasReceivedWithin(response: Response, duration: number)
+#### Response.*.beenReceivedWithin(response: Response, duration: number)
 
-Checks if the reponse (including receiving body) was received within a given duration.
+Checks if the reponse (including receiving body) was received within a given duration. A mode operator must be prepended.
 
 ```js
 // check if response was received within 2s
-Response.wasReceivedWithin(response, 2000);
+Response.has.beenReceivedWithin(response, 2000);
+// check if response was not received within 2s
+Response.hasNot.beenReceivedWithin(response, 2000);
 ```
 
 ### Group Actions into a Task
@@ -776,7 +793,7 @@ test.describe('My Test', () => {
         await actor.attemptsTo(Login.toApp());
 
         // Check if the login was successful - use the status question from the web package
-        expect(await actor.asks(Element.isVisible('#logged-in-indicator'))).toBe(true);
+        await actor.asks(Element.toBe.visible('#logged-in-indicator'));
     });
 });
 ```
