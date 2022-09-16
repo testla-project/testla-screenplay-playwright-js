@@ -26,10 +26,10 @@ export class Delete extends ARequest {
     /**
      * Send a HTTP DELETE request to the specified url.
      *
-     * @param fullUrl the URL of the target.
+     * @param url the URL of the target.
      */
-    public static from(fullUrl: string): Delete {
-        return new Delete(fullUrl);
+    public static from(url: string): Delete {
+        return new Delete(url);
     }
 
     /**
