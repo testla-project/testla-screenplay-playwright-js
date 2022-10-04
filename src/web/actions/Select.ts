@@ -6,7 +6,7 @@ import { SelectorOptions } from '../types';
  * Action Class. Set the value of a Selector of type select to the given option.
  */
 export class Select extends Action {
-    private constructor(private selector: string, private option: string, private options?: SelectorOptions) {
+    private constructor(private selector: string, private optionLabel: string, private selectorOptions?: SelectorOptions) {
         super();
     }
 
@@ -16,16 +16,17 @@ export class Select extends Action {
      * @param actor
      */
     public async performAs(actor: Actor): Promise<any> {
-        await BrowseTheWeb.as(actor).selectOption(this.selector, this.option);
+        await BrowseTheWeb.as(actor).selectOption(this.selector, this.optionLabel, this.selectorOptions);
     }
 
     /**
-     * specify which element should be clicked on
+     * Set the value of a Selector of type select to the given option.
      *
-     * @param selector the string representing the selector.
-     * @param options (optional): advanced selector lookup options.
+     * @param selector the string representing the (select) selector.
+     * @param optionLabel the label of the option.
+     * @param selectorOptions (optional): advanced selector lookup options.
      */
-    public static option(selector: string, option: string, options?: SelectorOptions): Select {
-        return new Select(selector, option, options);
+    public static option(selector: string, optionLabel: string, selectorOptions?: SelectorOptions): Select {
+        return new Select(selector, optionLabel, selectorOptions);
     }
 }

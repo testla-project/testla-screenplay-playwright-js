@@ -200,6 +200,15 @@ Delete a session storage item, if a key/value pair with the given key exists.
 BrowseTheWeb.as(actor).removeSessionStorageItem('some key');
 ```
 
+#### selectOption(selector: string, optionLabel: string, selectorOptions?: SelectorOptions)
+
+```js
+// simple call with just selector and input value
+BrowseTheWeb.as(actor).selectOption('mySelector', 'myOptionLabel');
+// or with options
+BrowseTheWeb.as(actor).selectOption('mySelector', 'myOptionLabel', { hasText: 'myText', subSelector: ['mySubSelector', { hasText: 'anotherText' } ]});
+```
+
 #### setLocalStorageItem(key: string, value: any)
 
 Set a local storage item identified by the given key + value, creating a new key/value pair if none existed for key previously.
@@ -402,6 +411,17 @@ Remove a session storage item, if a key/value pair with the given key exists.
 
 ```js
 Remove.sessionStorageItem('some key');
+```
+
+#### Select.option(selector: string, optionLabel: string, selectorOptions?: SelectorOptions)
+
+Set the value of a Selector of type select to the given option.
+
+```js
+// simple call with just selector
+Select.option('mySelector', 'myOptionLabel');
+// or with options for select
+Select.option('mySelector', 'myOptionLabel', { hasText: 'myText', subSelector: ['mySubSelector', { hasText: 'anotherText' } ]});
 ```
 
 #### Set.localStorageItem(key: string, value: any)
