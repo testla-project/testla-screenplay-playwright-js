@@ -1,5 +1,7 @@
+import { Locator } from 'playwright';
+
 export type SubSelector = [
-    string, {
+    Selector, {
         hasText?: string;
         timeout?: number;
         subSelector?: SubSelector;
@@ -11,3 +13,5 @@ export type SelectorOptions = {
     subSelector?: SubSelector;
     timeout?: number;
 };
+
+export type Selector = string | Locator;

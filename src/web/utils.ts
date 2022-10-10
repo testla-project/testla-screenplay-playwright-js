@@ -1,5 +1,5 @@
 import { Locator, Page } from '@playwright/test';
-import { SelectorOptions, SubSelector } from './types';
+import { Selector, SelectorOptions, SubSelector } from './types';
 
 const subLocatorLookup = async ({
     page, locator, timeout, subSelector,
@@ -22,9 +22,9 @@ const subLocatorLookup = async ({
     return Promise.resolve(resolvedLocator);
 };
 
-export const recursiveLocatorLookup = async ({ page, selector, options }: { page: Page; selector: string; options?: SelectorOptions }): Promise<Locator> => {
+export const recursiveLocatorLookup = async ({ page, selector, options }: { page: Page; selector: Selector; options?: SelectorOptions }): Promise<Locator> => {
     // find first level locator
-    const locator = page.locator(selector, { hasText: options?.hasText });
+    const locator = typeof selector === 'string' ? page.locator(selector, { hasText: options?.hasText }) : selector;
     // pass the first level locator into sub locator lookup
     return subLocatorLookup({
         page, locator, timeout: options?.timeout, subSelector: options?.subSelector,

@@ -1,7 +1,7 @@
 import { Cookie, expect, Page } from '@playwright/test';
 import { Response } from 'playwright';
 import { Ability, Actor } from '@testla/screenplay';
-import { SelectorOptions } from '../types';
+import { Selector, SelectorOptions } from '../types';
 import { recursiveLocatorLookup } from '../utils';
 
 /**
@@ -99,7 +99,7 @@ export class BrowseTheWeb extends Ability {
      * @param selector the selector of the element.
      * @param options (optional) advanced selector lookup options.
      */
-    public async waitForSelector(selector: string, options?: SelectorOptions) {
+    public async waitForSelector(selector: Selector, options?: SelectorOptions) {
         return recursiveLocatorLookup({ page: this.page, selector, options });
     }
 
