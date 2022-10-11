@@ -171,7 +171,6 @@ export class BrowseTheWeb extends Ability {
      * @param mode the expected property of the selector that needs to be checked. either 'visible' or 'hidden'.
      * @param selector the locator to search for.
      * @param options (optional) advanced selector lookup options.
-     * @param timeout (optional) maximum timeout to wait for.
      * @returns true if the element is visible/hidden as expected, false if the timeout was reached.
      */
     public async checkVisibilityState(selector: Selector, mode: 'visible' | 'hidden', options?: SelectorOptions): Promise<boolean> {

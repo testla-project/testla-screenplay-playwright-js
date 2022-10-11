@@ -9,13 +9,8 @@ const subLocatorLookup = async ({
     await resolvedLocator.waitFor({ timeout });
     // check if we have subselectors
     if (subSelector) {
-        // find: if selector is a string, need to find it using page.locator(), if it is already a Playwright Locator use it directly.
-        if (typeof subSelector[0] === 'string') {
-            resolvedLocator = resolvedLocator.locator(subSelector[0], { hasText: subSelector[1]?.hasText });
-        } else {
-            // eslint-disable-next-line prefer-destructuring
-            resolvedLocator = subSelector[0];
-        }
+        // subSelector: if selector is a string, need to find it using page.locator(), if it is already a Playwright Locator use it directly.
+        resolvedLocator = typeof subSelector[0] === 'string' ? resolvedLocator.locator(subSelector[0], { hasText: subSelector[1]?.hasText }) : subSelector[0];
         // wait for sub selector to become visible based on timeout options
         await resolvedLocator.waitFor({ timeout });
 
@@ -29,7 +24,7 @@ const subLocatorLookup = async ({
 };
 
 export const recursiveLocatorLookup = async ({ page, selector, options }: { page: Page; selector: Selector; options?: SelectorOptions }): Promise<Locator> => {
-    // find first level locator
+    // find first level locator: if selector is a string, need to find it using page.locator(), if it is already a Playwright Locator use it directly.
     const locator = typeof selector === 'string' ? page.locator(selector, { hasText: options?.hasText }) : selector;
     // pass the first level locator into sub locator lookup
     return subLocatorLookup({
