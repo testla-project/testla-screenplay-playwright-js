@@ -175,9 +175,9 @@ export class BrowseTheWeb extends Ability {
      */
     public async checkVisibilityState(selector: Selector, mode: 'visible' | 'hidden', options?: SelectorOptions): Promise<boolean> {
         if (mode === 'visible') {
-            await expect(await recursiveLocatorLookup(({ page: this.page, selector, options }))).toBeVisible({ timeout: options?.timeout });
+            await expect(await recursiveLocatorLookup({ page: this.page, selector, options })).toBeVisible({ timeout: options?.timeout });
         } else {
-            await expect(await recursiveLocatorLookup(({ page: this.page, selector, options }))).toBeHidden({ timeout: options?.timeout });
+            await expect(await recursiveLocatorLookup({ page: this.page, selector, options })).toBeHidden({ timeout: options?.timeout });
         }
         return Promise.resolve(true);
     }
@@ -192,9 +192,9 @@ export class BrowseTheWeb extends Ability {
      */
     public async checkEnabledState(selector: Selector, mode: 'enabled' | 'disabled', options?: SelectorOptions): Promise<boolean> {
         if (mode === 'enabled') {
-            await expect(await recursiveLocatorLookup(({ page: this.page, selector, options }))).toBeEnabled({ timeout: options?.timeout });
+            await expect(await recursiveLocatorLookup({ page: this.page, selector, options })).toBeEnabled({ timeout: options?.timeout });
         } else {
-            await expect(await recursiveLocatorLookup(({ page: this.page, selector, options }))).toBeDisabled({ timeout: options?.timeout });
+            await expect(await recursiveLocatorLookup({ page: this.page, selector, options })).toBeDisabled({ timeout: options?.timeout });
         }
         return Promise.resolve(true);
     }
