@@ -9,7 +9,13 @@ const subLocatorLookup = async ({
     await resolvedLocator.waitFor({ timeout });
     // check if we have subselectors
     if (subSelector) {
-        resolvedLocator = resolvedLocator.locator(subSelector[0], { hasText: subSelector[1]?.hasText });
+        // find: if selector is a string, need to find it using page.locator(), if it is already a Playwright Locator use it directly.
+        if (typeof subSelector[0] === 'string') {
+            resolvedLocator = resolvedLocator.locator(subSelector[0], { hasText: subSelector[1]?.hasText });
+        } else {
+            // eslint-disable-next-line prefer-destructuring
+            resolvedLocator = subSelector[0];
+        }
         // wait for sub selector to become visible based on timeout options
         await resolvedLocator.waitFor({ timeout });
 

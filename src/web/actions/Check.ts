@@ -1,12 +1,12 @@
 import { Action, Actor } from '@testla/screenplay';
-import { SelectorOptions } from '../types';
+import { Selector, SelectorOptions } from '../types';
 import { BrowseTheWeb } from '../abilities/BrowseTheWeb';
 
 /**
  * Action Class. Check a checkbox specified by a selector string.
  */
 export class Check extends Action {
-    private constructor(private selector: string, private options?: SelectorOptions) {
+    private constructor(private selector: Selector, private options?: SelectorOptions) {
         super();
     }
 
@@ -25,7 +25,7 @@ export class Check extends Action {
      * @param selector the string representing the selector.
      * @param options (optional): advanced selector lookup options.
      */
-    public static element(selector: string, options?: SelectorOptions): Check {
+    public static element(selector: Selector, options?: SelectorOptions): Check {
         return new Check(selector, options);
     }
 }
