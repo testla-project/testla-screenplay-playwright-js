@@ -23,6 +23,7 @@ const subLocatorLookup = async ({
     return Promise.resolve(resolvedLocator);
 };
 
+// important: if the selector is a Playwright Locator, options?.hasText will be ignored.
 export const recursiveLocatorLookup = async ({ page, selector, options }: { page: Page; selector: Selector; options?: SelectorOptions }): Promise<Locator> => {
     // find first level locator: if selector is a string, need to find it using page.locator(), if it is already a Playwright Locator use it directly.
     const locator = typeof selector === 'string' ? page.locator(selector, { hasText: options?.hasText }) : selector;
