@@ -36,16 +36,24 @@ test.describe('Testing screenplay-playwright-js web module', () => {
         await actor.attemptsTo(
             Navigate.to('https://google.de'),
         );
-        expect(actor.states('page')).toHaveURL('https://www.google.de');
+        await expect(actor.states('page')).toHaveURL('https://www.google.de');
     });
 
     test('DragAndDrop', async ({ actor }) => {
         await actor.attemptsTo(
             Navigate.to('https://the-internet.herokuapp.com/drag_and_drop'),
             Wait.forLoadState('networkidle'),
+        );
+
+        // before drag: Box A is on the Left
+        await expect(actor.states('page').locator('[id="column-a"] header')).toHaveText('A');
+
+        // execute the drag
+        await actor.attemptsTo(
             DragAndDrop.execute('[id="column-a"]', '[id="column-b"]'),
         );
-        // assertion
+        // after Drag: Box B is on the Left
+        await expect(actor.states('page').locator('[id="column-a"] header')).toHaveText('B');
     });
 
     test('Check', async ({ actor }) => {
@@ -54,9 +62,10 @@ test.describe('Testing screenplay-playwright-js web module', () => {
             Wait.forLoadState('networkidle'),
             Check.element('//input[1]'),
             Check.element('//input[2]'),
-            Sleep.for(3000),
         );
         // assertion
+        await expect(actor.states('page').locator('//input[1]')).toBeChecked();
+        await expect(actor.states('page').locator('//input[2]')).toBeChecked();
     });
 
     test('Click', async ({ actor }) => {
@@ -85,7 +94,7 @@ test.describe('Testing screenplay-playwright-js web module', () => {
             Wait.forLoadState('networkidle'),
         );
         // assert that the login worked
-        expect(actor.states('page')).toHaveURL('https://the-internet.herokuapp.com/secure');
+        await expect(actor.states('page')).toHaveURL('https://the-internet.herokuapp.com/secure');
     });
 
     test('Hover', async ({ actor }) => {
@@ -169,10 +178,24 @@ test.describe('Testing screenplay-playwright-js web module', () => {
         );
         expect(localUndefined).toBeUndefined();
 
-        // check session storage item
+        // check for values that are not there
         const sessionUndefined = await actor.attemptsTo(
             Get.sessionStorageItem('???'),
         );
         expect(sessionUndefined).toBeUndefined();
+
+        // remove local storage item and verify that it was deleted
+        const localDeleted = await actor.attemptsTo(
+            Remove.localStorageItem('localKey'),
+            Get.localStorageItem('localKey'),
+        );
+        expect(localDeleted).toBe(undefined);
+
+        // remove session storage item and verify that it was deleted
+        const sessionDeleted = await actor.attemptsTo(
+            Remove.sessionStorageItem('sessionKey'),
+            Get.sessionStorageItem('sessionKey'),
+        );
+        expect(sessionDeleted).toBe(undefined);
     });
 });
