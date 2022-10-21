@@ -3,3 +3,5 @@
 /lib
 .DS_Store
 .idea/
+results.xml
+/playwright-report

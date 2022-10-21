@@ -2,13 +2,15 @@ import { Locator, Page } from '@playwright/test';
 import { Selector, SelectorOptions, SubSelector } from './types';
 
 // dealing with selector == Playwright Locator and options.hasText
-async function checkLocatorForText(locator: Locator, text?: string | RegExp): Promise<Locator> {
+const checkLocatorForText = async (locator: Locator, text?: string | RegExp): Promise<Locator> => {
     if (text) {
-        // or page.getByText() ?
+        if (await locator.textContent() === text) {
+            return locator;
+        }
         return locator.getByText(text);
     }
     return locator;
-}
+};
 
 const subLocatorLookup = async ({
     page, locator, timeout, subSelector,
