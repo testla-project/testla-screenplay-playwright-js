@@ -11,6 +11,7 @@ import { Click } from '../src/web/actions/Click';
 import { Fill } from '../src/web/actions/Fill';
 import { Type } from '../src/web/actions/Type';
 import { Hover } from '../src/web/actions/Hover';
+import { Press } from '../src/web/actions/Press';
 import { Clear } from '../src/web/actions/Clear';
 import { Add } from '../src/web/actions/Add';
 import { Get } from '../src/web/actions/Get';
@@ -110,6 +111,31 @@ test.describe('Testing screenplay-playwright-js web module', () => {
         );
         // assert that the info is now visible after hover
         await expect(await actor.states('page').locator('[href="/users/1"]')).toBeVisible();
+    });
+
+    test('Press', async ({ actor }) => {
+        await actor.attemptsTo(
+            Navigate.to('https://the-internet.herokuapp.com/key_presses'),
+            Wait.forLoadState('networkidle'),
+        );
+        // assert that there is nothing in the result box
+        await expect(actor.states('page').locator('[id="result"]')).toHaveText('');
+
+        await actor.attemptsTo(
+            Click.on('[id="target"]'),
+            Press.key('a'),
+        );
+        // assert that the pressed button was recognized
+        await expect(actor.states('page').locator('[id="result"]')).toHaveText('You entered: A');
+    });
+
+    test('Recursive Locators', async ({ actor }) => {
+        await actor.attemptsTo(
+            Navigate.to('https://google.com'),
+            Wait.forLoadState('networkidle'),
+
+            Click.on('[id="CXQnmb"]', { subSelector: ['[class="dbsFrd"]', { subSelector: ['[class="spoKVd"]', { subSelector: ['[id="L2AGLb"]'] }] }] }),
+        );
     });
 
     test('Cookies: Add, Get, Clear', async ({ actor }) => {
