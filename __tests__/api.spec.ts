@@ -1,6 +1,5 @@
 import { expect, test as base } from '@playwright/test';
 import { Actor } from '@testla/screenplay';
-import { assert } from 'console';
 import { UseAPI } from '../src/api/abilities/UseAPI';
 import { Get } from '../src/api/actions/Get';
 import { Post } from '../src/api/actions/Post';

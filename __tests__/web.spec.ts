@@ -77,16 +77,16 @@ test.describe('Testing screenplay-playwright-js web module', () => {
             Wait.forLoadState('networkidle'),
         );
         // assert that there is no button before we add it with our Click
-        expect(await actor.states('page').locator('[class="added-manually"]').count()).toEqual(0);
+        expect(await actor.states('page').locator('[class="added-manually"]')).toHaveCount(0);
 
         await actor.attemptsTo(
             Click.on('button', { hasText: 'Add Element' }),
-            Sleep.for(2000),
         );
         // assert that the button is here after our Click
-        await expect(await actor.states('page').locator('[class="added-manually"]')).toBeEnabled();
+        await expect(await actor.states('page').locator('[class="added-manually"]')).toHaveCount(1);
     });
 
+    // TODO: test different details between Fill and Type
     test('Fill+Type', async ({ actor }) => {
         await actor.attemptsTo(
             Navigate.to('https://the-internet.herokuapp.com/login'),
@@ -133,10 +133,10 @@ test.describe('Testing screenplay-playwright-js web module', () => {
 
     test('Recursive Locators', async ({ actor }) => {
         await actor.attemptsTo(
-            Navigate.to('https://google.com'),
+            Navigate.to('https://the-internet.herokuapp.com/tables'),
             Wait.forLoadState('networkidle'),
 
-            Click.on('[id="CXQnmb"]', { subSelector: ['[class="dbsFrd"]', { subSelector: ['[class="spoKVd"]', { subSelector: ['[id="L2AGLb"]'] }] }] }),
+            Wait.forSelector('[id="table1"]', { subSelector: ['tbody tr', { hasText: 'Conway', subSelector: ['td:has-text("$50.00")'] }] }),
         );
     });
 
@@ -149,7 +149,6 @@ test.describe('Testing screenplay-playwright-js web module', () => {
         );
         // assert that there are cookies to clear
         expect(await context.cookies()).not.toStrictEqual([]);
-        // console.log(await context.cookies());
 
         // Clear any cookies not added by us
         await actor.attemptsTo(
