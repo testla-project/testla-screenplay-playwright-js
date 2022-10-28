@@ -25,7 +25,12 @@ type MyActors = {
 
 const test = base.extend<MyActors>({
     actor: async ({ browser }, use) => {
-        const context = await browser.newContext();
+        const context = await browser.newContext({
+            logger: {
+                isEnabled: (name, severity) => name === 'browser',
+                log: (name, severity, message, args) => console.log(`${name} ${message}`),
+            },
+        });
         const page = await context.newPage();
         const actor = Actor.named('TestActor').can(BrowseTheWeb.using(page)).with('page', page);
         await use(actor);
@@ -34,10 +39,12 @@ const test = base.extend<MyActors>({
 
 test.describe('Testing screenplay-playwright-js web module', () => {
     test('Navigate', async ({ actor }) => {
-        await actor.attemptsTo(
-            Navigate.to('https://google.de'),
-        );
-        await expect(actor.states('page')).toHaveURL('https://www.google.de');
+        await test.step('Navigate to playwright page', async () => {
+            await actor.attemptsTo(
+                Navigate.to('https://google.de'),
+            );
+            await expect(actor.states('page')).toHaveURL('https://www.google.de');
+        });
     });
 
     test('DragAndDrop', async ({ actor }) => {
