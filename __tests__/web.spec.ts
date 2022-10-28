@@ -17,7 +17,7 @@ import { Add } from '../src/web/actions/Add';
 import { Get } from '../src/web/actions/Get';
 import { Set } from '../src/web/actions/Set';
 import { Remove } from '../src/web/actions/Remove';
-import { Sleep } from '../src/shared/actions/Sleep';
+import { Element } from '../src/web/questions/Element';
 
 type MyActors = {
     actor: Actor;
@@ -32,6 +32,8 @@ const test = base.extend<MyActors>({
     },
 });
 
+// TODO: implement test for DoubleClick
+// TODO: test different details between Fill and Type
 test.describe('Testing screenplay-playwright-js web module', () => {
     test('Navigate', async ({ actor }) => {
         await test.step('Navigate to playwright page', async () => {
@@ -86,7 +88,6 @@ test.describe('Testing screenplay-playwright-js web module', () => {
         await expect(await actor.states('page').locator('[class="added-manually"]')).toHaveCount(1);
     });
 
-    // TODO: test different details between Fill and Type
     test('Fill+Type', async ({ actor }) => {
         await actor.attemptsTo(
             Navigate.to('https://the-internet.herokuapp.com/login'),
@@ -131,7 +132,7 @@ test.describe('Testing screenplay-playwright-js web module', () => {
         await expect(actor.states('page').locator('[id="result"]')).toHaveText('You entered: A');
     });
 
-    test('Recursive Locators', async ({ actor }) => {
+    test('Wait + Recursive Locators', async ({ actor }) => {
         await actor.attemptsTo(
             Navigate.to('https://the-internet.herokuapp.com/tables'),
             Wait.forLoadState('networkidle'),
@@ -216,13 +217,74 @@ test.describe('Testing screenplay-playwright-js web module', () => {
             Remove.localStorageItem('localKey'),
             Get.localStorageItem('localKey'),
         );
-        expect(localDeleted).toBe(undefined);
+        expect(localDeleted).toBeUndefined();
 
         // remove session storage item and verify that it was deleted
         const sessionDeleted = await actor.attemptsTo(
             Remove.sessionStorageItem('sessionKey'),
             Get.sessionStorageItem('sessionKey'),
         );
-        expect(sessionDeleted).toBe(undefined);
+        expect(sessionDeleted).toBeUndefined();
+    });
+
+    test('Element (Question)', async ({ actor }) => {
+        await actor.attemptsTo(
+            Navigate.to('https://the-internet.herokuapp.com/tables'),
+            Wait.forLoadState('networkidle'),
+        );
+
+        expect(await actor.asks(
+            Element.toBe.visible('h3', { hasText: 'Data Tables' }),
+        )).toBe(true);
+
+        try {
+            expect(await actor.asks(
+                Element.toBe.visible('h3', { hasText: 'this does not exist', timeout: 1000 }),
+            )).toBe(true);
+        } catch (error) {
+            expect(error).not.toBeUndefined();
+        }
+
+        expect(await actor.asks(
+            Element.notToBe.visible('h3', { hasText: 'this does not exist' }),
+        )).toBe(true);
+
+        try {
+            expect(await actor.asks(
+                Element.notToBe.visible('h3', { hasText: 'Data Tables', timeout: 1000 }),
+            )).toBe(true);
+        } catch (error) {
+            expect(error).not.toBeUndefined();
+        }
+
+        await actor.attemptsTo(
+            Navigate.to('https://the-internet.herokuapp.com/tinymce'),
+            Wait.forLoadState('networkidle'),
+            Click.on('[aria-label="Bold"]'),
+        );
+
+        expect(await actor.asks(
+            Element.toBe.enabled('[aria-label="Undo"]'),
+        )).toBe(true);
+
+        try {
+            expect(await actor.asks(
+                Element.toBe.enabled('[aria-label="Redo"]', { timeout: 1000 }),
+            )).toBe(true);
+        } catch (error) {
+            expect(error).not.toBeUndefined();
+        }
+
+        expect(await actor.asks(
+            Element.notToBe.enabled('[aria-label="Redo"]'),
+        )).toBe(true);
+
+        try {
+            expect(await actor.asks(
+                Element.notToBe.enabled('[aria-label="Undo"]', { timeout: 1000 }),
+            )).toBe(true);
+        } catch (error) {
+            expect(error).not.toBeUndefined();
+        }
     });
 });
