@@ -25,12 +25,7 @@ type MyActors = {
 
 const test = base.extend<MyActors>({
     actor: async ({ browser }, use) => {
-        const context = await browser.newContext({
-            logger: {
-                isEnabled: (name, severity) => name === 'browser',
-                log: (name, severity, message, args) => console.log(`${name} ${message}`),
-            },
-        });
+        const context = await browser.newContext();
         const page = await context.newPage();
         const actor = Actor.named('TestActor').can(BrowseTheWeb.using(page)).with('page', page);
         await use(actor);
