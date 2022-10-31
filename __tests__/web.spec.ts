@@ -237,25 +237,29 @@ test.describe('Testing screenplay-playwright-js web module', () => {
             Element.toBe.visible('h3', { hasText: 'Data Tables' }),
         )).toBe(true);
 
+        let visibleRes = false;
         try {
             expect(await actor.asks(
                 Element.toBe.visible('h3', { hasText: 'this does not exist', timeout: 1000 }),
             )).toBe(true);
         } catch (error) {
-            expect(error).not.toBeUndefined();
+            visibleRes = true;
         }
+        expect(visibleRes).toBeTruthy();
 
         expect(await actor.asks(
             Element.notToBe.visible('h3', { hasText: 'this does not exist' }),
         )).toBe(true);
 
+        let notVisibleRes = false;
         try {
             expect(await actor.asks(
                 Element.notToBe.visible('h3', { hasText: 'Data Tables', timeout: 1000 }),
             )).toBe(true);
         } catch (error) {
-            expect(error).not.toBeUndefined();
+            notVisibleRes = true;
         }
+        expect(notVisibleRes).toBeTruthy();
 
         await actor.attemptsTo(
             Navigate.to('https://the-internet.herokuapp.com/tinymce'),
@@ -267,24 +271,28 @@ test.describe('Testing screenplay-playwright-js web module', () => {
             Element.toBe.enabled('[aria-label="Undo"]'),
         )).toBe(true);
 
+        let enabledRes = false;
         try {
             expect(await actor.asks(
                 Element.toBe.enabled('[aria-label="Redo"]', { timeout: 1000 }),
             )).toBe(true);
         } catch (error) {
-            expect(error).not.toBeUndefined();
+            enabledRes = true;
         }
+        expect(enabledRes).toBeTruthy();
 
         expect(await actor.asks(
             Element.notToBe.enabled('[aria-label="Redo"]'),
         )).toBe(true);
 
+        let notEnabledRes = false;
         try {
             expect(await actor.asks(
                 Element.notToBe.enabled('[aria-label="Undo"]', { timeout: 1000 }),
             )).toBe(true);
         } catch (error) {
-            expect(error).not.toBeUndefined();
+            notEnabledRes = true;
         }
+        expect(notEnabledRes).toBeTruthy();
     });
 });

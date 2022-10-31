@@ -101,37 +101,164 @@ test.describe('Testing screenplay-playwright-js web module', () => {
         expect(response.body).toBeNull();
     });
 
-    test.only('Response (Question)', async ({ actor }) => {
+    test('Response.status (Question)', async ({ actor }) => {
         const response = await actor.attemptsTo(
-            Get.from('http://zippopotam.us/us/90210').withResponseBodyFormat('text'),
+            Get.from('http://zippopotam.us/us/90210'),
         );
 
         await actor.asks(
             Response.has.statusCode(response, 200),
         );
 
-        let res = false;
+        let statusRes = false;
         try {
             await actor.asks(
                 Response.has.statusCode(response, 404),
             );
         } catch (error) {
-            res = true;
+            statusRes = true;
         }
-        expect(res).toBeTruthy();
+        expect(statusRes).toBeTruthy();
 
-        let res2 = false;
+        let notStatusRes = false;
         try {
             await actor.asks(
                 Response.hasNot.statusCode(response, 200),
             );
         } catch (error) {
-            res2 = true;
+            notStatusRes = true;
         }
-        expect(res2).toBeTruthy();
+        expect(notStatusRes).toBeTruthy();
 
         await actor.asks(
             Response.hasNot.statusCode(response, 404),
+        );
+    });
+
+    // TODO: problems with text response
+    test.skip('Response.body (Question)', async ({ actor }) => {
+        const responseJSON = await actor.attemptsTo(
+            Get.from('http://zippopotam.us/us/90210'),
+        );
+
+        const expectedBodyJSON = {
+            'post code': '90210',
+            country: 'United States',
+            'country abbreviation': 'US',
+            places: [{
+                'place name': 'Beverly Hills', longitude: '-118.4065', state: 'California', 'state abbreviation': 'CA', latitude: '34.0901',
+            }],
+        };
+
+        await actor.asks(
+            Response.has.body(responseJSON, expectedBodyJSON),
+        );
+
+        let bodyResJSON = false;
+        try {
+            await actor.asks(
+                Response.has.body(responseJSON, {}),
+            );
+        } catch (error) {
+            bodyResJSON = true;
+        }
+        expect(bodyResJSON).toBeTruthy();
+
+        let notBodyResJSON = false;
+        try {
+            await actor.asks(
+                Response.hasNot.body(responseJSON, expectedBodyJSON),
+            );
+        } catch (error) {
+            notBodyResJSON = true;
+        }
+        expect(notBodyResJSON).toBeTruthy();
+
+        await actor.asks(
+            Response.hasNot.body(responseJSON, {}),
+        );
+
+        const responseText = await actor.attemptsTo(
+            Get.from('https://jsonplaceholder.typicode.com/posts/1').withResponseBodyFormat('text'),
+        );
+
+        const expectedBodyText = JSON.stringify(
+            {
+                userId: 1,
+                id: 1,
+                title: 'sunt aut facere repellat provident occaecati excepturi optio reprehenderit',
+                body: 'quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto',
+            },
+        );
+        console.log(responseText.body);
+        console.log(expectedBodyText);
+
+        await actor.asks(
+            Response.has.body(responseText, expectedBodyText),
+        );
+
+        let bodyResText = false;
+        try {
+            await actor.asks(
+                Response.has.body(responseText, {}),
+            );
+        } catch (error) {
+            bodyResText = true;
+        }
+        expect(bodyResText).toBeTruthy();
+
+        let notBodyResText = false;
+        try {
+            await actor.asks(
+                Response.hasNot.body(responseText, expectedBodyText),
+            );
+        } catch (error) {
+            notBodyResText = true;
+        }
+        expect(notBodyResText).toBeTruthy();
+
+        await actor.asks(
+            Response.hasNot.body(responseText, {}),
+        );
+    });
+
+    // THIS TEST FAILS
+    test.skip('Response.headers (Question)', async ({ actor }) => {
+        const response = await actor.attemptsTo(
+            Get.from('http://zippopotam.us/us/90210'),
+        );
+
+        const expectedHeaders = {
+            'content-type': 'application/json',
+            server: 'cloudfare',
+        };
+
+        await actor.asks(
+            Response.has.headers(response, expectedHeaders),
+        );
+
+        let headersRes = false;
+        try {
+            await actor.asks(
+                Response.has.headers(response, { '???': '???' }),
+            );
+        } catch (error) {
+            headersRes = true;
+        }
+        expect(headersRes).toBeTruthy();
+
+        let notHeadersRes = false;
+        try {
+            await actor.asks(
+                Response.hasNot.headers(response, expectedHeaders),
+            );
+        } catch (error) {
+            notHeadersRes = true;
+        }
+        expect(notHeadersRes).toBeTruthy();
+
+        await actor.asks(
+            Response.hasNot.headers(response, { '???': '???' }),
         );
     });
 });

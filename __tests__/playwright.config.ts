@@ -6,7 +6,7 @@ import { PlaywrightTestConfig, devices } from '@playwright/test';
 const config: PlaywrightTestConfig = {
     // globalSetup: require.resolve('./global-setup'),
     use: {
-        // browserName: 'chromium',
+        browserName: 'chromium',
 
         // baseURL: process.env.APP_BASE_URL,
 
