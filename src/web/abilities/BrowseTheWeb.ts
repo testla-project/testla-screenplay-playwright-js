@@ -231,7 +231,7 @@ export class BrowseTheWeb extends Ability {
             if (value) {
                 return Promise.resolve(JSON.parse(value));
             }
-            return Promise.reject();
+            return Promise.resolve(undefined);
         }, key);
     }
 
@@ -271,7 +271,7 @@ export class BrowseTheWeb extends Ability {
             if (value) {
                 return Promise.resolve(JSON.parse(value));
             }
-            return Promise.reject();
+            return Promise.resolve(undefined);
         }, key);
     }
 
