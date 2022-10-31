@@ -305,10 +305,10 @@ export class BrowseTheWeb extends Ability {
      * Set the value of a Selector of type select to the given option.
      *
      * @param selector the string representing the (select) selector.
-     * @param optionLabel the label of the option.
+     * @param option the label of the option.
      * @param selectorOptions (optional): advanced selector lookup options.
      */
-    public async selectOption(selector: string, optionLabel: string, selectorOptions?: SelectorOptions): Promise<any> {
-        return (await recursiveLocatorLookup({ page: this.page, selector, options: selectorOptions })).selectOption({ label: optionLabel });
+    public async selectOption(selector: string, option: string | { value?: string, label?: string, index?: number }, selectorOptions?: SelectorOptions): Promise<any> {
+        return (await recursiveLocatorLookup({ page: this.page, selector, options: selectorOptions })).selectOption(option);
     }
 }
