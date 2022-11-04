@@ -135,8 +135,7 @@ test.describe('Testing screenplay-playwright-js web module', () => {
         );
     });
 
-    // TODO: problems with text response
-    test.skip('Response.body (Question)', async ({ actor }) => {
+    test('Response.body (Question)', async ({ actor }) => {
         const responseJSON = await actor.attemptsTo(
             Get.from('http://zippopotam.us/us/90210'),
         );
@@ -182,16 +181,13 @@ test.describe('Testing screenplay-playwright-js web module', () => {
             Get.from('https://jsonplaceholder.typicode.com/posts/1').withResponseBodyFormat('text'),
         );
 
-        const expectedBodyText = JSON.stringify(
-            {
-                userId: 1,
-                id: 1,
-                title: 'sunt aut facere repellat provident occaecati excepturi optio reprehenderit',
-                body: 'quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto',
-            },
-        );
-        console.log(responseText.body);
-        console.log(expectedBodyText);
+        // exact spaces and line breaks are necessary! pls don't change this string or else the test fails
+        const expectedBodyText = '{\n'
+            + '  "userId": 1,\n'
+            + '  "id": 1,\n'
+            + '  "title": "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",\n'
+            + '  "body": "quia et suscipit\\nsuscipit recusandae consequuntur expedita et cum\\nreprehenderit molestiae ut ut quas totam\\nnostrum rerum est autem sunt rem eveniet architecto"\n'
+            + '}';
 
         await actor.asks(
             Response.has.body(responseText, expectedBodyText),
@@ -222,15 +218,14 @@ test.describe('Testing screenplay-playwright-js web module', () => {
         );
     });
 
-    // THIS TEST FAILS
-    test.skip('Response.headers (Question)', async ({ actor }) => {
+    test('Response.headers (Question)', async ({ actor }) => {
         const response = await actor.attemptsTo(
             Get.from('http://zippopotam.us/us/90210'),
         );
 
         const expectedHeaders = {
             'content-type': 'application/json',
-            server: 'cloudfare',
+            server: 'cloudflare',
         };
 
         await actor.asks(
