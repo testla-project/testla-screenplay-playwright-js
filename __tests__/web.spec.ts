@@ -143,7 +143,7 @@ test.describe('Testing screenplay-playwright-js web module', () => {
 
             // Locator@[id="table1"] >> tbody tr >> internal:has="text=Conway" >> td:has-text("$50.00")
             // Wait.forSelector(page.locator('[id="table1"]'), { subSelector: [('tbody tr'), { hasText: 'Conway', subSelector: [('td:has-text("$50.00")')] }] }),
-            Wait.forSelector(page.locator('[id="table1"]'), { subSelector: [page.locator('tbody tr'), { hasText: 'Conway', subSelector: [page.locator('td:has-text("$50.00")')] }] }),
+            Wait.forSelector(page.locator('[id="table1"]'), { subSelector: [('tbody tr'), { hasText: 'Conway', subSelector: [page.locator('td:has-text("$50.00")')] }] }),
         );
     });
 

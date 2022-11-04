@@ -2,18 +2,7 @@ import { Locator, Page } from '@playwright/test';
 import { Selector, SelectorOptions, SubSelector } from './types';
 
 // dealing with selector == Playwright Locator and options.hasText
-const checkLocatorForText = async (locator: Locator, text?: string | RegExp): Promise<Locator> => {
-    if (text) {
-        if (await locator.textContent() === text) {
-            return locator;
-        }
-        return locator.getByText(text);
-    }
-    return locator;
-};
-
-// dealing with selector == Playwright Locator and options.hasText
-const getSubLocator = async (locator: Locator, subLocator: Locator, text?: string | RegExp): Promise<Locator> => locator.filter({ has: subLocator, hasText: text });
+const getSubLocator = async (locator: Locator, subLocator?: Locator, text?: string | RegExp): Promise<Locator> => locator.filter({ has: subLocator, hasText: text });
 
 const subLocatorLookup = async ({
     page, locator, timeout, subSelector,
@@ -43,7 +32,7 @@ const subLocatorLookup = async ({
 
 export const recursiveLocatorLookup = async ({ page, selector, options }: { page: Page; selector: Selector; options?: SelectorOptions }): Promise<Locator> => {
     // find first level locator: if selector is a string, need to find it using page.locator(), if it is already a Playwright Locator use it directly.
-    const locator = typeof selector === 'string' ? page.locator(selector, { hasText: options?.hasText }) : await checkLocatorForText(selector, options?.hasText);
+    const locator = typeof selector === 'string' ? page.locator(selector, { hasText: options?.hasText }) : await getSubLocator(selector, undefined, options?.hasText);
     // pass the first level locator into sub locator lookup
     return subLocatorLookup({
         page, locator, timeout: options?.timeout, subSelector: options?.subSelector,
