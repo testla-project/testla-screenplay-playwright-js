@@ -20,7 +20,6 @@ const test = base.extend<MyActors>({
     },
 });
 
-// TODO: implement test for Head
 // TODO: implement test with headers
 test.describe('Testing screenplay-playwright-js web module', () => {
     test('GET', async ({ actor }) => {
@@ -52,6 +51,23 @@ test.describe('Testing screenplay-playwright-js web module', () => {
         );
         expect(response.status).toBe(200);
         expect(response.body).toStrictEqual(data);
+
+        const responseWithHeaders = await actor.attemptsTo(
+            Patch.to('https://jsonplaceholder.typicode.com/posts/1').withData(data)
+                .withHeaders({
+                    'Content-type': 'text/plain; charset=UTF-8',
+                }),
+        );
+        expect(responseWithHeaders.status).toBe(200);
+        expect(responseWithHeaders.body).toStrictEqual({
+            userId: 1,
+            id: 1,
+            title: 'sunt aut facere repellat provident occaecati excepturi optio reprehenderit',
+            body: 'quia et suscipit\n'
+              + 'suscipit recusandae consequuntur expedita et cum\n'
+              + 'reprehenderit molestiae ut ut quas totam\n'
+              + 'nostrum rerum est autem sunt rem eveniet architecto',
+        });
     });
 
     test('PATCH', async ({ actor }) => {
@@ -91,6 +107,15 @@ test.describe('Testing screenplay-playwright-js web module', () => {
             Delete.from('https://jsonplaceholder.typicode.com/posts/1'),
         );
         expect(response.status).toBe(200);
+        expect(response.body).toStrictEqual({});
+
+        const responseWithHeaders = await actor.attemptsTo(
+            Delete.from('https://jsonplaceholder.typicode.com/posts/1').withHeaders({
+                'Content-type': 'text/plain; charset=UTF-8',
+            }),
+        );
+        expect(responseWithHeaders.status).toBe(200);
+        expect(responseWithHeaders.body).toStrictEqual({});
     });
 
     test('HEAD', async ({ actor }) => {
@@ -101,7 +126,7 @@ test.describe('Testing screenplay-playwright-js web module', () => {
         expect(response.body).toBeNull();
     });
 
-    test('Response.status (Question)', async ({ actor }) => {
+    test('Response.statusCode (Question)', async ({ actor }) => {
         const response = await actor.attemptsTo(
             Get.from('http://zippopotam.us/us/90210'),
         );
@@ -254,6 +279,45 @@ test.describe('Testing screenplay-playwright-js web module', () => {
 
         await actor.asks(
             Response.hasNot.headers(response, { '???': '???' }),
+        );
+    });
+
+    test('Response.beenReceivedWithin (Question)', async ({ actor }) => {
+        const start = Date.now();
+
+        const response = await actor.attemptsTo(
+            Get.from('http://zippopotam.us/us/90210'),
+        );
+
+        // expectedReceived is guaranteed to be higher than the response duration
+        const expectedReceived = Date.now() - start + 1000;
+
+        await actor.asks(
+            Response.has.beenReceivedWithin(response, expectedReceived),
+        );
+
+        let receivedRes = false;
+        try {
+            await actor.asks(
+                Response.has.beenReceivedWithin(response, 1),
+            );
+        } catch (error) {
+            receivedRes = true;
+        }
+        expect(receivedRes).toBeTruthy();
+
+        let notReceivedRes = false;
+        try {
+            await actor.asks(
+                Response.hasNot.beenReceivedWithin(response, expectedReceived),
+            );
+        } catch (error) {
+            notReceivedRes = true;
+        }
+        expect(notReceivedRes).toBeTruthy();
+
+        await actor.asks(
+            Response.hasNot.beenReceivedWithin(response, 1),
         );
     });
 });
