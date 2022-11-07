@@ -64,74 +64,84 @@ test.describe('Testing screenplay-playwright-js web module', () => {
     });
 
     test('Check', async ({ actor }) => {
+        const page: Page = actor.states('page');
+
         await actor.attemptsTo(
             Navigate.to('https://the-internet.herokuapp.com/checkboxes'),
             Wait.forLoadState('networkidle'),
-            Check.element('//input[1]'),
-            Check.element('//input[2]'),
+            Check.element(page.locator('//input[1]')),
+            Check.element(page.locator('//input[2]')),
         );
         // assertion
-        await expect(actor.states('page').locator('//input[1]')).toBeChecked();
-        await expect(actor.states('page').locator('//input[2]')).toBeChecked();
+        await expect(page.locator('//input[1]')).toBeChecked();
+        await expect(page.locator('//input[2]')).toBeChecked();
     });
 
     test('Click', async ({ actor }) => {
+        const page: Page = actor.states('page');
+
         await actor.attemptsTo(
             Navigate.to('https://the-internet.herokuapp.com/add_remove_elements/'),
             Wait.forLoadState('networkidle'),
         );
         // assert that there is no button before we add it with our Click
-        expect(await actor.states('page').locator('[class="added-manually"]')).toHaveCount(0);
+        expect(page.locator('[class="added-manually"]')).toHaveCount(0);
 
         await actor.attemptsTo(
-            Click.on('button', { hasText: 'Add Element' }),
+            Click.on(page.locator('button'), { hasText: 'Add Element' }),
         );
         // assert that the button is here after our Click
-        await expect(await actor.states('page').locator('[class="added-manually"]')).toHaveCount(1);
+        await expect(page.locator('[class="added-manually"]')).toHaveCount(1);
     });
 
     test('Fill+Type', async ({ actor }) => {
+        const page: Page = actor.states('page');
+
         await actor.attemptsTo(
             Navigate.to('https://the-internet.herokuapp.com/login'),
             Wait.forLoadState('networkidle'),
-            Fill.in('[id="username"]', 'tomsmith'),
-            Type.in('[id="password"]', 'SuperSecretPassword!'),
-            Click.on('[class="radius"]'),
+            Fill.in(page.locator('[id="username"]'), 'tomsmith'),
+            Type.in(page.locator('[id="password"]'), 'SuperSecretPassword!'),
+            Click.on(page.locator('[class="radius"]')),
             Wait.forLoadState('networkidle'),
         );
         // assert that the login worked
-        await expect(actor.states('page')).toHaveURL('https://the-internet.herokuapp.com/secure');
+        await expect(page).toHaveURL('https://the-internet.herokuapp.com/secure');
     });
 
     test('Hover', async ({ actor }) => {
+        const page: Page = actor.states('page');
+
         await actor.attemptsTo(
             Navigate.to('https://the-internet.herokuapp.com/hovers'),
             Wait.forLoadState('networkidle'),
         );
         // assert that there is no info before the hover
-        await expect(await actor.states('page').locator('[href="/users/1"]')).not.toBeVisible();
+        await expect(page.locator('[href="/users/1"]')).not.toBeVisible();
 
         await actor.attemptsTo(
-            Hover.over('div.figure:nth-child(3) > img:nth-child(1)'),
+            Hover.over(page.locator('div.figure:nth-child(3) > img:nth-child(1)')),
         );
         // assert that the info is now visible after hover
-        await expect(await actor.states('page').locator('[href="/users/1"]')).toBeVisible();
+        await expect(page.locator('[href="/users/1"]')).toBeVisible();
     });
 
     test('Press', async ({ actor }) => {
+        const page: Page = actor.states('page');
+
         await actor.attemptsTo(
             Navigate.to('https://the-internet.herokuapp.com/key_presses'),
             Wait.forLoadState('networkidle'),
         );
         // assert that there is nothing in the result box
-        await expect(actor.states('page').locator('[id="result"]')).toHaveText('');
+        await expect(page.locator('[id="result"]')).toHaveText('');
 
         await actor.attemptsTo(
-            Click.on('[id="target"]'),
+            Click.on(page.locator('[id="target"]')),
             Press.key('a'),
         );
         // assert that the pressed button was recognized
-        await expect(actor.states('page').locator('[id="result"]')).toHaveText('You entered: A');
+        await expect(page.locator('[id="result"]')).toHaveText('You entered: A');
     });
 
     test('Wait + Recursive Locators', async ({ actor }) => {
