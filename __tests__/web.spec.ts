@@ -134,7 +134,7 @@ test.describe('Testing screenplay-playwright-js web module', () => {
         await expect(actor.states('page').locator('[id="result"]')).toHaveText('You entered: A');
     });
 
-    test.only('Wait + Recursive Locators', async ({ actor }) => {
+    test('Wait + Recursive Locators', async ({ actor }) => {
         const page: Page = actor.states('page');
 
         await actor.attemptsTo(
@@ -233,36 +233,41 @@ test.describe('Testing screenplay-playwright-js web module', () => {
         expect(sessionDeleted).toBeUndefined();
     });
 
-    /*
     test('Element (Question)', async ({ actor }) => {
+        const page: Page = actor.states('page');
+
         await actor.attemptsTo(
             Navigate.to('https://the-internet.herokuapp.com/tables'),
             Wait.forLoadState('networkidle'),
         );
 
         expect(await actor.asks(
-            Element.toBe.visible('h3', { hasText: 'Data Tables' }),
+            Element.toBe.visible(page.locator('h3'), { hasText: 'Data Tables' }),
         )).toBe(true);
 
+        let visibleRes = false;
         try {
             expect(await actor.asks(
-                Element.toBe.visible('h3', { hasText: 'this does not exist', timeout: 1000 }),
+                Element.toBe.visible(page.locator('h3'), { hasText: 'this does not exist', timeout: 1000 }),
             )).toBe(true);
         } catch (error) {
-            expect(error).not.toBeUndefined();
+            visibleRes = true;
         }
+        expect(visibleRes).toBeTruthy();
 
         expect(await actor.asks(
-            Element.notToBe.visible('h3', { hasText: 'this does not exist' }),
+            Element.notToBe.visible(page.locator('h3'), { hasText: 'this does not exist' }),
         )).toBe(true);
 
+        let notVisibleRes = false;
         try {
             expect(await actor.asks(
-                Element.notToBe.visible('h3', { hasText: 'Data Tables', timeout: 1000 }),
+                Element.notToBe.visible(page.locator('h3'), { hasText: 'Data Tables', timeout: 1000 }),
             )).toBe(true);
         } catch (error) {
-            expect(error).not.toBeUndefined();
+            notVisibleRes = true;
         }
+        expect(notVisibleRes).toBeTruthy();
 
         await actor.attemptsTo(
             Navigate.to('https://the-internet.herokuapp.com/tinymce'),
@@ -271,28 +276,31 @@ test.describe('Testing screenplay-playwright-js web module', () => {
         );
 
         expect(await actor.asks(
-            Element.toBe.enabled('[aria-label="Undo"]'),
+            Element.toBe.enabled(page.locator('[aria-label="Undo"]')),
         )).toBe(true);
 
+        let enabledRes = false;
         try {
             expect(await actor.asks(
-                Element.toBe.enabled('[aria-label="Redo"]', { timeout: 1000 }),
+                Element.toBe.enabled(page.locator('[aria-label="Redo"]'), { timeout: 1000 }),
             )).toBe(true);
         } catch (error) {
-            expect(error).not.toBeUndefined();
+            enabledRes = true;
         }
+        expect(enabledRes).toBeTruthy();
 
         expect(await actor.asks(
-            Element.notToBe.enabled('[aria-label="Redo"]'),
+            Element.notToBe.enabled(page.locator('[aria-label="Redo"]')),
         )).toBe(true);
 
+        let notEnabledRes = false;
         try {
             expect(await actor.asks(
-                Element.notToBe.enabled('[aria-label="Undo"]', { timeout: 1000 }),
+                Element.notToBe.enabled(page.locator('[aria-label="Undo"]'), { timeout: 1000 }),
             )).toBe(true);
         } catch (error) {
-            expect(error).not.toBeUndefined();
+            notEnabledRes = true;
         }
+        expect(notEnabledRes).toBeTruthy();
     });
-        */
 });
