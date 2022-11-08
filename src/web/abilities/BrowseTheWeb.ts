@@ -171,14 +171,13 @@ export class BrowseTheWeb extends Ability {
      * @param mode the expected property of the selector that needs to be checked. either 'visible' or 'hidden'.
      * @param selector the locator to search for.
      * @param options (optional) advanced selector lookup options.
-     * @param timeout (optional) maximum timeout to wait for.
      * @returns true if the element is visible/hidden as expected, false if the timeout was reached.
      */
     public async checkVisibilityState(selector: string, mode: 'visible' | 'hidden', options?: SelectorOptions): Promise<boolean> {
         if (mode === 'visible') {
-            await expect(await recursiveLocatorLookup(({ page: this.page, selector, options }))).toBeVisible({ timeout: options?.timeout });
+            await expect(await recursiveLocatorLookup(({ page: this.page, selector, options: { ...options, state: 'visible' } }))).toBeVisible({ timeout: options?.timeout });
         } else {
-            await expect(await recursiveLocatorLookup(({ page: this.page, selector, options }))).toBeHidden({ timeout: options?.timeout });
+            await expect(await recursiveLocatorLookup(({ page: this.page, selector, options: { ...options, state: 'hidden' } }))).toBeHidden({ timeout: options?.timeout });
         }
         return Promise.resolve(true);
     }
@@ -193,9 +192,57 @@ export class BrowseTheWeb extends Ability {
      */
     public async checkEnabledState(selector: string, mode: 'enabled' | 'disabled', options?: SelectorOptions): Promise<boolean> {
         if (mode === 'enabled') {
-            await expect(await recursiveLocatorLookup(({ page: this.page, selector, options }))).toBeEnabled({ timeout: options?.timeout });
+            await expect(await recursiveLocatorLookup(({ page: this.page, selector, options: { ...options, state: 'visible' } }))).toBeEnabled({ timeout: options?.timeout });
         } else {
-            await expect(await recursiveLocatorLookup(({ page: this.page, selector, options }))).toBeDisabled({ timeout: options?.timeout });
+            await expect(await recursiveLocatorLookup(({ page: this.page, selector, options: { ...options, state: 'visible' } }))).toBeDisabled({ timeout: options?.timeout });
+        }
+        return Promise.resolve(true);
+    }
+
+    /**
+    * Validate if the given element has the given text or not.
+    *
+    * @param selector the selector of the element to hover over.
+    * @param text the text to check.
+    * @param options (optional) advanced selector lookup options.
+    */
+    public async checkSelectorText(selector: string, text: string | RegExp | (string | RegExp)[], mode: 'has' | 'hasNot', options?: SelectorOptions): Promise<boolean> {
+        if (mode === 'has') {
+            await expect(await recursiveLocatorLookup(({ page: this.page, selector, options: { ...options, state: 'visible' } }))).toHaveText(text, { timeout: options?.timeout });
+        } else {
+            await expect(await recursiveLocatorLookup(({ page: this.page, selector, options: { ...options, state: 'visible' } }))).not.toHaveText(text, { timeout: options?.timeout });
+        }
+        return Promise.resolve(true);
+    }
+
+    /**
+    * Validate if the given element has the given value (single) or not.
+    *
+    * @param selector the selector of the element to hover over.
+    * @param value the single value to check.
+    * @param options (optional) advanced selector lookup options.
+    */
+    public async checkSelectorValue(selector: string, value: string | RegExp, mode: 'has' | 'hasNot', options?: SelectorOptions): Promise<boolean> {
+        if (mode === 'has') {
+            await expect(await recursiveLocatorLookup(({ page: this.page, selector, options: { ...options, state: 'visible' } }))).toHaveValue(value, { timeout: options?.timeout });
+        } else { // case value = string | RegExp -> call not.toHaveValue to check single values
+            await expect(await recursiveLocatorLookup(({ page: this.page, selector, options: { ...options, state: 'visible' } }))).not.toHaveValue(value, { timeout: options?.timeout });
+        }
+        return Promise.resolve(true);
+    }
+
+    /**
+    * Validate if the given element has the given values (multiple) or not.
+    *
+    * @param selector the selector of the element to hover over.
+    * @param values the array of values to check.
+    * @param options (optional) advanced selector lookup options.
+    */
+    public async checkSelectorValues(selector: string, values: (string | RegExp)[], mode: 'has' | 'hasNot', options?: SelectorOptions): Promise<boolean> {
+        if (mode === 'has') {
+            await expect(await recursiveLocatorLookup(({ page: this.page, selector, options: { ...options, state: 'visible' } }))).toHaveValues(values, { timeout: options?.timeout });
+        } else {
+            await expect(await recursiveLocatorLookup(({ page: this.page, selector, options: { ...options, state: 'visible' } }))).not.toHaveValues(values, { timeout: options?.timeout });
         }
         return Promise.resolve(true);
     }
@@ -232,7 +279,7 @@ export class BrowseTheWeb extends Ability {
             if (value) {
                 return Promise.resolve(JSON.parse(value));
             }
-            return Promise.reject();
+            return Promise.resolve(undefined);
         }, key);
     }
 
@@ -272,7 +319,7 @@ export class BrowseTheWeb extends Ability {
             if (value) {
                 return Promise.resolve(JSON.parse(value));
             }
-            return Promise.reject();
+            return Promise.resolve(undefined);
         }, key);
     }
 
