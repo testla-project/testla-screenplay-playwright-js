@@ -124,21 +124,20 @@ test.describe('Testing screenplay-playwright-js web module', () => {
         expect(notTextRes).toBeTruthy();
     });
 
-    test('Element.value', async ({ actor }) => {
-        /*
+    test.only('Element.values', async ({ actor }) => {
         await actor.attemptsTo(
-            Navigate.to('https://the-internet.herokuapp.com/tables'),
+            Navigate.to('https://the-internet.herokuapp.com/login'),
             Wait.forLoadState('networkidle'),
         );
 
         expect(await actor.asks(
-            Element.toBe.text('h3', 'Data Tables'),
+            Element.toBe.value('[id="username"]', ''),
         )).toBe(true);
 
         let textRes = false;
         try {
             expect(await actor.asks(
-                Element.toBe.text('h3', 'this text does not exist', { timeout: 1000 }),
+                Element.toBe.value('id=username', 'this value is wrong', { timeout: 1000 }),
             )).toBe(true);
         } catch (error) {
             textRes = true;
@@ -146,18 +145,17 @@ test.describe('Testing screenplay-playwright-js web module', () => {
         expect(textRes).toBeTruthy();
 
         expect(await actor.asks(
-            Element.notToBe.text('h3', 'this text does not exist'),
+            Element.notToBe.value('[id="username"]', 'this value is wrong'),
         )).toBe(true);
 
         let notTextRes = false;
         try {
             expect(await actor.asks(
-                Element.notToBe.text('h3', 'Data Tables', { timeout: 1000 }),
+                Element.notToBe.value('[id="username"]', /^$/, { timeout: 1000 }), // RegExp for empty string
             )).toBe(true);
         } catch (error) {
             notTextRes = true;
         }
         expect(notTextRes).toBeTruthy();
-        */
     });
 });

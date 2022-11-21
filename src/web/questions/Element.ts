@@ -6,7 +6,7 @@ import { BrowseTheWeb } from '../abilities/BrowseTheWeb';
  * Question Class. Get a specified state for a selector like visible or enabled.
  */
 export class Element extends Question<boolean> {
-    private mode: 'visible' | 'enabled' | 'text' | 'value' | 'values' = 'visible';
+    private mode: 'visible' | 'enabled' | 'text' | 'value' = 'visible';
 
     // the selector of the element to check.
     private selector = '';
@@ -40,17 +40,16 @@ export class Element extends Question<boolean> {
                 await BrowseTheWeb.as(actor).checkSelectorText(this.selector, this.payload, this.checkMode === 'toBe' ? 'has' : 'hasNot', this.options),
             ); // if the ability method is not the expected result there will be an exception
         }
-        if (this.mode === 'value' || this.mode === 'values') {
+        if (this.mode === 'value') {
             // Element.values was called -> need to check multiple values
-            if (Array.isArray(this.payload)) {
+            if (!Array.isArray(this.payload)) {
+                // Element.value was called -> need to check single values
                 return Promise.resolve(
-                    await BrowseTheWeb.as(actor).checkSelectorValues(this.selector, this.payload, this.checkMode === 'toBe' ? 'has' : 'hasNot', this.options),
-                );
+                    await BrowseTheWeb.as(actor).checkSelectorValue(this.selector, this.payload, this.checkMode === 'toBe' ? 'has' : 'hasNot', this.options),
+                ); // if the ability method is not the expected result there will be an exception
             }
-            // Element.value was called -> need to check single values
-            return Promise.resolve(
-                await BrowseTheWeb.as(actor).checkSelectorValue(this.selector, this.payload, this.checkMode === 'toBe' ? 'has' : 'hasNot', this.options),
-            ); // if the ability method is not the expected result there will be an exception
+
+            throw new Error('Element.value: incompatible payload! Arrays can not be checked.');
         }
         throw new Error('Unknown mode: Element.answeredBy');
     }
@@ -122,22 +121,6 @@ export class Element extends Question<boolean> {
      */
     public value(selector: string, value: string | RegExp, options?: SelectorOptions): Element {
         this.mode = 'value';
-        this.selector = selector;
-        this.payload = value;
-        this.options = options;
-
-        return this;
-    }
-
-    /**
-     * Verifies if an element has the given value.
-     *
-     * @param selector the selector.
-     * @param value the value to check.
-     * @param options (optional) advanced selector lookup options.
-     */
-    public values(selector: string, value: (string | RegExp)[], options?: SelectorOptions): Element {
-        this.mode = 'values';
         this.selector = selector;
         this.payload = value;
         this.options = options;

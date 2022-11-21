@@ -232,22 +232,6 @@ export class BrowseTheWeb extends Ability {
     }
 
     /**
-    * Validate if the given element has the given values (multiple) or not.
-    *
-    * @param selector the selector of the element to hover over.
-    * @param values the array of values to check.
-    * @param options (optional) advanced selector lookup options.
-    */
-    public async checkSelectorValues(selector: string, values: (string | RegExp)[], mode: 'has' | 'hasNot', options?: SelectorOptions): Promise<boolean> {
-        if (mode === 'has') {
-            await expect(await recursiveLocatorLookup(({ page: this.page, selector, options: { ...options, state: 'visible' } }))).toHaveValues(values, { timeout: options?.timeout });
-        } else {
-            await expect(await recursiveLocatorLookup(({ page: this.page, selector, options: { ...options, state: 'visible' } }))).not.toHaveValues(values, { timeout: options?.timeout });
-        }
-        return Promise.resolve(true);
-    }
-
-    /**
      * Get the cookies of the current browser context. If no URLs are specified, this method returns all cookies. If URLs are specified, only cookies that affect those URLs are returned.
      */
     public async getCookies(urls?: string | string[] | undefined): Promise<Cookie[]> {
