@@ -1,6 +1,6 @@
 {
   "name": "@testla/screenplay-playwright",
-  "version": "1.0.0-RC3",
+  "version": "1.1.0",
   "description": "Implementation of the Playwright abilities, actions and questions.",
   "main": "index.js",
   "types": "index.d.ts",
