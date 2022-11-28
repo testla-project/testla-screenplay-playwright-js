@@ -1,7 +1,7 @@
 import { Cookie, expect, Page } from '@playwright/test';
 import { Response } from 'playwright';
 import { Ability, Actor } from '@testla/screenplay';
-import { SelectorOptions } from '../types';
+import { Selector, SelectorOptions } from '../types';
 import { recursiveLocatorLookup } from '../utils';
 
 /**
@@ -308,7 +308,7 @@ export class BrowseTheWeb extends Ability {
      * @param option the label of the option.
      * @param selectorOptions (optional): advanced selector lookup options.
      */
-    public async selectOption(selector: string, option: string | { value?: string, label?: string, index?: number }, selectorOptions?: SelectorOptions): Promise<any> {
+    public async selectOption(selector: Selector, option: string | { value?: string, label?: string, index?: number }, selectorOptions?: SelectorOptions): Promise<any> {
         return (await recursiveLocatorLookup({ page: this.page, selector, options: selectorOptions })).selectOption(option);
     }
 }
