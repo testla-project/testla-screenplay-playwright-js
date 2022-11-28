@@ -14,5 +14,4 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm install --with-deps
-      - run: npm run test:api
-      - run: npm run test:web
+      - run: npm run test
