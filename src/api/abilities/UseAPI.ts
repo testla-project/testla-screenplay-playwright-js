@@ -155,7 +155,7 @@ export class UseAPI extends Ability {
     }
 
     /**
-     * Verify if the given headers are included/excluded in the given response.
+     * Verify if the given headers are included/excluded in the given response. (headers should be a subset of response.headers)
      *
      * @param mode the result to check for.
      * @param response the response to check.
@@ -166,7 +166,7 @@ export class UseAPI extends Ability {
     public async checkHeaders(response: Response, headers: {[key: string]: string | undefined }, mode: 'included' | 'excluded'): Promise<boolean> {
         const allResponseHeaderKeys = Object.keys(response.headers);
         expect(
-            Object.entries(headers).every((header) => allResponseHeaderKeys.includes(header[0]) // lookup that header key is available
+            Object.entries(headers).every((header) => allResponseHeaderKeys.includes(header[0]) // lookup that every header key of headers is inside response.headers
             && (header[1] === undefined || response.headers[header[0]] === header[1])), // either header value is undefined -> value doesn't interest us or we check the value for equality
         ).toBe(mode === 'included');
         return Promise.resolve(true);
