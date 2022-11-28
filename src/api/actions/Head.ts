@@ -1,7 +1,7 @@
 import { Actor } from '@testla/screenplay';
 import { UseAPI } from '../abilities/UseAPI';
 import { REQUEST_METHOD } from '../constants';
-import { Headers, Response, ResponseBodyFormat } from '../types';
+import { Headers, Response } from '../types';
 import { ARequest } from './ARequest';
 
 /**
