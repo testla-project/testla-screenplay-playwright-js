@@ -7,7 +7,9 @@
   "commitHooks": false,
   "scripts": {
     "build": "rm -r lib || true && tsc",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "npx playwright test __tests__ --config=__tests__/playwright.config.ts",
+    "test:api": "npx playwright test __tests__/api.spec.ts --config=__tests__/playwright.config.ts",
+    "test:web": "npx playwright test __tests__/web.spec.ts --config=__tests__/playwright.config.ts",
     "lint:ts": "tsc --noEmit",
     "lint:js": "eslint . --cache",
     "lint": "npm run lint:js && npm run lint:ts",
