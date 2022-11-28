@@ -1,5 +1,5 @@
 import { Action, Actor } from '@testla/screenplay';
-import { SelectorOptions } from '../types';
+import { Selector, SelectorOptions } from '../types';
 import { BrowseTheWeb } from '../abilities/BrowseTheWeb';
 
 /**
@@ -7,7 +7,7 @@ import { BrowseTheWeb } from '../abilities/BrowseTheWeb';
  * selector string.
  */
 export class DragAndDrop extends Action {
-    private constructor(private sourceSelector: string, private targetSelector: string, private options?: {
+    private constructor(private sourceSelector: Selector, private targetSelector: Selector, private options?: {
         source?: SelectorOptions;
         target?: SelectorOptions;
     }) {
@@ -28,7 +28,7 @@ export class DragAndDrop extends Action {
      * @param targetSelector the selector of the target element.
      * @param options (optional) advanced selector lookup options.
      */
-    public static execute(sourceSelector: string, targetSelector: string, options?: {
+    public static execute(sourceSelector: Selector, targetSelector: Selector, options?: {
         source?: SelectorOptions;
         target?: SelectorOptions;
     }): DragAndDrop {

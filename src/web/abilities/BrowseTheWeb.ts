@@ -68,7 +68,7 @@ export class BrowseTheWeb extends Ability {
      * @param selector the selector of the element to hover over.
      * @param options (optional) advanced selector lookup options + Modifier keys to press. Ensures that only these modifiers are pressed during the operation.
      */
-    public async hover(selector: string, options?: SelectorOptions & { modifiers?: ('Alt' | 'Control' | 'Meta' | 'Shift')[] }) {
+    public async hover(selector: Selector, options?: SelectorOptions & { modifiers?: ('Alt' | 'Control' | 'Meta' | 'Shift')[] }) {
         return (await recursiveLocatorLookup({ page: this.page, selector, options }))
             .hover({ modifiers: options?.modifiers });
     }
@@ -88,7 +88,7 @@ export class BrowseTheWeb extends Ability {
      * @param selector the selector of the checkbox.
      * @param options (optional) advanced selector lookup options.
      */
-    public async checkBox(selector: string, options?: SelectorOptions): Promise<void> {
+    public async checkBox(selector: Selector, options?: SelectorOptions): Promise<void> {
         return (await recursiveLocatorLookup({ page: this.page, selector, options }))
             .check();
     }
@@ -99,7 +99,7 @@ export class BrowseTheWeb extends Ability {
      * @param selector the selector of the element.
      * @param options (optional) advanced selector lookup options.
      */
-    public async waitForSelector(selector: string, options?: SelectorOptions) {
+    public async waitForSelector(selector: Selector, options?: SelectorOptions) {
         return recursiveLocatorLookup({ page: this.page, selector, options });
     }
 
@@ -110,7 +110,7 @@ export class BrowseTheWeb extends Ability {
      * @param targetSelector the selector of the target element.
      * @param options (optional) advanced selector lookup options.
      */
-    public async dragAndDrop(sourceSelector: string, targetSelector: string, options?: {
+    public async dragAndDrop(sourceSelector: Selector, targetSelector: Selector, options?: {
         source?: SelectorOptions;
         target?: SelectorOptions;
     }) {
@@ -126,7 +126,7 @@ export class BrowseTheWeb extends Ability {
      * @param input the input to fill the element with.
      * @param options (optional) advanced selector lookup options.
      */
-    public async fill(selector: string, input: string, options?: SelectorOptions) {
+    public async fill(selector: Selector, input: string, options?: SelectorOptions) {
         return (await recursiveLocatorLookup({ page: this.page, selector, options }))
             .fill(input);
     }
@@ -138,7 +138,7 @@ export class BrowseTheWeb extends Ability {
      * @param input the input to type into the element.
      * @param options (optional) advanced selector lookup options.
      */
-    public async type(selector: string, input: string, options?: SelectorOptions) {
+    public async type(selector: Selector, input: string, options?: SelectorOptions) {
         return (await recursiveLocatorLookup({ page: this.page, selector, options }))
             .type(input);
     }
@@ -149,7 +149,7 @@ export class BrowseTheWeb extends Ability {
      * @param selector the selector of the element to click.
      * @param options (optional) advanced selector lookup options.
      */
-    public async click(selector: string, options?: SelectorOptions) {
+    public async click(selector: Selector, options?: SelectorOptions) {
         return (await recursiveLocatorLookup({ page: this.page, selector, options }))
             .click();
     }
@@ -160,7 +160,7 @@ export class BrowseTheWeb extends Ability {
      * @param selector the selector of the element to double click.
      * @param options (optional) advanced selector lookup options.
      */
-    public async dblclick(selector: string, options?: SelectorOptions) {
+    public async dblclick(selector: Selector, options?: SelectorOptions) {
         return (await recursiveLocatorLookup({ page: this.page, selector, options }))
             .dblclick();
     }
@@ -171,14 +171,13 @@ export class BrowseTheWeb extends Ability {
      * @param mode the expected property of the selector that needs to be checked. either 'visible' or 'hidden'.
      * @param selector the locator to search for.
      * @param options (optional) advanced selector lookup options.
-     * @param timeout (optional) maximum timeout to wait for.
      * @returns true if the element is visible/hidden as expected, false if the timeout was reached.
      */
-    public async checkVisibilityState(selector: string, mode: 'visible' | 'hidden', options?: SelectorOptions): Promise<boolean> {
+    public async checkVisibilityState(selector: Selector, mode: 'visible' | 'hidden', options?: SelectorOptions): Promise<boolean> {
         if (mode === 'visible') {
-            await expect(await recursiveLocatorLookup(({ page: this.page, selector, options }))).toBeVisible({ timeout: options?.timeout });
+            await expect(await recursiveLocatorLookup({ page: this.page, selector, options: { ...options, state: 'visible' } })).toBeVisible({ timeout: options?.timeout });
         } else {
-            await expect(await recursiveLocatorLookup(({ page: this.page, selector, options }))).toBeHidden({ timeout: options?.timeout });
+            await expect(await recursiveLocatorLookup({ page: this.page, selector, options: { ...options, state: 'hidden' } })).toBeHidden({ timeout: options?.timeout });
         }
         return Promise.resolve(true);
     }
@@ -191,11 +190,11 @@ export class BrowseTheWeb extends Ability {
      * @param options (optional) advanced selector lookup options.
      * @returns true if the element is enabled/disabled as expected, false if the timeout was reached.
      */
-    public async checkEnabledState(selector: string, mode: 'enabled' | 'disabled', options?: SelectorOptions): Promise<boolean> {
+    public async checkEnabledState(selector: Selector, mode: 'enabled' | 'disabled', options?: SelectorOptions): Promise<boolean> {
         if (mode === 'enabled') {
-            await expect(await recursiveLocatorLookup(({ page: this.page, selector, options }))).toBeEnabled({ timeout: options?.timeout });
+            await expect(await recursiveLocatorLookup({ page: this.page, selector, options: { ...options, state: 'visible' } })).toBeEnabled({ timeout: options?.timeout });
         } else {
-            await expect(await recursiveLocatorLookup(({ page: this.page, selector, options }))).toBeDisabled({ timeout: options?.timeout });
+            await expect(await recursiveLocatorLookup({ page: this.page, selector, options: { ...options, state: 'visible' } })).toBeDisabled({ timeout: options?.timeout });
         }
         return Promise.resolve(true);
     }
@@ -232,7 +231,7 @@ export class BrowseTheWeb extends Ability {
             if (value) {
                 return Promise.resolve(JSON.parse(value));
             }
-            return Promise.reject();
+            return Promise.resolve(undefined);
         }, key);
     }
 
@@ -272,7 +271,7 @@ export class BrowseTheWeb extends Ability {
             if (value) {
                 return Promise.resolve(JSON.parse(value));
             }
-            return Promise.reject();
+            return Promise.resolve(undefined);
         }, key);
     }
 

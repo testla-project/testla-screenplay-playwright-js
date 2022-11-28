@@ -1,5 +1,5 @@
 import { Action, Actor } from '@testla/screenplay';
-import { SelectorOptions } from '../types';
+import { Selector, SelectorOptions } from '../types';
 import { BrowseTheWeb } from '../abilities/BrowseTheWeb';
 
 /**
@@ -7,7 +7,7 @@ import { BrowseTheWeb } from '../abilities/BrowseTheWeb';
  */
 export class DoubleClick extends Action {
     // eslint-disable-next-line no-useless-constructor
-    private constructor(private selector: string, private options?: SelectorOptions) {
+    private constructor(private selector: Selector, private options?: SelectorOptions) {
         super();
     }
 
@@ -26,7 +26,7 @@ export class DoubleClick extends Action {
      * @param selector the string representing the selector.
      * @param options (optional): advanced selector lookup options.
      */
-    public static on(selector: string, options?: SelectorOptions): DoubleClick {
+    public static on(selector: Selector, options?: SelectorOptions): DoubleClick {
         return new DoubleClick(selector, options);
     }
 }

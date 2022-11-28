@@ -1,5 +1,5 @@
 import { Actor, Question } from '@testla/screenplay';
-import { SelectorOptions } from '../types';
+import { Selector, SelectorOptions } from '../types';
 import { BrowseTheWeb } from '../abilities/BrowseTheWeb';
 
 /**
@@ -9,7 +9,7 @@ export class Element extends Question<boolean> {
     private mode: 'visible' | 'enabled' = 'visible';
 
     // the selector of the element to check.
-    private selector = '';
+    private selector: Selector = '';
 
     // optional selector options.
     private options?: SelectorOptions;
@@ -54,7 +54,7 @@ export class Element extends Question<boolean> {
      * @param selector the selector
      * @param options (optional) advanced selector lookup options.
      */
-    public visible(selector: string, options?: SelectorOptions): Element {
+    public visible(selector: Selector, options?: SelectorOptions): Element {
         this.mode = 'visible';
         this.selector = selector;
         this.options = options;
@@ -68,7 +68,7 @@ export class Element extends Question<boolean> {
      * @param selector the selector
      * @param options (optional) advanced selector lookup options.
      */
-    public enabled(selector: string, options?: SelectorOptions): Element {
+    public enabled(selector: Selector, options?: SelectorOptions): Element {
         this.mode = 'enabled';
         this.selector = selector;
         this.options = options;
