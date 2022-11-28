@@ -1,9 +1,6 @@
 name: testla-test-execution
-on: push
-  # push:
-  #   branches: [ main ]
-  # pull_request:
-  #   branches: [ main ]
+on: [push, pull_request]
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -16,7 +13,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      # - run: npm ci
-      - run: npm install  --with-deps
+      - run: npm install --with-deps
       - run: npm run test:api
       - run: npm run test:web
