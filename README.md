@@ -1,5 +1,7 @@
 # Testla Screenplay-Playwright
 
+[![tests](https://github.com/testla-project/testla-screenplay-playwright-js/actions/workflows/execute_tests.yaml/badge.svg?branch=main)](https://github.com/testla-project/testla-screenplay-playwright-js/actions/workflows/execute_tests.yaml)
+
 ## Introduction
 
 The testla project is a collection of tools of different tools to help in the QA automation process.
