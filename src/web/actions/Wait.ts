@@ -1,5 +1,5 @@
 import { Action, Actor } from '@testla/screenplay';
-import { SelectorOptions } from '../types';
+import { Selector, SelectorOptions } from '../types';
 import { BrowseTheWeb } from '../abilities/BrowseTheWeb';
 
 /**
@@ -48,7 +48,7 @@ export class Wait extends Action {
      * @param selector the selector.
      * @param options (optional) advanced selector lookup options.
      */
-    public static forSelector(selector: string, options?: SelectorOptions): Wait {
+    public static forSelector(selector: Selector, options?: SelectorOptions): Wait {
         return new Wait({ mode: 'selector', payload: { selector, options } });
     }
 }

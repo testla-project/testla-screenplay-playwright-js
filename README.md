@@ -33,7 +33,7 @@ BrowseTheWeb.as(actor).addCookies([{
 }]);
 ```
 
-#### checkBox(selector: string, options?: SelectorOptions)
+#### checkBox(selector: Selector, options?: SelectorOptions)
 
 Check the specified checkbox.
 
@@ -52,7 +52,7 @@ Clear the browser context cookies.
 BrowseTheWeb.as(actor).clearCookies();
 ```
 
-#### click(selector: string, options?: SelectorOptions)
+#### click(selector: Selector, options?: SelectorOptions)
 
 Click the element specified by the selector.
 
@@ -63,7 +63,7 @@ BrowseTheWeb.as(actor).click('mySelector');
 BrowseTheWeb.as(actor).click('mySelector', { hasText: 'myText', subSelector: ['mySubSelector', { hasText: 'anotherText' } ]});
 ```
 
-#### dblclick(selector: string, options?: SelectorOptions)
+#### dblclick(selector: Selector, options?: SelectorOptions)
 
 Double Click the element specified by the selector.
 
@@ -74,7 +74,7 @@ BrowseTheWeb.as(actor).dblclick('mySelector');
 BrowseTheWeb.as(actor).dblclick('mySelector', { hasText: 'myText', subSelector: ['mySubSelector', { hasText: 'anotherText' } ]});
 ```
 
-#### dragAndDrop(sourceSelector: string, targetSelector: string, options?: { source?: SelectorOptions, target?: SelectorOptions })
+#### dragAndDrop(sourceSelector: Selector, targetSelector: Selector, options?: { source?: SelectorOptions, target?: SelectorOptions })
 
 Drag the specified source element to the specified target element and drop it.
 
@@ -88,7 +88,7 @@ BrowseTheWeb.as(actor).dragAndDrop('sourceSelector', 'targetSelector', {
 });
 ```
 
-#### fill(selector: string, input: string, options?: SelectorOptions)
+#### fill(selector: Selector, input: string, options?: SelectorOptions)
 
 Fill the element specified by the selector with the given input.
 
@@ -136,7 +136,7 @@ Use the page to navigate to the specified url.
 BrowseTheWeb.as(actor).goto('myURL');
 ```
 
-#### hover(selector: string, options?: SelectorOptions & { modifiers?: ('Alt' | 'Control' | 'Meta' | 'Shift')[] })
+#### hover(selector: Selector, options?: SelectorOptions & { modifiers?: ('Alt' | 'Control' | 'Meta' | 'Shift')[] })
 
 Use the page mouse to hover over the specified element.
 
@@ -151,7 +151,7 @@ BrowseTheWeb.as(actor).hover('mySelector', {
 });
 ```
 
-#### checkEnabledState(selector: string, mode: 'enabled' | 'disabled', options?: SelectorOptions, timeout?: number)
+#### checkEnabledState(selector: Selector, mode: 'enabled' | 'disabled', options?: SelectorOptions, timeout?: number)
 
 Verify if a locator on the page is enabled or disabled.
 
@@ -162,7 +162,7 @@ BrowseTheWeb.as(actor).checkEnabledState('mySelector', 'enabled');
 BrowseTheWeb.as(actor).checkEnabledState('mySelector', 'disabled', { hasText: 'myText', subSelector: ['mySubSelector', { hasText: 'anotherText' } ]});
 ```
 
-#### checkVisibilityState(selector: string, mode: 'visible' | 'hidden', options?: SelectorOptions, timeout?: number)
+#### checkVisibilityState(selector: Selector, mode: 'visible' | 'hidden', options?: SelectorOptions, timeout?: number)
 
 Verify if a locator on the page is visible.
 
@@ -216,7 +216,7 @@ Set a session storage item identified by the given key + value, creating a new k
 BrowseTheWeb.as(actor).setSessionStorageItem('some key', 'some value');
 ```
 
-#### type(selector: string, input: string, options?: SelectorOptions)
+#### type(selector: Selector, input: string, options?: SelectorOptions)
 
 Type the given input into the element specified by the selector.
 
@@ -235,7 +235,7 @@ Wait for the specified loading state.
 BrowseTheWeb.as(actor).waitForLoadState('networkidle');
 ```
 
-#### waitForSelector(selector: string, options?: SelectorOptions)
+#### waitForSelector(selector: Selector, options?: SelectorOptions)
 
 Wait until the element of the specified selector exists.
 
@@ -260,7 +260,7 @@ Add.cookies([{
 }]);
 ```
 
-#### Check.element(selector: string, options?: SelectorOptions)
+#### Check.element(selector: Selector, options?: SelectorOptions)
 
 Checks a checkbox
 
@@ -278,7 +278,7 @@ Clear all browser cookies.
 Clear.cookies();
 ```
 
-#### Click.on(selector: string, options?: SelectorOptions)
+#### Click.on(selector: Selector, options?: SelectorOptions)
 
 Click an element
 
@@ -289,7 +289,7 @@ Click.on('mySelector');
 Click.on('mySelector', { hasText: 'myText', subSelector: ['mySubSelector', { hasText: 'anotherText' } ]});
 ```
 
-#### DoubleClick.on(selector: string, options?: SelectorOptions)
+#### DoubleClick.on(selector: Selector, options?: SelectorOptions)
 
 Doubleclick an element
 
@@ -300,7 +300,7 @@ DoubleClick.on('mySelector');
 DoubleClick.on('mySelector', { hasText: 'myText', subSelector: ['mySubSelector', { hasText: 'anotherText' } ]});
 ```
 
-#### DragAndDrop.execute(sourceSelector: string, targetSelector: string, options?: { source?: SelectorOptions, target?: SelectorOptions })
+#### DragAndDrop.execute(sourceselector: Selector, targetselector: Selector, options?: { source?: SelectorOptions, target?: SelectorOptions })
 
 Drag an element specified by the source selector and drop it at the target selector
 
@@ -314,7 +314,7 @@ DragAndDrop.execute('sourceSelector', 'targetSelector', {
 });
 ```
 
-#### Fill.in(selector: string, value: string, options?: SelectorOptions)
+#### Fill.in(selector: Selector, value: string, options?: SelectorOptions)
 
 Fill a given string into an input element
 
@@ -354,7 +354,7 @@ Get a session storage item.
 Get.sessionStorageItem('some key');
 ```
 
-#### Hover.over(selector: string, options?: SelectorOptions & { modifiers?: ('Alt' | 'Control' | 'Meta' | 'Shift')[] })
+#### Hover.over(selector: Selector, options?: SelectorOptions & { modifiers?: ('Alt' | 'Control' | 'Meta' | 'Shift')[] })
 
 Hover an element
 
@@ -420,7 +420,7 @@ Set a session storage item identified by the given key + value, creating a new k
 Set.sessionStorageItem('some key', 'some value');
 ```
 
-#### Type.in(selector: string, value: string, options?: SelectorOptions)
+#### Type.in(selector: Selector, value: string, options?: SelectorOptions)
 
 Type a given string into an input element
 
@@ -439,7 +439,7 @@ Wait for a load state to be present
 Wait.forLoadState(state: 'load' | 'domcontentloaded' | 'networkidle');
 ```
 
-#### Wait.forSelector(selector: string, value: string, options?: SelectorOptions)
+#### Wait.forSelector(selector: Selector, value: string, options?: SelectorOptions)
 
 Wait for an element to be present
 
@@ -652,7 +652,7 @@ Checks if a condition is true.
 
 Checks if a condition is false.
 
-#### Element.*.visible(selector: string, options?: SelectorOptions)
+#### Element.*.visible(selector: Selector, options?: SelectorOptions)
 
 Validates wether an element is visible. A mode operator must be prepended.
 
@@ -666,7 +666,7 @@ Element.notToBe.visible('mySelector', {
 });
 ```
 
-#### Element.*.enabled(selector: string, options?: SelectorOptions)
+#### Element.*.enabled(selector: Selector, options?: SelectorOptions)
 
 Validates wether an element is enabled. A mode operator must be prepended.
 
