@@ -12,7 +12,7 @@ export class Get extends Action {
     /**
      * wait for either a specified loading state or for a selector to become visible/active.
      *
-     * @param actor
+     * @param {Actor} actor the actor which is used
      */
     public performAs(actor: Actor): Promise<any> {
         if (this.mode === 'cookies') {

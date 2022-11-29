@@ -29,7 +29,7 @@ export class BrowseTheWeb extends Ability {
     /**
      * Initialize this Ability by passing an already existing Playwright Page object.
      *
-     * @param page the Playwright Page that will be used to browse.
+     * @param {Page} page the Playwright Page that will be used to browse.
      */
     private constructor(private page: Page) {
         super();
@@ -76,7 +76,7 @@ export class BrowseTheWeb extends Ability {
     /**
      * Press the specified key(s) on the keyboard.
      *
-     * @param input the key(s). multiple keys can be pressed by concatenating with "+"
+     * @param {string} input the key(s). multiple keys can be pressed by concatenating with "+"
      */
     public async press(input: string): Promise<void> {
         return this.page.keyboard.press(input);
