@@ -85,8 +85,8 @@ export class BrowseTheWeb extends Ability {
     /**
      * Check the specified checkbox.
      *
-     * @param selector the selector of the checkbox.
-     * @param options (optional) advanced selector lookup options.
+     * @param {Selector} selector the selector of the checkbox.
+     * @param {SelectorOptions} options (optional) advanced selector lookup options.
      */
     public async checkBox(selector: Selector, options?: SelectorOptions): Promise<void> {
         return (await recursiveLocatorLookup({ page: this.page, selector, options }))
@@ -96,8 +96,8 @@ export class BrowseTheWeb extends Ability {
     /**
      * Wait until the element of the specified selector exists.
      *
-     * @param selector the selector of the element.
-     * @param options (optional) advanced selector lookup options.
+     * @param {Selector} selector the selector of the element.
+     * @param {SelectorOptions} options (optional) advanced selector lookup options.
      */
     public async waitForSelector(selector: Selector, options?: SelectorOptions) {
         return recursiveLocatorLookup({ page: this.page, selector, options });
@@ -106,9 +106,9 @@ export class BrowseTheWeb extends Ability {
     /**
      * Drag the specified source element to the specified target element and drop it.
      *
-     * @param sourceSelector the selector of the source element.
-     * @param targetSelector the selector of the target element.
-     * @param options (optional) advanced selector lookup options.
+     * @param {Selector} sourceSelector the selector of the source element.
+     * @param {Selector} targetSelector the selector of the target element.
+     * @param {SelectorOptions} options (optional) advanced selector lookup options.
      */
     public async dragAndDrop(sourceSelector: Selector, targetSelector: Selector, options?: {
         source?: SelectorOptions;
@@ -122,9 +122,9 @@ export class BrowseTheWeb extends Ability {
     /**
      * Fill the element specified by the selector with the given input.
      *
-     * @param selector the selector of the source element.
-     * @param input the input to fill the element with.
-     * @param options (optional) advanced selector lookup options.
+     * @param {Selector} selector the selector of the source element.
+     * @param {string} input the input to fill the element with.
+     * @param {SelectorOptions} options (optional) advanced selector lookup options.
      */
     public async fill(selector: Selector, input: string, options?: SelectorOptions) {
         return (await recursiveLocatorLookup({ page: this.page, selector, options }))
@@ -134,9 +134,9 @@ export class BrowseTheWeb extends Ability {
     /**
      * Type the given input into the element specified by the selector.
      *
-     * @param selector the selector of the source element.
-     * @param input the input to type into the element.
-     * @param options (optional) advanced selector lookup options.
+     * @param {Selector} selector the selector of the source element.
+     * @param {string} input the input to type into the element.
+     * @param {SelectorOptions} options (optional) advanced selector lookup options.
      */
     public async type(selector: Selector, input: string, options?: SelectorOptions) {
         return (await recursiveLocatorLookup({ page: this.page, selector, options }))
@@ -146,8 +146,8 @@ export class BrowseTheWeb extends Ability {
     /**
      * Click the element specified by the selector.
      *
-     * @param selector the selector of the element to click.
-     * @param options (optional) advanced selector lookup options.
+     * @param {Selector} selector the selector of the element to click.
+     * @param {SelectorOptions} options (optional) advanced selector lookup options.
      */
     public async click(selector: Selector, options?: SelectorOptions) {
         return (await recursiveLocatorLookup({ page: this.page, selector, options }))
@@ -157,8 +157,8 @@ export class BrowseTheWeb extends Ability {
     /**
      * Double click the element specified by the selector.
      *
-     * @param selector the selector of the element to double click.
-     * @param options (optional) advanced selector lookup options.
+     * @param {Selector} selector the selector of the element to double click.
+     * @param {SelectorOptions} options (optional) advanced selector lookup options.
      */
     public async dblclick(selector: Selector, options?: SelectorOptions) {
         return (await recursiveLocatorLookup({ page: this.page, selector, options }))
@@ -168,10 +168,10 @@ export class BrowseTheWeb extends Ability {
     /**
      * Validate if a locator on the page is visible or hidden.
      *
-     * @param mode the expected property of the selector that needs to be checked. either 'visible' or 'hidden'.
-     * @param selector the locator to search for.
-     * @param options (optional) advanced selector lookup options.
-     * @returns true if the element is visible/hidden as expected, false if the timeout was reached.
+     * @param {string} mode the expected property of the selector that needs to be checked. either 'visible' or 'hidden'.
+     * @param {Selector} selector the locator to search for.
+     * @param {SelectorOptions} options (optional) advanced selector lookup options.
+     * @returns {boolean} Promise<boolean> true if the element is visible/hidden as expected, false if the timeout was reached.
      */
     public async checkVisibilityState(selector: Selector, mode: 'visible' | 'hidden', options?: SelectorOptions): Promise<boolean> {
         if (mode === 'visible') {
