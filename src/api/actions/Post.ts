@@ -19,7 +19,8 @@ export class Post extends ARequest {
     /**
      * Send a HTTP POST request to the specified url.
      *
-     * @param actor
+     * @param {Actor} actor the used actor
+     * @return {Response} the returned response
      */
     public async performAs(actor: Actor): Promise<Response> {
         return UseAPI.as(actor).sendRequest(REQUEST_METHOD.POST, this.url, this.headers, this.responseBodyFormat, this.data);
@@ -28,7 +29,8 @@ export class Post extends ARequest {
     /**
      * Send a HTTP POST request to the specified url.
      *
-     * @param url the URL of the target.
+     * @param {string} url the URL of the target.
+     * @return {Post} a new Post instance
      */
     public static to(url: string): Post {
         return new Post(url);
@@ -37,7 +39,8 @@ export class Post extends ARequest {
     /**
      * Add data to the HTTP POST request to send.
      *
-     * @param data the data.
+     * @param {any} data the data.
+     * @return {Post} the Post instance
      */
     public withData(data: any): Post {
         this.data = data;
@@ -47,7 +50,8 @@ export class Post extends ARequest {
     /**
      * Add headers to the HTTP POST request to send.
      *
-     * @param headers the headers.
+     * @param {Headers} headers the headers.
+     * @return {Post} the Post instance
      */
     public withHeaders(headers: Headers): Post {
         this.headers = headers;
@@ -57,7 +61,8 @@ export class Post extends ARequest {
     /**
      * Set the format the response body should be returned as.
      *
-     * @param responseBodyFormat the format of the response body.
+     * @param {ResponseBodyFormat} responseBodyFormat the format of the response body.
+     * @return {Post} the Post instance
      */
     public withResponseBodyFormat(responseBodyFormat: ResponseBodyFormat): Post {
         this.responseBodyFormat = responseBodyFormat;
