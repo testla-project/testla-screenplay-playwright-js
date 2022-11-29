@@ -30,7 +30,7 @@ export class Get extends Action {
     /**
      * Get the specified cookies.
      *
-     * @param urls (optional): If URLs are specified, only cookies that affect those URLs are returned. If no URLs are specified, this all cookies are returned.
+     * @param {string} urls (optional): If URLs are specified, only cookies that affect those URLs are returned. If no URLs are specified, this all cookies are returned.
      */
     public static cookies(urls?: string | string[] | undefined): Get {
         return new Get('cookies', urls);
@@ -39,7 +39,7 @@ export class Get extends Action {
     /**
      * Get a session storage item.
      *
-     * @param key the key that specifies the item.
+     * @param {string} key the key that specifies the item.
      */
     public static sessionStorageItem(key: string): Get {
         return new Get('sessionStorage', key);
@@ -48,7 +48,7 @@ export class Get extends Action {
     /**
      * Get a local storage item.
      *
-     * @param key the key that specifies the item.
+     * @param {string} key the key that specifies the item.
      */
     public static localStorageItem(key: string): Get {
         return new Get('localStorage', key);
