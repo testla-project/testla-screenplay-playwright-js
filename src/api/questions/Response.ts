@@ -24,6 +24,12 @@ export class Response extends Question<boolean> {
         super();
     }
 
+    /**
+     * Verify if the given status is equal to the given response's status.
+     *
+     * @param {Actor} actor the actor which is used
+     * @return {boolean} the verification result true or false
+     */
     public async answeredBy(actor: Actor): Promise<boolean> {
         if (this.action.mode === 'status') {
             // if .is was called -> positive check, if .not was called -> negative check
@@ -54,6 +60,7 @@ export class Response extends Question<boolean> {
 
     /**
      * make the Question check for the positive.
+     * @return {Response} the new Response instance
      */
     static get has() {
         return new Response('has');
@@ -61,6 +68,7 @@ export class Response extends Question<boolean> {
 
     /**
      * make the Question check for the negative.
+     * @return {Response} the new Response instance
      */
     static get hasNot() {
         return new Response('hasNot');
@@ -69,8 +77,9 @@ export class Response extends Question<boolean> {
     /**
      * Verify if the given status is equal to the given response's status.
      *
-     * @param response the response to check.
-     * @param statusCode the expected status code.
+     * @param {ResponseType} response the response to check.
+     * @param {number} statusCode the expected status code.
+     * @return {Response} the Response instance
      */
     public statusCode(response: ResponseType, statusCode: number): Response {
         this.response = response;
@@ -82,8 +91,9 @@ export class Response extends Question<boolean> {
     /**
      * Verify if the given body is equal to the given response's body.
      *
-     * @param response the response to check.
-     * @param body the expected body.
+     * @param {ResponseType} response the response to check.
+     * @param {ResponseBodyType} body the expected body.
+     * @return {Response} the Response instance
      */
     public body(response: ResponseType, body: ResponseBodyType): Response {
         this.response = response;
@@ -95,8 +105,9 @@ export class Response extends Question<boolean> {
     /**
      * Verify if the given headers are included in the given response.
      *
-     * @param response the response to check.
-     * @param headers the expected header.
+     * @param {ResponseType} response the response to check.
+     * @param {Headers} headers the expected header.
+     * @return {Response} the Response instance
      */
     public headers(response: ResponseType, headers: Headers): Response {
         this.response = response;
@@ -108,8 +119,9 @@ export class Response extends Question<boolean> {
     /**
      * Verify if the reponse (including receiving body) was received within a given duration.
      *
-     * @param response the response to check
-     * @param duration expected duration (in milliseconds) not to be exceeded
+     * @param {ResponseType} response the response to check
+     * @param {number} duration expected duration (in milliseconds) not to be exceeded
+     * @return {Response} the Response instance
      */
     public beenReceivedWithin(response: ResponseType, duration: number): Response {
         this.response = response;
