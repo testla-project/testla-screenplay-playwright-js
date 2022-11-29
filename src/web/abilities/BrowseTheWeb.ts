@@ -1,4 +1,4 @@
-import { Cookie, expect, Page } from '@playwright/test';
+import { Cookie, expect, Locator, Page } from '@playwright/test';
 import { Response } from 'playwright';
 import { Ability, Actor } from '@testla/screenplay';
 import { Selector, SelectorOptions } from '../types';
@@ -48,6 +48,7 @@ export class BrowseTheWeb extends Ability {
      * Use the page to navigate to the specified URL.
      *
      * @param {string} url the url to access.
+     * @return {Response}
      */
     public async goto(url: string): Promise<Response | null> {
         return this.page.goto(url);
@@ -56,7 +57,8 @@ export class BrowseTheWeb extends Ability {
     /**
      * Wait for the specified loading state.
      *
-     * @param status the status to wait for. Allowed: "load" | "domcontentloaded" | "networkidle".
+     * @param {string} status the status to wait for. Allowed: "load" | "domcontentloaded" | "networkidle".
+     * @return {void}
      */
     public async waitForLoadState(status: 'load' | 'domcontentloaded' | 'networkidle'): Promise<void> {
         return this.page.waitForLoadState(status);
@@ -67,8 +69,9 @@ export class BrowseTheWeb extends Ability {
      *
      * @param {Selector} selector the selector of the element to hover over.
      * @param {SelectorOptions} options (optional) advanced selector lookup options + Modifier keys to press. Ensures that only these modifiers are pressed during the operation.
+     * @return {void}
      */
-    public async hover(selector: Selector, options?: SelectorOptions & { modifiers?: ('Alt' | 'Control' | 'Meta' | 'Shift')[] }) {
+    public async hover(selector: Selector, options?: SelectorOptions & { modifiers?: ('Alt' | 'Control' | 'Meta' | 'Shift')[] }): Promise<void> {
         return (await recursiveLocatorLookup({ page: this.page, selector, options }))
             .hover({ modifiers: options?.modifiers });
     }
@@ -77,6 +80,7 @@ export class BrowseTheWeb extends Ability {
      * Press the specified key(s) on the keyboard.
      *
      * @param {string} input the key(s). multiple keys can be pressed by concatenating with "+"
+     * @return {void}
      */
     public async press(input: string): Promise<void> {
         return this.page.keyboard.press(input);
@@ -87,6 +91,7 @@ export class BrowseTheWeb extends Ability {
      *
      * @param {Selector} selector the selector of the checkbox.
      * @param {SelectorOptions} options (optional) advanced selector lookup options.
+     * @return {void}
      */
     public async checkBox(selector: Selector, options?: SelectorOptions): Promise<void> {
         return (await recursiveLocatorLookup({ page: this.page, selector, options }))
@@ -98,8 +103,9 @@ export class BrowseTheWeb extends Ability {
      *
      * @param {Selector} selector the selector of the element.
      * @param {SelectorOptions} options (optional) advanced selector lookup options.
+     * @return {Locator} Promise<Locator> returns the locator
      */
-    public async waitForSelector(selector: Selector, options?: SelectorOptions) {
+    public async waitForSelector(selector: Selector, options?: SelectorOptions): Promise<Locator> {
         return recursiveLocatorLookup({ page: this.page, selector, options });
     }
 
@@ -109,11 +115,12 @@ export class BrowseTheWeb extends Ability {
      * @param {Selector} sourceSelector the selector of the source element.
      * @param {Selector} targetSelector the selector of the target element.
      * @param {SelectorOptions} options (optional) advanced selector lookup options.
+     * @return {void}
      */
     public async dragAndDrop(sourceSelector: Selector, targetSelector: Selector, options?: {
         source?: SelectorOptions;
         target?: SelectorOptions;
-    }) {
+    }): Promise<void> {
         const target = await recursiveLocatorLookup({ page: this.page, selector: targetSelector, options: options?.target });
         return (await recursiveLocatorLookup({ page: this.page, selector: sourceSelector, options: options?.source }))
             .dragTo(target, { targetPosition: { x: 0, y: 0 } });
@@ -125,8 +132,9 @@ export class BrowseTheWeb extends Ability {
      * @param {Selector} selector the selector of the source element.
      * @param {string} input the input to fill the element with.
      * @param {SelectorOptions} options (optional) advanced selector lookup options.
+     * @return {void}
      */
-    public async fill(selector: Selector, input: string, options?: SelectorOptions) {
+    public async fill(selector: Selector, input: string, options?: SelectorOptions): Promise<void> {
         return (await recursiveLocatorLookup({ page: this.page, selector, options }))
             .fill(input);
     }
@@ -137,8 +145,9 @@ export class BrowseTheWeb extends Ability {
      * @param {Selector} selector the selector of the source element.
      * @param {string} input the input to type into the element.
      * @param {SelectorOptions} options (optional) advanced selector lookup options.
+     * @return {void}
      */
-    public async type(selector: Selector, input: string, options?: SelectorOptions) {
+    public async type(selector: Selector, input: string, options?: SelectorOptions): Promise<void> {
         return (await recursiveLocatorLookup({ page: this.page, selector, options }))
             .type(input);
     }
@@ -263,7 +272,8 @@ export class BrowseTheWeb extends Ability {
     /**
      * Get a session storage item.
      *
-     * @param key the key that specifies the item.
+     * @param {string} key the key that specifies the item.
+     * @return {any}
      */
     public async getSessionStorageItem(key: string): Promise<any> {
         return this.page.evaluate((key) => {
@@ -278,8 +288,9 @@ export class BrowseTheWeb extends Ability {
     /**
      * Set a session storage item identified by the given key + value, creating a new key/value pair if none existed for key previously.
      *
-     * @param key the key that specifies the item.
-     * @param value the value to set.
+     * @param {string} key the key that specifies the item.
+     * @param {any} value the value to set.
+     * @return {void}
      */
     public async setSessionStorageItem(key: string, value: any): Promise<void> {
         return this.page.evaluate(({ key, value }) => {
@@ -291,7 +302,8 @@ export class BrowseTheWeb extends Ability {
     /**
      * Delete a session storage item, if a key/value pair with the given key exists.
      *
-     * @param key the key that specifies the item.
+     * @param {string} key the key that specifies the item.
+     * @return {void}
      */
     public async removeSessionStorageItem(key: string): Promise<void> {
         return this.page.evaluate((key) => {
@@ -303,9 +315,10 @@ export class BrowseTheWeb extends Ability {
     /**
      * Set the value of a Selector of type select to the given option.
      *
-     * @param selector the string representing the (select) selector.
-     * @param option the label of the option.
-     * @param selectorOptions (optional): advanced selector lookup options.
+     * @param {Selector} selector the string representing the (select) selector.
+     * @param {string} option the label of the option.
+     * @param {SelectorOptions} selectorOptions (optional): advanced selector lookup options.
+     * @return {any}
      */
     public async selectOption(selector: Selector, option: string | { value?: string, label?: string, index?: number }, selectorOptions?: SelectorOptions): Promise<any> {
         return (await recursiveLocatorLookup({ page: this.page, selector, options: selectorOptions })).selectOption(option);
