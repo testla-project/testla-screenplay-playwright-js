@@ -18,7 +18,7 @@ export class Delete extends ARequest {
      * Send a HTTP DELETE request to the specified url.
      *
      * @param {Actor} actor the used actor
-     * @return {Response}
+     * @return {Response} the response
      */
     public async performAs(actor: Actor): Promise<Response> {
         return UseAPI.as(actor).sendRequest(REQUEST_METHOD.DELETE, this.url, this.headers, this.responseBodyFormat);
@@ -28,7 +28,7 @@ export class Delete extends ARequest {
      * Send a HTTP DELETE request to the specified url.
      *
      * @param {string} url the URL of the target.
-     * @return {Delete}
+     * @return {Delete} new instance
      */
     public static from(url: string): Delete {
         return new Delete(url);
@@ -38,7 +38,7 @@ export class Delete extends ARequest {
      * Add headers to the HTTP DELETE request to send.
      *
      * @param {Headers} headers the headers.
-     * @return {Delete}
+     * @return {Delete} the existing instance
      */
     public withHeaders(headers: Headers): Delete {
         this.headers = headers;
@@ -49,7 +49,7 @@ export class Delete extends ARequest {
      * Set the format the response body should be returned as.
      *
      * @param {ResponseBodyFormat} responseBodyFormat the format of the response body.
-     * @return {Delete}
+     * @return {Delete} the existing instance
      */
     public withResponseBodyFormat(responseBodyFormat: ResponseBodyFormat): Delete {
         this.responseBodyFormat = responseBodyFormat;
