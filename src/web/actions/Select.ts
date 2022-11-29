@@ -21,9 +21,9 @@ export class Select extends Action {
     /**
      * Set the value of a Selector of type select to the given option.
      *
-     * @param selector the string representing the (select) selector.
-     * @param optionLabel the label of the option.
-     * @param selectorOptions (optional): advanced selector lookup options.
+     * @param {Selector} selector the string representing the (select) selector.
+     * @param {string|number} option optionLabel the label of the option.
+     * @param {SelectorOptions} selectorOptions (optional): advanced selector lookup options.
      */
     public static option(selector: Selector, option: string | { value?: string, label?: string, index?: number }, selectorOptions?: SelectorOptions): Select {
         return new Select(selector, option, selectorOptions);

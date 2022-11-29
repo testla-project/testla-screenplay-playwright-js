@@ -47,7 +47,7 @@ export class BrowseTheWeb extends Ability {
     /**
      * Use the page to navigate to the specified URL.
      *
-     * @param url the url to access.
+     * @param {string} url the url to access.
      */
     public async goto(url: string): Promise<Response | null> {
         return this.page.goto(url);
