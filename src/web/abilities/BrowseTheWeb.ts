@@ -65,8 +65,8 @@ export class BrowseTheWeb extends Ability {
     /**
      * Use the page mouse to hover over the specified element.
      *
-     * @param selector the selector of the element to hover over.
-     * @param options (optional) advanced selector lookup options + Modifier keys to press. Ensures that only these modifiers are pressed during the operation.
+     * @param {Selector} selector the selector of the element to hover over.
+     * @param {SelectorOptions} options (optional) advanced selector lookup options + Modifier keys to press. Ensures that only these modifiers are pressed during the operation.
      */
     public async hover(selector: Selector, options?: SelectorOptions & { modifiers?: ('Alt' | 'Control' | 'Meta' | 'Shift')[] }) {
         return (await recursiveLocatorLookup({ page: this.page, selector, options }))
