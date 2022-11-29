@@ -23,8 +23,8 @@ export class UseAPI extends Ability {
     /**
      * Initialize this Ability by passing an already existing Playwright APIRequestContext object.
      *
-     * @param requestContext the Playwright APIRequestContext that will be used to send REST requests.
-     * @returns UseAPI
+     * @param {APIRequestContext} requestContext the Playwright APIRequestContext that will be used to send REST requests.
+     * @returns {UseAPI} UseApi object
      */
     public static using(requestContext: APIRequestContext) {
         return new UseAPI(requestContext);
@@ -33,8 +33,8 @@ export class UseAPI extends Ability {
     /**
      * Use this Ability as an Actor.
      *
-     * @param actor
-     * @returns UseAPI
+     * @param {Actor} actor the actor object
+     * @returns {UseAPI} UseAPI the actor with the ability to use the API
      */
     public static as(actor: Actor): UseAPI {
         return actor.withAbilityTo(this) as UseAPI;
@@ -43,12 +43,12 @@ export class UseAPI extends Ability {
     /**
      * Send a HTTP request (GET, POST, PATCH, PUT, HEAD or DELETE) to the specified url. Headers and data can also be sent.
      *
-     * @param method GET, POST, PATCH, PUT, HEAD or DELETE.
-     * @param url the full URL to the target.
-     * @param headers (optional) the headers object.
-     * @param responseFormat (optional) specify the desired format the response body should be in.
-     * @param data (optional) the data to be sent.
-     * @returns a Response object consisting of status, body and headers.
+     * @param {RequestMethod} method GET, POST, PATCH, PUT, HEAD or DELETE.
+     * @param {string} url the full URL to the target.
+     * @param {any} headers (optional) the headers object.
+     * @param {ResponseBodyFormat} responseFormat (optional) specify the desired format the response body should be in.
+     * @param {any} data (optional) the data to be sent.
+     * @returns {Response} Promise<Response> a Response object consisting of status, body and headers.
      */
     public async sendRequest(method: RequestMethod, url: string, headers?: any, responseFormat?: ResponseBodyFormat, data?: any): Promise<Response> {
         const options = {
