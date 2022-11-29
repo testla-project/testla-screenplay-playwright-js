@@ -14,7 +14,7 @@ export class UseAPI extends Ability {
     /**
      * Get the request context object
      *
-     * @returns ApiRequestContext
+     * @returns {ApiRequestContext} requestContext the api request context
      */
     public getRequestContext(): APIRequestContext {
         return this.requestContext;
