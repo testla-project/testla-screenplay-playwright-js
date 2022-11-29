@@ -12,7 +12,7 @@ export class Remove extends Action {
     /**
      * wait for either a specified loading state or for a selector to become visible/active.
      *
-     * @param actor
+     * @param {Actor} actor The actor object
      */
     public performAs(actor: Actor): Promise<any> {
         if (this.mode === 'sessionStorage') {
