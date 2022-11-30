@@ -13,7 +13,8 @@ export class Type extends Action {
     /**
      * find the specified selector and fill it.
      *
-     * @param actor
+     * @param {Actor} actor the actor which is used
+     * @return {void} Focuses the element, and then sends a `keydown`, `keypress`/`input`, and `keyup` event for each character in the text.
      */
     public async performAs(actor: Actor): Promise<void> {
         return BrowseTheWeb.as(actor).type(this.selector, this.input, this.options);
@@ -22,9 +23,10 @@ export class Type extends Action {
     /**
      * Finds the specified selector and will it with the specified input string.
      *
-     * @param selector the selector.
-     * @param input the input.
-     * @param options (optional) advanced selector lookup options.
+     * @param {Selector} selector the selector.
+     * @param {string} input the input.
+     * @param {SelectorOptions} options (optional) advanced selector lookup options.
+     * @return {Type} new Type instance
      */
     public static in(selector: Selector, input: string, options?: SelectorOptions): Type {
         return new Type(selector, input, options);
