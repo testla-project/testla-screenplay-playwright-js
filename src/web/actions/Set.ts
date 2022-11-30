@@ -12,7 +12,8 @@ export class Set extends Action {
     /**
      * set the specified storage item.
      *
-     * @param actor
+     * @param {Actor} actor Actor performing this action
+     * @return {any} Returns the value of the `pageFunction` invocation.
      */
     public performAs(actor: Actor): Promise<any> {
         if (this.mode === 'sessionStorage') {
@@ -27,8 +28,9 @@ export class Set extends Action {
     /**
      * Set a session storage item identified by the given key + value, creating a new key/value pair if none existed for key previously.
      *
-     * @param key the key that specifies the item.
-     * @param value the value of the item.
+     * @param {string} key the key that specifies the item.
+     * @param {any} value the value of the item.
+     * @return {Set} new Set instance for session storage
      */
     public static sessionStorageItem(key: string, value: any): Set {
         return new Set('sessionStorage', { key, value });
@@ -37,8 +39,9 @@ export class Set extends Action {
     /**
      * Set a local storage item identified by the given key + value, creating a new key/value pair if none existed for key previously.
      *
-     * @param key the key that specifies the item.
-     * @param value the value of the item.
+     * @param {string} key the key that specifies the item.
+     * @param {any} value the value of the item.
+     * @return {Set} new Set instance for local storage.
      */
     public static localStorageItem(key: string, value: any): Set {
         return new Set('localStorage', { key, value });
