@@ -181,8 +181,8 @@ export class BrowseTheWeb extends Ability {
     /**
      * Validate if a locator on the page is visible or hidden.
      *
-     * @param {string} mode the expected property of the selector that needs to be checked. either 'visible' or 'hidden'.
      * @param {Selector} selector the locator to search for.
+     * @param {string} mode the expected property of the selector that needs to be checked. either 'visible' or 'hidden'.
      * @param {SelectorOptions} options (optional) advanced selector lookup options.
      * @returns {boolean} Promise<boolean> true if the element is visible/hidden as expected, false if the timeout was reached.
      */
