@@ -58,7 +58,7 @@ export class BrowseTheWeb extends Ability {
      * Wait for the specified loading state.
      *
      * @param {string} status the status to wait for. Allowed: "load" | "domcontentloaded" | "networkidle".
-     * @return {void}
+     * @return {void} Returns when the required load state has been reached.
      */
     public async waitForLoadState(status: 'load' | 'domcontentloaded' | 'networkidle'): Promise<void> {
         return this.page.waitForLoadState(status);
