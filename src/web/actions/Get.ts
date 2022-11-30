@@ -13,6 +13,7 @@ export class Get extends Action {
      * wait for either a specified loading state or for a selector to become visible/active.
      *
      * @param {Actor} actor Actor performing this action
+     * @return {any} Returns cookies, session storage items or local storage items
      */
     public performAs(actor: Actor): Promise<any> {
         if (this.mode === 'cookies') {
@@ -31,6 +32,7 @@ export class Get extends Action {
      * Get the specified cookies.
      *
      * @param {string} urls (optional): If URLs are specified, only cookies that affect those URLs are returned. If no URLs are specified, this all cookies are returned.
+     * @return {Get} new Get instance for cookies
      */
     public static cookies(urls?: string | string[] | undefined): Get {
         return new Get('cookies', urls);
@@ -40,6 +42,7 @@ export class Get extends Action {
      * Get a session storage item.
      *
      * @param {string} key the key that specifies the item.
+     * @return {Get} new Get instance for session storage
      */
     public static sessionStorageItem(key: string): Get {
         return new Get('sessionStorage', key);
@@ -49,6 +52,7 @@ export class Get extends Action {
      * Get a local storage item.
      *
      * @param {string} key the key that specifies the item.
+     * @return {Get} new Get instance for local storage
      */
     public static localStorageItem(key: string): Get {
         return new Get('localStorage', key);

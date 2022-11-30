@@ -11,7 +11,8 @@ export class BrowseTheWeb extends Ability {
     /**
      * Initialize this Ability by passing an already existing Playwright Page object.
      *
-     * @param page the Playwright Page that will be used to browse.
+     * @param {Page} page the Playwright Page that will be used to browse.
+     * @return {BrowseTheWeb} Returns the ability to use a browser
      */
     public static using(page: Page): BrowseTheWeb {
         return new BrowseTheWeb(page);
@@ -21,6 +22,7 @@ export class BrowseTheWeb extends Ability {
      * Use this Ability as an Actor.
      *
      * @param {Actor} actor Actor is using this ability
+     * @return {BrowseTheWeb} Returns the ability to use a browser
      */
     public static as(actor: Actor): BrowseTheWeb {
         return actor.withAbilityTo(this) as BrowseTheWeb;
@@ -48,7 +50,7 @@ export class BrowseTheWeb extends Ability {
      * Use the page to navigate to the specified URL.
      *
      * @param {string} url the url to access.
-     * @return {Response}
+     * @return {Response} Returns the main resource response
      */
     public async goto(url: string): Promise<Response | null> {
         return this.page.goto(url);
@@ -69,7 +71,7 @@ export class BrowseTheWeb extends Ability {
      *
      * @param {Selector} selector the selector of the element to hover over.
      * @param {SelectorOptions} options (optional) advanced selector lookup options + Modifier keys to press. Ensures that only these modifiers are pressed during the operation.
-     * @return {void}
+     * @return {void} Returns when hovered over the element
      */
     public async hover(selector: Selector, options?: SelectorOptions & { modifiers?: ('Alt' | 'Control' | 'Meta' | 'Shift')[] }): Promise<void> {
         return (await recursiveLocatorLookup({ page: this.page, selector, options }))
@@ -80,7 +82,7 @@ export class BrowseTheWeb extends Ability {
      * Press the specified key(s) on the keyboard.
      *
      * @param {string} input the key(s). multiple keys can be pressed by concatenating with "+"
-     * @return {void}
+     * @return {void} Returns when the `key` can specify the intended value or a single character to generate the text for.
      */
     public async press(input: string): Promise<void> {
         return this.page.keyboard.press(input);
@@ -91,7 +93,7 @@ export class BrowseTheWeb extends Ability {
      *
      * @param {Selector} selector the selector of the checkbox.
      * @param {SelectorOptions} options (optional) advanced selector lookup options.
-     * @return {void}
+     * @return {void} Returns after checking the element
      */
     public async checkBox(selector: Selector, options?: SelectorOptions): Promise<void> {
         return (await recursiveLocatorLookup({ page: this.page, selector, options }))
@@ -115,7 +117,7 @@ export class BrowseTheWeb extends Ability {
      * @param {Selector} sourceSelector the selector of the source element.
      * @param {Selector} targetSelector the selector of the target element.
      * @param {SelectorOptions} options (optional) advanced selector lookup options.
-     * @return {void}
+     * @return {void} Returns after dragging the locator to another target locator or target position
      */
     public async dragAndDrop(sourceSelector: Selector, targetSelector: Selector, options?: {
         source?: SelectorOptions;
@@ -132,7 +134,7 @@ export class BrowseTheWeb extends Ability {
      * @param {Selector} selector the selector of the source element.
      * @param {string} input the input to fill the element with.
      * @param {SelectorOptions} options (optional) advanced selector lookup options.
-     * @return {void}
+     * @return {void} Returns after checks, focuses the element, fills it and triggers an `input` event after filling.
      */
     public async fill(selector: Selector, input: string, options?: SelectorOptions): Promise<void> {
         return (await recursiveLocatorLookup({ page: this.page, selector, options }))
@@ -145,7 +147,7 @@ export class BrowseTheWeb extends Ability {
      * @param {Selector} selector the selector of the source element.
      * @param {string} input the input to type into the element.
      * @param {SelectorOptions} options (optional) advanced selector lookup options.
-     * @return {void}
+     * @return {void} Focuses the element, and then sends a `keydown`, `keypress`/`input`, and `keyup` event for each character in the text.
      */
     public async type(selector: Selector, input: string, options?: SelectorOptions): Promise<void> {
         return (await recursiveLocatorLookup({ page: this.page, selector, options }))
@@ -157,8 +159,9 @@ export class BrowseTheWeb extends Ability {
      *
      * @param {Selector} selector the selector of the element to click.
      * @param {SelectorOptions} options (optional) advanced selector lookup options.
+     * @return {void} Returns after clicking the element
      */
-    public async click(selector: Selector, options?: SelectorOptions) {
+    public async click(selector: Selector, options?: SelectorOptions): Promise<void> {
         return (await recursiveLocatorLookup({ page: this.page, selector, options }))
             .click();
     }
@@ -168,8 +171,9 @@ export class BrowseTheWeb extends Ability {
      *
      * @param {Selector} selector the selector of the element to double click.
      * @param {SelectorOptions} options (optional) advanced selector lookup options.
+     * @return {void} Returns after double clicking the element
      */
-    public async dblclick(selector: Selector, options?: SelectorOptions) {
+    public async dblclick(selector: Selector, options?: SelectorOptions): Promise<void> {
         return (await recursiveLocatorLookup({ page: this.page, selector, options }))
             .dblclick();
     }
@@ -194,10 +198,10 @@ export class BrowseTheWeb extends Ability {
     /**
      * Validate if a locator on the page is enabled or disabled.
      *
-     * @param selector the locator to search for.
-     * @param mode the expected property of the selector that needs to be checked. either 'enabled' or 'disabled'.
-     * @param options (optional) advanced selector lookup options.
-     * @returns true if the element is enabled/disabled as expected, false if the timeout was reached.
+     * @param {Selector} selector the locator to search for.
+     * @param {string} mode the expected property of the selector that needs to be checked. either 'enabled' or 'disabled'.
+     * @param {SelectorOptions} options (optional) advanced selector lookup options.
+     * @returns {boolean} true if the element is enabled/disabled as expected, false if the timeout was reached.
      */
     public async checkEnabledState(selector: Selector, mode: 'enabled' | 'disabled', options?: SelectorOptions): Promise<boolean> {
         if (mode === 'enabled') {
@@ -210,6 +214,8 @@ export class BrowseTheWeb extends Ability {
 
     /**
      * Get the cookies of the current browser context. If no URLs are specified, this method returns all cookies. If URLs are specified, only cookies that affect those URLs are returned.
+     * @param {string|string[]} urls affected urls
+     * @return {Cookie[]} Returns the cookies of the current browser context.
      */
     public async getCookies(urls?: string | string[] | undefined): Promise<Cookie[]> {
         return this.page.context().cookies(urls);
@@ -217,6 +223,8 @@ export class BrowseTheWeb extends Ability {
 
     /**
      * Adds cookies into this browser context. All pages within this context will have these cookies installed. Cookies can be obtained via BrowseTheWeb.getCookies([urls]).
+     * @param {Cookie[]} cookies Cookies to add at browser context
+     * @return {void} Returns after adding cookies into this browser context.
      */
     public async addCookies(cookies: Cookie[]): Promise<void> {
         return this.page.context().addCookies(cookies);
@@ -224,6 +232,7 @@ export class BrowseTheWeb extends Ability {
 
     /**
      * Clear the browser context cookies.
+     * @return {void} Clears context cookies.
      */
     public async clearCookies(): Promise<void> {
         return this.page.context().clearCookies();
@@ -232,7 +241,8 @@ export class BrowseTheWeb extends Ability {
     /**
      * Get a local storage item.
      *
-     * @param key the key that specifies the item.
+     * @param {string} key the key that specifies the item.
+     * @return {any} Returns the local storage item
      */
     public async getLocalStorageItem(key: string): Promise<any> {
         return this.page.evaluate((key) => {
@@ -247,8 +257,9 @@ export class BrowseTheWeb extends Ability {
     /**
      * Set a local storage item identified by the given key + value, creating a new key/value pair if none existed for key previously.
      *
-     * @param key the key that specifies the item.
-     * @param value the value to set.
+     * @param {string} key the key that specifies the item.
+     * @param {any} value the value to set.
+     * @return {void} Returns after adding the local storage item
      */
     public async setLocalStorageItem(key: string, value: any): Promise<void> {
         return this.page.evaluate(({ key, value }) => {
@@ -260,7 +271,8 @@ export class BrowseTheWeb extends Ability {
     /**
      * Delete a local storage item, if a key/value pair with the given key exists.
      *
-     * @param key the key that specifies the item.
+     * @param {string} key the key that specifies the item.
+     * @return {void} Returns after deleting a local storage item
      */
     public async removeLocalStorageItem(key: string): Promise<void> {
         return this.page.evaluate((key) => {
@@ -273,7 +285,7 @@ export class BrowseTheWeb extends Ability {
      * Get a session storage item.
      *
      * @param {string} key the key that specifies the item.
-     * @return {any}
+     * @return {any} Retrieves a session storage item
      */
     public async getSessionStorageItem(key: string): Promise<any> {
         return this.page.evaluate((key) => {
@@ -290,7 +302,7 @@ export class BrowseTheWeb extends Ability {
      *
      * @param {string} key the key that specifies the item.
      * @param {any} value the value to set.
-     * @return {void}
+     * @return {void} Set the session storage item
      */
     public async setSessionStorageItem(key: string, value: any): Promise<void> {
         return this.page.evaluate(({ key, value }) => {
@@ -303,7 +315,7 @@ export class BrowseTheWeb extends Ability {
      * Delete a session storage item, if a key/value pair with the given key exists.
      *
      * @param {string} key the key that specifies the item.
-     * @return {void}
+     * @return {void} Returns after removing a session storage item.
      */
     public async removeSessionStorageItem(key: string): Promise<void> {
         return this.page.evaluate((key) => {
@@ -318,7 +330,7 @@ export class BrowseTheWeb extends Ability {
      * @param {Selector} selector the string representing the (select) selector.
      * @param {string} option the label of the option.
      * @param {SelectorOptions} selectorOptions (optional): advanced selector lookup options.
-     * @return {any}
+     * @return {any} Returns the array of option values that have been successfully selected.
      */
     public async selectOption(selector: Selector, option: string | { value?: string, label?: string, index?: number }, selectorOptions?: SelectorOptions): Promise<any> {
         return (await recursiveLocatorLookup({ page: this.page, selector, options: selectorOptions })).selectOption(option);

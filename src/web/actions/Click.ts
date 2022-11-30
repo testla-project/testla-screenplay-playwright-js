@@ -14,6 +14,7 @@ export class Click extends Action {
      * find the specified selector and click on it.
      *
      * @param {Actor} actor Actor performing this action
+     * @return {void} Returns after clicking the element
      */
     public async performAs(actor: Actor): Promise<void> {
         await BrowseTheWeb.as(actor).click(this.selector, this.options);
@@ -22,8 +23,9 @@ export class Click extends Action {
     /**
      * specify which element should be clicked on
      *
-     * @param selector the string representing the selector.
-     * @param options (optional): advanced selector lookup options.
+     * @param {Selector} selector the string representing the selector.
+     * @param {SelectorOptions} options (optional): advanced selector lookup options.
+     * @return {Click} new Click instance
      */
     public static on(selector: Selector, options?: SelectorOptions): Click {
         return new Click(selector, options);

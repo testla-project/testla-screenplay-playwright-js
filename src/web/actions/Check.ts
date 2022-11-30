@@ -14,6 +14,7 @@ export class Check extends Action {
      * find the specified selector and click on it.
      *
      * @param {Actor} actor Actor performing this action
+     * @return {void} Returns after checking the element
      */
     public async performAs(actor: Actor): Promise<void> {
         await BrowseTheWeb.as(actor).checkBox(this.selector, this.options);
@@ -22,8 +23,9 @@ export class Check extends Action {
     /**
      * specify which element should be clicked on
      *
-     * @param selector the string representing the selector.
-     * @param options (optional): advanced selector lookup options.
+     * @param {Selector} selector the string representing the selector.
+     * @param {SelectorOptions} options (optional): advanced selector lookup options.
+     * @return {Check} new Check instance
      */
     public static element(selector: Selector, options?: SelectorOptions): Check {
         return new Check(selector, options);

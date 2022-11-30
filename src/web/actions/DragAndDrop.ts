@@ -17,6 +17,7 @@ export class DragAndDrop extends Action {
     /**
      * drag the specified selector and drop it on the target.
      * @param {Actor} actor Actor performing this action
+     * @return {void} Returns after dragging the locator to another target locator or target position
      */
     public performAs(actor: Actor): Promise<void> {
         return BrowseTheWeb.as(actor).dragAndDrop(this.sourceSelector, this.targetSelector, this.options);
@@ -25,9 +26,10 @@ export class DragAndDrop extends Action {
     /**
      * Drag the specified source element to the specified target element and drop it.
      *
-     * @param sourceSelector the selector of the source element.
-     * @param targetSelector the selector of the target element.
-     * @param options (optional) advanced selector lookup options.
+     * @param {Selector} sourceSelector the selector of the source element.
+     * @param {Selector} targetSelector the selector of the target element.
+     * @param {SelectorOptions} options (optional) advanced selector lookup options.
+     * @return {DragAndDrop} new DragAndDrop instance
      */
     public static execute(sourceSelector: Selector, targetSelector: Selector, options?: {
         source?: SelectorOptions;
