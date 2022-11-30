@@ -12,7 +12,7 @@ export class Press extends Action {
     /**
      * Press the specified key.
      *
-     * @param actor
+     * @param {Actor} actor Actor performing this action
      */
     public async performAs(actor: Actor): Promise<void> {
         return BrowseTheWeb.as(actor).press(this.input);

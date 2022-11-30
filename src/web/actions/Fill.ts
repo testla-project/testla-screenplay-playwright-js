@@ -13,7 +13,7 @@ export class Fill extends Action {
     /**
      * find the specified selector and fill it.
      *
-     * @param actor
+     * @param {Actor} actor Actor performing this action
      */
     public async performAs(actor: Actor): Promise<void> {
         return BrowseTheWeb.as(actor).fill(this.selector, this.input, this.options);

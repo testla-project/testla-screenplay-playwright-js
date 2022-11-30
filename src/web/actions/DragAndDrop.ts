@@ -16,6 +16,7 @@ export class DragAndDrop extends Action {
 
     /**
      * drag the specified selector and drop it on the target.
+     * @param {Actor} actor Actor performing this action
      */
     public performAs(actor: Actor): Promise<void> {
         return BrowseTheWeb.as(actor).dragAndDrop(this.sourceSelector, this.targetSelector, this.options);

@@ -8,7 +8,7 @@ export class Clear extends Action {
     /**
      * wait for either a specified loading state or for a selector to become visible/active.
      *
-     * @param actor
+     * @param {Actor} actor Actor performing this action
      */
     // eslint-disable-next-line class-methods-use-this
     public performAs(actor: Actor): Promise<any> {

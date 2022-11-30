@@ -12,7 +12,8 @@ export class Remove extends Action {
     /**
      * wait for either a specified loading state or for a selector to become visible/active.
      *
-     * @param {Actor} actor The actor object
+     * @param {Actor} actor Actor performing this action
+     * @return {any} Returns the value of the `pageFunction` invocation.
      */
     public performAs(actor: Actor): Promise<any> {
         if (this.mode === 'sessionStorage') {
@@ -27,7 +28,8 @@ export class Remove extends Action {
     /**
      * Remove a session storage item, if a key/value pair with the given key exists.
      *
-     * @param key the key that specifies the item.
+     * @param {string} key the key that specifies the item.
+     * @return {Remove} new Remove instance for session storage
      */
     public static sessionStorageItem(key: string): Remove {
         return new Remove('sessionStorage', key);
@@ -36,7 +38,8 @@ export class Remove extends Action {
     /**
      * Remove a local storage item, if a key/value pair with the given key exists.
      *
-     * @param key the key that specifies the item.
+     * @param {string} key the key that specifies the item.
+     * @return {Remove} new Remove instance for local storage
      */
     public static localStorageItem(key: string): Remove {
         return new Remove('localStorage', key);

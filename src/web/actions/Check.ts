@@ -13,7 +13,7 @@ export class Check extends Action {
     /**
      * find the specified selector and click on it.
      *
-     * @param actor
+     * @param {Actor} actor Actor performing this action
      */
     public async performAs(actor: Actor): Promise<void> {
         await BrowseTheWeb.as(actor).checkBox(this.selector, this.options);

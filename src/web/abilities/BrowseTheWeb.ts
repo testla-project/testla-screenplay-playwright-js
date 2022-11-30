@@ -20,7 +20,7 @@ export class BrowseTheWeb extends Ability {
     /**
      * Use this Ability as an Actor.
      *
-     * @param actor
+     * @param {Actor} actor Actor is using this ability
      */
     public static as(actor: Actor): BrowseTheWeb {
         return actor.withAbilityTo(this) as BrowseTheWeb;
@@ -38,7 +38,7 @@ export class BrowseTheWeb extends Ability {
     /**
      * Get the page object
      *
-     * @returns the page object
+     * @returns {Page} the page object
      */
     public getPage(): Page {
         return this.page;

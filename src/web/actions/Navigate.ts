@@ -12,7 +12,7 @@ export class Navigate extends Action {
     /**
      * navigate to the specified URL.
      *
-     * @param actor
+     * @param {Actor} actor Actor performing this action
      */
     public performAs(actor: Actor): Promise<any> {
         return BrowseTheWeb.as(actor).goto(this.url);

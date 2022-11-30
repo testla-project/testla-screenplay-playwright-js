@@ -13,7 +13,7 @@ export class Hover extends Action {
     /**
      * find the specified selector and hover over it.
      *
-     * @param actor
+     * @param {Actor} actor Actor performing this action
      */
     public performAs(actor: Actor): Promise<void> {
         return BrowseTheWeb.as(actor).hover(this.selector, this.options);
