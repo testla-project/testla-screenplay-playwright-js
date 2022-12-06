@@ -243,7 +243,7 @@ test.describe('Testing screenplay-playwright-js web module', () => {
         expect(sessionDeleted).toBeUndefined();
     });
 
-    test('Element (Question)', async ({ actor }) => {
+    test('Element.visible', async ({ actor }) => {
         const page: Page = actor.states('page');
 
         await actor.attemptsTo(
@@ -278,6 +278,10 @@ test.describe('Testing screenplay-playwright-js web module', () => {
             notVisibleRes = true;
         }
         expect(notVisibleRes).toBeTruthy();
+    });
+
+    test('Element.enabled', async ({ actor }) => {
+        const page: Page = actor.states('page');
 
         await actor.attemptsTo(
             Navigate.to('https://the-internet.herokuapp.com/tinymce'),
