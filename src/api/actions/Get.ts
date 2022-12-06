@@ -1,6 +1,6 @@
 import { Actor } from '@testla/screenplay';
 import { UseAPI } from '../abilities/UseAPI';
-import { REQUEST_METHOD } from '../constants';
+import { RequestMethod } from '../constants';
 import { Headers, Response, ResponseBodyFormat } from '../types';
 import { ARequest } from './ARequest';
 
@@ -21,7 +21,7 @@ export class Get extends ARequest {
      * @return {Response} the response
      */
     public async performAs(actor: Actor): Promise<Response> {
-        return UseAPI.as(actor).sendRequest(REQUEST_METHOD.GET, this.url, this.headers, this.responseBodyFormat);
+        return UseAPI.as(actor).sendRequest(RequestMethod.GET, this.url, this.headers, this.responseBodyFormat);
     }
 
     /**

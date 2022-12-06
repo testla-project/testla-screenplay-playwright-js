@@ -1,7 +1,7 @@
 /**
  * Methods for HTTP requests
  */
-export enum REQUEST_METHOD {
+export enum RequestMethod {
     GET = 'get',
     POST = 'post',
     PUT = 'put',
@@ -13,4 +13,4 @@ export enum REQUEST_METHOD {
 /**
  * Type for internal handling of the universal request method
  */
-export type RequestMethod = REQUEST_METHOD;
+export type RequestMethodType = RequestMethod;

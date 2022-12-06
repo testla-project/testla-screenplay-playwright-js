@@ -1,7 +1,7 @@
 import { expect } from '@playwright/test';
 import { Ability, Actor } from '@testla/screenplay';
 import { APIRequestContext, APIResponse } from 'playwright';
-import { RequestMethod, REQUEST_METHOD } from '../constants';
+import { RequestMethod, RequestMethodType } from '../constants';
 import {
     Response, ResponseBodyFormat, ResponseBodyType,
 } from '../types';
@@ -50,33 +50,33 @@ export class UseAPI extends Ability {
      * @param {any} data (optional) the data to be sent.
      * @returns {Response} Promise<Response> a Response object consisting of status, body and headers.
      */
-    public async sendRequest(method: RequestMethod, url: string, headers?: any, responseFormat?: ResponseBodyFormat, data?: any): Promise<Response> {
+    public async sendRequest(method: RequestMethodType, url: string, headers?: any, responseFormat?: ResponseBodyFormat, data?: any): Promise<Response> {
         const options = {
             headers,
             data,
         };
 
         // track time before sending request
-        const START_TIME = Date.now();
+        const startTime = Date.now();
 
         let res: APIResponse;
         switch (method) {
-            case REQUEST_METHOD.GET:
+            case RequestMethod.GET:
                 res = await this.requestContext.get(url, options);
                 break;
-            case REQUEST_METHOD.POST:
+            case RequestMethod.POST:
                 res = await this.requestContext.post(url, options);
                 break;
-            case REQUEST_METHOD.PATCH:
+            case RequestMethod.PATCH:
                 res = await this.requestContext.patch(url, options);
                 break;
-            case REQUEST_METHOD.PUT:
+            case RequestMethod.PUT:
                 res = await this.requestContext.put(url, options);
                 break;
-            case REQUEST_METHOD.HEAD:
+            case RequestMethod.HEAD:
                 res = await this.requestContext.head(url, options);
                 break;
-            case REQUEST_METHOD.DELETE:
+            case RequestMethod.DELETE:
                 res = await this.requestContext.delete(url, options);
                 break;
 
@@ -96,13 +96,13 @@ export class UseAPI extends Ability {
         }
 
         // track time after receiving response
-        const END_TIME = Date.now();
+        const endTime = Date.now();
 
         return Promise.resolve({
             status: res.status(),
             body: resBody,
             headers: res.headers(),
-            duration: END_TIME - START_TIME,
+            duration: endTime - startTime,
         });
     }
 
