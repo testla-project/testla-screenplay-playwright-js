@@ -43,7 +43,7 @@ export class UseAPI extends Ability {
     /**
      * Send a HTTP request (GET, POST, PATCH, PUT, HEAD or DELETE) to the specified url. Headers and data can also be sent.
      *
-     * @param {RequestMethod} method GET, POST, PATCH, PUT, HEAD or DELETE.
+     * @param {RequestMethodType} method GET, POST, PATCH, PUT, HEAD or DELETE.
      * @param {string} url the full URL to the target.
      * @param {any} headers (optional) the headers object.
      * @param {ResponseBodyFormat} responseFormat (optional) specify the desired format the response body should be in.
