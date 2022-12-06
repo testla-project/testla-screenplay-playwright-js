@@ -227,7 +227,7 @@ test.describe('Testing screenplay-playwright-js web module', () => {
         expect(sessionDeleted).toBeUndefined();
     });
 
-    test('Element (Question)', async ({ actor }) => {
+    test('Element.visible', async ({ actor }) => {
         await actor.attemptsTo(
             Navigate.to('https://the-internet.herokuapp.com/tables'),
             Wait.forLoadState('networkidle'),
@@ -260,7 +260,9 @@ test.describe('Testing screenplay-playwright-js web module', () => {
             notVisibleRes = true;
         }
         expect(notVisibleRes).toBeTruthy();
+    });
 
+    test('Element.enabled', async ({ actor }) => {
         await actor.attemptsTo(
             Navigate.to('https://the-internet.herokuapp.com/tinymce'),
             Wait.forLoadState('networkidle'),
