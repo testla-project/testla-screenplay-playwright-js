@@ -10,7 +10,7 @@ const config: PlaywrightTestConfig = {
 
         // baseURL: process.env.APP_BASE_URL,
 
-        headless: false,
+        headless: true,
 
         /* What is this? */
         ignoreHTTPSErrors: true,

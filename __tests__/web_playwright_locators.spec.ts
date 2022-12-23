@@ -85,7 +85,7 @@ test.describe('Testing screenplay-playwright-js web module', () => {
             Wait.forLoadState('networkidle'),
         );
         // assert that there is no button before we add it with our Click
-        expect(page.locator('[class="added-manually"]')).toHaveCount(0);
+        await expect(page.locator('[class="added-manually"]')).toHaveCount(0);
 
         await actor.attemptsTo(
             Click.on(page.locator('button'), { hasText: 'Add Element' }),
