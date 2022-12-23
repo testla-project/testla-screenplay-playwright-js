@@ -1,6 +1,6 @@
 /* eslint-disable no-restricted-syntax */
 import {
-    BrowserContext, Cookie, expect, Page, test as base,
+    BrowserContext, Cookie, expect, test as base,
 } from '@playwright/test';
 import { Actor } from '@testla/screenplay';
 import { BrowseTheWeb } from '../src/web/abilities/BrowseTheWeb';
@@ -37,7 +37,9 @@ const test = base.extend<MyActors>({
 // TODO: test different details between Fill and Type
 test.describe('Testing screenplay-playwright-js web module', () => {
     test('Navigate', async ({ actor }) => {
-        const page: Page = await actor.states('page');
+        // To get access of the page object
+        // const page: Page = BrowseTheWeb.as(actor).getPage();
+
         // await page.coverage.startJSCoverage();
         await test.step('Navigate to playwright page', async () => {
             await actor.attemptsTo(
