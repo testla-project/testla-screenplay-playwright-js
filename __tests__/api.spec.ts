@@ -8,10 +8,46 @@ import { Put } from '../src/api/actions/Put';
 import { Head } from '../src/api/actions/Head';
 import { Delete } from '../src/api/actions/Delete';
 import { Response } from '../src/api/questions/Response';
+import { ResponseBodyType, Response as ResponseType } from '../src/api/types';
 
 type MyActors = {
     actor: Actor;
 };
+
+// helper method for the response body verification. to avoid duplicated code.
+async function verifyBodies(actor: Actor, response: ResponseType, expectedBody: ResponseBodyType): Promise<void> {
+    await actor.asks(
+        Response.has.body(response, expectedBody),
+    );
+
+    let bodyRes = false;
+
+    try {
+        await actor.asks(
+            Response.has.body(response, {}),
+        );
+    } catch (error) {
+        bodyRes = true;
+    }
+
+    expect(bodyRes).toBeTruthy();
+
+    let notBodyRes = false;
+
+    try {
+        await actor.asks(
+            Response.hasNot.body(response, expectedBody),
+        );
+    } catch (error) {
+        notBodyRes = true;
+    }
+
+    expect(notBodyRes).toBeTruthy();
+
+    await actor.asks(
+        Response.hasNot.body(response, {}),
+    );
+}
 
 const test = base.extend<MyActors>({
     actor: async ({ request }, use) => {
@@ -30,7 +66,8 @@ test.describe('Testing screenplay-playwright-js web module', () => {
         expect(response.body).not.toBeNull();
     });
 
-    test('POST', async ({ actor }) => {
+    // skip POST test until website is back or this test is replaced.
+    test.skip('POST', async ({ actor }) => {
         const response = await actor.attemptsTo(
             Post.to('https://ptsv2.com/t/ibcu7-1639386619/post').withData('TEST!').withResponseBodyFormat('text'),
         );
@@ -174,33 +211,7 @@ test.describe('Testing screenplay-playwright-js web module', () => {
             }],
         };
 
-        await actor.asks(
-            Response.has.body(responseJSON, expectedBodyJSON),
-        );
-
-        let bodyResJSON = false;
-        try {
-            await actor.asks(
-                Response.has.body(responseJSON, {}),
-            );
-        } catch (error) {
-            bodyResJSON = true;
-        }
-        expect(bodyResJSON).toBeTruthy();
-
-        let notBodyResJSON = false;
-        try {
-            await actor.asks(
-                Response.hasNot.body(responseJSON, expectedBodyJSON),
-            );
-        } catch (error) {
-            notBodyResJSON = true;
-        }
-        expect(notBodyResJSON).toBeTruthy();
-
-        await actor.asks(
-            Response.hasNot.body(responseJSON, {}),
-        );
+        await verifyBodies(actor, responseJSON, expectedBodyJSON);
 
         const responseText = await actor.attemptsTo(
             Get.from('https://jsonplaceholder.typicode.com/posts/1').withResponseBodyFormat('text'),
@@ -214,33 +225,7 @@ test.describe('Testing screenplay-playwright-js web module', () => {
             + '  "body": "quia et suscipit\\nsuscipit recusandae consequuntur expedita et cum\\nreprehenderit molestiae ut ut quas totam\\nnostrum rerum est autem sunt rem eveniet architecto"\n'
             + '}';
 
-        await actor.asks(
-            Response.has.body(responseText, expectedBodyText),
-        );
-
-        let bodyResText = false;
-        try {
-            await actor.asks(
-                Response.has.body(responseText, {}),
-            );
-        } catch (error) {
-            bodyResText = true;
-        }
-        expect(bodyResText).toBeTruthy();
-
-        let notBodyResText = false;
-        try {
-            await actor.asks(
-                Response.hasNot.body(responseText, expectedBodyText),
-            );
-        } catch (error) {
-            notBodyResText = true;
-        }
-        expect(notBodyResText).toBeTruthy();
-
-        await actor.asks(
-            Response.hasNot.body(responseText, {}),
-        );
+        await verifyBodies(actor, responseText, expectedBodyText);
     });
 
     test('Response.headers (Question)', async ({ actor }) => {

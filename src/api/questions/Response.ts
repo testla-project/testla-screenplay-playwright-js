@@ -62,7 +62,7 @@ export class Response extends Question<boolean> {
      * make the Question check for the positive.
      * @return {Response} the new Response instance
      */
-    static get has() {
+    static get has(): Response {
         return new Response('has');
     }
 
@@ -70,7 +70,7 @@ export class Response extends Question<boolean> {
      * make the Question check for the negative.
      * @return {Response} the new Response instance
      */
-    static get hasNot() {
+    static get hasNot(): Response {
         return new Response('hasNot');
     }
 
