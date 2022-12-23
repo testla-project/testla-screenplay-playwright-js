@@ -1,7 +1,10 @@
+/* eslint-disable no-restricted-syntax */
 import {
-    BrowserContext, Cookie, expect, test as base,
+    BrowserContext, Cookie, expect, Page, test as base,
 } from '@playwright/test';
 import { Actor } from '@testla/screenplay';
+import v8toIstanbul from 'v8-to-istanbul';
+import fs from 'fs';
 import { BrowseTheWeb } from '../src/web/abilities/BrowseTheWeb';
 import { Navigate } from '../src/web/actions/Navigate';
 import { Wait } from '../src/web/actions/Wait';
@@ -36,11 +39,30 @@ const test = base.extend<MyActors>({
 // TODO: test different details between Fill and Type
 test.describe('Testing screenplay-playwright-js web module', () => {
     test('Navigate', async ({ actor }) => {
+        const page: Page = await actor.states('page');
+        await page.coverage.startJSCoverage();
         await test.step('Navigate to playwright page', async () => {
             await actor.attemptsTo(
                 Navigate.to('https://google.de'),
             );
             await expect(actor.states('page')).toHaveURL('https://www.google.de');
+        });
+        const coverage = await page.coverage.stopJSCoverage();
+        let coverageInformation = '';
+        for (const entry of coverage) {
+            const converter = v8toIstanbul('', 0, { source: entry.source! });
+            // eslint-disable-next-line no-await-in-loop
+            await converter.load();
+            converter.applyCoverage(entry.functions);
+            // console.log(JSON.stringify(converter.toIstanbul()));
+            coverageInformation += JSON.stringify(converter.toIstanbul());
+        }
+
+        fs.writeFile('testCoverage.json', coverageInformation, (err) => {
+            if (err) {
+                throw err;
+            }
+            console.log('JSON data is saved.');
         });
     });
 

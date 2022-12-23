@@ -6,7 +6,7 @@
   "types": "index.d.ts",
   "commitHooks": false,
   "scripts": {
-    "build": "rm -r lib || true && tsc",
+    "build": "rm -r lib || true && tsc --project ./tsconfig-build.json",
     "test": "npx playwright test __tests__ --config=__tests__/playwright.config.ts",
     "test:api": "npx playwright test __tests__/api.spec.ts --config=__tests__/playwright.config.ts",
     "test:web": "npx playwright test __tests__/web.spec.ts --config=__tests__/playwright.config.ts",
@@ -46,7 +46,8 @@
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-jsx-a11y": "^6.5.1",
     "eslint-plugin-react": "^7.29.4",
-    "typescript": "^4.6.3"
+    "typescript": "^4.6.3",
+    "v8-to-istanbul": "^9.0.1"
   },
   "peerDependencies": {
     "@playwright/test": "^1.27.1",
