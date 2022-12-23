@@ -3,8 +3,6 @@ import {
     BrowserContext, Cookie, expect, Page, test as base,
 } from '@playwright/test';
 import { Actor } from '@testla/screenplay';
-import v8toIstanbul from 'v8-to-istanbul';
-import fs from 'fs';
 import { BrowseTheWeb } from '../src/web/abilities/BrowseTheWeb';
 import { Navigate } from '../src/web/actions/Navigate';
 import { Wait } from '../src/web/actions/Wait';
