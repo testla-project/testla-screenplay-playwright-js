@@ -1,6 +1,6 @@
 import { Actor } from '@testla/screenplay';
 import { UseAPI } from '../abilities/UseAPI';
-import { REQUEST_METHOD } from '../constants';
+import { RequestMethod } from '../constants';
 import { Headers, Response } from '../types';
 import { ARequest } from './ARequest';
 
@@ -15,16 +15,18 @@ export class Head extends ARequest {
     /**
      * Send a HTTP HEAD request to the specified url.
      *
-     * @param actor
+     * @param {Actor} actor the actor
+     * @return {Response} the response
      */
     public async performAs(actor: Actor): Promise<Response> {
-        return UseAPI.as(actor).sendRequest(REQUEST_METHOD.GET, this.url, this.headers, 'none');
+        return UseAPI.as(actor).sendRequest(RequestMethod.GET, this.url, this.headers, 'none');
     }
 
     /**
      * Send a HTTP head request to the specified url.
      *
-     * @param url the URL of the target.
+     * @param {string} url the URL of the target.
+     * @return {Head} new instance
      */
     public static from(url: string): Head {
         return new Head(url);
@@ -33,7 +35,8 @@ export class Head extends ARequest {
     /**
      * Add headers to the HTTP HEAD request to send.
      *
-     * @param headers the headers.
+     * @param {Headers} headers the headers.
+     * @return {Head} this instance
      */
     public withHeaders(headers: Headers): Head {
         this.headers = headers;

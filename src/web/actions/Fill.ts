@@ -13,7 +13,8 @@ export class Fill extends Action {
     /**
      * find the specified selector and fill it.
      *
-     * @param actor
+     * @param {Actor} actor Actor performing this action
+     * @return {void} Returns after checks, focuses the element, fills it and triggers an `input` event after filling.
      */
     public async performAs(actor: Actor): Promise<void> {
         return BrowseTheWeb.as(actor).fill(this.selector, this.input, this.options);
@@ -22,9 +23,10 @@ export class Fill extends Action {
     /**
      * Finds the specified selector and will it with the specified input string.
      *
-     * @param selector the selector.
-     * @param input the input.
-     * @param options (optional) advanced selector lookup options.
+     * @param {Selector} selector the selector.
+     * @param {string} input the input.
+     * @param {SelectorOptions} options (optional) advanced selector lookup options.
+     * @return {Fill} new Fill instance
      */
     public static in(selector: Selector, input: string, options?: SelectorOptions): Fill {
         return new Fill(selector, input, options);

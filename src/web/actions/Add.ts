@@ -13,7 +13,8 @@ export class Add extends Action {
     /**
      * add the cookies to the browser.
      *
-     * @param actor
+     * @param {Actor} actor Actor performing this action
+     * @return {any} Adds cookies into this browser context.
      */
     public performAs(actor: Actor): Promise<any> {
         return BrowseTheWeb.as(actor).addCookies(this.cookies);
@@ -22,7 +23,8 @@ export class Add extends Action {
     /**
      * Add the specified cookies.
      *
-     * @param cookies the cookies to add.
+     * @param {Cookie} cookies the cookies to add.
+     * @return {Add} new Add instance
      */
     public static cookies(cookies: Cookie[]): Add {
         return new Add(cookies);

@@ -1,6 +1,6 @@
 import { Actor } from '@testla/screenplay';
 import { UseAPI } from '../abilities/UseAPI';
-import { REQUEST_METHOD } from '../constants';
+import { RequestMethod } from '../constants';
 import { Headers, Response, ResponseBodyFormat } from '../types';
 import { ARequest } from './ARequest';
 
@@ -17,16 +17,18 @@ export class Get extends ARequest {
     /**
      * Send a HTTP GET request to the specified url.
      *
-     * @param actor
+     * @param {Actor} actor the actor object
+     * @return {Response} the response
      */
     public async performAs(actor: Actor): Promise<Response> {
-        return UseAPI.as(actor).sendRequest(REQUEST_METHOD.GET, this.url, this.headers, this.responseBodyFormat);
+        return UseAPI.as(actor).sendRequest(RequestMethod.GET, this.url, this.headers, this.responseBodyFormat);
     }
 
     /**
      * Send a HTTP GET request to the specified url.
      *
-     * @param url the URL of the target.
+     * @param {string} url the URL of the target.
+     * @return {Get} create a new instance
      */
     public static from(url: string): Get {
         return new Get(url);
@@ -35,7 +37,8 @@ export class Get extends ARequest {
     /**
      * Add headers to the HTTP GET request to send.
      *
-     * @param headers the headers.
+     * @param {Headers} headers the headers.
+     * @return {Get} the instance
      */
     public withHeaders(headers: Headers): Get {
         this.headers = headers;
@@ -45,7 +48,8 @@ export class Get extends ARequest {
     /**
      * Set the format the response body should be returned as.
      *
-     * @param responseBodyFormat the format of the response body.
+     * @param {ResponseBodyFormat} responseBodyFormat the format of the response body.
+     * @return {Get} the instance
      */
     public withResponseBodyFormat(responseBodyFormat: ResponseBodyFormat): Get {
         this.responseBodyFormat = responseBodyFormat;

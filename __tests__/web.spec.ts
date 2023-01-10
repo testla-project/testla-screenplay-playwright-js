@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-syntax */
 import {
     BrowserContext, Cookie, expect, test as base,
 } from '@playwright/test';
@@ -36,12 +37,33 @@ const test = base.extend<MyActors>({
 // TODO: test different details between Fill and Type
 test.describe('Testing screenplay-playwright-js web module', () => {
     test('Navigate', async ({ actor }) => {
+        // To get access of the page object
+        // const page: Page = BrowseTheWeb.as(actor).getPage();
+
+        // await page.coverage.startJSCoverage();
         await test.step('Navigate to playwright page', async () => {
             await actor.attemptsTo(
                 Navigate.to('https://google.de'),
             );
             await expect(actor.states('page')).toHaveURL('https://www.google.de');
         });
+        // const coverage = await page.coverage.stopJSCoverage();
+        // let coverageInformation = '';
+        // for (const entry of coverage) {
+        //     const converter = v8toIstanbul('', 0, { source: entry.source! });
+        //     // eslint-disable-next-line no-await-in-loop
+        //     await converter.load();
+        //     converter.applyCoverage(entry.functions);
+        //     // console.log(JSON.stringify(converter.toIstanbul()));
+        //     coverageInformation += JSON.stringify(converter.toIstanbul());
+        // }
+
+        // fs.writeFile('testCoverage.json', coverageInformation, (err) => {
+        //     if (err) {
+        //         throw err;
+        //     }
+        //     console.log('JSON data is saved.');
+        // });
     });
 
     test('DragAndDrop', async ({ actor }) => {
@@ -227,7 +249,7 @@ test.describe('Testing screenplay-playwright-js web module', () => {
         expect(sessionDeleted).toBeUndefined();
     });
 
-    test('Element (Question)', async ({ actor }) => {
+    test('Element.visible', async ({ actor }) => {
         await actor.attemptsTo(
             Navigate.to('https://the-internet.herokuapp.com/tables'),
             Wait.forLoadState('networkidle'),
@@ -260,7 +282,9 @@ test.describe('Testing screenplay-playwright-js web module', () => {
             notVisibleRes = true;
         }
         expect(notVisibleRes).toBeTruthy();
+    });
 
+    test('Element.enabled', async ({ actor }) => {
         await actor.attemptsTo(
             Navigate.to('https://the-internet.herokuapp.com/tinymce'),
             Wait.forLoadState('networkidle'),

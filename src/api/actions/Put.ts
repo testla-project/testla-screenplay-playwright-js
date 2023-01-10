@@ -1,6 +1,6 @@
 import { Actor } from '@testla/screenplay';
 import { UseAPI } from '../abilities/UseAPI';
-import { REQUEST_METHOD } from '../constants';
+import { RequestMethod } from '../constants';
 import { Headers, Response, ResponseBodyFormat } from '../types';
 import { ARequest } from './ARequest';
 
@@ -19,16 +19,18 @@ export class Put extends ARequest {
     /**
      * Send a HTTP PUT request to the specified url.
      *
-     * @param actor
+     * @param {Actor} actor the actor object
+     * @return {Response} the returned response
      */
     public async performAs(actor: Actor): Promise<Response> {
-        return UseAPI.as(actor).sendRequest(REQUEST_METHOD.PUT, this.url, this.headers, this.responseBodyFormat, this.data);
+        return UseAPI.as(actor).sendRequest(RequestMethod.PUT, this.url, this.headers, this.responseBodyFormat, this.data);
     }
 
     /**
      * Send a HTTP PUT request to the specified url.
      *
-     * @param url the URL of the target.
+     * @param {string} url the URL of the target.
+     * @return {Put} new Put instance
      */
     public static to(url: string): Put {
         return new Put(url);
@@ -38,7 +40,8 @@ export class Put extends ARequest {
      * Add data to the HTTP PUT request to send.
      * PUT requests bodies hold the full entity information to be updated.
      *
-     * @param data the data.
+     * @param {any} data the data.
+     * @return {Put} the Put instance
      */
     public withData(data: any): Put {
         this.data = data;
@@ -48,7 +51,8 @@ export class Put extends ARequest {
     /**
      * Add headers to the HTTP PUT request to send.
      *
-     * @param headers the headers.
+     * @param {Headers} headers the headers.
+     * @return {Put} the Put instance
      */
     public withHeaders(headers: Headers): Put {
         this.headers = headers;
@@ -58,7 +62,8 @@ export class Put extends ARequest {
     /**
      * Set the format the response body should be returned as.
      *
-     * @param responseBodyFormat the format of the response body.
+     * @param {ResponseBodyFormat} responseBodyFormat the format of the response body.
+     * @return {Put} the Put instance
      */
     public withResponseBodyFormat(responseBodyFormat: ResponseBodyFormat): Put {
         this.responseBodyFormat = responseBodyFormat;

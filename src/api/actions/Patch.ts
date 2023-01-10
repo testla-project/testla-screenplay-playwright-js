@@ -1,6 +1,6 @@
 import { Actor } from '@testla/screenplay';
 import { UseAPI } from '../abilities/UseAPI';
-import { REQUEST_METHOD } from '../constants';
+import { RequestMethod } from '../constants';
 import { Headers, Response, ResponseBodyFormat } from '../types';
 import { ARequest } from './ARequest';
 
@@ -19,16 +19,18 @@ export class Patch extends ARequest {
     /**
      * Send a HTTP PATCH request to the specified url.
      *
-     * @param actor
+     * @param {Actor} actor the actor executes the request
+     * @return {Response} the response
      */
     public async performAs(actor: Actor): Promise<Response> {
-        return UseAPI.as(actor).sendRequest(REQUEST_METHOD.PATCH, this.url, this.headers, this.responseBodyFormat, this.data);
+        return UseAPI.as(actor).sendRequest(RequestMethod.PATCH, this.url, this.headers, this.responseBodyFormat, this.data);
     }
 
     /**
      * Send a HTTP PATCH request to the specified url.
      *
-     * @param url the URL of the target.
+     * @param {string} url the URL of the target.
+     * @return {Patch} the new instance
      */
     public static to(url: string): Patch {
         return new Patch(url);
@@ -38,7 +40,8 @@ export class Patch extends ARequest {
      * Add data to the HTTP PATCH request to send.
      * PATCH requests bodies hold partial updates of the entities to be updated.
      *
-     * @param data the data.
+     * @param {any} data the data.
+     * @return {Patch} this instance
      */
     public withData(data: any): Patch {
         this.data = data;
@@ -48,7 +51,8 @@ export class Patch extends ARequest {
     /**
      * Add headers to the HTTP PATCH request to send.
      *
-     * @param headers the headers.
+     * @param {Headers} headers the headers.
+     * @return {Patch} this instance
      */
     public withHeaders(headers: Headers): Patch {
         this.headers = headers;
@@ -58,7 +62,8 @@ export class Patch extends ARequest {
     /**
      * Set the format the response body should be returned as.
      *
-     * @param responseBodyFormat the format of the response body.
+     * @param {ResponseBodyFormat} responseBodyFormat the format of the response body.
+     * @return {Patch} this instance
      */
     public withResponseBodyFormat(responseBodyFormat: ResponseBodyFormat): Patch {
         this.responseBodyFormat = responseBodyFormat;
