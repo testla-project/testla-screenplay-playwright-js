@@ -201,7 +201,7 @@ test.describe('Testing screenplay-playwright-js web module', () => {
         expect(getCookies).toStrictEqual(cookiesToAdd);
     });
 
-    test('Local storage + Session storage', async ({ actor }) => {
+    test.only('Local storage + Session storage', async ({ actor }) => {
         await actor.attemptsTo(
             Navigate.to('https://google.com'),
             Wait.forLoadState('networkidle'),

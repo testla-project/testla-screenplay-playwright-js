@@ -1,4 +1,6 @@
-import { Cookie, expect, Locator, Page } from '@playwright/test';
+import {
+    Cookie, expect, Locator, Page,
+} from '@playwright/test';
 import { Response } from 'playwright';
 import { Ability, Actor } from '@testla/screenplay';
 import { Selector, SelectorOptions } from '../types';
@@ -245,8 +247,8 @@ export class BrowseTheWeb extends Ability {
      * @return {any} Returns the local storage item
      */
     public async getLocalStorageItem(key: string): Promise<any> {
-        return this.page.evaluate((key) => {
-            const value = localStorage.getItem(key);
+        return this.page.evaluate((k) => {
+            const value = localStorage.getItem(k);
             if (value) {
                 return Promise.resolve(JSON.parse(value));
             }
@@ -262,10 +264,10 @@ export class BrowseTheWeb extends Ability {
      * @return {void} Returns after adding the local storage item
      */
     public async setLocalStorageItem(key: string, value: any): Promise<void> {
-        return this.page.evaluate(({ key, value }) => {
-            localStorage.setItem(key, JSON.stringify(value));
+        return this.page.evaluate(({ k, v }) => {
+            localStorage.setItem(k, JSON.stringify(v));
             return Promise.resolve();
-        }, { key, value });
+        }, { k: key, v: value });
     }
 
     /**
@@ -275,8 +277,8 @@ export class BrowseTheWeb extends Ability {
      * @return {void} Returns after deleting a local storage item
      */
     public async removeLocalStorageItem(key: string): Promise<void> {
-        return this.page.evaluate((key) => {
-            localStorage.removeItem(key);
+        return this.page.evaluate((k) => {
+            localStorage.removeItem(k);
             return Promise.resolve();
         }, key);
     }
@@ -288,8 +290,8 @@ export class BrowseTheWeb extends Ability {
      * @return {any} Retrieves a session storage item
      */
     public async getSessionStorageItem(key: string): Promise<any> {
-        return this.page.evaluate((key) => {
-            const value = sessionStorage.getItem(key);
+        return this.page.evaluate((k) => {
+            const value = sessionStorage.getItem(k);
             if (value) {
                 return Promise.resolve(JSON.parse(value));
             }
@@ -305,10 +307,10 @@ export class BrowseTheWeb extends Ability {
      * @return {void} Set the session storage item
      */
     public async setSessionStorageItem(key: string, value: any): Promise<void> {
-        return this.page.evaluate(({ key, value }) => {
-            sessionStorage.setItem(key, JSON.stringify(value));
+        return this.page.evaluate(({ k, v }) => {
+            sessionStorage.setItem(k, JSON.stringify(v));
             return Promise.resolve();
-        }, { key, value });
+        }, { k: key, v: value });
     }
 
     /**
@@ -318,8 +320,8 @@ export class BrowseTheWeb extends Ability {
      * @return {void} Returns after removing a session storage item.
      */
     public async removeSessionStorageItem(key: string): Promise<void> {
-        return this.page.evaluate((key) => {
-            sessionStorage.removeItem(key);
+        return this.page.evaluate((k) => {
+            sessionStorage.removeItem(k);
             return Promise.resolve();
         }, key);
     }
