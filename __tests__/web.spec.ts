@@ -4,6 +4,7 @@ import { BrowseTheWeb } from '../src/web/abilities/BrowseTheWeb';
 import { Navigate } from '../src/web/actions/Navigate';
 import { Wait } from '../src/web/actions/Wait';
 import { Click } from '../src/web/actions/Click';
+import { Fill } from '../src/web/actions/Fill';
 import { Element } from '../src/web/questions/Element';
 
 type MyActors = {
@@ -130,14 +131,20 @@ test.describe('Testing screenplay-playwright-js web module', () => {
             Wait.forLoadState('networkidle'),
         );
 
+        // fill username field with string
+        await actor.attemptsTo(
+            Fill.in('[id="username"]', 'test'),
+        );
+        // toBe.value test: expect the value of the username field to be the string 'test'
         expect(await actor.asks(
-            Element.toBe.value('[id="username"]', ''),
+            Element.toBe.value('[id="username"]', 'test'),
         )).toBe(true);
 
+        // toBe.value test: expect the question to fail if the expected string is not correct
         let textRes = false;
         try {
             expect(await actor.asks(
-                Element.toBe.value('id=username', 'this value is wrong', { timeout: 1000 }),
+                Element.toBe.value('[id="username"]', 'this value is wrong', { timeout: 1000 }),
             )).toBe(true);
         } catch (error) {
             textRes = true;
@@ -151,7 +158,7 @@ test.describe('Testing screenplay-playwright-js web module', () => {
         let notTextRes = false;
         try {
             expect(await actor.asks(
-                Element.notToBe.value('[id="username"]', /^$/, { timeout: 1000 }), // RegExp for empty string
+                Element.notToBe.value('[id="username"]', /test/, { timeout: 1000 }), // RegExp for the string 'test'
             )).toBe(true);
         } catch (error) {
             notTextRes = true;

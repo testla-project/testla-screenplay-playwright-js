@@ -216,7 +216,7 @@ export class BrowseTheWeb extends Ability {
     }
 
     /**
-    * Validate if the given element has the given value (single) or not.
+    * Validate if the given element has the given input value or not.
     *
     * @param selector the selector of the element to hover over.
     * @param value the single value to check.
@@ -225,7 +225,7 @@ export class BrowseTheWeb extends Ability {
     public async checkSelectorValue(selector: string, value: string | RegExp, mode: 'has' | 'hasNot', options?: SelectorOptions): Promise<boolean> {
         if (mode === 'has') {
             await expect(await recursiveLocatorLookup(({ page: this.page, selector, options: { ...options, state: 'visible' } }))).toHaveValue(value, { timeout: options?.timeout });
-        } else { // case value = string | RegExp -> call not.toHaveValue to check single values
+        } else {
             await expect(await recursiveLocatorLookup(({ page: this.page, selector, options: { ...options, state: 'visible' } }))).not.toHaveValue(value, { timeout: options?.timeout });
         }
         return Promise.resolve(true);
