@@ -214,6 +214,23 @@ export class BrowseTheWeb extends Ability {
     }
 
     /**
+     * Validate if a locator on the page is editable or not.
+     *
+     * @param {Selector} selector the locator to search for.
+     * @param {string} mode the expected property of the selector that needs to be checked. either 'editable' or 'notEditable'.
+     * @param {SelectorOptions} options (optional) advanced selector lookup options.
+     * @returns {boolean} true if the element is editable/not as expected, false if the timeout was reached.
+     */
+    public async checkEditableState(selector: Selector, mode: 'editable' | 'notEditable', options?: SelectorOptions): Promise<boolean> {
+        if (mode === 'editable') {
+            await expect(await recursiveLocatorLookup({ page: this.page, selector, options: { ...options, state: 'visible' } })).toBeEditable({ timeout: options?.timeout });
+        } else {
+            await expect(await recursiveLocatorLookup({ page: this.page, selector, options: { ...options, state: 'visible' } })).not.toBeEditable({ timeout: options?.timeout });
+        }
+        return Promise.resolve(true);
+    }
+
+    /**
     * Validate if the given element has the given text or not.
     *
     * @param selector the selector of the element to hover over.
