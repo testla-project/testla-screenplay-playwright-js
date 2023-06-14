@@ -3,10 +3,11 @@ import { Selector, SelectorOptions } from '../types';
 import { BrowseTheWeb } from '../abilities/BrowseTheWeb';
 
 /**
- * Question Class. Get a specified state for a selector like visible or enabled.
+ * Question Class. Get a specified state for selector as following.
+ * { visible, enabled, editable }.
  */
 export class Element extends Question<boolean> {
-    private mode: 'visible' | 'enabled' | 'text' | 'value' = 'visible';
+    private mode: 'visible' | 'enabled' | 'editable' | 'text' | 'value' = 'visible';
 
     // the selector of the element to check.
     private selector: Selector = '';
@@ -38,6 +39,12 @@ export class Element extends Question<boolean> {
             // if .is was called -> positive check, if .not was called -> negative check
             return Promise.resolve(
                 await BrowseTheWeb.as(actor).checkEnabledState(this.selector, this.checkMode === 'toBe' ? 'enabled' : 'disabled', this.options),
+            ); // if the ability method is not the expected result there will be an exception
+        }
+        if (this.mode === 'editable') {
+            // if .is was called -> positive check, if .not was called -> negative check
+            return Promise.resolve(
+                await BrowseTheWeb.as(actor).checkEditableState(this.selector, this.checkMode === 'toBe' ? 'editable' : 'notEditable', this.options),
             ); // if the ability method is not the expected result there will be an exception
         }
         if (this.mode === 'text') {
@@ -123,6 +130,7 @@ export class Element extends Question<boolean> {
     }
 
     /**
+<<<<<<< HEAD
      * Verifies if an element has the given text.
      *
      * @param selector the selector.
@@ -149,6 +157,17 @@ export class Element extends Question<boolean> {
         this.mode = 'value';
         this.selector = selector;
         this.payload = value;
+=======
+     * Verifies if an element is editable.
+     *
+     * @param {Selector} selector the selector
+     * @param {SelectorOptions} options (optional) advanced selector lookup options.
+     * @return {Element} this Element instance
+     */
+    public editable(selector: Selector, options?: SelectorOptions): Element {
+        this.mode = 'editable';
+        this.selector = selector;
+>>>>>>> 393b301 (Add method to check if an element is editable to Element Question)
         this.options = options;
 
         return this;
