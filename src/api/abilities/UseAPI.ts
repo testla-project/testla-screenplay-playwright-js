@@ -1,6 +1,5 @@
-import { expect } from '@playwright/test';
+import { expect, APIRequestContext, APIResponse } from '@playwright/test';
 import { Ability, Actor } from '@testla/screenplay';
-import { APIRequestContext, APIResponse } from 'playwright';
 import { RequestMethod, RequestMethodType } from '../constants';
 import {
     Response, ResponseBodyFormat, ResponseBodyType,
