@@ -220,7 +220,7 @@ export class BrowseTheWeb extends Ability {
     * @param text the text to check.
     * @param options (optional) advanced selector lookup options.
     */
-    public async checkSelectorText(selector: string, text: string | RegExp | (string | RegExp)[], mode: 'has' | 'hasNot', options?: SelectorOptions): Promise<boolean> {
+    public async checkSelectorText(selector: Selector, text: string | RegExp | (string | RegExp)[], mode: 'has' | 'hasNot', options?: SelectorOptions): Promise<boolean> {
         if (mode === 'has') {
             await expect(await recursiveLocatorLookup({ page: this.page, selector, options: { ...options, state: 'visible' } })).toHaveText(text, { timeout: options?.timeout });
         } else {
@@ -236,7 +236,7 @@ export class BrowseTheWeb extends Ability {
     * @param value the single value to check.
     * @param options (optional) advanced selector lookup options.
     */
-    public async checkSelectorValue(selector: string, value: string | RegExp, mode: 'has' | 'hasNot', options?: SelectorOptions): Promise<boolean> {
+    public async checkSelectorValue(selector: Selector, value: string | RegExp, mode: 'has' | 'hasNot', options?: SelectorOptions): Promise<boolean> {
         if (mode === 'has') {
             await expect(await recursiveLocatorLookup({ page: this.page, selector, options: { ...options, state: 'visible' } })).toHaveValue(value, { timeout: options?.timeout });
         } else {
