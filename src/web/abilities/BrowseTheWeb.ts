@@ -1,5 +1,6 @@
-import { Cookie, expect, Locator, Page } from '@playwright/test';
-import { Response } from 'playwright';
+import {
+    Cookie, expect, Locator, Page, Response,
+} from '@playwright/test';
 import { Ability, Actor } from '@testla/screenplay';
 import { Selector, SelectorOptions } from '../types';
 import { recursiveLocatorLookup } from '../utils';

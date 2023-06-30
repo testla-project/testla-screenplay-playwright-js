@@ -67,12 +67,23 @@ test.describe('Testing screenplay-playwright-js web module', () => {
     });
 
     // skip POST test until website is back or this test is replaced.
-    test.skip('POST', async ({ actor }) => {
+    test('POST', async ({ actor }) => {
+        const data = {
+            title: 'foo',
+            body: 'bar',
+            userId: 1,
+        };
+
+        const expected = {
+            title: 'foo', body: 'bar', userId: 1, id: 101,
+        };
+
         const response = await actor.attemptsTo(
-            Post.to('https://ptsv2.com/t/ibcu7-1639386619/post').withData('TEST!').withResponseBodyFormat('text'),
+            Post.to('https://jsonplaceholder.typicode.com/posts').withData(data),
         );
-        expect(response.status).toBe(200);
-        expect(response.body).toBe('Thank you for this dump. I hope you have a lovely day!');
+
+        expect(response.status).toBe(201);
+        expect(response.body).toStrictEqual(expected);
     });
 
     test('PUT', async ({ actor }) => {

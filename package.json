@@ -50,14 +50,13 @@
     "v8-to-istanbul": "^9.0.1"
   },
   "peerDependencies": {
-    "@playwright/test": "^1.27.1",
-    "playwright": "^1.27.1"
+    "@playwright/test": "^1.34.0"
   },
   "dependencies": {
-    "@testla/screenplay": "^0.2.0"
+    "@testla/screenplay": "^0.3.0"
   },
   "engines": {
-    "node": ">=12.x.x"
+    "node": ">=18.x.x"
   },
   "publishConfig": {
     "access": "public"

@@ -101,13 +101,13 @@ test.describe('Testing screenplay-playwright-js web module', () => {
             Wait.forLoadState('networkidle'),
         );
         // assert that there is no button before we add it with our Click
-        expect(await actor.states('page').locator('[class="added-manually"]')).toHaveCount(0);
+        await expect(actor.states('page').locator('[class="added-manually"]')).toHaveCount(0);
 
         await actor.attemptsTo(
             Click.on('button', { hasText: 'Add Element' }),
         );
         // assert that the button is here after our Click
-        await expect(await actor.states('page').locator('[class="added-manually"]')).toHaveCount(1);
+        await expect(actor.states('page').locator('[class="added-manually"]')).toHaveCount(1);
     });
 
     test('Fill+Type', async ({ actor }) => {
@@ -129,13 +129,13 @@ test.describe('Testing screenplay-playwright-js web module', () => {
             Wait.forLoadState('networkidle'),
         );
         // assert that there is no info before the hover
-        await expect(await actor.states('page').locator('[href="/users/1"]')).not.toBeVisible();
+        await expect(actor.states('page').locator('[href="/users/1"]')).not.toBeVisible();
 
         await actor.attemptsTo(
             Hover.over('div.figure:nth-child(3) > img:nth-child(1)'),
         );
         // assert that the info is now visible after hover
-        await expect(await actor.states('page').locator('[href="/users/1"]')).toBeVisible();
+        await expect(actor.states('page').locator('[href="/users/1"]')).toBeVisible();
     });
 
     test('Press', async ({ actor }) => {
