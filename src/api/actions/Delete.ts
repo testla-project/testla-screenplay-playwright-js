@@ -1,6 +1,6 @@
 import { Actor } from '@testla/screenplay';
 import { UseAPI } from '../abilities/UseAPI';
-import { REQUEST_METHOD } from '../constants';
+import { RequestMethod } from '../constants';
 import { Headers, Response, ResponseBodyFormat } from '../types';
 import { ARequest } from './ARequest';
 
@@ -17,25 +17,28 @@ export class Delete extends ARequest {
     /**
      * Send a HTTP DELETE request to the specified url.
      *
-     * @param actor
+     * @param {Actor} actor the used actor
+     * @return {Response} the response
      */
     public async performAs(actor: Actor): Promise<Response> {
-        return UseAPI.as(actor).sendRequest(REQUEST_METHOD.DELETE, this.url, this.headers, this.responseBodyFormat);
+        return UseAPI.as(actor).sendRequest(RequestMethod.DELETE, this.url, this.headers, this.responseBodyFormat);
     }
 
     /**
      * Send a HTTP DELETE request to the specified url.
      *
-     * @param fullUrl the URL of the target.
+     * @param {string} url the URL of the target.
+     * @return {Delete} new instance
      */
-    public static from(fullUrl: string): Delete {
-        return new Delete(fullUrl);
+    public static from(url: string): Delete {
+        return new Delete(url);
     }
 
     /**
      * Add headers to the HTTP DELETE request to send.
      *
-     * @param headers the headers.
+     * @param {Headers} headers the headers.
+     * @return {Delete} the existing instance
      */
     public withHeaders(headers: Headers): Delete {
         this.headers = headers;
@@ -45,7 +48,8 @@ export class Delete extends ARequest {
     /**
      * Set the format the response body should be returned as.
      *
-     * @param responseBodyFormat the format of the response body.
+     * @param {ResponseBodyFormat} responseBodyFormat the format of the response body.
+     * @return {Delete} the existing instance
      */
     public withResponseBodyFormat(responseBodyFormat: ResponseBodyFormat): Delete {
         this.responseBodyFormat = responseBodyFormat;

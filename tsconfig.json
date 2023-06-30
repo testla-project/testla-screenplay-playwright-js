@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "rootDir": "./src",
+    "rootDir": "./",
     "target": "es6",
     "lib": [
       "esnext",
@@ -21,7 +21,8 @@
     "declaration": true
   },
   "include": [
-    "src"
+    "src",
+    "__tests__"
   ],
   "exclude": [
     "node_modules"

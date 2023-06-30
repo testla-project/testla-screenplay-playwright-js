@@ -12,7 +12,8 @@ export class Navigate extends Action {
     /**
      * navigate to the specified URL.
      *
-     * @param actor
+     * @param {Actor} actor Actor performing this action
+     * @return {any} Returns the main resource response.
      */
     public performAs(actor: Actor): Promise<any> {
         return BrowseTheWeb.as(actor).goto(this.url);
@@ -21,7 +22,8 @@ export class Navigate extends Action {
     /**
      * Use the page to navigate to a certain URL.
      *
-     * @param url the url which should be accessed.
+     * @param {string} url the url which should be accessed.
+     * @return {Navigate} new Navigate instance
      */
     public static to(url: string): Navigate {
         return new Navigate(url);

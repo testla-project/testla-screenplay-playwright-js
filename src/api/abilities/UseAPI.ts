@@ -1,7 +1,6 @@
-import { expect } from '@playwright/test';
+import { expect, APIRequestContext, APIResponse } from '@playwright/test';
 import { Ability, Actor } from '@testla/screenplay';
-import { APIRequestContext, APIResponse } from 'playwright';
-import { RequestMethod, REQUEST_METHOD } from '../constants';
+import { RequestMethod, RequestMethodType } from '../constants';
 import {
     Response, ResponseBodyFormat, ResponseBodyType,
 } from '../types';
@@ -14,7 +13,7 @@ export class UseAPI extends Ability {
     /**
      * Get the request context object
      *
-     * @returns ApiRequestContext
+     * @returns {ApiRequestContext} requestContext the api request context
      */
     public getRequestContext(): APIRequestContext {
         return this.requestContext;
@@ -23,8 +22,8 @@ export class UseAPI extends Ability {
     /**
      * Initialize this Ability by passing an already existing Playwright APIRequestContext object.
      *
-     * @param requestContext the Playwright APIRequestContext that will be used to send REST requests.
-     * @returns UseAPI
+     * @param {APIRequestContext} requestContext the Playwright APIRequestContext that will be used to send REST requests.
+     * @returns {UseAPI} UseApi object
      */
     public static using(requestContext: APIRequestContext) {
         return new UseAPI(requestContext);
@@ -33,8 +32,8 @@ export class UseAPI extends Ability {
     /**
      * Use this Ability as an Actor.
      *
-     * @param actor
-     * @returns UseAPI
+     * @param {Actor} actor the actor object
+     * @returns {UseAPI} UseAPI the actor with the ability to use the API
      */
     public static as(actor: Actor): UseAPI {
         return actor.withAbilityTo(this) as UseAPI;
@@ -43,40 +42,40 @@ export class UseAPI extends Ability {
     /**
      * Send a HTTP request (GET, POST, PATCH, PUT, HEAD or DELETE) to the specified url. Headers and data can also be sent.
      *
-     * @param method GET, POST, PATCH, PUT, HEAD or DELETE.
-     * @param url the full URL to the target.
-     * @param headers (optional) the headers object.
-     * @param responseFormat (optional) specify the desired format the response body should be in.
-     * @param data (optional) the data to be sent.
-     * @returns a Response object consisting of status, body and headers.
+     * @param {RequestMethodType} method GET, POST, PATCH, PUT, HEAD or DELETE.
+     * @param {string} url the full URL to the target.
+     * @param {any} headers (optional) the headers object.
+     * @param {ResponseBodyFormat} responseFormat (optional) specify the desired format the response body should be in.
+     * @param {any} data (optional) the data to be sent.
+     * @returns {Response} Promise<Response> a Response object consisting of status, body and headers.
      */
-    public async sendRequest(method: RequestMethod, url: string, headers?: any, responseFormat?: ResponseBodyFormat, data?: any): Promise<Response> {
+    public async sendRequest(method: RequestMethodType, url: string, headers?: any, responseFormat?: ResponseBodyFormat, data?: any): Promise<Response> {
         const options = {
             headers,
             data,
         };
 
         // track time before sending request
-        const START_TIME = Date.now();
+        const startTime = Date.now();
 
         let res: APIResponse;
         switch (method) {
-            case REQUEST_METHOD.GET:
+            case RequestMethod.GET:
                 res = await this.requestContext.get(url, options);
                 break;
-            case REQUEST_METHOD.POST:
+            case RequestMethod.POST:
                 res = await this.requestContext.post(url, options);
                 break;
-            case REQUEST_METHOD.PATCH:
+            case RequestMethod.PATCH:
                 res = await this.requestContext.patch(url, options);
                 break;
-            case REQUEST_METHOD.PUT:
+            case RequestMethod.PUT:
                 res = await this.requestContext.put(url, options);
                 break;
-            case REQUEST_METHOD.HEAD:
+            case RequestMethod.HEAD:
                 res = await this.requestContext.head(url, options);
                 break;
-            case REQUEST_METHOD.DELETE:
+            case RequestMethod.DELETE:
                 res = await this.requestContext.delete(url, options);
                 break;
 
@@ -96,13 +95,13 @@ export class UseAPI extends Ability {
         }
 
         // track time after receiving response
-        const END_TIME = Date.now();
+        const endTime = Date.now();
 
         return Promise.resolve({
             status: res.status(),
             body: resBody,
             headers: res.headers(),
-            duration: END_TIME - START_TIME,
+            duration: endTime - startTime,
         });
     }
 
@@ -155,7 +154,7 @@ export class UseAPI extends Ability {
     }
 
     /**
-     * Verify if the given headers are included/excluded in the given response.
+     * Verify if the given headers are included/excluded in the given response. (headers should be a subset of response.headers)
      *
      * @param mode the result to check for.
      * @param response the response to check.
@@ -166,7 +165,7 @@ export class UseAPI extends Ability {
     public async checkHeaders(response: Response, headers: {[key: string]: string | undefined }, mode: 'included' | 'excluded'): Promise<boolean> {
         const allResponseHeaderKeys = Object.keys(response.headers);
         expect(
-            Object.entries(headers).every((header) => allResponseHeaderKeys.includes(header[0]) // lookup that header key is available
+            Object.entries(headers).every((header) => allResponseHeaderKeys.includes(header[0]) // lookup that every header key of headers is inside response.headers
             && (header[1] === undefined || response.headers[header[0]] === header[1])), // either header value is undefined -> value doesn't interest us or we check the value for equality
         ).toBe(mode === 'included');
         return Promise.resolve(true);

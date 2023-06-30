@@ -1,19 +1,20 @@
 import { Action, Actor } from '@testla/screenplay';
-import { SelectorOptions } from '../types';
+import { Selector, SelectorOptions } from '../types';
 import { BrowseTheWeb } from '../abilities/BrowseTheWeb';
 
 /**
  * Action Class. Click on an element specified by a selector string.
  */
 export class Click extends Action {
-    private constructor(private selector: string, private options?: SelectorOptions) {
+    private constructor(private selector: Selector, private options?: SelectorOptions) {
         super();
     }
 
     /**
      * find the specified selector and click on it.
      *
-     * @param actor
+     * @param {Actor} actor Actor performing this action
+     * @return {void} Returns after clicking the element
      */
     public async performAs(actor: Actor): Promise<void> {
         await BrowseTheWeb.as(actor).click(this.selector, this.options);
@@ -22,10 +23,11 @@ export class Click extends Action {
     /**
      * specify which element should be clicked on
      *
-     * @param selector the string representing the selector.
-     * @param options (optional): advanced selector lookup options.
+     * @param {Selector} selector the string representing the selector.
+     * @param {SelectorOptions} options (optional): advanced selector lookup options.
+     * @return {Click} new Click instance
      */
-    public static on(selector: string, options?: SelectorOptions): Click {
+    public static on(selector: Selector, options?: SelectorOptions): Click {
         return new Click(selector, options);
     }
 }

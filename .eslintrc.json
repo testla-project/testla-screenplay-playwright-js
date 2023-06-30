@@ -15,6 +15,7 @@
     "jsx-a11y"
   ],
   "parserOptions": {
+    "project": "./tsconfig.json",
     "ecmaVersion": 2018,
     "sourceType": "module",
     "editor.codeActionsOnSave": {
@@ -56,12 +57,9 @@
     "no-nested-ternary": "off",
     "no-shadow": "off",
     "@typescript-eslint/no-empty-function": "off",
-    "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-use-before-define": [
       "error"
-    ]
-  },
-  "globals": {
-    "jest": true
-  }
+    ],
+    "@typescript-eslint/no-floating-promises": ["error"]
+  } 
 }

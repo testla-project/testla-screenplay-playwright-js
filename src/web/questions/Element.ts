@@ -1,5 +1,5 @@
 import { Actor, Question } from '@testla/screenplay';
-import { SelectorOptions } from '../types';
+import { Selector, SelectorOptions } from '../types';
 import { BrowseTheWeb } from '../abilities/BrowseTheWeb';
 
 /**
@@ -9,7 +9,7 @@ export class Element extends Question<boolean> {
     private mode: 'visible' | 'enabled' | 'text' | 'value' = 'visible';
 
     // the selector of the element to check.
-    private selector = '';
+    private selector: Selector = '';
 
     // text or value to check.
     private payload: string | RegExp | (string | RegExp)[] = '';
@@ -21,6 +21,12 @@ export class Element extends Question<boolean> {
         super();
     }
 
+    /**
+     * Verifies if an element.
+     *
+     * @param {Actor} actor the actor
+     * @return {boolean} if .is was called -> positive check, if .not was called -> negative check
+     */
     public async answeredBy(actor: Actor): Promise<boolean> {
         if (this.mode === 'visible') {
             // if .is was called -> positive check, if .not was called -> negative check
@@ -56,6 +62,7 @@ export class Element extends Question<boolean> {
 
     /**
      * make the Question check for the positive.
+     * @return {Element} new Element instance
      */
     static get toBe() {
         return new Element('toBe');
@@ -63,6 +70,7 @@ export class Element extends Question<boolean> {
 
     /**
      * make the Question check for the negative.
+     * @return {Element} new Element instance
      */
     static get notToBe() {
         return new Element('notToBe');
@@ -71,10 +79,11 @@ export class Element extends Question<boolean> {
     /**
      * Verifies if an element is visible.
      *
-     * @param selector the selector
-     * @param options (optional) advanced selector lookup options.
+     * @param {Selector} selector the selector
+     * @param {SelectorOptions} options (optional) advanced selector lookup options.
+     * @return {Element} this Element instance
      */
-    public visible(selector: string, options?: SelectorOptions): Element {
+    public visible(selector: Selector, options?: SelectorOptions): Element {
         this.mode = 'visible';
         this.selector = selector;
         this.options = options;
@@ -85,10 +94,11 @@ export class Element extends Question<boolean> {
     /**
      * Verifies if an element is enabled.
      *
-     * @param selector the selector.
-     * @param options (optional) advanced selector lookup options.
+     * @param {Selector} selector the selector
+     * @param {SelectorOptions} options (optional) advanced selector lookup options.
+     * @return {Element} this Element instance
      */
-    public enabled(selector: string, options?: SelectorOptions): Element {
+    public enabled(selector: Selector, options?: SelectorOptions): Element {
         this.mode = 'enabled';
         this.selector = selector;
         this.options = options;

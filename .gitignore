@@ -5,3 +5,4 @@
 .idea/
 results.xml
 /playwright-report
+testCoverage.json
