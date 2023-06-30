@@ -13,7 +13,7 @@
     "lint:ts": "tsc --noEmit",
     "lint:js": "eslint . --cache",
     "lint": "npm run lint:js && npm run lint:ts",
-    "prerelease": "npm run lint && npm run build",
+    "prerelease": "npm run lint && npm run build && npm run test",
     "release": "node scripts/release.js",
     "preversion": "npm run lint"
   },
