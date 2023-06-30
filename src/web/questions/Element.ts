@@ -77,6 +77,22 @@ export class Element extends Question<boolean> {
     }
 
     /**
+     * make the Question check for the positive.
+     * @return {Element} new Element instance
+     */
+    static get toHave() {
+        return new Element('toBe');
+    }
+
+    /**
+     * make the Question check for the negative.
+     * @return {Element} new Element instance
+     */
+    static get notToHave() {
+        return new Element('notToBe');
+    }
+
+    /**
      * Verifies if an element is visible.
      *
      * @param {Selector} selector the selector

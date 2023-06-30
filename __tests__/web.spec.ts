@@ -327,13 +327,13 @@ test.describe('Testing screenplay-playwright-js web module', () => {
         );
 
         expect(await actor.asks(
-            Element.toBe.text('h3', 'Data Tables'),
+            Element.toHave.text('h3', 'Data Tables'),
         )).toBe(true);
 
         let textRes = false;
         try {
             expect(await actor.asks(
-                Element.toBe.text('h3', 'this text does not exist', { timeout: 1000 }),
+                Element.toHave.text('h3', 'this text does not exist', { timeout: 1000 }),
             )).toBe(true);
         } catch (error) {
             textRes = true;
@@ -341,13 +341,13 @@ test.describe('Testing screenplay-playwright-js web module', () => {
         expect(textRes).toBeTruthy();
 
         expect(await actor.asks(
-            Element.notToBe.text('h3', /[0-9]/), // RegExp that does not exist
+            Element.notToHave.text('h3', /[0-9]/), // RegExp that does not exist
         )).toBe(true);
 
         let notTextRes = false;
         try {
             expect(await actor.asks(
-                Element.notToBe.text('h3', ['Data Tables'], { timeout: 1000 }),
+                Element.notToHave.text('h3', ['Data Tables'], { timeout: 1000 }),
             )).toBe(true);
         } catch (error) {
             notTextRes = true;
@@ -367,14 +367,14 @@ test.describe('Testing screenplay-playwright-js web module', () => {
         );
         // toBe.value test: expect the value of the username field to be the string 'test'
         expect(await actor.asks(
-            Element.toBe.value('[id="username"]', 'test'),
+            Element.toHave.value('[id="username"]', 'test'),
         )).toBe(true);
 
         // toBe.value test: expect the question to fail if the expected string is not correct
         let textRes = false;
         try {
             expect(await actor.asks(
-                Element.toBe.value('[id="username"]', 'this value is wrong', { timeout: 1000 }),
+                Element.toHave.value('[id="username"]', 'this value is wrong', { timeout: 1000 }),
             )).toBe(true);
         } catch (error) {
             textRes = true;
@@ -382,13 +382,13 @@ test.describe('Testing screenplay-playwright-js web module', () => {
         expect(textRes).toBeTruthy();
 
         expect(await actor.asks(
-            Element.notToBe.value('[id="username"]', 'this value is wrong'),
+            Element.notToHave.value('[id="username"]', 'this value is wrong'),
         )).toBe(true);
 
         let notTextRes = false;
         try {
             expect(await actor.asks(
-                Element.notToBe.value('[id="username"]', /test/, { timeout: 1000 }), // RegExp for the string 'test'
+                Element.notToHave.value('[id="username"]', /test/, { timeout: 1000 }), // RegExp for the string 'test'
             )).toBe(true);
         } catch (error) {
             notTextRes = true;
