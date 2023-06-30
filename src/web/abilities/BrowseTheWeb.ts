@@ -214,6 +214,38 @@ export class BrowseTheWeb extends Ability {
     }
 
     /**
+    * Validate if the given element has the given text or not.
+    *
+    * @param selector the selector of the element to hover over.
+    * @param text the text to check.
+    * @param options (optional) advanced selector lookup options.
+    */
+    public async checkSelectorText(selector: string, text: string | RegExp | (string | RegExp)[], mode: 'has' | 'hasNot', options?: SelectorOptions): Promise<boolean> {
+        if (mode === 'has') {
+            await expect(await recursiveLocatorLookup({ page: this.page, selector, options: { ...options, state: 'visible' } })).toHaveText(text, { timeout: options?.timeout });
+        } else {
+            await expect(await recursiveLocatorLookup({ page: this.page, selector, options: { ...options, state: 'visible' } })).not.toHaveText(text, { timeout: options?.timeout });
+        }
+        return Promise.resolve(true);
+    }
+
+    /**
+    * Validate if the given element has the given input value or not.
+    *
+    * @param selector the selector of the element to hover over.
+    * @param value the single value to check.
+    * @param options (optional) advanced selector lookup options.
+    */
+    public async checkSelectorValue(selector: string, value: string | RegExp, mode: 'has' | 'hasNot', options?: SelectorOptions): Promise<boolean> {
+        if (mode === 'has') {
+            await expect(await recursiveLocatorLookup({ page: this.page, selector, options: { ...options, state: 'visible' } })).toHaveValue(value, { timeout: options?.timeout });
+        } else {
+            await expect(await recursiveLocatorLookup({ page: this.page, selector, options: { ...options, state: 'visible' } })).not.toHaveValue(value, { timeout: options?.timeout });
+        }
+        return Promise.resolve(true);
+    }
+
+    /**
      * Get the cookies of the current browser context. If no URLs are specified, this method returns all cookies. If URLs are specified, only cookies that affect those URLs are returned.
      * @param {string|string[]} urls affected urls
      * @return {Cookie[]} Returns the cookies of the current browser context.
