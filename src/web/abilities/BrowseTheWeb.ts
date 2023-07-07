@@ -4,6 +4,7 @@ import {
 import { Ability, Actor } from '@testla/screenplay';
 import { Selector, SelectorOptions } from '../types';
 import { recursiveLocatorLookup } from '../utils';
+import { CheckMode } from '../../types';
 
 /**
  * This class represents the actor's ability to use a Browser.
@@ -187,8 +188,8 @@ export class BrowseTheWeb extends Ability {
      * @param {SelectorOptions} options (optional) advanced selector lookup options.
      * @returns {boolean} Promise<boolean> true if the element is visible/hidden as expected, false if the timeout was reached.
      */
-    public async checkVisibilityState(selector: Selector, mode: 'visible' | 'hidden', options?: SelectorOptions): Promise<boolean> {
-        if (mode === 'visible') {
+    public async checkVisibilityState(selector: Selector, mode: CheckMode, options?: SelectorOptions): Promise<boolean> {
+        if (mode === 'positive') {
             await expect(await recursiveLocatorLookup({ page: this.page, selector, options: { ...options, state: 'visible' } })).toBeVisible({ timeout: options?.timeout });
         } else {
             await expect(await recursiveLocatorLookup({ page: this.page, selector, options: { ...options, state: 'hidden' } })).toBeHidden({ timeout: options?.timeout });
@@ -204,8 +205,8 @@ export class BrowseTheWeb extends Ability {
      * @param {SelectorOptions} options (optional) advanced selector lookup options.
      * @returns {boolean} true if the element is enabled/disabled as expected, false if the timeout was reached.
      */
-    public async checkEnabledState(selector: Selector, mode: 'enabled' | 'disabled', options?: SelectorOptions): Promise<boolean> {
-        if (mode === 'enabled') {
+    public async checkEnabledState(selector: Selector, mode: CheckMode, options?: SelectorOptions): Promise<boolean> {
+        if (mode === 'positive') {
             await expect(await recursiveLocatorLookup({ page: this.page, selector, options: { ...options, state: 'visible' } })).toBeEnabled({ timeout: options?.timeout });
         } else {
             await expect(await recursiveLocatorLookup({ page: this.page, selector, options: { ...options, state: 'visible' } })).toBeDisabled({ timeout: options?.timeout });
@@ -220,8 +221,8 @@ export class BrowseTheWeb extends Ability {
     * @param text the text to check.
     * @param options (optional) advanced selector lookup options.
     */
-    public async checkSelectorText(selector: Selector, text: string | RegExp | (string | RegExp)[], mode: 'has' | 'hasNot', options?: SelectorOptions): Promise<boolean> {
-        if (mode === 'has') {
+    public async checkSelectorText(selector: Selector, text: string | RegExp | (string | RegExp)[], mode: CheckMode, options?: SelectorOptions): Promise<boolean> {
+        if (mode === 'positive') {
             await expect(await recursiveLocatorLookup({ page: this.page, selector, options: { ...options, state: 'visible' } })).toHaveText(text, { timeout: options?.timeout });
         } else {
             await expect(await recursiveLocatorLookup({ page: this.page, selector, options: { ...options, state: 'visible' } })).not.toHaveText(text, { timeout: options?.timeout });
@@ -236,11 +237,57 @@ export class BrowseTheWeb extends Ability {
     * @param value the single value to check.
     * @param options (optional) advanced selector lookup options.
     */
-    public async checkSelectorValue(selector: Selector, value: string | RegExp, mode: 'has' | 'hasNot', options?: SelectorOptions): Promise<boolean> {
-        if (mode === 'has') {
+    public async checkSelectorValue(selector: Selector, value: string | RegExp, mode: CheckMode, options?: SelectorOptions): Promise<boolean> {
+        if (mode === 'positive') {
             await expect(await recursiveLocatorLookup({ page: this.page, selector, options: { ...options, state: 'visible' } })).toHaveValue(value, { timeout: options?.timeout });
         } else {
             await expect(await recursiveLocatorLookup({ page: this.page, selector, options: { ...options, state: 'visible' } })).not.toHaveValue(value, { timeout: options?.timeout });
+        }
+        return Promise.resolve(true);
+    }
+
+    /**
+    * Validate if the given element has the given minimum count.
+    *
+    * @param selector the selector of the element.
+    * @param count the minumum count of the element to be visible.
+    * @param mode the check mode - whether positive or negative
+    * @param options (optional) advanced selector lookup options.
+    */
+    public async checkMinCount(selector: Selector, count: number, mode: CheckMode, options?: SelectorOptions): Promise<boolean> {
+        await this.checkVisibilityState(`${selector} >> nth=${count - 1}`, mode, options);
+        return Promise.resolve(true);
+    }
+
+    /**
+    * Validate if the given element has the given minimum count.
+    *
+    * @param selector the selector of the element.
+    * @param count the exact count of the element to be visible.
+    * @param mode the check mode - whether positive or negative
+    * @param options (optional) advanced selector lookup options.
+    */
+    public async checkCount(selector: Selector, count: number, mode: CheckMode, options?: SelectorOptions): Promise<boolean> {
+        if (mode === 'positive') {
+            await expect(await recursiveLocatorLookup({ page: this.page, selector, options: { ...options, state: 'visible' } })).toHaveCount(count, { timeout: options?.timeout });
+        } else {
+            await expect(await recursiveLocatorLookup({ page: this.page, selector, options: { ...options, state: 'visible' } })).not.toHaveCount(count, { timeout: options?.timeout });
+        }
+        return Promise.resolve(true);
+    }
+
+    /**
+    * Validate if the given element is checked.
+    *
+    * @param selector the selector of the element.
+    * @param mode the check mode - whether positive or negative
+    * @param options (optional) advanced selector lookup options.
+    */
+    public async checkChecked(selector: Selector, mode: CheckMode, options?: SelectorOptions): Promise<boolean> {
+        if (mode === 'positive') {
+            await expect(await recursiveLocatorLookup({ page: this.page, selector, options: { ...options, state: 'visible' } })).toBeChecked({ timeout: options?.timeout });
+        } else {
+            await expect(await recursiveLocatorLookup({ page: this.page, selector, options: { ...options, state: 'visible' } })).not.toBeChecked({ timeout: options?.timeout });
         }
         return Promise.resolve(true);
     }

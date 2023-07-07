@@ -5,12 +5,7 @@ export type Selector = string | Locator;
 export type SelectorOptionsState = 'visible' | 'hidden' | 'attached' | 'detached';
 
 export type SubSelector = [
-    Selector, {
-        hasText?: string;
-        timeout?: number;
-        subSelector?: SubSelector;
-        state?: SelectorOptionsState;
-    }?
+    Selector, SelectorOptions?
 ];
 
 export type SelectorOptions = {

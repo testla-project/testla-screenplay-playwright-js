@@ -1,23 +1,26 @@
 import { Actor, Question } from '@testla/screenplay';
 import { Selector, SelectorOptions } from '../types';
 import { BrowseTheWeb } from '../abilities/BrowseTheWeb';
+import { CheckMode } from '../../types';
+
+type Mode = 'visible' | 'enabled' | 'text' | 'value' | 'count' | 'minCount' | 'checked';
 
 /**
  * Question Class. Get a specified state for a selector like visible or enabled.
  */
 export class Element extends Question<boolean> {
-    private mode: 'visible' | 'enabled' | 'text' | 'value' = 'visible';
+    private mode: Mode = 'visible';
 
     // the selector of the element to check.
     private selector: Selector = '';
 
     // text or value to check.
-    private payload: string | RegExp | (string | RegExp)[] = '';
+    private payload: number | string | RegExp | (string | RegExp)[] = '';
 
     // optional selector options.
     private options?: SelectorOptions;
 
-    private constructor(private checkMode: 'toBe' | 'notToBe') {
+    private constructor(private checkMode: CheckMode) {
         super();
     }
 
@@ -29,33 +32,44 @@ export class Element extends Question<boolean> {
      */
     public async answeredBy(actor: Actor): Promise<boolean> {
         if (this.mode === 'visible') {
-            // if .is was called -> positive check, if .not was called -> negative check
             return Promise.resolve(
-                await BrowseTheWeb.as(actor).checkVisibilityState(this.selector, this.checkMode === 'toBe' ? 'visible' : 'hidden', this.options),
+                await BrowseTheWeb.as(actor).checkVisibilityState(this.selector, this.checkMode, this.options),
             ); // if the ability method is not the expected result there will be an exception
         }
         if (this.mode === 'enabled') {
-            // if .is was called -> positive check, if .not was called -> negative check
             return Promise.resolve(
-                await BrowseTheWeb.as(actor).checkEnabledState(this.selector, this.checkMode === 'toBe' ? 'enabled' : 'disabled', this.options),
+                await BrowseTheWeb.as(actor).checkEnabledState(this.selector, this.checkMode, this.options),
             ); // if the ability method is not the expected result there will be an exception
         }
         if (this.mode === 'text') {
-            // if .is was called -> positive check, if .not was called -> negative check
             return Promise.resolve(
-                await BrowseTheWeb.as(actor).checkSelectorText(this.selector, this.payload, this.checkMode === 'toBe' ? 'has' : 'hasNot', this.options),
+                await BrowseTheWeb.as(actor).checkSelectorText(this.selector, this.payload as string, this.checkMode, this.options),
             ); // if the ability method is not the expected result there will be an exception
         }
         if (this.mode === 'value') {
             // Element.values was called -> need to check multiple values
             if (!Array.isArray(this.payload)) {
-                // Element.value was called -> need to check single values
                 return Promise.resolve(
-                    await BrowseTheWeb.as(actor).checkSelectorValue(this.selector, this.payload, this.checkMode === 'toBe' ? 'has' : 'hasNot', this.options),
+                    await BrowseTheWeb.as(actor).checkSelectorValue(this.selector, this.payload as string, this.checkMode, this.options),
                 ); // if the ability method is not the expected result there will be an exception
             }
 
             throw new Error('Element.value: incompatible payload! Arrays can not be checked.');
+        }
+        if (this.mode === 'checked') {
+            return Promise.resolve(
+                await BrowseTheWeb.as(actor).checkChecked(this.selector, this.checkMode, this.options),
+            ); // if the ability method is not the expected result there will be an exception
+        }
+        if (this.mode === 'count') {
+            return Promise.resolve(
+                await BrowseTheWeb.as(actor).checkCount(this.selector, this.payload as number, this.checkMode, { ...this.options }),
+            ); // if the ability method is not the expected result there will be an exception
+        }
+        if (this.mode === 'minCount') {
+            return Promise.resolve(
+                await BrowseTheWeb.as(actor).checkMinCount(this.selector, this.payload as number, this.checkMode, this.options),
+            ); // if the ability method is not the expected result there will be an exception
         }
         throw new Error('Unknown mode: Element.answeredBy');
     }
@@ -65,7 +79,7 @@ export class Element extends Question<boolean> {
      * @return {Element} new Element instance
      */
     static get toBe() {
-        return new Element('toBe');
+        return new Element('positive');
     }
 
     /**
@@ -73,7 +87,7 @@ export class Element extends Question<boolean> {
      * @return {Element} new Element instance
      */
     static get notToBe() {
-        return new Element('notToBe');
+        return new Element('negative');
     }
 
     /**
@@ -81,7 +95,7 @@ export class Element extends Question<boolean> {
      * @return {Element} new Element instance
      */
     static get toHave() {
-        return new Element('toBe');
+        return new Element('positive');
     }
 
     /**
@@ -89,7 +103,7 @@ export class Element extends Question<boolean> {
      * @return {Element} new Element instance
      */
     static get notToHave() {
-        return new Element('notToBe');
+        return new Element('negative');
     }
 
     /**
@@ -129,7 +143,7 @@ export class Element extends Question<boolean> {
      * @param text the text to check.
      * @param options (optional) advanced selector lookup options.
      */
-    public text(selector: string, text: string | RegExp | (string | RegExp)[], options?: SelectorOptions): Element {
+    public text(selector: Selector, text: string | RegExp | (string | RegExp)[], options?: SelectorOptions): Element {
         this.mode = 'text';
         this.selector = selector;
         this.payload = text;
@@ -145,10 +159,36 @@ export class Element extends Question<boolean> {
      * @param value the value to check.
      * @param options (optional) advanced selector lookup options.
      */
-    public value(selector: string, value: string | RegExp, options?: SelectorOptions): Element {
+    public value(selector: Selector, value: string | RegExp, options?: SelectorOptions): Element {
         this.mode = 'value';
         this.selector = selector;
         this.payload = value;
+        this.options = options;
+
+        return this;
+    }
+
+    public minCount(selector: Selector, minCount: number, options?: SelectorOptions): Element {
+        this.payload = minCount;
+        this.mode = 'minCount';
+        this.selector = selector;
+        this.options = options;
+
+        return this;
+    }
+
+    public count(selector: Selector, desiredCount: number, options?: SelectorOptions): Element {
+        this.payload = desiredCount;
+        this.selector = selector;
+        this.mode = 'count';
+        this.options = options;
+
+        return this;
+    }
+
+    public checked(selector: Selector, options?: SelectorOptions): Element {
+        this.selector = selector;
+        this.mode = 'checked';
         this.options = options;
 
         return this;
