@@ -269,9 +269,9 @@ export class BrowseTheWeb extends Ability {
     */
     public async checkCount(selector: Selector, count: number, mode: CheckMode, options?: SelectorOptions): Promise<boolean> {
         if (mode === 'positive') {
-            await expect(await recursiveLocatorLookup({ page: this.page, selector, options: { ...options, state: 'visible' } })).toHaveCount(count, { timeout: options?.timeout });
+            await expect(await recursiveLocatorLookup({ page: this.page, selector, options: { ...options, state: 'visible', evaluateVisible: false } })).toHaveCount(count, { timeout: options?.timeout });
         } else {
-            await expect(await recursiveLocatorLookup({ page: this.page, selector, options: { ...options, state: 'visible' } })).not.toHaveCount(count, { timeout: options?.timeout });
+            await expect(await recursiveLocatorLookup({ page: this.page, selector, options: { ...options, state: 'visible', evaluateVisible: false } })).not.toHaveCount(count, { timeout: options?.timeout });
         }
         return Promise.resolve(true);
     }

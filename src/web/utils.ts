@@ -38,6 +38,6 @@ export const recursiveLocatorLookup = async ({ page, selector, options }: { page
     const locator = typeof selector === 'string' ? page.locator(selector, { hasText: options?.hasText }) : await getSubLocator(selector, undefined, options?.hasText);
     // pass the first level locator into sub locator lookup
     return subLocatorLookup({
-        page, locator, timeout: options?.timeout, subSelector: options?.subSelector, state: options?.state, strict: options?.evaluateVisible,
+        page, locator, timeout: options?.timeout, subSelector: options?.subSelector, state: options?.state, evaluateVisible: options?.evaluateVisible,
     });
 };
