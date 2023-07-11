@@ -19,6 +19,7 @@ import { Get } from '../src/web/actions/Get';
 import { Set } from '../src/web/actions/Set';
 import { Remove } from '../src/web/actions/Remove';
 import { Element } from '../src/web/questions/Element';
+import { Count } from '../src/web/actions/Count';
 
 type MyActors = {
     actor: Actor;
@@ -135,6 +136,31 @@ test.describe('Testing screenplay-playwright-js web module', () => {
         );
         // assert that the pressed button was recognized
         await expect(actor.states('page').locator('[id="result"]')).toHaveText('You entered: A');
+    });
+
+    test('Get.element and Get.elements', async ({ actor }) => {
+        await actor.attemptsTo(
+            Navigate.to('https://the-internet.herokuapp.com/checkboxes'),
+            Wait.forLoadState('networkidle'),
+        );
+
+        // assert that there is nothing in the result box
+        await expect(await actor.attemptsTo(Get.element('[type="checkbox"]'))).toHaveCount(1);
+        await expect((await actor.attemptsTo(Get.elements('[type="checkbox"]'))).length).toBe(2);
+
+        await expect(await actor.attemptsTo(Get.element('h3'))).toHaveCount(1);
+        await expect((await actor.attemptsTo(Get.elements('h3'))).length).toBe(1);
+    });
+
+    test('Count', async ({ actor }) => {
+        await actor.attemptsTo(
+            Navigate.to('https://the-internet.herokuapp.com/checkboxes'),
+            Wait.forLoadState('networkidle'),
+        );
+
+        await expect(await actor.attemptsTo(Count.elements('h6'))).toBe(0);
+        await expect(await actor.attemptsTo(Count.elements('h3'))).toBe(1);
+        await expect(await actor.attemptsTo(Count.elements('[type="checkbox"]'))).toBe(2);
     });
 
     test('Wait + Recursive Locators', async ({ actor }) => {

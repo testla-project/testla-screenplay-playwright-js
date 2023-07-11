@@ -59,6 +59,13 @@ export class BrowseTheWeb extends Ability {
     }
 
     /**
+     * Reload the current page.
+     */
+    public async reload(): Promise<Response | null> {
+        return this.page.reload();
+    }
+
+    /**
      * Wait for the specified loading state.
      *
      * @param {string} status the status to wait for. Allowed: "load" | "domcontentloaded" | "networkidle".
@@ -277,6 +284,18 @@ export class BrowseTheWeb extends Ability {
     }
 
     /**
+    * Validate if the given element has the given minimum count.
+    *
+    * @param selector the selector of the element.
+    * @param options (optional) advanced selector lookup options.
+    * @returns Promise of number of counted elements
+    */
+    public async count(selector: Selector, options?: SelectorOptions): Promise<number> {
+        const counted = await (await recursiveLocatorLookup({ page: this.page, selector, options: { ...options, state: 'visible', evaluateVisible: false } })).count();
+        return Promise.resolve(counted);
+    }
+
+    /**
     * Validate if the given element is checked.
     *
     * @param selector the selector of the element.
@@ -414,5 +433,16 @@ export class BrowseTheWeb extends Ability {
      */
     public async selectOption(selector: Selector, option: string | { value?: string, label?: string, index?: number }, selectorOptions?: SelectorOptions): Promise<any> {
         return (await recursiveLocatorLookup({ page: this.page, selector, options: selectorOptions })).selectOption(option);
+    }
+
+    public async getElement(selector: Selector, singular = true, selectorOptions: SelectorOptions = {}): Promise<Locator | Locator[]> {
+        let locators;
+        if (typeof selector === 'string') {
+            await this.page.waitForSelector(selector, { timeout: selectorOptions?.timeout });
+            locators = await this.page.locator(selector, { hasText: selectorOptions?.hasText });
+        } else {
+            locators = selector;
+        }
+        return singular ? locators?.first() : locators?.all();
     }
 }

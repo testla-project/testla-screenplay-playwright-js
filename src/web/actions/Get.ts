@@ -1,11 +1,14 @@
 import { Action, Actor } from '@testla/screenplay';
 import { BrowseTheWeb } from '../abilities/BrowseTheWeb';
+import { Selector, SelectorOptions } from '../types';
+
+type Mode = 'cookies' | 'sessionStorage' | 'localStorage' | 'element' | 'elements';
 
 /**
  * Action Class. Get either Cookies, Session Storage Items or Local Storage Items from the Browser.
  */
 export class Get extends Action {
-    private constructor(private mode: 'cookies' | 'sessionStorage' | 'localStorage', private payload: any) {
+    private constructor(private mode: Mode, private payload: any) {
         super();
     }
 
@@ -24,6 +27,9 @@ export class Get extends Action {
         }
         if (this.mode === 'localStorage') {
             return BrowseTheWeb.as(actor).getLocalStorageItem(this.payload);
+        }
+        if (this.mode === 'element') {
+            return BrowseTheWeb.as(actor).getElement(this.payload.selector, this.payload.singular, this.payload.options);
         }
         throw new Error('Error: no match for Get.performAs()!');
     }
@@ -56,5 +62,13 @@ export class Get extends Action {
      */
     public static localStorageItem(key: string): Get {
         return new Get('localStorage', key);
+    }
+
+    public static element(selector: Selector, options?: SelectorOptions): Get {
+        return new Get('element', { selector, options });
+    }
+
+    public static elements(selector: Selector, options?: SelectorOptions): Get {
+        return new Get('element', { selector, options, singular: false });
     }
 }
