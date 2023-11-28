@@ -1,2 +1,0 @@
-# Testla Core Design Pattern
-In this part you'll learn about the core design patterns that underpin the testla library. We'll take a deep dive into the [Screenplay Pattern](screenplay_pattern.md), and you'll see how the principles of encapsulation, composability, coherency, and learnability permeate the design of the library to benefit the test scenarios you create with it.
