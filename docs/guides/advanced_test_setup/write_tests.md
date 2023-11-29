@@ -16,7 +16,7 @@ test.describe('Use your defined task', () => {
 });
 ```
 
-It is also possible to use multiple tasks in one `attemptsTo`
+It is also possible to use multiple tasks in one `attemptsTo`.
 
 ```typescript
 test.describe('Use your defined task', () => {
@@ -28,6 +28,24 @@ test.describe('Use your defined task', () => {
             TheSecondTask.doSomething(),
             TheThirdTask.doSomething(),
         );
+    });
+});
+```
+
+Here we use our custom question. 
+
+```typescript
+test.describe('Use your defined question', () => {
+    // The test uses the defined Actor Andy from the fixture
+    test('execute task and then the question', async ({ Andy }) => {
+        // Execute the task Login.toApp()
+        await Andy.attemptsTo(
+            Login.toApp(), 
+            TheSecondTask.doSomething(),
+            TheThirdTask.doSomething(),
+        );
+
+        await Andy.asks(Entity.has.attributeValue(entityObj, this.attribute, this.value));
     });
 });
 ```
