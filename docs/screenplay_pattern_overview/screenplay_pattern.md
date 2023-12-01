@@ -30,7 +30,7 @@ The key 5 key elements of the pattern are:
 - **Actions**, which represents the low-level activities an actor can perform
 - **Questions**, used to retrieve information from the SUT and the test execution environment
 
-![Screenplay Pattern](./assets/screenplay_pattern.png)
+![Screenplay Pattern](../guides/assets/screenplay_pattern.png)
 
 ### Actors and Abilities
 
