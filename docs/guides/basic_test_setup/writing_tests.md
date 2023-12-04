@@ -3,15 +3,16 @@
 # Writing tests
 
 Testla tests are simple, they
-    - perform tasks, and
-    - ask about the state against expectations
+- perform tasks, and
+- ask about the state against expectations
 
 There is no need to wait for anything prior to performing a task. 
 
 You will learn:
-    - How to write the first test
-    - How to perform tasks and actions
-    - How to use questions
+- How to write the first test
+- How to write the first test
+- How to perform tasks and actions
+- How to use questions
 
 # First test
 Take a look at the following example to see how to write a test. 

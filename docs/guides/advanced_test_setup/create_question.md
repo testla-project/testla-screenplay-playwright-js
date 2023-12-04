@@ -14,8 +14,6 @@ import { expect } from '@playwright/test';
 import { Question } from '@testla/screenplay-playwright';
 
 export class Entity extends Question<boolean> {
-    // eslint-disable-next-line
-    // @ts-ignore
     private payload: any;
 
     private checkMode: 'has' | 'hasNot';
@@ -33,16 +31,10 @@ export class Entity extends Question<boolean> {
         return Promise.resolve(true);
     }
 
-    /**
-     * make the Question check for the errors.
-     */
     static get has() {
         return new Entity('has');
     }
 
-    /**
-     * make the Question check for the errors.
-     */
     static get hasNot() {
         return new Entity('hasNot');
     }

@@ -13,7 +13,6 @@ import { Actor, Action } from '@testla/screenplay-playwright';
 import { BrowseTheWeb } from '@testla/screenplay-playwright/web';
 
 export class Reload extends Action {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     public async performAs(actor: Actor): Promise<any> {
         const page = BrowseTheWeb.as(actor).getPage();
         return page.reload();

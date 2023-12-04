@@ -21,7 +21,7 @@ export class Login extends Task {
     }
 
     public async performAs(actor: Actor): Promise<any> {
-        return await actor.attemptsTo(
+        return actor.attemptsTo(
             Navigate.to(loginURL),
             Fill.in(LoginScreen.USER_NAME_INPUT, actor.states('username') || ''),
             Fill.in(LoginScreen.PASSWORD_INPUT, actor.states('password') || ''),            

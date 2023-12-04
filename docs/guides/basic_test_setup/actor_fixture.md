@@ -4,7 +4,7 @@
 
 ## Introduction
 
-Playwright Test is based on the concept of test fixtures. Test fixtures are used to establish environment for each test, giving the test everything it needs and nothing else. Test fixtures are isolated between tests. With fixtures, you can create actors based on their abilities. 
+Playwright Test is based on the concept of test fixtures. Test fixtures are used to establish environment for each test, giving the test everything it needs. Test fixtures are isolated between tests. With fixtures you can create actors which are then available in every test and give them abilities which they can use.
 
 ## Creating an actor with abilities
 

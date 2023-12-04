@@ -7,11 +7,11 @@ It is designed to make the automation of actions more convenient.
 
 ```typescript
 export class LoginScreen {
-    static EMAIL_INPUT = "email-input locator";
+    static EMAIL_INPUT = 'email-input locator';
 
     static PASSWORD_FIELD = 'password-field locator';
 
-    static LOGIN_BUTTON = "Log in button locator";
+    static LOGIN_BUTTON = 'Log in button locator';
 }
 ```
 
