@@ -20,6 +20,7 @@ import { Actor } from '@testla/screenplay-playwright';
 import { BrowseTheWeb } from '@testla/screenplay-playwright/web';
 import { UseAPI } from '@testla/screenplay-playwright/api';
 
+// Function to create a user actor with both web browsing and API capabilities
 const createUser = async (browser: Browser, request: APIRequestContext, actorName: string, username: string, password: string): Promise<Actor> => {
     const page = await context.newPage();
 
@@ -30,12 +31,14 @@ const createUser = async (browser: Browser, request: APIRequestContext, actorNam
         .can(UseAPI.using(request));
 };
 
+// Define the types of actors
 type Actors = {
     Andy: Actor;
     Ute: Actor;
     Armin: Actor;
 };
 
+// Define test fixtures for each actor
 export const test = base.extend<Actors>({
     Andy: async ({ browser, request }, use) => {
         const Andy = await createUser(browser, request, 'Andy', `${process.env.ANDY_USER_NAME}`, `${process.env.ANDY_USER_PASSWORD}`);
@@ -51,8 +54,19 @@ export const test = base.extend<Actors>({
     },
 });
 
+// Export the expect function from the Playwright test library
 export { expect } from '@playwright/test';
 ```
+
+### In Detail
+
+The code above defines a function `createUser` that creates an actor with both web browsing and API capabilities. It uses Playwright's Browser and APIRequestContext to create a new page for web browsing and adds the necessary `abilities` for interacting with the Web and API.
+
+The test object is a test fixture that extends Playwright's base test object. It defines three actors (Andy, Ute, and Armin) and provides fixtures for creating them with the `createUser` function. Each actor is associated with specific environment variables for the username and password.
+
+The exported test object also includes the expect function from the Playwright test library.
+
+In the provided example of using an actor in a test, the Andy actor is used to perform login actions and assertions. Multiple actors can be used in a single test, each with its own set of interactions and expectations.
 
 ## Using an actor
 
