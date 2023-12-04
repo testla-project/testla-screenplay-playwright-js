@@ -35,5 +35,9 @@ export class Login extends Task {
     }
 }
 ```
+### In Detail
 
+The `performAs` method is required to be implemented by any class extending the Task abstract class. It takes an `Actor` object as a parameter, representing the actor performing the task. It encapsulates a sequence of actions that an `actor` needs to perform. This makes the task reusable and provides a clear representation of the process in the domain language of the application. 
+The `Login` class follows the `Screenplay Pattern's` concept of using `tasks` to model sequences of activities, making the test scenarios more readable and aligned with the business language.
+ 
 [Back to overview](../guides.md)
