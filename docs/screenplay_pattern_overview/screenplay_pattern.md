@@ -2,7 +2,7 @@
 
 # Screenplay Pattern Overview
 
-The Screenplay Pattern is a user-centered approach to writing high-quality automated tests. It guides you to effective use of abstraction levels, helps you align tests with business language, and promotes good testing and software development practices.
+The Screenplay Pattern is a user-centered approach for writing high-quality automated tests. It guides you to effective use of abstraction levels, helps you align tests with business language, and promotes good testing and software development practices.
 
 Instead of focusing on low-level, interface-oriented interactions, you describe your test scenarios in a similar way to how you would explain them to a human - an actor in a screenplay sense. You write simple, readable and highly reusable code that instructs actors what activities to perform and what things to check. The domain-specific test language you create is used to express scripts - the activities you want the actors to perform in a particular test scenario.
 
@@ -10,7 +10,7 @@ Testla's implementation of the Screenplay Pattern enables developers to easily i
 
 ## The design principle
 
-The design principle behind the Screenplay Pattern is simple but might forever change the way you look at test automation:
+The design principle behind the Screenplay Pattern is simple but might change the way you look at test automation:
 > [!IMPORTANT]
 > Automated acceptance tests should use your domain language to clearly express what activities the actors interacting with your system need to perform in order to accomplish their goals.
 
@@ -40,7 +40,7 @@ Actors need `abilities` to enable them interacting with any interface of the sys
 
 #### Defining an Actor with an Ability
 
-For example, Ute will interact with the REST API using the Playwright HTTP client. At the same time, Andy will interact with the web UI using Playwright. 
+For example, Ute will interact with the REST API using the Playwright HTTP client. At the same time, Andy will interact with the Web UI using Playwright's page object. 
 
 ```typescript
 const Ute = Actor.named('Ute').can(UseAPI.using(request));
@@ -81,7 +81,7 @@ await Andy.attemptsTo(Navigate.to('https://google.de'));
 ### Questions
 
 Apart from enabling interactions, abilities also enable actors to answer questions about the state of the system under test. 
-For example, we could instruct Ute to answer the question about the last response status. 
+For example, we could instruct Ute to ask the question about the last response status. 
 
 ```typescript
 await Ute.asks(Response.has.statusCode(response, 200));
