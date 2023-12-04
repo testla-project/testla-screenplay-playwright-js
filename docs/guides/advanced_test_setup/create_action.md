@@ -23,5 +23,9 @@ export class Reload extends Action {
     }
 }
 ```
+### In Detail
+
+Let us take a look at the code above. The `performAs` method is required to be implemented by any class extending the Action abstract class. It takes an `Actor` object as a parameter, representing the actor performing the action. It uses the `BrowseTheWeb` ability to retrieve the current page associated with the actor. It then calls the `reload` method on the page, which refreshes the current page. 
+The static `page` method is a convenience method for creating an instance of the Reload class. It returns a new instance of the Reload class. 
 
 [Back to overview](../guides.md)
