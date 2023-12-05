@@ -4,7 +4,7 @@
 
 ## Introduction
 
-Playwright Test is based on the concept of test fixtures. Test fixtures are used to establish environment for each test, giving the test everything it needs. Test fixtures are isolated between tests. With fixtures you can create actors which are then available in every test and give them abilities which they can use.
+Playwright Test is based on the concept of test fixtures. Test fixtures are used to establish an environment for each test, giving the test everything it needs. Test fixtures are isolated between tests. With fixtures you can create actors which are then available in every test and give them abilities which they can use.
 
 ## Creating an actor with abilities
 
@@ -20,7 +20,7 @@ import { Actor } from '@testla/screenplay-playwright';
 import { BrowseTheWeb } from '@testla/screenplay-playwright/web';
 import { UseAPI } from '@testla/screenplay-playwright/api';
 
-// Function to create a user actor with both web browsing and API capabilities
+// Function to create an user actor with both Web browsing and API capabilities
 const createUser = async (browser: Browser, request: APIRequestContext, actorName: string, username: string, password: string): Promise<Actor> => {
     const page = await context.newPage();
 
@@ -60,7 +60,7 @@ export { expect } from '@playwright/test';
 
 ### In Detail
 
-The code above defines a function `createUser` that creates an actor with both web browsing and API capabilities. It uses Playwright's Browser and APIRequestContext to create a new page for web browsing and adds the necessary `abilities` for interacting with the Web and API.
+The code above defines a function `createUser` that creates an actor with both Web browsing and API capabilities. It uses Playwright's Browser and APIRequestContext to create a new page for web browsing and adds the necessary `abilities` for interacting with the Web and API.
 
 The test object is a test fixture that extends Playwright's base test object. It defines three actors (Andy, Ute, and Armin) and provides fixtures for creating them with the `createUser` function. Each actor is associated with specific environment variables for the username and password.
 
@@ -72,7 +72,7 @@ In the provided example of using an actor in a test, the Andy actor is used to p
 
 Just mention the `actor` in your test function argument, and test runner will take care of it. Fixtures are also available in hooks and other fixtures. If you use TypeScript, fixtures will have the right type.
 
-Below we use the actor `Andy` defined above.
+Below we use the actor `Andy` as defined above.
 
 ```typescript
 test.describe('Login to application', () => {
