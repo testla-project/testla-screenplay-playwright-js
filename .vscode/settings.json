@@ -26,13 +26,4 @@
         "titleBar.inactiveForeground": "#e7e7e799"
     },
     "peacock.color": "#175761",
-    "teamscale.teamscaleServers": [
-        
-        {
-            "serverUrl": "https://p7s1.teamscale.io/",
-            "username": "patrick.doering@prosiebensat1.com",
-            "accessKey": "fHM5hO0zQqAUkbipFy6mswxcBSJdIBUj",
-            "trustAllCertificates": true
-        }
-    ]
 }
