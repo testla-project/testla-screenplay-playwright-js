@@ -7,4 +7,5 @@ results.xml
 /playwright-report
 **/test-results
 testCoverage.json
-/.vscode
+.vscode/*
+!.vscode/settings.json
