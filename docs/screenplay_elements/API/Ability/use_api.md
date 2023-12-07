@@ -49,10 +49,10 @@ public static using(requestContext: APIRequestContext): UseAPI
 public static as(actor: Actor): UseAPI
 ```
 
-- **Description:** Use this ability as part of an Actor.
+- **Description:** Use this ability as an actor.
 - **Parameters:**
   - `actor` - The actor object.
-- **Returns:** `UseAPI` - The actor with the ability to use the API.
+- **Returns:** `UseAPI` - The ability to use the API as the actor.
 
 #### sendRequest
 

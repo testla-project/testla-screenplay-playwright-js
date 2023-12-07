@@ -63,7 +63,7 @@ public static as(actor: Actor): BrowseTheWeb;
 - **Description:** Uses this ability as an actor.
 - **Parameters:**
   - `actor` - The actor using this ability.
-- **Returns:** `BrowseTheWeb` - Returns the ability to use a browser.
+- **Returns:** `BrowseTheWeb` - The ability to use BrowseTheWeb as the actor.
 
 #### getPage
 
