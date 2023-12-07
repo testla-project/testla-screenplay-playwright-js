@@ -54,6 +54,6 @@ public withHeaders(headers: Headers): Head;
 - **Description:** Add headers to the HTTP HEAD request.
 - **Parameters:**
   - `headers` - The headers to be added.
-- **Returns:** `Head` - The existing instance of the `Head` class.
+- **Returns:** `Head` - The updated instance of the `Head` class.
 
 [Back to overview](../../screenplay_elements.md)

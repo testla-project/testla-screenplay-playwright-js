@@ -56,7 +56,7 @@ public withData(data: any): Patch;
 - **Description:** Add data to the HTTP PATCH request.
 - **Parameters:**
   - `data` - The data to be added.
-- **Returns:** `Patch` - The existing instance of the `Patch` class.
+- **Returns:** `Patch` - The updated instance of the `Patch` class.
 
 ### withHeaders
 
@@ -67,7 +67,7 @@ public withHeaders(headers: Headers): Patch;
 - **Description:** Add headers to the HTTP PATCH request.
 - **Parameters:**
   - `headers` - The headers to be added.
-- **Returns:** `Patch` - The existing instance of the `Patch` class.
+- **Returns:** `Patch` - The updated instance of the `Patch` class.
 
 ### withResponseBodyFormat
 
@@ -77,7 +77,7 @@ public withResponseBodyFormat(responseBodyFormat: ResponseBodyFormat): Patch;
 
 - **Description:** Set the format in which the response body should be returned.
 - **Parameters:**
-  - `responseBodyFormat` - The desired format of the response body.
-- **Returns:** `Patch` - The existing instance of the `Patch` class.
+  - `responseBodyFormat` - The desired format of the response body which can be one out of `json`, `text`, `buffer` or `none`. The default is `json`.
+- **Returns:** `Patch` - The updated instance of the `Patch` class.
 
 [Back to overview](../../screenplay_elements.md)

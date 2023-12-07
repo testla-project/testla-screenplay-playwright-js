@@ -56,7 +56,7 @@ public withData(data: any): Put;
 - **Description:** Add data to the HTTP PUT request.
 - **Parameters:**
   - `data` - The data to be added.
-- **Returns:** `Put` - The existing instance of the `Put` class.
+- **Returns:** `Put` - The updated instance of the `Put` class.
 
 ### withHeaders
 
@@ -67,7 +67,7 @@ public withHeaders(headers: Headers): Put;
 - **Description:** Add headers to the HTTP PUT request.
 - **Parameters:**
   - `headers` - The headers to be added.
-- **Returns:** `Put` - The existing instance of the `Put` class.
+- **Returns:** `Put` - The updated instance of the `Put` class.
 
 ### withResponseBodyFormat
 
@@ -77,7 +77,7 @@ public withResponseBodyFormat(responseBodyFormat: ResponseBodyFormat): Put;
 
 - **Description:** Set the format in which the response body should be returned.
 - **Parameters:**
-  - `responseBodyFormat` - The desired format of the response body.
-- **Returns:** `Put` - The existing instance of the `Put` class.
+  - `responseBodyFormat` - The desired format of the response body which can be one out of `json`, `text`, `buffer` or `none`. The default is `json`.
+- **Returns:** `Put` - The updated instance of the `Put` class.
 
 [Back to overview](../../screenplay_elements.md)

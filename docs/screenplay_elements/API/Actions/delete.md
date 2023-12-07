@@ -55,7 +55,7 @@ public withHeaders(headers: Headers): Delete;
 - **Description:** Add headers to the HTTP DELETE request.
 - **Parameters:**
   - `headers` - The headers to be added.
-- **Returns:** `Delete` - The existing instance of the `Delete` class.
+- **Returns:** `Delete` - The updated instance of the `Delete` class.
 
 ### withResponseBodyFormat
 
@@ -65,7 +65,7 @@ public withResponseBodyFormat(responseBodyFormat: ResponseBodyFormat): Delete;
 
 - **Description:** Set the format in which the response body should be returned.
 - **Parameters:**
-  - `responseBodyFormat` - The desired format of the response body.
-- **Returns:** `Delete` - The existing instance of the `Delete` class.
+  - `responseBodyFormat` - The desired format of the response body which can be one out of `json`, `text`, `buffer` or `none`. The default is `json`.
+- **Returns:** `Delete` - The updated instance of the `Delete` class.
 
 [Back to overview](../../screenplay_elements.md)

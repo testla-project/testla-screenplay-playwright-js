@@ -55,7 +55,7 @@ public withHeaders(headers: Headers): Get;
 - **Description:** Add headers to the HTTP GET request.
 - **Parameters:**
   - `headers` - The headers to be added.
-- **Returns:** `Get` - The existing instance of the `Get` class.
+- **Returns:** `Get` - The updated instance of the `Get` class.
 
 ### withResponseBodyFormat
 
@@ -65,7 +65,7 @@ public withResponseBodyFormat(responseBodyFormat: ResponseBodyFormat): Get;
 
 - **Description:** Set the format in which the response body should be returned.
 - **Parameters:**
-  - `responseBodyFormat` - The desired format of the response body.
-- **Returns:** `Get` - The existing instance of the `Get` class.
+  - `responseBodyFormat` - The desired format of the response body which can be one out of `json`, `text`, `buffer` or `none`. The default is `json`.
+- **Returns:** `Get` - The updated instance of the `Get` class.
 
 [Back to overview](../../screenplay_elements.md)

@@ -56,7 +56,7 @@ public withData(data: any): Post;
 - **Description:** Add data to the HTTP POST request.
 - **Parameters:**
   - `data` - The data to be added.
-- **Returns:** `Post` - The existing instance of the `Post` class.
+- **Returns:** `Post` - The updated instance of the `Post` class.
 
 ### withHeaders
 
@@ -67,7 +67,7 @@ public withHeaders(headers: Headers): Post;
 - **Description:** Add headers to the HTTP POST request.
 - **Parameters:**
   - `headers` - The headers to be added.
-- **Returns:** `Post` - The existing instance of the `Post` class.
+- **Returns:** `Post` - The updated instance of the `Post` class.
 
 ### withResponseBodyFormat
 
@@ -77,7 +77,7 @@ public withResponseBodyFormat(responseBodyFormat: ResponseBodyFormat): Post;
 
 - **Description:** Set the format in which the response body should be returned.
 - **Parameters:**
-  - `responseBodyFormat` - The desired format of the response body.
-- **Returns:** `Post` - The existing instance of the `Post` class.
+  - `responseBodyFormat` - The desired format of the response body which can be one out of `json`, `text`, `buffer` or `none`. The default is `json`.
+- **Returns:** `Post` - The updated instance of the `Post` class.
 
 [Back to overview](../../screenplay_elements.md)
