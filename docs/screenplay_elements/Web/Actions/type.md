@@ -2,7 +2,7 @@
 
 # Type
 
-The `Type` class is an action class in the Screenplay pattern designed for use with the `@testla/screenplay` library. This class allows actors to type specified input into an element specified by a selector string using the `BrowseTheWeb` ability provided by Playwright.
+The `Type` class is an action class in the Screenplay pattern designed for use with the `@testla/screenplay` library. This class allows actors to type specified input into an element specified by a selector string using the `BrowseTheWeb` ability provided by Testla.
 
 ## Table of Contents
 

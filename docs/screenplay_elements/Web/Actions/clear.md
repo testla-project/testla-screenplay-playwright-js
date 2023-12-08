@@ -2,7 +2,7 @@
 
 # Clear
 
-The `Clear` class is an action class in the Screenplay pattern designed for use with the `@testla/screenplay` library. This class allows actors to remove cookies from the browser using the `BrowseTheWeb` ability provided by Playwright.
+The `Clear` class is an action class in the Screenplay pattern designed for use with the `@testla/screenplay` library. This class allows actors to remove cookies from the browser using the `BrowseTheWeb` ability provided by Testla.
 
 ## Table of Contents
 
@@ -23,10 +23,10 @@ The `Clear` class is an action class in the Screenplay pattern designed for use 
 public async performAs(actor: Actor): Promise<any>;
 ```
 
-- **Description:** Waits for either a specified loading state or for a selector to become visible/active and then clears all browser cookies using the `BrowseTheWeb` ability.
+- **Description:** Clears all browser cookies using the `BrowseTheWeb` ability.
 - **Parameters:**
   - `actor` - The actor performing this action.
-- **Returns:** `Promise<any>` - Returns a promise that resolves after clearing context cookies.
+- **Returns:** `Promise<any>` - Returns a promise that resolves after clearing cookies.
 
 ### cookies
 

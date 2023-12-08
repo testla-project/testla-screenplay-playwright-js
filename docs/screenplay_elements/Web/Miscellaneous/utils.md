@@ -24,7 +24,7 @@ This module provides utility functions for working with Playwright locators and 
 const getSubLocator = async (locator: Locator, subLocator?: Locator, text?: string | RegExp): Promise<Locator>;
 ```
 
-- **Description:** Deals with selector == Playwright Locator and options.hasText.
+- **Description:** The function filters for a locator based on the provided subLocator and text or regular expression.
 - **Parameters:**
   - `locator` - Playwright locator.
   - `subLocator` - (optional) Sub-locator.
@@ -39,7 +39,7 @@ const subLocatorLookup = async ({
 }: { page: Page; locator: Locator; timeout?: number; subSelector?: SubSelector, state?: SelectorOptionsState }): Promise<Locator>;
 ```
 
-- **Description:** Performs sub-locator lookup, waiting for selectors to become visible based on timeout options.
+- **Description:** Performs sub-locator lookup, waiting for selectors to get into the desired state.
 - **Parameters:**
   - `page` - Playwright page.
   - `locator` - Playwright locator.

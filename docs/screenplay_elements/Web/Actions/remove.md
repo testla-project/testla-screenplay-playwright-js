@@ -2,7 +2,7 @@
 
 # Remove
 
-The `Remove` class is an action class in the Screenplay pattern designed for use with the `@testla/screenplay` library. This class allows actors to remove either Session Storage Items or Local Storage Items from the browser using the `BrowseTheWeb` ability provided by Playwright.
+The `Remove` class is an action class in the Screenplay pattern designed for use with the `@testla/screenplay` library. This class allows actors to remove either Session Storage Items or Local Storage Items from the browser using the `BrowseTheWeb` ability provided by Testla.
 
 ## Table of Contents
 

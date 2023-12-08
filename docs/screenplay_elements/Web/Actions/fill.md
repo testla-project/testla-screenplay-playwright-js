@@ -2,7 +2,7 @@
 
 # Fill
 
-The `Fill` class is an action class in the Screenplay pattern designed for use with the `@testla/screenplay` library. This class enables actors to find an element specified by a selector and fill it with a specified input using the `BrowseTheWeb` ability provided by Playwright.
+The `Fill` class is an action class in the Screenplay pattern designed for use with the `@testla/screenplay` library. This class enables actors to find an element specified by a selector and fill it with a specified input using the `BrowseTheWeb` ability provided by Testla.
 
 ## Table of Contents
 

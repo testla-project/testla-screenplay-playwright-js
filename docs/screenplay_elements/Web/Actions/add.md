@@ -2,7 +2,7 @@
 
 # Add
 
-The `Add` class is an action class in the Screenplay pattern designed for use with the `@testla/screenplay` library. This class allows actors to add cookies to the browser using the `BrowseTheWeb` ability provided by Playwright.
+The `Add` class is an action class in the Screenplay pattern designed for use with the `@testla/screenplay` library. This class allows actors to add cookies to the browser using the `BrowseTheWeb` ability provided by Testla.
 
 ## Table of Contents
 

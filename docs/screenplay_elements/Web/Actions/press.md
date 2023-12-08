@@ -2,7 +2,7 @@
 
 # Press
 
-The `Press` class is an action class in the Screenplay pattern designed for use with the `@testla/screenplay` library. This class enables actors to simulate pressing specified keys on the keyboard using the `BrowseTheWeb` ability provided by Playwright.
+The `Press` class is an action class in the Screenplay pattern designed for use with the `@testla/screenplay` library. This class enables actors to simulate pressing specified keys on the keyboard using the `BrowseTheWeb` ability provided by Testla.
 
 ## Table of Contents
 

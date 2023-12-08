@@ -2,14 +2,13 @@
 
 # Element
 
-The `Element` class is a question class in the Screenplay pattern designed for use with the `@testla/screenplay` library. This class enables actors to inquire about the state of a web element, such as visibility, enabled state, text, or value, using the `BrowseTheWeb` ability provided by Playwright.
+The `Element` class is a question class in the Screenplay pattern designed for use with the `@testla/screenplay` library. This class enables actors to inquire about the state of a web element, such as visibility, enabled state, text, or value, using the `BrowseTheWeb` ability provided by Testla.
 
 ## Table of Contents
 
 - [Element](#element)
   - [Table of Contents](#table-of-contents)
   - [Class Overview](#class-overview)
-    - [Properties](#properties)
     - [Methods](#methods)
     - [answeredBy](#answeredby)
     - [toBe](#tobe)
@@ -22,14 +21,6 @@ The `Element` class is a question class in the Screenplay pattern designed for u
     - [value](#value)
 
 ## Class Overview
-
-### Properties
-
-- `mode` - The mode of the element check ('visible', 'enabled', 'text', 'value').
-- `selector` - The selector of the element to check.
-- `payload` - Text or value to check.
-- `options` - Optional selector options.
-- `checkMode` - The check mode ('toBe' for positive check, 'notToBe' for negative check).
 
 ### Methods
 

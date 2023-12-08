@@ -2,24 +2,19 @@
 
 # Wait
 
-The `Wait` class is an action class in the Screenplay pattern designed for use with the `@testla/screenplay` library. This class enables actors to wait for either a specified loading state or for a selector to become visible/active using the `BrowseTheWeb` ability provided by Playwright.
+The `Wait` class is an action class in the Screenplay pattern designed for use with the `@testla/screenplay` library. This class enables actors to wait for either a specified loading state or for a selector to become visible/active using the `BrowseTheWeb` ability provided by Testla.
 
 ## Table of Contents
 
 - [Wait](#wait)
   - [Table of Contents](#table-of-contents)
   - [Class Overview](#class-overview)
-    - [Properties](#properties)
     - [Methods](#methods)
     - [performAs](#performas)
     - [forLoadState](#forloadstate)
     - [forSelector](#forselector)
 
 ## Class Overview
-
-### Properties
-
-- `action` - An object that determines what to wait for (loading state, selector, or selector == expected). Only one property is active at all times.
 
 ### Methods
 

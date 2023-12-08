@@ -2,7 +2,7 @@
 
 # Set
 
-The `Set` class is an action class in the Screenplay pattern designed for use with the `@testla/screenplay` library. This class allows actors to set either Session Storage Items or Local Storage Items on the browser using the `BrowseTheWeb` ability provided by Playwright.
+The `Set` class is an action class in the Screenplay pattern designed for use with the `@testla/screenplay` library. This class allows actors to set either Session Storage Items or Local Storage Items on the browser using the `BrowseTheWeb` ability provided by Testla.
 
 ## Table of Contents
 

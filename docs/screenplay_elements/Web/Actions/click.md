@@ -2,7 +2,7 @@
 
 # Click
 
-The `Click` class is an action class in the Screenplay pattern designed for use with the `@testla/screenplay` library. This class allows actors to click on an element specified by a selector using the `BrowseTheWeb` ability provided by Playwright.
+The `Click` class is an action class in the Screenplay pattern designed for use with the `@testla/screenplay` library. This class allows actors to click on an element specified by a selector using the `BrowseTheWeb` ability provided by Testla.
 
 ## Table of Contents
 
@@ -36,7 +36,7 @@ public static on(selector: Selector, options?: SelectorOptions): Click;
 
 - **Description:** Creates a new instance of the `Click` class specifically for clicking on an element specified by a selector.
 - **Parameters:**
-  - `selector` - The string representing the selector.
+  - `selector` - The Selector.
   - `options` (optional) - Advanced selector lookup options.
 - **Returns:** `Click` - Returns a new `Click` instance.
 

@@ -2,7 +2,7 @@
 
 # Select
 
-The `Select` class is an action class in the Screenplay pattern designed for use with the `@testla/screenplay` library. This class allows actors to set the value of a Selector of type select to the given option using the `BrowseTheWeb` ability provided by Playwright.
+The `Select` class is an action class in the Screenplay pattern designed for use with the `@testla/screenplay` library. This class allows actors to set the value of a Selector of type select to the given option using the `BrowseTheWeb` ability provided by Testla.
 
 ## Table of Contents
 

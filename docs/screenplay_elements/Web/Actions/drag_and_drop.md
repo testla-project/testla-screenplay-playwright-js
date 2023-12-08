@@ -2,7 +2,7 @@
 
 # DragAndDrop
 
-The `DragAndDrop` class is an action class in the Screenplay pattern designed for use with the `@testla/screenplay` library. This class allows actors to drag an element specified by a source selector and drop it on an element specified by a target selector using the `BrowseTheWeb` ability provided by Playwright.
+The `DragAndDrop` class is an action class in the Screenplay pattern designed for use with the `@testla/screenplay` library. This class allows actors to drag an element specified by a source selector and drop it on an element specified by a target selector using the `BrowseTheWeb` ability provided by Testla.
 
 ## Table of Contents
 

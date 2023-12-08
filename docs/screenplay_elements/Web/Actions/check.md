@@ -2,7 +2,7 @@
 
 # Check
 
-The `Check` class is an action class in the Screenplay pattern designed for use with the `@testla/screenplay` library. This class allows actors to check a checkbox specified by a selector string using the `BrowseTheWeb` ability provided by Playwright.
+The `Check` class is an action class in the Screenplay pattern designed for use with the `@testla/screenplay` library. This class allows actors to check a checkbox specified by a selector string using the `BrowseTheWeb` ability provided by Testla.
 
 ## Table of Contents
 

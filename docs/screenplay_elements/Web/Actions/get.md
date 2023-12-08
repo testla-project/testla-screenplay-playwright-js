@@ -2,7 +2,7 @@
 
 # Get
 
-The `Get` class is an action class in the Screenplay pattern designed for use with the `@testla/screenplay` library. This class enables actors to retrieve either cookies, session storage items, or local storage items from the browser using the `BrowseTheWeb` ability provided by Playwright.
+The `Get` class is an action class in the Screenplay pattern designed for use with the `@testla/screenplay` library. This class enables actors to retrieve either cookies, session storage items, or local storage items from the browser using the `BrowseTheWeb` ability provided by Testla.
 
 ## Table of Contents
 
@@ -25,7 +25,7 @@ The `Get` class is an action class in the Screenplay pattern designed for use wi
 public async performAs(actor: Actor): Promise<any>;
 ```
 
-- **Description:** Waits for either a specified loading state or for a selector to become visible/active. Retrieves cookies, session storage items, or local storage items based on the specified mode.
+- **Description:** Retrieves cookies, session storage items, or local storage items based on the specified mode.
 - **Parameters:**
   - `actor` - The actor performing this action.
 - **Returns:** `Promise<any>` - Returns cookies, session storage items, or local storage items.
