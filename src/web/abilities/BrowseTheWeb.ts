@@ -152,7 +152,7 @@ export class BrowseTheWeb extends Ability {
      */
     public async type(selector: Selector, input: string, options?: SelectorOptions): Promise<void> {
         return (await recursiveLocatorLookup({ page: this.page, selector, options }))
-            .type(input);
+            .pressSequentially(input);
     }
 
     /**

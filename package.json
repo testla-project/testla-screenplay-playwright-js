@@ -50,7 +50,7 @@
     "v8-to-istanbul": "^9.0.1"
   },
   "peerDependencies": {
-    "@playwright/test": "^1.34.0"
+    "@playwright/test": "^1.38.0"
   },
   "dependencies": {
     "@testla/screenplay": "^0.3.0"
