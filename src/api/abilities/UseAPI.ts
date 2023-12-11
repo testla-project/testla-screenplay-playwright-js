@@ -33,7 +33,7 @@ export class UseAPI extends Ability {
      * Use this Ability as an Actor.
      *
      * @param {Actor} actor the actor object
-     * @returns {UseAPI} UseAPI the actor with the ability to use the API
+     * @returns {UseAPI} The ability to use the API as the actor
      */
     public static as(actor: Actor): UseAPI {
         return actor.withAbilityTo(this) as UseAPI;
