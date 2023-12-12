@@ -27,7 +27,7 @@ const test = base.extend<MyActors>({
     actor: async ({ browser }, use) => {
         const context = await browser.newContext();
         const page = await context.newPage();
-        const actor = Actor.named('TestActor').can(BrowseTheWeb.using(page)).with('page', page);
+        const actor = Actor.named('TestActor').can(BrowseTheWeb.using(page));
         await use(actor);
     },
 });
