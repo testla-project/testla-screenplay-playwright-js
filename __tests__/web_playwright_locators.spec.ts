@@ -177,9 +177,9 @@ test.describe('Testing screenplay-playwright-js web module', () => {
 
         // Add some cookies
         const cookiesToAdd: Cookie[] = [{
-            name: 'cookie1', value: 'someValue', domain: '.google.com', path: '/', expires: 1700269944, httpOnly: true, secure: true, sameSite: 'Lax',
+            name: 'cookie1', value: 'someValue', domain: 'https://google.com', path: '/', expires: 4070908800, httpOnly: true, secure: true, sameSite: 'Lax',
         }, {
-            name: 'cookie2', value: 'val', domain: '.google.com', path: '/', expires: 1700269944, httpOnly: true, secure: true, sameSite: 'Lax',
+            name: 'cookie2', value: 'val', domain: 'https://google.com', path: '/', expires: 4070908800, httpOnly: true, secure: true, sameSite: 'Lax',
         }];
         await actor.attemptsTo(
             Add.cookies(cookiesToAdd),
