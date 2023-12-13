@@ -111,14 +111,24 @@ public async hover(selector: Selector, options?: SelectorOptions & { modifiers?:
 #### press
 
 ```typescript
-public async type(selector: Selector, input: string, options?: SelectorOptions): Promise<void>;
+public async pressSequentially(selector: Selector, input: string, options?: SelectorOptions): Promise<void>;
+```
+
+- **Description:** Presses the specified key(s) sequentially on the keyboard.
+- **Parameters:**
+  - `selector` - The selector of the source element.
+  - `input` - The key(s). Multiple keys can be pressed by concatenating with "+".
+  - `options` - (optional) Advanced selector lookup options.
+- **Returns:** `Promise<void>` - Returns when the key(s) have been pressed.
+
+
+```typescript
+public async press(input: string): Promise<void>;
 ```
 
 - **Description:** Presses the specified key(s) on the keyboard.
 - **Parameters:**
   - `input` - The key(s). Multiple keys can be pressed by concatenating with "+".
-  - `selector` - The selector of the source element.
-  - `options` - (optional) Advanced selector lookup options.
 - **Returns:** `Promise<void>` - Returns when the key(s) have been pressed.
 
 #### checkBox
