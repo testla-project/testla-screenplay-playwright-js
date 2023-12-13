@@ -32,7 +32,7 @@ export class Press extends Action {
     public static key(keys: string): Press {
         return new Press('key', { keys });
     }
-
+  
     /**
      * Press a key on the keyboard. (or multiple keys with +, e.g. Shift+A)
      * @param {Selector} selector the selector of the source element.
