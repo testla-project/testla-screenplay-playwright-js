@@ -29,7 +29,7 @@ const test = base.extend<MyActors>({
     actor: async ({ browser }, use) => {
         const context = await browser.newContext();
         const page = await context.newPage();
-        const actor = Actor.named('TestActor').can(BrowseTheWeb.using(page)).with('page', page);
+        const actor = Actor.named('TestActor').can(BrowseTheWeb.using(page));
         await use(actor);
     },
 });
@@ -38,15 +38,11 @@ const test = base.extend<MyActors>({
 // TODO: test different details between Fill and Type
 test.describe('Testing screenplay-playwright-js web module', () => {
     test('Navigate', async ({ actor }) => {
-        // To get access of the page object
-        // const page: Page = BrowseTheWeb.as(actor).getPage();
-
-        // await page.coverage.startJSCoverage();
         await test.step('Navigate to playwright page', async () => {
             await actor.attemptsTo(
                 Navigate.to('https://google.de'),
             );
-            await expect(actor.states('page')).toHaveURL('https://www.google.de');
+            await expect(BrowseTheWeb.as(actor).getPage()).toHaveURL('https://www.google.de');
         });
     });
 
@@ -57,14 +53,14 @@ test.describe('Testing screenplay-playwright-js web module', () => {
         );
 
         // before drag: Box A is on the Left
-        await expect(actor.states('page').locator('[id="column-a"] header')).toHaveText('A');
+        await expect(BrowseTheWeb.as(actor).getPage().locator('[id="column-a"] header')).toHaveText('A');
 
         // execute the drag
         await actor.attemptsTo(
             DragAndDrop.execute('[id="column-a"]', '[id="column-b"]'),
         );
         // after Drag: Box B is on the Left
-        await expect(actor.states('page').locator('[id="column-a"] header')).toHaveText('B');
+        await expect(BrowseTheWeb.as(actor).getPage().locator('[id="column-a"] header')).toHaveText('B');
     });
 
     test('Check', async ({ actor }) => {
@@ -75,8 +71,8 @@ test.describe('Testing screenplay-playwright-js web module', () => {
             Check.element('//input[2]'),
         );
         // assertion
-        await expect(actor.states('page').locator('//input[1]')).toBeChecked();
-        await expect(actor.states('page').locator('//input[2]')).toBeChecked();
+        await expect(BrowseTheWeb.as(actor).getPage().locator('//input[1]')).toBeChecked();
+        await expect(BrowseTheWeb.as(actor).getPage().locator('//input[2]')).toBeChecked();
     });
 
     test('Click', async ({ actor }) => {
@@ -85,13 +81,13 @@ test.describe('Testing screenplay-playwright-js web module', () => {
             Wait.forLoadState('networkidle'),
         );
         // assert that there is no button before we add it with our Click
-        await expect(actor.states('page').locator('[class="added-manually"]')).toHaveCount(0);
+        await expect(BrowseTheWeb.as(actor).getPage().locator('[class="added-manually"]')).toHaveCount(0);
 
         await actor.attemptsTo(
             Click.on('button', { hasText: 'Add Element' }),
         );
         // assert that the button is here after our Click
-        await expect(actor.states('page').locator('[class="added-manually"]')).toHaveCount(1);
+        await expect(BrowseTheWeb.as(actor).getPage().locator('[class="added-manually"]')).toHaveCount(1);
     });
 
     test('Fill+Type', async ({ actor }) => {
@@ -104,7 +100,7 @@ test.describe('Testing screenplay-playwright-js web module', () => {
             Wait.forLoadState('networkidle'),
         );
         // assert that the login worked
-        await expect(actor.states('page')).toHaveURL('https://the-internet.herokuapp.com/secure');
+        await expect(BrowseTheWeb.as(actor).getPage()).toHaveURL('https://the-internet.herokuapp.com/secure');
     });
 
     test('Hover', async ({ actor }) => {
@@ -113,13 +109,13 @@ test.describe('Testing screenplay-playwright-js web module', () => {
             Wait.forLoadState('networkidle'),
         );
         // assert that there is no info before the hover
-        await expect(actor.states('page').locator('[href="/users/1"]')).not.toBeVisible();
+        await expect(BrowseTheWeb.as(actor).getPage().locator('[href="/users/1"]')).not.toBeVisible();
 
         await actor.attemptsTo(
             Hover.over('div.figure:nth-child(3) > img:nth-child(1)'),
         );
         // assert that the info is now visible after hover
-        await expect(actor.states('page').locator('[href="/users/1"]')).toBeVisible();
+        await expect(BrowseTheWeb.as(actor).getPage().locator('[href="/users/1"]')).toBeVisible();
     });
 
     test('Press', async ({ actor }) => {
@@ -128,14 +124,14 @@ test.describe('Testing screenplay-playwright-js web module', () => {
             Wait.forLoadState('networkidle'),
         );
         // assert that there is nothing in the result box
-        await expect(actor.states('page').locator('[id="result"]')).toHaveText('');
+        await expect(BrowseTheWeb.as(actor).getPage().locator('[id="result"]')).toHaveText('');
 
         await actor.attemptsTo(
             Click.on('[id="target"]'),
             Press.key('a'),
         );
         // assert that the pressed button was recognized
-        await expect(actor.states('page').locator('[id="result"]')).toHaveText('You entered: A');
+        await expect(BrowseTheWeb.as(actor).getPage().locator('[id="result"]')).toHaveText('You entered: A');
     });
 
     test('Get.element and Get.elements', async ({ actor }) => {
@@ -173,8 +169,7 @@ test.describe('Testing screenplay-playwright-js web module', () => {
     });
 
     test('Cookies: Add, Get, Clear', async ({ actor }) => {
-        const context: BrowserContext = actor.states('page').context();
-
+        const context: BrowserContext = BrowseTheWeb.as(actor).getPage().context();
         await actor.attemptsTo(
             Navigate.to('https://google.com'),
             Wait.forLoadState('networkidle'),
@@ -192,13 +187,14 @@ test.describe('Testing screenplay-playwright-js web module', () => {
 
         // Add some cookies
         const cookiesToAdd: Cookie[] = [{
-            name: 'cookie1', value: 'someValue', domain: '.google.com', path: '/', expires: 1700269944, httpOnly: true, secure: true, sameSite: 'Lax',
+            name: 'cookie1', value: 'someValue', domain: '.google.com', path: '/', expires: 1736932950.42523, httpOnly: true, secure: true, sameSite: 'Lax',
         }, {
-            name: 'cookie2', value: 'val', domain: '.google.com', path: '/', expires: 1700269944, httpOnly: true, secure: true, sameSite: 'Lax',
+            name: 'cookie2', value: 'val', domain: '.google.com', path: '/', expires: 1736932950.42523, httpOnly: true, secure: true, sameSite: 'Lax',
         }];
         await actor.attemptsTo(
             Add.cookies(cookiesToAdd),
         );
+
         // assert that cookies are successfully added
         expect(await context.cookies()).toStrictEqual(cookiesToAdd);
 

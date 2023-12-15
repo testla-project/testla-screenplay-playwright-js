@@ -24,7 +24,7 @@ export class BrowseTheWeb extends Ability {
      * Use this Ability as an Actor.
      *
      * @param {Actor} actor Actor is using this ability
-     * @return {BrowseTheWeb} Returns the ability to use a browser
+     * @return {BrowseTheWeb} The ability to use BrowseTheWeb as the actor
      */
     public static as(actor: Actor): BrowseTheWeb {
         return actor.withAbilityTo(this) as BrowseTheWeb;

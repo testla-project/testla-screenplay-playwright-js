@@ -27,7 +27,7 @@ const test = base.extend<MyActors>({
     actor: async ({ browser }, use) => {
         const context = await browser.newContext();
         const page = await context.newPage();
-        const actor = Actor.named('TestActor').can(BrowseTheWeb.using(page)).with('page', page);
+        const actor = Actor.named('TestActor').can(BrowseTheWeb.using(page));
         await use(actor);
     },
 });
@@ -40,12 +40,12 @@ test.describe('Testing screenplay-playwright-js web module', () => {
             await actor.attemptsTo(
                 Navigate.to('https://google.de'),
             );
-            await expect(actor.states('page')).toHaveURL('https://www.google.de');
+            await expect(BrowseTheWeb.as(actor).getPage()).toHaveURL('https://www.google.de');
         });
     });
 
     test('DragAndDrop', async ({ actor }) => {
-        const page: Page = actor.states('page');
+        const page: Page = BrowseTheWeb.as(actor).getPage();
 
         await actor.attemptsTo(
             Navigate.to('https://the-internet.herokuapp.com/drag_and_drop'),
@@ -53,18 +53,18 @@ test.describe('Testing screenplay-playwright-js web module', () => {
         );
 
         // before drag: Box A is on the Left
-        await expect(actor.states('page').locator('[id="column-a"] header')).toHaveText('A');
+        await expect(BrowseTheWeb.as(actor).getPage().locator('[id="column-a"] header')).toHaveText('A');
 
         // execute the drag
         await actor.attemptsTo(
             DragAndDrop.execute(page.locator('[id="column-a"]'), page.locator('[id="column-b"]')),
         );
         // after Drag: Box B is on the Left
-        await expect(actor.states('page').locator('[id="column-a"] header')).toHaveText('B');
+        await expect(BrowseTheWeb.as(actor).getPage().locator('[id="column-a"] header')).toHaveText('B');
     });
 
     test('Check', async ({ actor }) => {
-        const page: Page = actor.states('page');
+        const page: Page = BrowseTheWeb.as(actor).getPage();
 
         await actor.attemptsTo(
             Navigate.to('https://the-internet.herokuapp.com/checkboxes'),
@@ -78,7 +78,7 @@ test.describe('Testing screenplay-playwright-js web module', () => {
     });
 
     test('Click', async ({ actor }) => {
-        const page: Page = actor.states('page');
+        const page: Page = BrowseTheWeb.as(actor).getPage();
 
         await actor.attemptsTo(
             Navigate.to('https://the-internet.herokuapp.com/add_remove_elements/'),
@@ -95,7 +95,7 @@ test.describe('Testing screenplay-playwright-js web module', () => {
     });
 
     test('Fill+Type', async ({ actor }) => {
-        const page: Page = actor.states('page');
+        const page: Page = BrowseTheWeb.as(actor).getPage();
 
         await actor.attemptsTo(
             Navigate.to('https://the-internet.herokuapp.com/login'),
@@ -110,7 +110,7 @@ test.describe('Testing screenplay-playwright-js web module', () => {
     });
 
     test('Hover', async ({ actor }) => {
-        const page: Page = actor.states('page');
+        const page: Page = BrowseTheWeb.as(actor).getPage();
 
         await actor.attemptsTo(
             Navigate.to('https://the-internet.herokuapp.com/hovers'),
@@ -127,7 +127,7 @@ test.describe('Testing screenplay-playwright-js web module', () => {
     });
 
     test('Press', async ({ actor }) => {
-        const page: Page = actor.states('page');
+        const page: Page = BrowseTheWeb.as(actor).getPage();
 
         await actor.attemptsTo(
             Navigate.to('https://the-internet.herokuapp.com/key_presses'),
@@ -145,7 +145,7 @@ test.describe('Testing screenplay-playwright-js web module', () => {
     });
 
     test('Wait + Recursive Locators', async ({ actor }) => {
-        const page: Page = actor.states('page');
+        const page: Page = BrowseTheWeb.as(actor).getPage();
 
         await actor.attemptsTo(
             Navigate.to('https://the-internet.herokuapp.com/tables'),
@@ -158,7 +158,7 @@ test.describe('Testing screenplay-playwright-js web module', () => {
     });
 
     test('Cookies: Add, Get, Clear', async ({ actor }) => {
-        const context: BrowserContext = actor.states('page').context();
+        const context: BrowserContext = BrowseTheWeb.as(actor).getPage().context();
 
         await actor.attemptsTo(
             Navigate.to('https://google.com'),
@@ -177,9 +177,9 @@ test.describe('Testing screenplay-playwright-js web module', () => {
 
         // Add some cookies
         const cookiesToAdd: Cookie[] = [{
-            name: 'cookie1', value: 'someValue', domain: '.google.com', path: '/', expires: 1700269944, httpOnly: true, secure: true, sameSite: 'Lax',
+            name: 'cookie1', value: 'someValue', domain: '.google.com', path: '/', expires: 1736932950.42523, httpOnly: true, secure: true, sameSite: 'Lax',
         }, {
-            name: 'cookie2', value: 'val', domain: '.google.com', path: '/', expires: 1700269944, httpOnly: true, secure: true, sameSite: 'Lax',
+            name: 'cookie2', value: 'val', domain: '.google.com', path: '/', expires: 1736932950.42523, httpOnly: true, secure: true, sameSite: 'Lax',
         }];
         await actor.attemptsTo(
             Add.cookies(cookiesToAdd),
@@ -244,7 +244,7 @@ test.describe('Testing screenplay-playwright-js web module', () => {
     });
 
     test('Element.visible', async ({ actor }) => {
-        const page: Page = actor.states('page');
+        const page: Page = BrowseTheWeb.as(actor).getPage();
 
         await actor.attemptsTo(
             Navigate.to('https://the-internet.herokuapp.com/tables'),
@@ -281,7 +281,7 @@ test.describe('Testing screenplay-playwright-js web module', () => {
     });
 
     test('Element.enabled', async ({ actor }) => {
-        const page: Page = actor.states('page');
+        const page: Page = BrowseTheWeb.as(actor).getPage();
 
         await actor.attemptsTo(
             Navigate.to('https://the-internet.herokuapp.com/tinymce'),

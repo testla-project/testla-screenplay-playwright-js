@@ -1,3 +1,4 @@
+/* eslint-disable vars-on-top */
 import { Locator, Page } from '@playwright/test';
 import {
     Selector, SelectorOptions, SelectorOptionsState, SubSelector,
