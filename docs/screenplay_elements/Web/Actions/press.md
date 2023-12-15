@@ -12,7 +12,7 @@ The `Press` class is an action class in the Screenplay pattern designed for use 
     - [Methods](#methods)
     - [performAs](#performas)
     - [key](#key)
-    - [pressSequentially](#sequentially)
+    - [pressSequentially](#pressSequentially)
 
 ## Class Overview
 
@@ -40,15 +40,13 @@ public static key(keys: string): Press;
   - `keys` - The key(s) to press. Multiple keys can be pressed by concatenating with "+" (e.g., Shift+A).
 - **Returns:** `Press` - Returns a new `Press` instance.
 
-[Back to overview](../../screenplay_elements.md)
-
-### sequentially
+### pressSequentially
 
 ```typescript
-public static key(keys: string): Press;
+public static pressSequentially(selector: Selector, input: string, options?: SelectorOptions): Press;
 ```
 
-- **Description:** Types the given input into the element specified by the selector.
+- **Description:** Creates a new instance of the `Press` class types the given input into the element specified by the selector.
 - **Parameters:**
   - `selector` - The selector of the source element.
   - `input` - The input to type into the element.
