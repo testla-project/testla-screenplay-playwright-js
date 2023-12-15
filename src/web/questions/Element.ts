@@ -168,8 +168,16 @@ export class Element extends Question<boolean> {
         return this;
     }
 
-    public minCount(selector: Selector, minCount: number, options?: SelectorOptions): Element {
-        this.payload = minCount;
+    /**
+     * Verifies if an element has a minimum count.
+     *
+     * @param {Selector} selector the selector
+     * @param {number} minimumCount the minimum count.
+     * @param {SelectorOptions} options (optional) advanced selector lookup options.
+     * @return {Element} this Element instance
+     */
+    public minCount(selector: Selector, minimumCount: number, options?: SelectorOptions): Element {
+        this.payload = minimumCount;
         this.mode = 'minCount';
         this.selector = selector;
         this.options = options;
@@ -177,6 +185,14 @@ export class Element extends Question<boolean> {
         return this;
     }
 
+    /**
+     * Verifies if an element has a desired count.
+     *
+     * @param {Selector} selector the selector
+     * @param {number} desiredCount the desired count.
+     * @param {SelectorOptions} options (optional) advanced selector lookup options.
+     * @return {Element} this Element instance
+     */
     public count(selector: Selector, desiredCount: number, options?: SelectorOptions): Element {
         this.payload = desiredCount;
         this.selector = selector;
@@ -186,6 +202,13 @@ export class Element extends Question<boolean> {
         return this;
     }
 
+    /**
+     * Verifies if an element is checked.
+     *
+     * @param {Selector} selector the selector
+     * @param {SelectorOptions} options (optional) advanced selector lookup options.
+     * @return {Element} this Element instance
+     */
     public checked(selector: Selector, options?: SelectorOptions): Element {
         this.selector = selector;
         this.mode = 'checked';

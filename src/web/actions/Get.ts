@@ -64,10 +64,24 @@ export class Get extends Action {
         return new Get('localStorage', key);
     }
 
+    /**
+     * Get a single screen element by its Selector
+     *
+     * * @param {Selector} selector the string or locator representing the selector.
+     * @param {SelectorOptions} options (optional): advanced selector lookup options.
+     * @returns new Get instance
+     */
     public static element(selector: Selector, options?: SelectorOptions): Get {
         return new Get('element', { selector, options });
     }
 
+    /**
+     * Get a list of screen elements by its Selector
+     *
+     * @param {Selector} selector the string or locator representing the selector.
+     * @param {SelectorOptions} options (optional): advanced selector lookup options.
+     * @returns new Get instance
+     */
     public static elements(selector: Selector, options?: SelectorOptions): Get {
         return new Get('element', { selector, options, singular: false });
     }

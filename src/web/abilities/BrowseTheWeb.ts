@@ -267,7 +267,7 @@ export class BrowseTheWeb extends Ability {
     }
 
     /**
-    * Validate if the given element has the given minimum count.
+    * Validate if the given element has the given count.
     *
     * @param selector the selector of the element.
     * @param count the exact count of the element to be visible.
@@ -284,7 +284,7 @@ export class BrowseTheWeb extends Ability {
     }
 
     /**
-    * Validate if the given element has the given minimum count.
+    * Counts screen elements which can be found via a selector.
     *
     * @param selector the selector of the element.
     * @param options (optional) advanced selector lookup options.
@@ -435,6 +435,14 @@ export class BrowseTheWeb extends Ability {
         return (await recursiveLocatorLookup({ page: this.page, selector, options: selectorOptions })).selectOption(option);
     }
 
+    /**
+     * Get a single screen element or list of screen elements.
+     *
+     * @param {Selector} selector the string or locator representing the selector.
+     * @param {boolean} singular (optional): the indicator whether to return a single item or a list of items. In case of single item the first item is returned if more than 1 items are found. Defaults to true.
+     * @param {SelectorOptions} options (optional): advanced selector lookup options.
+     * @returns A single screen element or a list of screen elements depending on the singular input parameter.
+     */
     public async getElement(selector: Selector, singular = true, selectorOptions: SelectorOptions = {}): Promise<Locator | Locator[]> {
         let locators;
         if (typeof selector === 'string') {
