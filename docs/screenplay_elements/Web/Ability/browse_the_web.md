@@ -111,6 +111,17 @@ public async hover(selector: Selector, options?: SelectorOptions & { modifiers?:
 #### press
 
 ```typescript
+public async pressSequentially(selector: Selector, input: string, options?: SelectorOptions): Promise<void>;
+```
+
+- **Description:** Types the given input into the element specified by the selector.
+- **Parameters:**
+  - `selector` - The selector of the source element.
+  - `input` - The input to type into the element.
+  - `options` - (optional) Advanced selector lookup options.
+- **Returns:** `Promise<void>` - Returns when the key(s) have been pressed.
+
+```typescript
 public async press(input: string): Promise<void>;
 ```
 
