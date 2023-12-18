@@ -14,6 +14,8 @@ The `Get` class is an action class in the Screenplay pattern designed for use wi
     - [cookies](#cookies)
     - [sessionStorageItem](#sessionstorageitem)
     - [localStorageItem](#localstorageitem)
+    - [element](#element)
+    - [elements](#elements)
 
 ## Class Overview
 
@@ -62,5 +64,29 @@ public static localStorageItem(key: string): Get;
 - **Parameters:**
   - `key` - The key that specifies the local storage item.
 - **Returns:** `Get` - Returns a new `Get` instance for local storage.
+
+### element
+
+```typescript
+public static element(selector: Selector, options?: SelectorOptions): Get;
+```
+
+- **Description:** Creates a new instance of the `Get` class specifically for retrieving a single screen element.
+- **Parameters:**
+  - `selector` - The Selector.
+  - `options` (optional) - Advanced selector lookup options.
+- **Returns:** `Get` - Returns a new `Get` instance for single screen elements.
+
+### elements
+
+```typescript
+public static elements(selector: Selector, options?: SelectorOptions): Get;
+```
+
+- **Description:** Creates a new instance of the `Get` class specifically for retrieving a list of screen elements.
+- **Parameters:**
+  - `selector` - The Selector.
+  - `options` (optional) - Advanced selector lookup options.
+- **Returns:** `Get` - Returns a new `Get` instance for a list of screen elements.
 
 [Back to overview](../../screenplay_elements.md)

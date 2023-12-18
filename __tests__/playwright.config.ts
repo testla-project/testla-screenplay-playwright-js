@@ -28,7 +28,7 @@ const config: PlaywrightTestConfig = {
     },
 
     /* Maximum time one test can run for. */
-    timeout: 30 * 10000,
+    timeout: 30 * 1000,
 
     expect: {
         /**

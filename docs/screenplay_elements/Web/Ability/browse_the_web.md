@@ -14,6 +14,7 @@ The `BrowseTheWeb` class represents an actor's ability to interact with a browse
       - [as](#as)
       - [getPage](#getpage)
       - [goto](#goto)
+      - [reload](#reload)
       - [waitForLoadState](#waitforloadstate)
       - [hover](#hover)
       - [press](#press)
@@ -38,6 +39,11 @@ The `BrowseTheWeb` class represents an actor's ability to interact with a browse
       - [setSessionStorageItem](#setsessionstorageitem)
       - [removeSessionStorageItem](#removesessionstorageitem)
       - [selectOption](#selectoption)
+      - [getElement](#getelement)
+      - [count](#count)
+      - [checkCount](#checkcount)
+      - [checkMinCount](#checkmincount)
+      - [checkChecked](#checkchecked)
 
 ## Class Overview
 
@@ -83,6 +89,15 @@ public async goto(url: string): Promise<Response | null>;
 - **Description:** Uses the page to navigate to the specified URL.
 - **Parameters:**
   - `url` - The URL to access.
+- **Returns:** `Promise<Response | null>` - Returns the main resource response.
+
+#### reload
+
+```typescript
+public async reload(): Promise<Response | null>;
+```
+
+- **Description:** Reload the current page.
 - **Returns:** `Promise<Response | null>` - Returns the main resource response.
 
 #### waitForLoadState
@@ -226,7 +241,7 @@ public async checkVisibilityState(selector: Selector, mode: 'visible' | 'hidden'
 - **Description:** Validates if a locator on the page is visible or hidden.
 - **Parameters:**
   - `selector` - The locator to search for.
-  - `mode` - The expected property of the selector that needs to be checked, either 'visible' or 'hidden'.
+  - `mode` - The expected property of the selector that needs to be checked, either visible (positive) or hidden (negative).
   - `options` - (optional) Advanced selector lookup options.
 - **Returns:** `Promise<boolean>` - True if the element is visible/hidden as expected, false if the timeout was reached.
 
@@ -246,28 +261,28 @@ public async checkEnabledState(selector: Selector, mode: 'enabled' | 'disabled',
 #### checkSelectorText
 
 ```typescript
-public async checkSelectorText(selector: Selector, text: string | RegExp | (string | RegExp)[], mode: 'has' | 'hasNot', options?: SelectorOptions): Promise<boolean>;
+public async checkSelectorText(selector: Selector, text: string | RegExp | (string | RegExp)[], mode: 'positive' | 'negative', options?: SelectorOptions): Promise<boolean>;
 ```
 
 - **Description:** Validates if the given element has the given text or not.
 - **Parameters:**
   - `selector` - The selector of the element to hover over.
   - `text` - The text to check.
-  - `mode` - Whether to check if the element 'has' or 'hasNot' the specified text.
+  - `mode` - Whether to check if the element has (positive) or has not (negative) the specified text.
   - `options` - (optional) Advanced selector lookup options.
 - **Returns:** `Promise<boolean>` - True if the element has/doesn't have the specified text, false if the timeout was reached.
 
 #### checkSelectorValue
 
 ```typescript
-public async checkSelectorValue(selector: Selector, value: string | RegExp, mode: 'has' | 'hasNot', options?: SelectorOptions): Promise<boolean>;
+public async checkSelectorValue(selector: Selector, value: string | RegExp, mode: 'positive' | 'negative', options?: SelectorOptions): Promise<boolean>;
 ```
 
 - **Description:** Validates if the given element has the given input value or not.
 - **Parameters:**
   - `selector` - The selector of the element to hover over.
   - `value` - The single value to check.
-  - `mode` - Whether to check if the element 'has' or 'hasNot' the specified value.
+  - `mode` - Whether to check if the element has (positive) or has not (negative) the specified value.
   - `options` - (optional) Advanced selector lookup options.
 - **Returns:** `Promise<boolean>` - True if the element has/doesn't have the specified value, false if the timeout was reached.
 
@@ -382,5 +397,71 @@ public async selectOption(selector: Selector, option: string | { value?: string,
   - `option` - The label of the option or an object with properties `value`, `label`, or `index`.
   - `selectorOptions` - (optional) Advanced selector lookup options.
 - **Returns:** `Promise<any>` - Returns the array of option values that have been successfully selected.
+
+#### getElement
+
+```typescript
+public async getElement(selector: Selector, singular?: boolean, selectorOptions?: SelectorOptions): Promise<any>;
+```
+
+- **Description:** Get a single screen element or list of screen elements.
+- **Parameters:**
+  - `selector` - The selector.
+  - `singular` - optional `true` or `false`. Defaults to `true`.
+  - `selectorOptions` - (optional) Advanced selector lookup options.
+- **Returns:** `Promise<Locator | Locator[]>` - Returns a single screen element or a list of screen elements depending on the singular input parameter.
+
+#### count
+
+```typescript
+public async count(selector: Selector, options?: SelectorOptions): Promise<number>;
+```
+
+- **Description:** Counts screen elements which can be found via a selector.
+- **Parameters:**
+  - `selector` - The selector.
+  - `options` - (optional) Advanced selector lookup options.
+- **Returns:** `Promise<number>` - Promise of number of counted elements
+
+#### checkCount
+
+```typescript
+public async checkCount(selector: Selector, count: number, mode: 'positive' | 'negative',  options?: SelectorOptions): Promise<number>;
+```
+
+- **Description:** Validate if the given element has the given count.
+- **Parameters:**
+  - `selector` - The selector.
+  - `count` - The desired count.
+  - `mode` - Whether to check if the element has (positive) or has not (negative) the specified count.
+  - `options` - (optional) Advanced selector lookup options.
+- **Returns:** `Promise<true>` - Promise of true if evaluation met, else exception.
+
+#### checkMinCount
+
+```typescript
+public async checkMinCount(selector: Selector, count: number, mode: 'positive' | 'negative',  options?: SelectorOptions): Promise<number>;
+```
+
+- **Description:** Validate if the given element has the given minimum count.
+- **Parameters:**
+  - `selector` - The selector.
+  - `count` - The desired minimum count.
+  - `mode` - Whether to check if the element has (positive) or has not (negative) the specified minimum count.
+  - `options` - (optional) Advanced selector lookup options.
+- **Returns:** `Promise<true>` - Promise of true if evaluation met, else exception.
+
+#### checkChecked
+
+```typescript
+public async checkChecked(selector: Selector, mode: 'positive' | 'negative',  options?: SelectorOptions): Promise<number>;
+```
+
+- **Description:** Validate if the given element is checked.
+- **Parameters:**
+  - `selector` - The selector.
+  - `mode` - Whether to check if the element is (positive) or is not (negative) checked.
+  - `options` - (optional) Advanced selector lookup options.
+- **Returns:** `Promise<true>` - Promise of true if evaluation met, else exception.
 
 [Back to overview](../../screenplay_elements.md)

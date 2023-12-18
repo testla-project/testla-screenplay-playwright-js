@@ -8,11 +8,13 @@ import {
 const getSubLocator = async (locator: Locator, subLocator?: Locator, text?: string | RegExp): Promise<Locator> => locator.filter({ has: subLocator, hasText: text });
 
 const subLocatorLookup = async ({
-    page, locator, timeout, subSelector, state = 'visible',
-}: { page: Page; locator: Locator; timeout?: number; subSelector?: SubSelector, state?: SelectorOptionsState }): Promise<Locator> => {
+    page, locator, timeout, subSelector, state = 'visible', evaluateVisible = true,
+}: { page: Page; locator: Locator; timeout?: number; subSelector?: SubSelector; state?: SelectorOptionsState; evaluateVisible?: boolean }): Promise<Locator> => {
     let resolvedLocator: Locator = locator;
     // wait for selector to become visible based on timeout options
-    await resolvedLocator.waitFor({ timeout, state });
+    if (evaluateVisible) {
+        await resolvedLocator.waitFor({ timeout, state });
+    }
     // check if we have subselectors
     if (subSelector) {
         // subSelector: if selector is a string, need to find it using page.locator(), if it is already a Playwright Locator use it directly.
@@ -32,11 +34,11 @@ const subLocatorLookup = async ({
     return Promise.resolve(resolvedLocator);
 };
 
-export const recursiveLocatorLookup = async ({ page, selector, options }: { page: Page; selector: Selector; options?: SelectorOptions }): Promise<Locator> => {
+export const recursiveLocatorLookup = async ({ page, selector, options }: { page: Page; selector: Selector; options?: SelectorOptions & { evaluateVisible?: boolean } }): Promise<Locator> => {
     // find first level locator: if selector is a string, need to find it using page.locator(), if it is already a Playwright Locator use it directly.
     const locator = typeof selector === 'string' ? page.locator(selector, { hasText: options?.hasText }) : await getSubLocator(selector, undefined, options?.hasText);
     // pass the first level locator into sub locator lookup
     return subLocatorLookup({
-        page, locator, timeout: options?.timeout, subSelector: options?.subSelector, state: options?.state,
+        page, locator, timeout: options?.timeout, subSelector: options?.subSelector, state: options?.state, evaluateVisible: options?.evaluateVisible,
     });
 };

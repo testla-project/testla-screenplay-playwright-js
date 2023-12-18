@@ -21,6 +21,7 @@ import { Set } from '../src/web/actions/Set';
 import { Type } from '../src/web/actions/Type';
 import { Wait } from '../src/web/actions/Wait';
 import { Element } from '../src/web/questions/Element';
+import { Count } from '../src/web/actions/Count';
 
 type MyActors = {
     actor: Actor;
@@ -133,6 +134,31 @@ test.describe('Testing screenplay-playwright-js web module', () => {
         );
         // assert that the pressed button was recognized
         await expect(BrowseTheWeb.as(actor).getPage().locator('[id="result"]')).toHaveText('You entered: A');
+    });
+
+    test('Get.element and Get.elements', async ({ actor }) => {
+        await actor.attemptsTo(
+            Navigate.to('https://the-internet.herokuapp.com/checkboxes'),
+            Wait.forLoadState('networkidle'),
+        );
+
+        // assert that there is nothing in the result box
+        await expect(await actor.attemptsTo(Get.element('[type="checkbox"]'))).toHaveCount(1);
+        await expect((await actor.attemptsTo(Get.elements('[type="checkbox"]'))).length).toBe(2);
+
+        await expect(await actor.attemptsTo(Get.element('h3'))).toHaveCount(1);
+        await expect((await actor.attemptsTo(Get.elements('h3'))).length).toBe(1);
+    });
+
+    test('Count', async ({ actor }) => {
+        await actor.attemptsTo(
+            Navigate.to('https://the-internet.herokuapp.com/checkboxes'),
+            Wait.forLoadState('networkidle'),
+        );
+
+        await expect(await actor.attemptsTo(Count.elements('h6'))).toBe(0);
+        await expect(await actor.attemptsTo(Count.elements('h3'))).toBe(1);
+        await expect(await actor.attemptsTo(Count.elements('[type="checkbox"]'))).toBe(2);
     });
 
     test('PressSequentially', async ({ actor }) => {
@@ -390,5 +416,111 @@ test.describe('Testing screenplay-playwright-js web module', () => {
             notTextRes = true;
         }
         expect(notTextRes).toBeTruthy();
+    });
+
+    test('Element.checked', async ({ actor }) => {
+        await actor.attemptsTo(
+            Navigate.to('https://the-internet.herokuapp.com/checkboxes'),
+            Wait.forLoadState('networkidle'),
+        );
+
+        expect(await actor.asks(
+            Element.toBe.checked('[type="checkbox"]:nth-of-type(2)'),
+        )).toBe(true);
+
+        let enabledRes = false;
+        try {
+            expect(await actor.asks(
+                Element.toBe.checked('[type="checkbox"]:nth-of-type(1)', { timeout: 1000 }),
+            )).toBe(true);
+        } catch (error) {
+            enabledRes = true;
+        }
+        expect(enabledRes).toBeTruthy();
+
+        expect(await actor.asks(
+            Element.notToBe.checked('[type="checkbox"]:nth-of-type(1)'),
+        )).toBe(true);
+
+        let notEnabledRes = false;
+        try {
+            expect(await actor.asks(
+                Element.notToBe.checked('[type="checkbox"]:nth-of-type(2)', { timeout: 1000 }),
+            )).toBe(true);
+        } catch (error) {
+            notEnabledRes = true;
+        }
+        expect(notEnabledRes).toBeTruthy();
+    });
+
+    test('Element.count', async ({ actor }) => {
+        await actor.attemptsTo(
+            Navigate.to('https://the-internet.herokuapp.com/checkboxes'),
+            Wait.forLoadState('networkidle'),
+        );
+
+        expect(await actor.asks(
+            Element.toHave.count('[type="checkbox"]', 2),
+        )).toBe(true);
+
+        let enabledRes = false;
+        try {
+            expect(await actor.asks(
+                Element.toHave.count('h3', 2, { timeout: 1000 }),
+            )).toBe(true);
+        } catch (error) {
+            enabledRes = true;
+        }
+        expect(enabledRes).toBeTruthy();
+
+        expect(await actor.asks(
+            Element.notToHave.count('[type="checkbox"]', 1),
+        )).toBe(true);
+
+        let notEnabledRes = false;
+        try {
+            expect(await actor.asks(
+                Element.notToHave.count('h3', 1, { timeout: 1000 }),
+            )).toBe(true);
+        } catch (error) {
+            notEnabledRes = true;
+        }
+        expect(notEnabledRes).toBeTruthy();
+    });
+
+    test('Element.minCount', async ({ actor }) => {
+        await actor.attemptsTo(
+            Navigate.to('https://the-internet.herokuapp.com/checkboxes'),
+            Wait.forLoadState('networkidle'),
+        );
+
+        expect(await actor.asks(
+            Element.toHave.minCount('[type="checkbox"]', 1),
+            Element.toHave.minCount('[type="checkbox"]', 2),
+        )).toBe(true);
+
+        let enabledRes = false;
+        try {
+            expect(await actor.asks(
+                Element.toHave.minCount('h3', 2, { timeout: 1000 }),
+            )).toBe(true);
+        } catch (error) {
+            enabledRes = true;
+        }
+        expect(enabledRes).toBeTruthy();
+
+        expect(await actor.asks(
+            Element.notToHave.minCount('[type="checkbox"]', 3),
+        )).toBe(true);
+
+        let notEnabledRes = false;
+        try {
+            expect(await actor.asks(
+                Element.notToHave.minCount('h3', 1, { timeout: 1000 }),
+            )).toBe(true);
+        } catch (error) {
+            notEnabledRes = true;
+        }
+        expect(notEnabledRes).toBeTruthy();
     });
 });

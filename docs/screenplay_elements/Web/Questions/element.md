@@ -17,8 +17,11 @@ The `Element` class is a question class in the Screenplay pattern designed for u
     - [notToHave](#nottohave)
     - [visible](#visible)
     - [enabled](#enabled)
+    - [checked](#checked)
     - [text](#text)
     - [value](#value)
+    - [count](#count)
+    - [minCount](#mincount)
 
 ## Class Overview
 
@@ -95,10 +98,22 @@ public enabled(selector: Selector, options?: SelectorOptions): Element;
   - `options` - (optional) Advanced selector lookup options.
 - **Returns:** `Element` - Returns this `Element` instance.
 
+### checked
+
+```typescript
+public enabled(selector: Selector, options?: SelectorOptions): Element;
+```
+
+- **Description:** Verifies if an element is checked.
+- **Parameters:**
+  - `selector` - The selector.
+  - `options` - (optional) Advanced selector lookup options.
+- **Returns:** `Element` - Returns this `Element` instance.
+
 ### text
 
 ```typescript
-public text(selector: string, text: string | RegExp | (string | RegExp)[], options?: SelectorOptions): Element;
+public text(selector: Selector, text: string | RegExp | (string | RegExp)[], options?: SelectorOptions): Element;
 ```
 
 - **Description:** Verifies if an element has the given text.
@@ -111,13 +126,39 @@ public text(selector: string, text: string | RegExp | (string | RegExp)[], optio
 ### value
 
 ```typescript
-public value(selector: string, value: string | RegExp, options?: SelectorOptions): Element;
+public value(selector: Selector, value: string | RegExp, options?: SelectorOptions): Element;
 ```
 
 - **Description:** Verifies if an element has the given value.
 - **Parameters:**
   - `selector` - The selector.
   - `value` - The value to check.
+  - `options` - (optional) Advanced selector lookup options.
+- **Returns:** `Element` - Returns this `Element` instance.
+
+### count
+
+```typescript
+public count(selector: Selector, desiredCount: number, options?: SelectorOptions): Element;
+```
+
+- **Description:** Verifies if an element has a desired count.
+- **Parameters:**
+  - `selector` - The selector.
+  - `desiredCount` - The desired count.
+  - `options` - (optional) Advanced selector lookup options.
+- **Returns:** `Element` - Returns this `Element` instance.
+
+### minCount
+
+```typescript
+public minCount(selector: Selector, minimumCount: number, options?: SelectorOptions): Element;
+```
+
+- **Description:** Verifies if an element has a minimum count.
+- **Parameters:**
+  - `selector` - The selector.
+  - `minimumCount` - The minimum count.
   - `options` - (optional) Advanced selector lookup options.
 - **Returns:** `Element` - Returns this `Element` instance.
 
