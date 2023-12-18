@@ -144,6 +144,22 @@ test.describe('Testing screenplay-playwright-js web module', () => {
         await expect(page.locator('[id="result"]')).toHaveText('You entered: A');
     });
 
+    test('PressSequentially', async ({ actor }) => {
+        const page: Page = BrowseTheWeb.as(actor).getPage();
+        await actor.attemptsTo(
+            Navigate.to('https://the-internet.herokuapp.com/key_presses'),
+            Wait.forLoadState('networkidle'),
+        );
+        // assert that there is nothing in the result box
+        await expect(BrowseTheWeb.as(actor).getPage().locator('[id="result"]')).toHaveText('');
+
+        await actor.attemptsTo(
+            Press.sequentially(page.locator('[id="target"]'), 'abc'),
+        );
+        // assert that the pressed button was recognized
+        await expect(page.locator('[id="result"]')).toHaveText('You entered: C');
+    });
+
     test('Wait + Recursive Locators', async ({ actor }) => {
         const page: Page = BrowseTheWeb.as(actor).getPage();
 

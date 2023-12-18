@@ -1,23 +1,25 @@
 /* eslint-disable no-restricted-syntax */
 import {
-    BrowserContext, Cookie, expect, test as base,
+    BrowserContext, Cookie,
+    test as base,
+    expect,
 } from '@playwright/test';
 import { Actor } from '@testla/screenplay';
 import { BrowseTheWeb } from '../src/web/abilities/BrowseTheWeb';
-import { Navigate } from '../src/web/actions/Navigate';
-import { Wait } from '../src/web/actions/Wait';
-import { DragAndDrop } from '../src/web/actions/DragAndDrop';
-import { Check } from '../src/web/actions/Check';
-import { Click } from '../src/web/actions/Click';
-import { Fill } from '../src/web/actions/Fill';
-import { Type } from '../src/web/actions/Type';
-import { Hover } from '../src/web/actions/Hover';
-import { Press } from '../src/web/actions/Press';
-import { Clear } from '../src/web/actions/Clear';
 import { Add } from '../src/web/actions/Add';
+import { Check } from '../src/web/actions/Check';
+import { Clear } from '../src/web/actions/Clear';
+import { Click } from '../src/web/actions/Click';
+import { DragAndDrop } from '../src/web/actions/DragAndDrop';
+import { Fill } from '../src/web/actions/Fill';
 import { Get } from '../src/web/actions/Get';
-import { Set } from '../src/web/actions/Set';
+import { Hover } from '../src/web/actions/Hover';
+import { Navigate } from '../src/web/actions/Navigate';
+import { Press } from '../src/web/actions/Press';
 import { Remove } from '../src/web/actions/Remove';
+import { Set } from '../src/web/actions/Set';
+import { Type } from '../src/web/actions/Type';
+import { Wait } from '../src/web/actions/Wait';
 import { Element } from '../src/web/questions/Element';
 import { Count } from '../src/web/actions/Count';
 
@@ -157,6 +159,21 @@ test.describe('Testing screenplay-playwright-js web module', () => {
         await expect(await actor.attemptsTo(Count.elements('h6'))).toBe(0);
         await expect(await actor.attemptsTo(Count.elements('h3'))).toBe(1);
         await expect(await actor.attemptsTo(Count.elements('[type="checkbox"]'))).toBe(2);
+    });
+
+    test('PressSequentially', async ({ actor }) => {
+        await actor.attemptsTo(
+            Navigate.to('https://the-internet.herokuapp.com/key_presses'),
+            Wait.forLoadState('networkidle'),
+        );
+        // assert that there is nothing in the result box
+        await expect(BrowseTheWeb.as(actor).getPage().locator('[id="result"]')).toHaveText('');
+
+        await actor.attemptsTo(
+            Press.sequentially('[id="target"]', 'abc'),
+        );
+        // assert that the pressed button was recognized
+        await expect(BrowseTheWeb.as(actor).getPage().locator('[id="result"]')).toHaveText('You entered: C');
     });
 
     test('Wait + Recursive Locators', async ({ actor }) => {
