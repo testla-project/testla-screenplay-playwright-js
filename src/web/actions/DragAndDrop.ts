@@ -20,7 +20,7 @@ export class DragAndDrop extends Action {
      * @return {void} Returns after dragging the locator to another target locator or target position
      */
     public performAs(actor: Actor): Promise<void> {
-        return BrowseTheWeb.as(actor).dragAndDrop(this.sourceSelector, this.targetSelector, this.options);
+        return BrowseTheWeb.as(actor, this.abilityAlias).dragAndDrop(this.sourceSelector, this.targetSelector, this.options);
     }
 
     /**

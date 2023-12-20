@@ -17,7 +17,7 @@ export class Click extends Action {
      * @return {void} Returns after clicking the element
      */
     public async performAs(actor: Actor): Promise<void> {
-        await BrowseTheWeb.as(actor).click(this.selector, this.options);
+        await BrowseTheWeb.as(actor, this.abilityAlias).click(this.selector, this.options);
     }
 
     /**

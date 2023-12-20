@@ -24,10 +24,11 @@ export class BrowseTheWeb extends Ability {
      * Use this Ability as an Actor.
      *
      * @param {Actor} actor Actor is using this ability
+     * @param {string} alias defined the alias to be used for the given ability
      * @return {BrowseTheWeb} The ability to use BrowseTheWeb as the actor
      */
-    public static as(actor: Actor): BrowseTheWeb {
-        return actor.withAbilityTo(this) as BrowseTheWeb;
+    public static as(actor: Actor, alias?: string): BrowseTheWeb {
+        return actor.withAbilityTo(this, alias) as BrowseTheWeb;
     }
 
     /**

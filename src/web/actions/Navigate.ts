@@ -16,7 +16,7 @@ export class Navigate extends Action {
      * @return {any} Returns the main resource response.
      */
     public performAs(actor: Actor): Promise<any> {
-        return BrowseTheWeb.as(actor).goto(this.url);
+        return BrowseTheWeb.as(actor, this.abilityAlias).goto(this.url);
     }
 
     /**

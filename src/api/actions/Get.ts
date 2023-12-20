@@ -21,7 +21,7 @@ export class Get extends ARequest {
      * @return {Response} the response
      */
     public async performAs(actor: Actor): Promise<Response> {
-        return UseAPI.as(actor).sendRequest(RequestMethod.GET, this.url, this.headers, this.responseBodyFormat);
+        return UseAPI.as(actor, this.abilityAlias).sendRequest(RequestMethod.GET, this.url, this.headers, this.responseBodyFormat);
     }
 
     /**

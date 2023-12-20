@@ -16,7 +16,7 @@ export class Select extends Action {
      * @return {any} This method checks, waits until all specified options are present in the `<select>` element and selects these options.
      */
     public async performAs(actor: Actor): Promise<any> {
-        await BrowseTheWeb.as(actor).selectOption(this.selector, this.option, this.selectorOptions);
+        await BrowseTheWeb.as(actor, this.abilityAlias).selectOption(this.selector, this.option, this.selectorOptions);
     }
 
     /**

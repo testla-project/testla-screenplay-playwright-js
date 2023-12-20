@@ -17,7 +17,7 @@ export class Check extends Action {
      * @return {void} Returns after checking the element
      */
     public async performAs(actor: Actor): Promise<void> {
-        await BrowseTheWeb.as(actor).checkBox(this.selector, this.options);
+        await BrowseTheWeb.as(actor, this.abilityAlias).checkBox(this.selector, this.options);
     }
 
     /**

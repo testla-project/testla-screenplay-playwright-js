@@ -18,7 +18,7 @@ export class DoubleClick extends Action {
      * @return {void} Returns after double clicking the element
      */
     public async performAs(actor: Actor): Promise<void> {
-        await BrowseTheWeb.as(actor).dblclick(this.selector, this.options);
+        await BrowseTheWeb.as(actor, this.abilityAlias).dblclick(this.selector, this.options);
     }
 
     /**

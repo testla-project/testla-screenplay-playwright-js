@@ -18,9 +18,9 @@ export class Press extends Action {
      */
     public async performAs(actor: Actor): Promise<void> {
         if (this.mode === 'key') {
-            return BrowseTheWeb.as(actor).press(this.payload.keys);
+            return BrowseTheWeb.as(actor, this.abilityAlias).press(this.payload.keys);
         }
-        return BrowseTheWeb.as(actor).pressSequentially(this.payload.selector, this.payload.input, this.payload.options);
+        return BrowseTheWeb.as(actor, this.abilityAlias).pressSequentially(this.payload.selector, this.payload.input, this.payload.options);
     }
 
     /**

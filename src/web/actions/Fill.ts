@@ -17,7 +17,7 @@ export class Fill extends Action {
      * @return {void} Returns after checks, focuses the element, fills it and triggers an `input` event after filling.
      */
     public async performAs(actor: Actor): Promise<void> {
-        return BrowseTheWeb.as(actor).fill(this.selector, this.input, this.options);
+        return BrowseTheWeb.as(actor, this.abilityAlias).fill(this.selector, this.input, this.options);
     }
 
     /**

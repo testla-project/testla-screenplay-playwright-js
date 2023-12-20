@@ -46,13 +46,14 @@ public static using(requestContext: APIRequestContext): UseAPI
 #### as
 
 ```typescript
-public static as(actor: Actor): UseAPI
+public static as(actor: Actor, alias?: string): UseAPI
 ```
 
 - **Description:** Use this ability as an actor.
 - **Parameters:**
   - `actor` - The actor object.
-- **Returns:** `UseAPI` - The ability to use the API as the actor.
+  - `alias` - (Optional) The alias for the ability
+- **Returns:** `UseAPI` - The ability to use the API as the actor, optionally with an alias name.
 
 #### sendRequest
 

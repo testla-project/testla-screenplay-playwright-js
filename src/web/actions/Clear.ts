@@ -13,7 +13,7 @@ export class Clear extends Action {
      */
     // eslint-disable-next-line class-methods-use-this
     public performAs(actor: Actor): Promise<any> {
-        return BrowseTheWeb.as(actor).clearCookies();
+        return BrowseTheWeb.as(actor, this.abilityAlias).clearCookies();
     }
 
     /**
