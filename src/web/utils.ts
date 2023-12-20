@@ -1,5 +1,5 @@
 /* eslint-disable vars-on-top */
-import { Locator, Page } from '@playwright/test';
+import { FrameLocator, Locator, Page } from '@playwright/test';
 import {
     Selector, SelectorOptions, SelectorOptionsState, SubSelector,
 } from './types';
@@ -8,8 +8,8 @@ import {
 const getSubLocator = async (locator: Locator, subLocator?: Locator, text?: string | RegExp): Promise<Locator> => locator.filter({ has: subLocator, hasText: text });
 
 const subLocatorLookup = async ({
-    page, locator, timeout, subSelector, state = 'visible', evaluateVisible = true,
-}: { page: Page; locator: Locator; timeout?: number; subSelector?: SubSelector; state?: SelectorOptionsState; evaluateVisible?: boolean }): Promise<Locator> => {
+    base, locator, timeout, subSelector, state = 'visible', evaluateVisible = true,
+}: { base: Page | FrameLocator; locator: Locator; timeout?: number; subSelector?: SubSelector; state?: SelectorOptionsState; evaluateVisible?: boolean }): Promise<Locator> => {
     let resolvedLocator: Locator = locator;
     // wait for selector to become visible based on timeout options
     if (evaluateVisible) {
@@ -27,7 +27,7 @@ const subLocatorLookup = async ({
 
         if (subSelector[1]?.subSelector) {
             resolvedLocator = await subLocatorLookup({
-                page, locator: resolvedLocator, timeout: subSelector[1]?.timeout, subSelector: subSelector[1]?.subSelector, state: subSelector[1]?.state,
+                base, locator: resolvedLocator, timeout: subSelector[1]?.timeout, subSelector: subSelector[1]?.subSelector, state: subSelector[1]?.state,
             });
         }
     }
@@ -35,11 +35,11 @@ const subLocatorLookup = async ({
 };
 
 export const recursiveLocatorLookup = async ({ page, selector, options }: { page: Page; selector: Selector; options?: SelectorOptions & { evaluateVisible?: boolean } }): Promise<Locator> => {
+    const base = options?.frameSelector ? page.frameLocator(options.frameSelector) : page;
     // find first level locator: if selector is a string, need to find it using page.locator(), if it is already a Playwright Locator use it directly.
-    const locator = typeof selector === 'string' ? page.locator(selector, { hasText: options?.hasText }) : await getSubLocator(selector, undefined, options?.hasText);
+    const locator = typeof selector === 'string' ? base.locator(selector, { hasText: options?.hasText }) : await getSubLocator(selector, undefined, options?.hasText);
     // pass the first level locator into sub locator lookup
     return subLocatorLookup({
-        page, locator, timeout: options?.timeout, subSelector: options?.subSelector, state: options?.state, evaluateVisible: options?.evaluateVisible,
+        base, locator, timeout: options?.timeout, subSelector: options?.subSelector, state: options?.state, evaluateVisible: options?.evaluateVisible,
     });
 };
-// ?
