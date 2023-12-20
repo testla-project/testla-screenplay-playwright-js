@@ -63,13 +63,14 @@ public static using(page: Page): BrowseTheWeb;
 #### as
 
 ```typescript
-public static as(actor: Actor): BrowseTheWeb;
+public static as(actor: Actor, alias?: string): BrowseTheWeb;
 ```
 
 - **Description:** Uses this ability as an actor.
 - **Parameters:**
   - `actor` - The actor using this ability.
-- **Returns:** `BrowseTheWeb` - The ability to use BrowseTheWeb as the actor.
+  - `alias` - (Optional) The alias for the ability
+- **Returns:** `UseAPI` - The ability to use the BrowseTheWeb as the actor, optionally with an alias name.
 
 #### getPage
 

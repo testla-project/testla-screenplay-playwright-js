@@ -20,16 +20,16 @@ export class Get extends Action {
      */
     public performAs(actor: Actor): Promise<any> {
         if (this.mode === 'cookies') {
-            return BrowseTheWeb.as(actor).getCookies(this.payload);
+            return BrowseTheWeb.as(actor, this.abilityAlias).getCookies(this.payload);
         }
         if (this.mode === 'sessionStorage') {
-            return BrowseTheWeb.as(actor).getSessionStorageItem(this.payload);
+            return BrowseTheWeb.as(actor, this.abilityAlias).getSessionStorageItem(this.payload);
         }
         if (this.mode === 'localStorage') {
-            return BrowseTheWeb.as(actor).getLocalStorageItem(this.payload);
+            return BrowseTheWeb.as(actor, this.abilityAlias).getLocalStorageItem(this.payload);
         }
         if (this.mode === 'element') {
-            return BrowseTheWeb.as(actor).getElement(this.payload.selector, this.payload.singular, this.payload.options);
+            return BrowseTheWeb.as(actor, this.abilityAlias).getElement(this.payload.selector, this.payload.singular, this.payload.options);
         }
         throw new Error('Error: no match for Get.performAs()!');
     }
@@ -67,7 +67,7 @@ export class Get extends Action {
     /**
      * Get a single screen element by its Selector
      *
-     * * @param {Selector} selector the string or locator representing the selector.
+     * @param {Selector} selector the string or locator representing the selector.
      * @param {SelectorOptions} options (optional): advanced selector lookup options.
      * @returns new Get instance
      */

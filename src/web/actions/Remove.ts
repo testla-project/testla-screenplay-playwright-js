@@ -17,10 +17,10 @@ export class Remove extends Action {
      */
     public performAs(actor: Actor): Promise<any> {
         if (this.mode === 'sessionStorage') {
-            return BrowseTheWeb.as(actor).removeSessionStorageItem(this.payload);
+            return BrowseTheWeb.as(actor, this.abilityAlias).removeSessionStorageItem(this.payload);
         }
         if (this.mode === 'localStorage') {
-            return BrowseTheWeb.as(actor).removeLocalStorageItem(this.payload);
+            return BrowseTheWeb.as(actor, this.abilityAlias).removeLocalStorageItem(this.payload);
         }
         throw new Error('Error: no match for Remove.performAs()!');
     }

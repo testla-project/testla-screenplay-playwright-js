@@ -17,7 +17,7 @@ export class Add extends Action {
      * @return {any} Adds cookies into this browser context.
      */
     public performAs(actor: Actor): Promise<any> {
-        return BrowseTheWeb.as(actor).addCookies(this.cookies);
+        return BrowseTheWeb.as(actor, this.abilityAlias).addCookies(this.cookies);
     }
 
     /**

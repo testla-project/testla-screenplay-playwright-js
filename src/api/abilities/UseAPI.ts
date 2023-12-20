@@ -33,10 +33,11 @@ export class UseAPI extends Ability {
      * Use this Ability as an Actor.
      *
      * @param {Actor} actor the actor object
+     * @param {string} alias defined the alias to be used for the given ability
      * @returns {UseAPI} The ability to use the API as the actor
      */
-    public static as(actor: Actor): UseAPI {
-        return actor.withAbilityTo(this) as UseAPI;
+    public static as(actor: Actor, alias?: string): UseAPI {
+        return actor.withAbilityTo(this, alias) as UseAPI;
     }
 
     /**

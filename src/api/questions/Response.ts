@@ -35,25 +35,25 @@ export class Response extends Question<boolean> {
         if (this.action.mode === 'status') {
             // if .is was called -> positive check, if .not was called -> negative check
             return Promise.resolve(
-                await UseAPI.as(actor).checkStatus(this.response, this.action.payload.statusCode, this.checkMode === 'positive' ? 'equal' : 'unequal'),
+                await UseAPI.as(actor, this.abilityAlias).checkStatus(this.response, this.action.payload.statusCode, this.checkMode === 'positive' ? 'equal' : 'unequal'),
             ); // if the ability method is not the expected result there will be an exception
         }
         if (this.action.mode === 'body') {
             // if .is was called -> positive check, if .not was called -> negative check
             return Promise.resolve(
-                await UseAPI.as(actor).checkBody(this.response, this.action.payload.body, this.checkMode === 'positive' ? 'equal' : 'unequal'),
+                await UseAPI.as(actor, this.abilityAlias).checkBody(this.response, this.action.payload.body, this.checkMode === 'positive' ? 'equal' : 'unequal'),
             ); // if the ability method is not the expected result there will be an exception
         }
         if (this.action.mode === 'header') {
             // if .is was called -> positive check, if .not was called -> negative check
             return Promise.resolve(
-                await UseAPI.as(actor).checkHeaders(this.response, this.action.payload.headers, this.checkMode === 'positive' ? 'included' : 'excluded'),
+                await UseAPI.as(actor, this.abilityAlias).checkHeaders(this.response, this.action.payload.headers, this.checkMode === 'positive' ? 'included' : 'excluded'),
             ); // if the ability method is not the expected result there will be an exception
         }
         if (this.action.mode === 'duration') {
             // if .is was called -> positive check, if .not was called -> negative check
             return Promise.resolve(
-                await UseAPI.as(actor).checkDuration(this.response, this.action.payload.duration, this.checkMode === 'positive' ? 'lessOrEqual' : 'greater'),
+                await UseAPI.as(actor, this.abilityAlias).checkDuration(this.response, this.action.payload.duration, this.checkMode === 'positive' ? 'lessOrEqual' : 'greater'),
             ); // if the ability method is not the expected result there will be an exception
         }
         throw new Error('Unknown mode for Response.answeredBy');

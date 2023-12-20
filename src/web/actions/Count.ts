@@ -25,7 +25,7 @@ export class Count extends Action {
      */
     // eslint-disable-next-line class-methods-use-this
     public performAs(actor: Actor): Promise<number> {
-        return BrowseTheWeb.as(actor).count(this.selector, this.options);
+        return BrowseTheWeb.as(actor, this.abilityAlias).count(this.selector, this.options);
     }
 
     /**

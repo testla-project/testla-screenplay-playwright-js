@@ -21,7 +21,7 @@ export class Delete extends ARequest {
      * @return {Response} the response
      */
     public async performAs(actor: Actor): Promise<Response> {
-        return UseAPI.as(actor).sendRequest(RequestMethod.DELETE, this.url, this.headers, this.responseBodyFormat);
+        return UseAPI.as(actor, this.abilityAlias).sendRequest(RequestMethod.DELETE, this.url, this.headers, this.responseBodyFormat);
     }
 
     /**

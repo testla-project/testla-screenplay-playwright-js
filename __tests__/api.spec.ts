@@ -57,7 +57,7 @@ const test = base.extend<MyActors>({
 });
 
 // TODO: implement test with headers
-test.describe('Testing screenplay-playwright-js web module', () => {
+test.describe('Testing screenplay-playwright-js api module', () => {
     test('GET', async ({ actor }) => {
         const response = await actor.attemptsTo(
             Get.from('http://zippopotam.us/us/90210').withResponseBodyFormat('text'),

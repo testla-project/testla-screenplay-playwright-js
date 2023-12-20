@@ -11,7 +11,7 @@
   - [Write your own Tasks](./advanced_test_setup/create_task.md)
   - [Write your own Questions](./advanced_test_setup/create_question.md)
   - [Use it in your test](./advanced_test_setup/write_tests.md)
-- **Aliasing** -> Coming soon
-  - [Ability Aliasing]() - Using the same ability with multiple different configurations
+- **Aliasing**
+  - [Ability Aliasing](./ability_aliasing//ability_aliasing.md) - Using the same ability with different configurations
 
 [Back to overview](../../README.md)

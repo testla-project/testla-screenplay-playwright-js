@@ -23,7 +23,7 @@ export class Post extends ARequest {
      * @return {Response} the returned response
      */
     public async performAs(actor: Actor): Promise<Response> {
-        return UseAPI.as(actor).sendRequest(RequestMethod.POST, this.url, this.headers, this.responseBodyFormat, this.data);
+        return UseAPI.as(actor, this.abilityAlias).sendRequest(RequestMethod.POST, this.url, this.headers, this.responseBodyFormat, this.data);
     }
 
     /**

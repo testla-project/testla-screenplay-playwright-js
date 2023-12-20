@@ -17,10 +17,10 @@ export class Set extends Action {
      */
     public performAs(actor: Actor): Promise<any> {
         if (this.mode === 'sessionStorage') {
-            return BrowseTheWeb.as(actor).setSessionStorageItem(this.payload.key, this.payload.value);
+            return BrowseTheWeb.as(actor, this.abilityAlias).setSessionStorageItem(this.payload.key, this.payload.value);
         }
         if (this.mode === 'localStorage') {
-            return BrowseTheWeb.as(actor).setLocalStorageItem(this.payload.key, this.payload.value);
+            return BrowseTheWeb.as(actor, this.abilityAlias).setLocalStorageItem(this.payload.key, this.payload.value);
         }
         throw new Error('Error: no match for Set.performAs()!');
     }

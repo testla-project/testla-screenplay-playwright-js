@@ -17,7 +17,7 @@ export class Type extends Action {
      * @return {void} Focuses the element, and then sends a `keydown`, `keypress`/`input`, and `keyup` event for each character in the text.
      */
     public async performAs(actor: Actor): Promise<void> {
-        return BrowseTheWeb.as(actor).type(this.selector, this.input, this.options);
+        return BrowseTheWeb.as(actor, this.abilityAlias).type(this.selector, this.input, this.options);
     }
 
     /**

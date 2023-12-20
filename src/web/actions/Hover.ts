@@ -17,7 +17,7 @@ export class Hover extends Action {
      * @return {void} Returns when hovered over the element
      */
     public performAs(actor: Actor): Promise<void> {
-        return BrowseTheWeb.as(actor).hover(this.selector, this.options);
+        return BrowseTheWeb.as(actor, this.abilityAlias).hover(this.selector, this.options);
     }
 
     /**
