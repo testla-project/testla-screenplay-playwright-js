@@ -1,5 +1,5 @@
 import { Actor, Question } from '@testla/screenplay';
-import { Selector, SelectorOptions } from '../types';
+import { FrameSelector, Selector, SelectorOptions } from '../types';
 import { BrowseTheWeb } from '../abilities/BrowseTheWeb';
 import { CheckMode } from '../../types';
 
@@ -13,6 +13,8 @@ export class Element extends Question<boolean> {
 
     // the selector of the element to check.
     private selector: Selector = '';
+
+    private frameTree: FrameSelector[] = [];
 
     // text or value to check.
     private payload: number | string | RegExp | (string | RegExp)[] = '';
@@ -33,7 +35,7 @@ export class Element extends Question<boolean> {
     public async answeredBy(actor: Actor): Promise<boolean> {
         if (this.mode === 'visible') {
             return Promise.resolve(
-                await BrowseTheWeb.as(actor).checkVisibilityState(this.selector, this.checkMode, this.options),
+                await BrowseTheWeb.as(actor).checkVisibilityState(this.selector, this.checkMode, this.options, this.frameTree),
             ); // if the ability method is not the expected result there will be an exception
         }
         if (this.mode === 'enabled') {
@@ -118,6 +120,11 @@ export class Element extends Question<boolean> {
         this.selector = selector;
         this.options = options;
 
+        return this;
+    }
+
+    public inFrame(frameSelector: FrameSelector): Element {
+        this.frameTree.push(frameSelector);
         return this;
     }
 

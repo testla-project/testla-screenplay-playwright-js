@@ -2,7 +2,7 @@ import {
     Cookie, expect, Locator, Page, Response,
 } from '@playwright/test';
 import { Ability, Actor } from '@testla/screenplay';
-import { Selector, SelectorOptions } from '../types';
+import { FrameSelector, Selector, SelectorOptions } from '../types';
 import { recursiveLocatorLookup } from '../utils';
 import { CheckMode } from '../../types';
 
@@ -209,11 +209,15 @@ export class BrowseTheWeb extends Ability {
      * @param {SelectorOptions} options (optional) advanced selector lookup options.
      * @returns {boolean} Promise<boolean> true if the element is visible/hidden as expected, false if the timeout was reached.
      */
-    public async checkVisibilityState(selector: Selector, mode: CheckMode, options?: SelectorOptions): Promise<boolean> {
+    public async checkVisibilityState(selector: Selector, mode: CheckMode, options?: SelectorOptions, frameTree?: FrameSelector[]): Promise<boolean> {
         if (mode === 'positive') {
-            await expect(await recursiveLocatorLookup({ page: this.page, selector, options: { ...options, state: 'visible' } })).toBeVisible({ timeout: options?.timeout });
+            await expect(await recursiveLocatorLookup({
+                page: this.page, selector, options: { ...options, state: 'visible' }, frameTree,
+            })).toBeVisible({ timeout: options?.timeout });
         } else {
-            await expect(await recursiveLocatorLookup({ page: this.page, selector, options: { ...options, state: 'hidden' } })).toBeHidden({ timeout: options?.timeout });
+            await expect(await recursiveLocatorLookup({
+                page: this.page, selector, options: { ...options, state: 'hidden' }, frameTree,
+            })).toBeHidden({ timeout: options?.timeout });
         }
         return Promise.resolve(true);
     }
