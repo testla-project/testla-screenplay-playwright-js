@@ -15,6 +15,7 @@ The `Get` class provides a convenient way to perform HTTP GET requests. It allow
     - [from](#from)
     - [withHeaders](#withheaders)
     - [withResponseBodyFormat](#withresponsebodyformat)
+    - [withAbilityAlias](#withabilityalias)
 
 ## Class Overview
 
@@ -67,5 +68,16 @@ public withResponseBodyFormat(responseBodyFormat: ResponseBodyFormat): Get;
 - **Parameters:**
   - `responseBodyFormat` - The desired format of the response body which can be one out of `json`, `text`, `buffer` or `none`. The default is `json`.
 - **Returns:** `Get` - The updated instance of the `Get` class.
+
+### withAbilityAlias
+
+```typescript
+public withAbilityAlias(alias: string): Get;
+```
+
+- **Description:** Defines the ability alias to be used during execution.
+- **Parameters:**
+  - `alias` - The alias.
+- **Returns:** `Get` - Returns the current action.
 
 [Back to overview](../../screenplay_elements.md)

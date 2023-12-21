@@ -13,6 +13,7 @@ The `Set` class is an action class in the Screenplay pattern designed for use wi
     - [performAs](#performas)
     - [sessionStorageItem](#sessionstorageitem)
     - [localStorageItem](#localstorageitem)
+    - [withAbilityAlias](#withabilityalias)
 
 ## Class Overview
 
@@ -52,5 +53,16 @@ public static localStorageItem(key: string, value: any): Set;
   - `key` - The key that specifies the item.
   - `value` - The value of the item.
 - **Returns:** `Set` - Returns a new `Set` instance for local storage.
+
+### withAbilityAlias
+
+```typescript
+public withAbilityAlias(alias: string): Set;
+```
+
+- **Description:** Defines the ability alias to be used during execution.
+- **Parameters:**
+  - `alias` - The alias.
+- **Returns:** `Set` - Returns the current action.
 
 [Back to overview](../../screenplay_elements.md)

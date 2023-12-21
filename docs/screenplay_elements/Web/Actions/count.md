@@ -45,23 +45,23 @@ public static page(): Count;
 ### inFrame
 
 ```typescript
-public inFrame(frameSelector: FrameSelector): Click;
+public inFrame(frameSelector: FrameSelector): Count;
 ```
 
 - **Description:** Finds the specified frame selector using the `BrowseTheWeb` ability.
 - **Parameters:**
   - `frameSelector` - The FrameSelector.
-- **Returns:** `Click` - Returns the current action.
+- **Returns:** `Count` - Returns the current action.
 
 ### withAbilityAlias
 
 ```typescript
-public withAbilityAlias(alias: string): Click;
+public withAbilityAlias(alias: string): Count;
 ```
 
 - **Description:** Defines the ability alias to be used during execution.
 - **Parameters:**
   - `alias` - The alias.
-- **Returns:** `Click` - Returns the current action.
+- **Returns:** `Count` - Returns the current action.
 
 [Back to overview](../../screenplay_elements.md)

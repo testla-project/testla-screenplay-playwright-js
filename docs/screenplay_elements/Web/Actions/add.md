@@ -12,6 +12,7 @@ The `Add` class is an action class in the Screenplay pattern designed for use wi
     - [Methods](#methods)
     - [performAs](#performas)
     - [cookies](#cookies)
+    - [withAbilityAlias](#withabilityalias)
 
 ## Class Overview
 
@@ -38,5 +39,16 @@ public static cookies(cookies: Cookie[]): Add;
 - **Parameters:**
   - `cookies` - The cookies to add.
 - **Returns:** `Add` - Returns a new `Add` instance.
+
+### withAbilityAlias
+
+```typescript
+public withAbilityAlias(alias: string): Add;
+```
+
+- **Description:** Defines the ability alias to be used during execution.
+- **Parameters:**
+  - `alias` - The alias.
+- **Returns:** `Add` - Returns the current action.
 
 [Back to overview](../../screenplay_elements.md)

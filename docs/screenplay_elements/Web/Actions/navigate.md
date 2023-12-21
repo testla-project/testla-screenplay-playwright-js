@@ -12,6 +12,7 @@ The `Navigate` class is an action class in the Screenplay pattern designed for u
     - [Methods](#methods)
     - [performAs](#performas)
     - [to](#to)
+    - [withAbilityAlias](#withabilityalias)
 
 ## Class Overview
 
@@ -38,5 +39,16 @@ public static to(url: string): Navigate;
 - **Parameters:**
   - `url` - The URL which should be accessed.
 - **Returns:** `Navigate` - Returns a new `Navigate` instance.
+
+### withAbilityAlias
+
+```typescript
+public withAbilityAlias(alias: string): Navigate;
+```
+
+- **Description:** Defines the ability alias to be used during execution.
+- **Parameters:**
+  - `alias` - The alias.
+- **Returns:** `Navigate` - Returns the current action.
 
 [Back to overview](../../screenplay_elements.md)

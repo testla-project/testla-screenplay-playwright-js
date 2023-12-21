@@ -12,6 +12,7 @@ The `Reload` class is an action class in the Screenplay pattern designed for use
     - [Methods](#methods)
     - [performAs](#performas)
     - [page](#page)
+    - [withAbilityAlias](#withabilityalias)
 
 ## Class Overview
 
@@ -36,5 +37,16 @@ public static page(): Reload;
 
 - **Description:** Creates a new instance of the `Reload` class specifically for reloading the currently browsed page.
 - **Returns:** `Reload` - Returns a new `Reload` instance.
+
+### withAbilityAlias
+
+```typescript
+public withAbilityAlias(alias: string): Reload;
+```
+
+- **Description:** Defines the ability alias to be used during execution.
+- **Parameters:**
+  - `alias` - The alias.
+- **Returns:** `Reload` - Returns the current action.
 
 [Back to overview](../../screenplay_elements.md)
