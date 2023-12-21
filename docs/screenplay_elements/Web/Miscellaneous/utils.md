@@ -37,12 +37,12 @@ const getSubLocator = async (locator: Locator, subLocator?: Locator, text?: stri
 ```typescript
 const subLocatorLookup = async ({
     base, locator, timeout, subSelector, state = 'visible',
-}: { base: Page; locator: Locator; timeout?: number; subSelector?: SubSelector, state?: SelectorOptionsState }): Promise<Locator>;
+}: { base: Page | FrameLocator; locator: Locator; timeout?: number; subSelector?: SubSelector, state?: SelectorOptionsState }): Promise<Locator>;
 ```
 
 - **Description:** Performs sub-locator lookup, waiting for selectors to get into the desired state.
 - **Parameters:**
-  - `base` - Playwright page.
+  - `base` | `FrameLocator` - Playwright page or the FrameLocator
   - `locator` - Playwright locator.
   - `timeout` - (optional) Timeout for waiting.
   - `subSelector` - (optional) Sub-selector information.

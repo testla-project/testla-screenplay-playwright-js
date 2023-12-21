@@ -1,7 +1,7 @@
 import { Question } from '@testla/screenplay';
 import { FrameSelector } from '../types';
 
-export abstract class BaseQuestion extends Question<boolean> {
+export abstract class FrameEnabledQuestion extends Question<boolean> {
     // value which will be forwared to call the actual frame(s)
     public frameTree: FrameSelector[] = [];
 

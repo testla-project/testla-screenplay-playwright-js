@@ -2,14 +2,14 @@ import { Actor } from '@testla/screenplay';
 import { Selector, SelectorOptions } from '../types';
 import { BrowseTheWeb } from '../abilities/BrowseTheWeb';
 import { CheckMode } from '../../types';
-import { BaseQuestion } from '../templates/BaseQuestion';
+import { FrameEnabledQuestion } from '../templates/FrameEnabledQuestion';
 
 type Mode = 'visible' | 'enabled' | 'text' | 'value' | 'count' | 'minCount' | 'checked';
 
 /**
  * Question Class. Get a specified state for a selector like visible or enabled.
  */
-export class Element extends BaseQuestion {
+export class Element extends FrameEnabledQuestion {
     private mode: Mode = 'visible';
 
     // the selector of the element to check.
