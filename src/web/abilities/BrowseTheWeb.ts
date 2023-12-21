@@ -81,10 +81,13 @@ export class BrowseTheWeb extends Ability {
      *
      * @param {Selector} selector the selector of the element to hover over.
      * @param {SelectorOptions} options (optional) advanced selector lookup options + Modifier keys to press. Ensures that only these modifiers are pressed during the operation.
+     * @param {FrameSelector[]} [frameTree] - An array of frame selector(s).
      * @return {void} Returns when hovered over the element
      */
-    public async hover(selector: Selector, options?: SelectorOptions & { modifiers?: ('Alt' | 'Control' | 'Meta' | 'Shift')[] }): Promise<void> {
-        return (await recursiveLocatorLookup({ page: this.page, selector, options }))
+    public async hover(selector: Selector, options?: SelectorOptions & { modifiers?: ('Alt' | 'Control' | 'Meta' | 'Shift')[] }, frameTree?: FrameSelector[]): Promise<void> {
+        return (await recursiveLocatorLookup({
+            page: this.page, selector, options, frameTree,
+        }))
             .hover({ modifiers: options?.modifiers });
     }
 
@@ -103,10 +106,13 @@ export class BrowseTheWeb extends Ability {
      *
      * @param {Selector} selector the selector of the checkbox.
      * @param {SelectorOptions} options (optional) advanced selector lookup options.
+     * @param {FrameSelector[]} [frameTree] - An array of frame selector(s).
      * @return {void} Returns after checking the element
      */
-    public async checkBox(selector: Selector, options?: SelectorOptions): Promise<void> {
-        return (await recursiveLocatorLookup({ page: this.page, selector, options }))
+    public async checkBox(selector: Selector, options?: SelectorOptions, frameTree?: FrameSelector[]): Promise<void> {
+        return (await recursiveLocatorLookup({
+            page: this.page, selector, options, frameTree,
+        }))
             .check();
     }
 
@@ -115,10 +121,13 @@ export class BrowseTheWeb extends Ability {
      *
      * @param {Selector} selector the selector of the element.
      * @param {SelectorOptions} options (optional) advanced selector lookup options.
+     * @param {FrameSelector[]} [frameTree] - An array of frame selector(s).
      * @return {Locator} Promise<Locator> returns the locator
      */
-    public async waitForSelector(selector: Selector, options?: SelectorOptions): Promise<Locator> {
-        return recursiveLocatorLookup({ page: this.page, selector, options });
+    public async waitForSelector(selector: Selector, options?: SelectorOptions, frameTree?: FrameSelector[]): Promise<Locator> {
+        return recursiveLocatorLookup({
+            page: this.page, selector, options, frameTree,
+        });
     }
 
     /**
@@ -127,14 +136,19 @@ export class BrowseTheWeb extends Ability {
      * @param {Selector} sourceSelector the selector of the source element.
      * @param {Selector} targetSelector the selector of the target element.
      * @param {SelectorOptions} options (optional) advanced selector lookup options.
+     * @param {FrameSelector[]} [frameTree] - An array of frame selector(s).
      * @return {void} Returns after dragging the locator to another target locator or target position
      */
     public async dragAndDrop(sourceSelector: Selector, targetSelector: Selector, options?: {
         source?: SelectorOptions;
         target?: SelectorOptions;
-    }): Promise<void> {
-        const target = await recursiveLocatorLookup({ page: this.page, selector: targetSelector, options: options?.target });
-        return (await recursiveLocatorLookup({ page: this.page, selector: sourceSelector, options: options?.source }))
+    }, frameTree?: FrameSelector[]): Promise<void> {
+        const target = await recursiveLocatorLookup({
+            page: this.page, selector: targetSelector, options: options?.target, frameTree,
+        });
+        return (await recursiveLocatorLookup({
+            page: this.page, selector: sourceSelector, options: options?.source, frameTree,
+        }))
             .dragTo(target, { targetPosition: { x: 0, y: 0 } });
     }
 
@@ -144,10 +158,13 @@ export class BrowseTheWeb extends Ability {
      * @param {Selector} selector the selector of the source element.
      * @param {string} input the input to fill the element with.
      * @param {SelectorOptions} options (optional) advanced selector lookup options.
+     * @param {FrameSelector[]} [frameTree] - An array of frame selector(s).
      * @return {void} Returns after checks, focuses the element, fills it and triggers an `input` event after filling.
      */
-    public async fill(selector: Selector, input: string, options?: SelectorOptions): Promise<void> {
-        return (await recursiveLocatorLookup({ page: this.page, selector, options }))
+    public async fill(selector: Selector, input: string, options?: SelectorOptions, frameTree?: FrameSelector[]): Promise<void> {
+        return (await recursiveLocatorLookup({
+            page: this.page, selector, options, frameTree,
+        }))
             .fill(input);
     }
 
@@ -157,11 +174,12 @@ export class BrowseTheWeb extends Ability {
      * @param {Selector} selector the selector of the source element.
      * @param {string} input the input to type into the element.
      * @param {SelectorOptions} options (optional) advanced selector lookup options.
+     * @param {FrameSelector[]} [frameTree] - An array of frame selector(s) defining the location for the type event.
      * @return {void} Focuses the element, and then sends a `keydown`, `keypress`/`input`, and `keyup` event for each character in the text.
      * @deprecated Please use pressSequentially instead. This function will be removed in the future.
      */
-    public async type(selector: Selector, input: string, options?: SelectorOptions): Promise<void> {
-        return this.pressSequentially(selector, input, options);
+    public async type(selector: Selector, input: string, options?: SelectorOptions, frameTree?: FrameSelector[]): Promise<void> {
+        return this.pressSequentially(selector, input, options, frameTree);
     }
 
     /**
@@ -170,10 +188,13 @@ export class BrowseTheWeb extends Ability {
      * @param {Selector} selector the selector of the source element.
      * @param {string} input the input to type into the element.
      * @param {SelectorOptions} options (optional) advanced selector lookup options.
+     * @param {FrameSelector[]} [frameTree] - An array of frame selector(s) defining the location for the pressSequentially event.
      * @return {void} Focuses the element, and then sends a `keydown`, `keypress`/`input`, and `keyup` event for each character in the text.
      */
-    public async pressSequentially(selector: Selector, input: string, options?: SelectorOptions): Promise<void> {
-        return (await recursiveLocatorLookup({ page: this.page, selector, options }))
+    public async pressSequentially(selector: Selector, input: string, options?: SelectorOptions, frameTree?: FrameSelector[]): Promise<void> {
+        return (await recursiveLocatorLookup({
+            page: this.page, selector, options, frameTree,
+        }))
             .pressSequentially(input);
     }
 
@@ -182,10 +203,13 @@ export class BrowseTheWeb extends Ability {
      *
      * @param {Selector} selector the selector of the element to click.
      * @param {SelectorOptions} options (optional) advanced selector lookup options.
+     * @param {FrameSelector[]} [frameTree] - An array of frame selector(s).
      * @return {void} Returns after clicking the element
      */
-    public async click(selector: Selector, options?: SelectorOptions): Promise<void> {
-        return (await recursiveLocatorLookup({ page: this.page, selector, options }))
+    public async click(selector: Selector, options?: SelectorOptions, frameTree?: FrameSelector[]): Promise<void> {
+        return (await recursiveLocatorLookup({
+            page: this.page, selector, options, frameTree,
+        }))
             .click();
     }
 
@@ -194,10 +218,13 @@ export class BrowseTheWeb extends Ability {
      *
      * @param {Selector} selector the selector of the element to double click.
      * @param {SelectorOptions} options (optional) advanced selector lookup options.
+     * @param {FrameSelector[]} [frameTree] - An array of frame selector(s) defining the location for the double click.
      * @return {void} Returns after double clicking the element
      */
-    public async dblclick(selector: Selector, options?: SelectorOptions): Promise<void> {
-        return (await recursiveLocatorLookup({ page: this.page, selector, options }))
+    public async dblclick(selector: Selector, options?: SelectorOptions, frameTree?: FrameSelector[]): Promise<void> {
+        return (await recursiveLocatorLookup({
+            page: this.page, selector, options, frameTree,
+        }))
             .dblclick();
     }
 
@@ -207,6 +234,7 @@ export class BrowseTheWeb extends Ability {
      * @param {Selector} selector the locator to search for.
      * @param {string} mode the expected property of the selector that needs to be checked. either 'visible' or 'hidden'.
      * @param {SelectorOptions} options (optional) advanced selector lookup options.
+     * @param {FrameSelector[]} [frameTree] - An array of frame selector(s).
      * @returns {boolean} Promise<boolean> true if the element is visible/hidden as expected, false if the timeout was reached.
      */
     public async checkVisibilityState(selector: Selector, mode: CheckMode, options?: SelectorOptions, frameTree?: FrameSelector[]): Promise<boolean> {
@@ -226,15 +254,20 @@ export class BrowseTheWeb extends Ability {
      * Validate if a locator on the page is enabled or disabled.
      *
      * @param {Selector} selector the locator to search for.
-     * @param {string} mode the expected property of the selector that needs to be checked. either 'enabled' or 'disabled'.
+     * @param {string} mode the expected property of the selector that needs to be checked. either 'positive' or 'negative'.
      * @param {SelectorOptions} options (optional) advanced selector lookup options.
+     * @param {FrameSelector[]} [frameTree] - An array of frame selector(s).
      * @returns {boolean} true if the element is enabled/disabled as expected, false if the timeout was reached.
      */
-    public async checkEnabledState(selector: Selector, mode: CheckMode, options?: SelectorOptions): Promise<boolean> {
+    public async checkEnabledState(selector: Selector, mode: CheckMode, options?: SelectorOptions, frameTree?: FrameSelector[]): Promise<boolean> {
         if (mode === 'positive') {
-            await expect(await recursiveLocatorLookup({ page: this.page, selector, options: { ...options, state: 'visible' } })).toBeEnabled({ timeout: options?.timeout });
+            await expect(await recursiveLocatorLookup({
+                page: this.page, selector, options: { ...options, state: 'visible' }, frameTree,
+            })).toBeEnabled({ timeout: options?.timeout });
         } else {
-            await expect(await recursiveLocatorLookup({ page: this.page, selector, options: { ...options, state: 'visible' } })).toBeDisabled({ timeout: options?.timeout });
+            await expect(await recursiveLocatorLookup({
+                page: this.page, selector, options: { ...options, state: 'visible' }, frameTree,
+            })).toBeDisabled({ timeout: options?.timeout });
         }
         return Promise.resolve(true);
     }
@@ -242,15 +275,22 @@ export class BrowseTheWeb extends Ability {
     /**
     * Validate if the given element has the given text or not.
     *
-    * @param selector the selector of the element to hover over.
-    * @param text the text to check.
-    * @param options (optional) advanced selector lookup options.
+    * @param {Selector} selector the locator to search for.
+    * @param {string | RegExp} text the expected property of the selector that needs to be checked. either '' or 'disabled'.
+    * @param {string} mode the expected property of the selector that needs to be checked. either 'positive' or 'negative'.
+    * @param {SelectorOptions} options (optional) advanced selector lookup options.
+    * @param {FrameSelector[]} [frameTree] - An array of frame selector(s).
+    * @returns {boolean} true if the element is have text/have not text as expected, false if the timeout was reached.
     */
-    public async checkSelectorText(selector: Selector, text: string | RegExp | (string | RegExp)[], mode: CheckMode, options?: SelectorOptions): Promise<boolean> {
+    public async checkSelectorText(selector: Selector, text: string | RegExp | (string | RegExp)[], mode: CheckMode, options?: SelectorOptions, frameTree?: FrameSelector[]): Promise<boolean> {
         if (mode === 'positive') {
-            await expect(await recursiveLocatorLookup({ page: this.page, selector, options: { ...options, state: 'visible' } })).toHaveText(text, { timeout: options?.timeout });
+            await expect(await recursiveLocatorLookup({
+                page: this.page, selector, options: { ...options, state: 'visible' }, frameTree,
+            })).toHaveText(text, { timeout: options?.timeout });
         } else {
-            await expect(await recursiveLocatorLookup({ page: this.page, selector, options: { ...options, state: 'visible' } })).not.toHaveText(text, { timeout: options?.timeout });
+            await expect(await recursiveLocatorLookup({
+                page: this.page, selector, options: { ...options, state: 'visible' }, frameTree,
+            })).not.toHaveText(text, { timeout: options?.timeout });
         }
         return Promise.resolve(true);
     }
@@ -258,15 +298,22 @@ export class BrowseTheWeb extends Ability {
     /**
     * Validate if the given element has the given input value or not.
     *
-    * @param selector the selector of the element to hover over.
-    * @param value the single value to check.
-    * @param options (optional) advanced selector lookup options.
+    * @param {Selector} selector the locator to search for.
+    * @param {string | RegExp} value the single value to check.
+    * @param {CheckMode} mode the expected property of the selector that needs to be checked. either 'positive' or 'negative'.
+    * @param {SelectorOptions} options (optional) advanced selector lookup options.
+    * @param {FrameSelector[]} [frameTree] - An array of frame selector(s).
+    * @returns {boolean} true if the element is have value/have not value as expected, false if the timeout was reached.
     */
-    public async checkSelectorValue(selector: Selector, value: string | RegExp, mode: CheckMode, options?: SelectorOptions): Promise<boolean> {
+    public async checkSelectorValue(selector: Selector, value: string | RegExp, mode: CheckMode, options?: SelectorOptions, frameTree?: FrameSelector[]): Promise<boolean> {
         if (mode === 'positive') {
-            await expect(await recursiveLocatorLookup({ page: this.page, selector, options: { ...options, state: 'visible' } })).toHaveValue(value, { timeout: options?.timeout });
+            await expect(await recursiveLocatorLookup({
+                page: this.page, selector, options: { ...options, state: 'visible' }, frameTree,
+            })).toHaveValue(value, { timeout: options?.timeout });
         } else {
-            await expect(await recursiveLocatorLookup({ page: this.page, selector, options: { ...options, state: 'visible' } })).not.toHaveValue(value, { timeout: options?.timeout });
+            await expect(await recursiveLocatorLookup({
+                page: this.page, selector, options: { ...options, state: 'visible' }, frameTree,
+            })).not.toHaveValue(value, { timeout: options?.timeout });
         }
         return Promise.resolve(true);
     }
@@ -274,29 +321,37 @@ export class BrowseTheWeb extends Ability {
     /**
     * Validate if the given element has the given minimum count.
     *
-    * @param selector the selector of the element.
-    * @param count the minumum count of the element to be visible.
-    * @param mode the check mode - whether positive or negative
-    * @param options (optional) advanced selector lookup options.
+    * @param {Selector} selector the selector of the element.
+    * @param {number} count the minumum count of the element to be visible.
+    * @param {CheckMode} mode the check mode - whether positive or negative
+    * @param {SelectorOptions} options (optional) advanced selector lookup options.
+    * @param {FrameSelector[]} [frameTree] - An array of frame selector(s).
+    * @returns {boolean} true if the element has the given minimum count as expected, false if the timeout was reached.
     */
-    public async checkMinCount(selector: Selector, count: number, mode: CheckMode, options?: SelectorOptions): Promise<boolean> {
-        await this.checkVisibilityState(`${selector} >> nth=${count - 1}`, mode, options);
+    public async checkMinCount(selector: Selector, count: number, mode: CheckMode, options?: SelectorOptions, frameTree?: FrameSelector[]): Promise<boolean> {
+        await this.checkVisibilityState(`${selector} >> nth=${count - 1}`, mode, options, frameTree);
         return Promise.resolve(true);
     }
 
     /**
     * Validate if the given element has the given count.
     *
-    * @param selector the selector of the element.
-    * @param count the exact count of the element to be visible.
-    * @param mode the check mode - whether positive or negative
-    * @param options (optional) advanced selector lookup options.
+    * @param {Selector} selector the selector of the element.
+    * @param {number} count the exact count of the element to be visible.
+    * @param {CheckMode} mode the check mode - whether positive or negative
+    * @param {SelectorOptions} options (optional) advanced selector lookup options.
+    * @param {FrameSelector[]} [frameTree] - An array of frame selector(s).
+    * @returns {boolean} true if the element has the given count as expected, false if the timeout was reached.
     */
-    public async checkCount(selector: Selector, count: number, mode: CheckMode, options?: SelectorOptions): Promise<boolean> {
+    public async checkCount(selector: Selector, count: number, mode: CheckMode, options?: SelectorOptions, frameTree?: FrameSelector[]): Promise<boolean> {
         if (mode === 'positive') {
-            await expect(await recursiveLocatorLookup({ page: this.page, selector, options: { ...options, state: 'visible', evaluateVisible: false } })).toHaveCount(count, { timeout: options?.timeout });
+            await expect(await recursiveLocatorLookup({
+                page: this.page, selector, options: { ...options, state: 'visible', evaluateVisible: false }, frameTree,
+            })).toHaveCount(count, { timeout: options?.timeout });
         } else {
-            await expect(await recursiveLocatorLookup({ page: this.page, selector, options: { ...options, state: 'visible', evaluateVisible: false } })).not.toHaveCount(count, { timeout: options?.timeout });
+            await expect(await recursiveLocatorLookup({
+                page: this.page, selector, options: { ...options, state: 'visible', evaluateVisible: false }, frameTree,
+            })).not.toHaveCount(count, { timeout: options?.timeout });
         }
         return Promise.resolve(true);
     }
@@ -304,27 +359,36 @@ export class BrowseTheWeb extends Ability {
     /**
     * Counts screen elements which can be found via a selector.
     *
-    * @param selector the selector of the element.
-    * @param options (optional) advanced selector lookup options.
-    * @returns Promise of number of counted elements
+    * @param {Selector} selector the selector of the element.
+    * @param {SelectorOptions} options (optional) advanced selector lookup options.
+    * @param {FrameSelector[]} [frameTree] - An array of frame selector(s) defining the location for the count.
+    * @returns {boolean} Promise of number of counted elements
     */
-    public async count(selector: Selector, options?: SelectorOptions): Promise<number> {
-        const counted = await (await recursiveLocatorLookup({ page: this.page, selector, options: { ...options, state: 'visible', evaluateVisible: false } })).count();
+    public async count(selector: Selector, options?: SelectorOptions, frameTree?: FrameSelector[]): Promise<number> {
+        const counted = await (await recursiveLocatorLookup({
+            page: this.page, selector, options: { ...options, state: 'visible', evaluateVisible: false }, frameTree,
+        })).count();
         return Promise.resolve(counted);
     }
 
     /**
     * Validate if the given element is checked.
     *
-    * @param selector the selector of the element.
-    * @param mode the check mode - whether positive or negative
-    * @param options (optional) advanced selector lookup options.
+    * @param {Selector} selector the selector of the element.
+    * @param {CheckMode} mode the check mode - whether positive or negative
+    * @param {SelectorOptions} options (optional) advanced selector lookup options.
+    * @param {FrameSelector[]} [frameTree] - An array of frame selector(s).
+    * @returns {boolean} true if the element is checked or not checked
     */
-    public async checkChecked(selector: Selector, mode: CheckMode, options?: SelectorOptions): Promise<boolean> {
+    public async checkChecked(selector: Selector, mode: CheckMode, options?: SelectorOptions, frameTree?: FrameSelector[]): Promise<boolean> {
         if (mode === 'positive') {
-            await expect(await recursiveLocatorLookup({ page: this.page, selector, options: { ...options, state: 'visible' } })).toBeChecked({ timeout: options?.timeout });
+            await expect(await recursiveLocatorLookup({
+                page: this.page, selector, options: { ...options, state: 'visible' }, frameTree,
+            })).toBeChecked({ timeout: options?.timeout });
         } else {
-            await expect(await recursiveLocatorLookup({ page: this.page, selector, options: { ...options, state: 'visible' } })).not.toBeChecked({ timeout: options?.timeout });
+            await expect(await recursiveLocatorLookup({
+                page: this.page, selector, options: { ...options, state: 'visible' }, frameTree,
+            })).not.toBeChecked({ timeout: options?.timeout });
         }
         return Promise.resolve(true);
     }
@@ -447,10 +511,13 @@ export class BrowseTheWeb extends Ability {
      * @param {Selector} selector the string representing the (select) selector.
      * @param {string} option the label of the option.
      * @param {SelectorOptions} selectorOptions (optional): advanced selector lookup options.
+     * @param {FrameSelector[]} [frameTree] - An array of frame selector(s).
      * @return {any} Returns the array of option values that have been successfully selected.
      */
-    public async selectOption(selector: Selector, option: string | { value?: string, label?: string, index?: number }, selectorOptions?: SelectorOptions): Promise<any> {
-        return (await recursiveLocatorLookup({ page: this.page, selector, options: selectorOptions })).selectOption(option);
+    public async selectOption(selector: Selector, option: string | { value?: string, label?: string, index?: number }, selectorOptions?: SelectorOptions, frameTree?: FrameSelector[]): Promise<any> {
+        return (await recursiveLocatorLookup({
+            page: this.page, selector, options: selectorOptions, frameTree,
+        })).selectOption(option);
     }
 
     /**
@@ -459,7 +526,7 @@ export class BrowseTheWeb extends Ability {
      * @param {Selector} selector the string or locator representing the selector.
      * @param {boolean} singular (optional): the indicator whether to return a single item or a list of items. In case of single item the first item is returned if more than 1 items are found. Defaults to true.
      * @param {SelectorOptions} options (optional): advanced selector lookup options.
-     * @returns A single screen element or a list of screen elements depending on the singular input parameter.
+     * @returns {Locator | Locator[]} A single screen element or a list of screen elements depending on the singular input parameter.
      */
     public async getElement(selector: Selector, singular = true, selectorOptions: SelectorOptions = {}): Promise<Locator | Locator[]> {
         let locators;

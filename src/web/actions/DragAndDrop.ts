@@ -1,12 +1,13 @@
-import { Action, Actor } from '@testla/screenplay';
+import { Actor } from '@testla/screenplay';
 import { Selector, SelectorOptions } from '../types';
 import { BrowseTheWeb } from '../abilities/BrowseTheWeb';
+import { FrameEnabledAction } from '../templates/FrameEnabledAction';
 
 /**
  * Action Class. DragAndDrop an element specified by a selector string and drop it on an element specified by another
  * selector string.
  */
-export class DragAndDrop extends Action {
+export class DragAndDrop extends FrameEnabledAction {
     private constructor(private sourceSelector: Selector, private targetSelector: Selector, private options?: {
         source?: SelectorOptions;
         target?: SelectorOptions;
@@ -20,7 +21,7 @@ export class DragAndDrop extends Action {
      * @return {void} Returns after dragging the locator to another target locator or target position
      */
     public performAs(actor: Actor): Promise<void> {
-        return BrowseTheWeb.as(actor, this.abilityAlias).dragAndDrop(this.sourceSelector, this.targetSelector, this.options);
+        return BrowseTheWeb.as(actor, this.abilityAlias).dragAndDrop(this.sourceSelector, this.targetSelector, this.options, this.frameTree);
     }
 
     /**

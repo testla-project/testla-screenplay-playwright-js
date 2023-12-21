@@ -12,6 +12,8 @@ The `Select` class is an action class in the Screenplay pattern designed for use
     - [Methods](#methods)
     - [performAs](#performas)
     - [option](#option)
+    - [inFrame](#inframe)
+    - [withAbilityAlias](#withabilityalias)
 
 ## Class Overview
 
@@ -40,5 +42,27 @@ public static option(selector: Selector, option: string | { value?: string, labe
   - `option` - The label of the option to be selected. It can be either a string or an object with optional properties: `value`, `label`, or `index`.
   - `selectorOptions` - (optional): Advanced selector lookup options.
 - **Returns:** `Select` - Returns a new `Select` instance.
+
+### inFrame
+
+```typescript
+public inFrame(frameSelector: FrameSelector): Click;
+```
+
+- **Description:** Finds the specified frame selector using the `BrowseTheWeb` ability.
+- **Parameters:**
+  - `frameSelector` - The FrameSelector.
+- **Returns:** `Click` - Returns the current action.
+
+### withAbilityAlias
+
+```typescript
+public withAbilityAlias(alias: string): Click;
+```
+
+- **Description:** Defines the ability alias to be used during execution.
+- **Parameters:**
+  - `alias` - The alias.
+- **Returns:** `Click` - Returns the current action.
 
 [Back to overview](../../screenplay_elements.md)

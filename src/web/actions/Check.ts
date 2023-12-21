@@ -1,11 +1,12 @@
-import { Action, Actor } from '@testla/screenplay';
+import { Actor } from '@testla/screenplay';
 import { Selector, SelectorOptions } from '../types';
 import { BrowseTheWeb } from '../abilities/BrowseTheWeb';
+import { FrameEnabledAction } from '../templates/FrameEnabledAction';
 
 /**
  * Action Class. Check a checkbox specified by a selector string.
  */
-export class Check extends Action {
+export class Check extends FrameEnabledAction {
     private constructor(private selector: Selector, private options?: SelectorOptions) {
         super();
     }
@@ -17,7 +18,7 @@ export class Check extends Action {
      * @return {void} Returns after checking the element
      */
     public async performAs(actor: Actor): Promise<void> {
-        await BrowseTheWeb.as(actor, this.abilityAlias).checkBox(this.selector, this.options);
+        await BrowseTheWeb.as(actor, this.abilityAlias).checkBox(this.selector, this.options, this.frameTree);
     }
 
     /**

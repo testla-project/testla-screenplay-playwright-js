@@ -12,6 +12,8 @@ The `Check` class is an action class in the Screenplay pattern designed for use 
     - [Methods](#methods)
     - [performAs](#performas)
     - [element](#element)
+    - [inFrame](#inframe)
+    - [withAbilityAlias](#withabilityalias)
 
 ## Class Overview
 
@@ -39,5 +41,27 @@ public static element(selector: Selector, options?: SelectorOptions): Check;
   - `selector` - The string representing the selector of the checkbox.
   - `options` (optional) - Advanced selector lookup options.
 - **Returns:** `Check` - Returns a new `Check` instance.
+
+### inFrame
+
+```typescript
+public inFrame(frameSelector: FrameSelector): Click;
+```
+
+- **Description:** Finds the specified frame selector using the `BrowseTheWeb` ability.
+- **Parameters:**
+  - `frameSelector` - The FrameSelector.
+- **Returns:** `Click` - Returns the current action.
+
+### withAbilityAlias
+
+```typescript
+public withAbilityAlias(alias: string): Click;
+```
+
+- **Description:** Defines the ability alias to be used during execution.
+- **Parameters:**
+  - `alias` - The alias.
+- **Returns:** `Click` - Returns the current action.
 
 [Back to overview](../../screenplay_elements.md)

@@ -1,11 +1,12 @@
-import { Action, Actor } from '@testla/screenplay';
+import { Actor } from '@testla/screenplay';
 import { Selector, SelectorOptions } from '../types';
 import { BrowseTheWeb } from '../abilities/BrowseTheWeb';
+import { FrameEnabledAction } from '../templates/FrameEnabledAction';
 
 /**
  * Action Class. Click on an element specified by a selector string.
  */
-export class Click extends Action {
+export class Click extends FrameEnabledAction {
     private constructor(private selector: Selector, private options?: SelectorOptions) {
         super();
     }
@@ -17,7 +18,7 @@ export class Click extends Action {
      * @return {void} Returns after clicking the element
      */
     public async performAs(actor: Actor): Promise<void> {
-        await BrowseTheWeb.as(actor, this.abilityAlias).click(this.selector, this.options);
+        await BrowseTheWeb.as(actor, this.abilityAlias).click(this.selector, this.options, this.frameTree);
     }
 
     /**

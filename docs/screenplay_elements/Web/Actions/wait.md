@@ -13,6 +13,8 @@ The `Wait` class is an action class in the Screenplay pattern designed for use w
     - [performAs](#performas)
     - [forLoadState](#forloadstate)
     - [forSelector](#forselector)
+    - [inFrame](#inframe)
+    - [withAbilityAlias](#withabilityalias)
 
 ## Class Overview
 
@@ -52,4 +54,25 @@ public static forSelector(selector: Selector, options?: SelectorOptions): Wait;
   - `options` - (optional) Advanced selector lookup options.
 - **Returns:** `Wait` - Returns a new `Wait` instance.
 
+### inFrame
+
+```typescript
+public inFrame(frameSelector: FrameSelector): Click;
+```
+
+- **Description:** Finds the specified frame selector using the `BrowseTheWeb` ability.
+- **Parameters:**
+  - `frameSelector` - The FrameSelector.
+- **Returns:** `Click` - Returns the current action.
+
+### withAbilityAlias
+
+```typescript
+public withAbilityAlias(alias: string): Click;
+```
+
+- **Description:** Defines the ability alias to be used during execution.
+- **Parameters:**
+  - `alias` - The alias.
+- **Returns:** `Click` - Returns the current action.
 [Back to overview](../../screenplay_elements.md)

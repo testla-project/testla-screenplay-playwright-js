@@ -1,11 +1,12 @@
-import { Action, Actor } from '@testla/screenplay';
+import { Actor } from '@testla/screenplay';
 import { BrowseTheWeb } from '../abilities/BrowseTheWeb';
 import { Selector, SelectorOptions } from '../types';
+import { FrameEnabledAction } from '../templates/FrameEnabledAction';
 
 /**
  * Action Class. Press the specified key on the keyboard.
  */
-export class Press extends Action {
+export class Press extends FrameEnabledAction {
     private constructor(private mode: 'key' | 'sequentially', private payload: any) {
         super();
     }
@@ -20,7 +21,7 @@ export class Press extends Action {
         if (this.mode === 'key') {
             return BrowseTheWeb.as(actor, this.abilityAlias).press(this.payload.keys);
         }
-        return BrowseTheWeb.as(actor, this.abilityAlias).pressSequentially(this.payload.selector, this.payload.input, this.payload.options);
+        return BrowseTheWeb.as(actor, this.abilityAlias).pressSequentially(this.payload.selector, this.payload.input, this.payload.options, this.frameTree);
     }
 
     /**

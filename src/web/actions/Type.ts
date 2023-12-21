@@ -1,11 +1,12 @@
-import { Action, Actor } from '@testla/screenplay';
+import { Actor } from '@testla/screenplay';
 import { Selector, SelectorOptions } from '../types';
 import { BrowseTheWeb } from '../abilities/BrowseTheWeb';
+import { FrameEnabledAction } from '../templates/FrameEnabledAction';
 
 /**
  * Action Class. Type specified input into an element specified by a selector string.
  */
-export class Type extends Action {
+export class Type extends FrameEnabledAction {
     private constructor(private selector: Selector, private input: string, private options?: SelectorOptions) {
         super();
     }
@@ -17,7 +18,7 @@ export class Type extends Action {
      * @return {void} Focuses the element, and then sends a `keydown`, `keypress`/`input`, and `keyup` event for each character in the text.
      */
     public async performAs(actor: Actor): Promise<void> {
-        return BrowseTheWeb.as(actor, this.abilityAlias).type(this.selector, this.input, this.options);
+        return BrowseTheWeb.as(actor, this.abilityAlias).type(this.selector, this.input, this.options, this.frameTree);
     }
 
     /**
