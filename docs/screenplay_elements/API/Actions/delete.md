@@ -15,6 +15,7 @@ The `Delete` class provides a convenient way to perform HTTP DELETE requests. It
     - [from](#from)
     - [withHeaders](#withheaders)
     - [withResponseBodyFormat](#withresponsebodyformat)
+    - [withAbilityAlias](#withabilityalias)
 
 ## Class Overview
 
@@ -67,5 +68,16 @@ public withResponseBodyFormat(responseBodyFormat: ResponseBodyFormat): Delete;
 - **Parameters:**
   - `responseBodyFormat` - The desired format of the response body which can be one out of `json`, `text`, `buffer` or `none`. The default is `json`.
 - **Returns:** `Delete` - The updated instance of the `Delete` class.
+
+### withAbilityAlias
+
+```typescript
+public withAbilityAlias(alias: string): Delete;
+```
+
+- **Description:** Defines the ability alias to be used during execution.
+- **Parameters:**
+  - `alias` - The alias.
+- **Returns:** `Delete` - Returns the current action.
 
 [Back to overview](../../screenplay_elements.md)

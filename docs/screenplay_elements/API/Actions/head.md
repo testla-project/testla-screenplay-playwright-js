@@ -14,6 +14,7 @@ The `Head` class provides a convenient way to perform HTTP HEAD requests. It all
     - [performAs](#performas)
     - [from](#from)
     - [withHeaders](#withheaders)
+    - [withAbilityAlias](#withabilityalias)
 
 ## Class Overview
 
@@ -55,5 +56,16 @@ public withHeaders(headers: Headers): Head;
 - **Parameters:**
   - `headers` - The headers to be added.
 - **Returns:** `Head` - The updated instance of the `Head` class.
+
+### withAbilityAlias
+
+```typescript
+public withAbilityAlias(alias: string): Head;
+```
+
+- **Description:** Defines the ability alias to be used during execution.
+- **Parameters:**
+  - `alias` - The alias.
+- **Returns:** `Head` - Returns the current action.
 
 [Back to overview](../../screenplay_elements.md)

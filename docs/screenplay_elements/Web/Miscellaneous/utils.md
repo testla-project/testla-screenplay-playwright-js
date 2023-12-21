@@ -13,6 +13,7 @@ This module provides utility functions for working with Playwright locators and 
     - [getSubLocator](#getsublocator)
     - [subLocatorLookup](#sublocatorlookup)
     - [recursiveLocatorLookup](#recursivelocatorlookup)
+    - [recursiveFrameLookup](#recursiveframelookup)
 
 ## Module Overview
 
@@ -35,13 +36,13 @@ const getSubLocator = async (locator: Locator, subLocator?: Locator, text?: stri
 
 ```typescript
 const subLocatorLookup = async ({
-    page, locator, timeout, subSelector, state = 'visible',
-}: { page: Page; locator: Locator; timeout?: number; subSelector?: SubSelector, state?: SelectorOptionsState }): Promise<Locator>;
+    base, locator, timeout, subSelector, state = 'visible',
+}: { base: Page | FrameLocator; locator: Locator; timeout?: number; subSelector?: SubSelector, state?: SelectorOptionsState }): Promise<Locator>;
 ```
 
 - **Description:** Performs sub-locator lookup, waiting for selectors to get into the desired state.
 - **Parameters:**
-  - `page` - Playwright page.
+  - `base` | `FrameLocator` - Playwright page or the FrameLocator
   - `locator` - Playwright locator.
   - `timeout` - (optional) Timeout for waiting.
   - `subSelector` - (optional) Sub-selector information.
@@ -51,7 +52,7 @@ const subLocatorLookup = async ({
 ### recursiveLocatorLookup
 
 ```typescript
-export const recursiveLocatorLookup = async ({ page, selector, options }: { page: Page; selector: Selector; options?: SelectorOptions }): Promise<Locator>;
+export const recursiveLocatorLookup = async ({ page, selector, options }: { page: Page; selector: Selector; options?: SelectorOptions & { evaluateVisible?: boolean }, frameTree?: FrameSelector[] }): Promise<Locator>;
 ```
 
 - **Description:** Recursively resolves locators, handling sub-selectors and waiting for selectors to become visible.
@@ -59,6 +60,20 @@ export const recursiveLocatorLookup = async ({ page, selector, options }: { page
   - `page` - Playwright page.
   - `selector` - Selector information.
   - `options` - (optional) Selector options.
+  - `frameTree` - An array of frame selector(s).
 - **Returns:** `Promise<Locator>` - Resolves to the final Playwright locator after recursive lookup.
+
+
+### recursiveFrameLookup
+
+```typescript
+export const recursiveFrameLookup = (page: Page, frameTree: FrameSelector[]): FrameLocator;
+```
+
+- **Description:** Resolves frame locators, handling sub-frame locators.
+- **Parameters:**
+  - `page` - Playwright page.
+  - `frameTree` - An array of frame selector(s).
+- **Returns:** `FrameLocator` - Resolves to the final FrameLocator after lookup.
 
 [Back to overview](../../screenplay_elements.md)

@@ -12,6 +12,8 @@ The `DoubleClick` class is an action class in the Screenplay pattern designed fo
     - [Methods](#methods)
     - [performAs](#performas)
     - [on](#on)
+    - [inFrame](#inframe)
+    - [withAbilityAlias](#withabilityalias)
 
 ## Class Overview
 
@@ -39,5 +41,27 @@ public static on(selector: Selector, options?: SelectorOptions): DoubleClick;
   - `selector` - The Selector.
   - `options` (optional) - Advanced selector lookup options.
 - **Returns:** `DoubleClick` - Returns a new `DoubleClick` instance.
+
+### inFrame
+
+```typescript
+public inFrame(frameSelector: FrameSelector): DoubleClick;
+```
+
+- **Description:** Finds the specified frame selector using the `BrowseTheWeb` ability.
+- **Parameters:**
+  - `frameSelector` - The FrameSelector.
+- **Returns:** `DoubleClick` - Returns the current action.
+
+### withAbilityAlias
+
+```typescript
+public withAbilityAlias(alias: string): DoubleClick;
+```
+
+- **Description:** Defines the ability alias to be used during execution.
+- **Parameters:**
+  - `alias` - The alias.
+- **Returns:** `DoubleClick` - Returns the current action.
 
 [Back to overview](../../screenplay_elements.md)

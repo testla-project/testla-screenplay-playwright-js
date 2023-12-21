@@ -12,6 +12,8 @@ The `DragAndDrop` class is an action class in the Screenplay pattern designed fo
     - [Methods](#methods)
     - [performAs](#performas)
     - [execute](#execute)
+    - [inFrame](#inframe)
+    - [withAbilityAlias](#withabilityalias)
 
 ## Class Overview
 
@@ -43,5 +45,27 @@ public static execute(sourceSelector: Selector, targetSelector: Selector, option
   - `targetSelector` - The selector of the target element.
   - `options` (optional) - Advanced selector lookup options.
 - **Returns:** `DragAndDrop` - Returns a new `DragAndDrop` instance.
+
+### inFrame
+
+```typescript
+public inFrame(frameSelector: FrameSelector): DragAndDrop;
+```
+
+- **Description:** Finds the specified frame selector using the `BrowseTheWeb` ability.
+- **Parameters:**
+  - `frameSelector` - The FrameSelector.
+- **Returns:** `DragAndDrop` - Returns the current action.
+
+### withAbilityAlias
+
+```typescript
+public withAbilityAlias(alias: string): DragAndDrop;
+```
+
+- **Description:** Defines the ability alias to be used during execution.
+- **Parameters:**
+  - `alias` - The alias.
+- **Returns:** `DragAndDrop` - Returns the current action.
 
 [Back to overview](../../screenplay_elements.md)

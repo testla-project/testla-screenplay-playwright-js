@@ -16,6 +16,7 @@ The `Patch` class provides a convenient way to perform HTTP PATCH requests. It a
     - [withData](#withdata)
     - [withHeaders](#withheaders)
     - [withResponseBodyFormat](#withresponsebodyformat)
+    - [withAbilityAlias](#withabilityalias)
 
 ## Class Overview
 
@@ -79,5 +80,16 @@ public withResponseBodyFormat(responseBodyFormat: ResponseBodyFormat): Patch;
 - **Parameters:**
   - `responseBodyFormat` - The desired format of the response body which can be one out of `json`, `text`, `buffer` or `none`. The default is `json`.
 - **Returns:** `Patch` - The updated instance of the `Patch` class.
+
+### withAbilityAlias
+
+```typescript
+public withAbilityAlias(alias: string): Patch;
+```
+
+- **Description:** Defines the ability alias to be used during execution.
+- **Parameters:**
+  - `alias` - The alias.
+- **Returns:** `Patch` - Returns the current action.
 
 [Back to overview](../../screenplay_elements.md)

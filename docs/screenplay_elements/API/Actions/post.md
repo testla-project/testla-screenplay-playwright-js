@@ -16,6 +16,7 @@ The `Post` class provides a convenient way to perform HTTP POST requests. It all
     - [withData](#withdata)
     - [withHeaders](#withheaders)
     - [withResponseBodyFormat](#withresponsebodyformat)
+    - [withAbilityAlias](#withabilityalias)
 
 ## Class Overview
 
@@ -79,5 +80,16 @@ public withResponseBodyFormat(responseBodyFormat: ResponseBodyFormat): Post;
 - **Parameters:**
   - `responseBodyFormat` - The desired format of the response body which can be one out of `json`, `text`, `buffer` or `none`. The default is `json`.
 - **Returns:** `Post` - The updated instance of the `Post` class.
+
+### withAbilityAlias
+
+```typescript
+public withAbilityAlias(alias: string): Post;
+```
+
+- **Description:** Defines the ability alias to be used during execution.
+- **Parameters:**
+  - `alias` - The alias.
+- **Returns:** `Post` - Returns the current action.
 
 [Back to overview](../../screenplay_elements.md)

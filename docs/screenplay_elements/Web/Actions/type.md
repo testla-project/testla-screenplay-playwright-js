@@ -12,6 +12,8 @@ The `Type` class is an action class in the Screenplay pattern designed for use w
     - [Methods](#methods)
     - [performAs](#performas)
     - [in](#in)
+    - [inFrame](#inframe)
+    - [withAbilityAlias](#withabilityalias)
 
 ## Class Overview
 
@@ -40,5 +42,27 @@ public static in(selector: Selector, input: string, options?: SelectorOptions): 
   - `input` - The input string to type into the element.
   - `options` - (optional) Advanced selector lookup options.
 - **Returns:** `Type` - Returns a new `Type` instance.
+
+### inFrame
+
+```typescript
+public inFrame(frameSelector: FrameSelector): Type;
+```
+
+- **Description:** Finds the specified frame selector using the `BrowseTheWeb` ability.
+- **Parameters:**
+  - `frameSelector` - The FrameSelector.
+- **Returns:** `Type` - Returns the current action.
+
+### withAbilityAlias
+
+```typescript
+public withAbilityAlias(alias: string): Type;
+```
+
+- **Description:** Defines the ability alias to be used during execution.
+- **Parameters:**
+  - `alias` - The alias.
+- **Returns:** `Type` - Returns the current action.
 
 [Back to overview](../../screenplay_elements.md)

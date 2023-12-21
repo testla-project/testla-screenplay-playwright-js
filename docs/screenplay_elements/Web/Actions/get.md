@@ -16,6 +16,7 @@ The `Get` class is an action class in the Screenplay pattern designed for use wi
     - [localStorageItem](#localstorageitem)
     - [element](#element)
     - [elements](#elements)
+    - [withAbilityAlias](#withabilityalias)
 
 ## Class Overview
 
@@ -88,5 +89,16 @@ public static elements(selector: Selector, options?: SelectorOptions): Get;
   - `selector` - The Selector.
   - `options` (optional) - Advanced selector lookup options.
 - **Returns:** `Get` - Returns a new `Get` instance for a list of screen elements.
+
+### withAbilityAlias
+
+```typescript
+public withAbilityAlias(alias: string): Get;
+```
+
+- **Description:** Defines the ability alias to be used during execution.
+- **Parameters:**
+  - `alias` - The alias.
+- **Returns:** `Get` - Returns the current action.
 
 [Back to overview](../../screenplay_elements.md)

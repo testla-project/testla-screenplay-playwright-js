@@ -16,6 +16,7 @@ The `Put` class provides a convenient way to perform HTTP PUT requests. It allow
     - [withData](#withdata)
     - [withHeaders](#withheaders)
     - [withResponseBodyFormat](#withresponsebodyformat)
+    - [withAbilityAlias](#withabilityalias)
 
 ## Class Overview
 
@@ -79,5 +80,16 @@ public withResponseBodyFormat(responseBodyFormat: ResponseBodyFormat): Put;
 - **Parameters:**
   - `responseBodyFormat` - The desired format of the response body which can be one out of `json`, `text`, `buffer` or `none`. The default is `json`.
 - **Returns:** `Put` - The updated instance of the `Put` class.
+
+### withAbilityAlias
+
+```typescript
+public withAbilityAlias(alias: string): Put;
+```
+
+- **Description:** Defines the ability alias to be used during execution.
+- **Parameters:**
+  - `alias` - The alias.
+- **Returns:** `Put` - Returns the current action.
 
 [Back to overview](../../screenplay_elements.md)

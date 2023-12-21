@@ -1,10 +1,11 @@
-import { Action, Actor } from '@testla/screenplay';
+import { Actor } from '@testla/screenplay';
 import { BrowseTheWeb } from '../abilities/BrowseTheWeb';
 import { Selector, SelectorOptions } from '../types';
+import { FrameEnabledAction } from '../templates/FrameEnabledAction';
 /**
  * Action Class. Set the value of a Selector of type select to the given option.
  */
-export class Select extends Action {
+export class Select extends FrameEnabledAction {
     private constructor(private selector: Selector, private option: string | { value?: string, label?: string, index?: number }, private selectorOptions?: SelectorOptions) {
         super();
     }
@@ -16,7 +17,7 @@ export class Select extends Action {
      * @return {any} This method checks, waits until all specified options are present in the `<select>` element and selects these options.
      */
     public async performAs(actor: Actor): Promise<any> {
-        await BrowseTheWeb.as(actor, this.abilityAlias).selectOption(this.selector, this.option, this.selectorOptions);
+        await BrowseTheWeb.as(actor, this.abilityAlias).selectOption(this.selector, this.option, this.selectorOptions, this.frameTree);
     }
 
     /**

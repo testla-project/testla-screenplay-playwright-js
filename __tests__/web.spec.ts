@@ -176,6 +176,28 @@ test.describe('Testing screenplay-playwright-js web module', () => {
         await expect(BrowseTheWeb.as(actor).getPage().locator('[id="result"]')).toHaveText('You entered: C');
     });
 
+    test('Handle iFrames', async ({ actor }) => {
+        await actor.attemptsTo(
+            Navigate.to('https://the-internet.herokuapp.com/iframe'),
+            Wait.forLoadState('networkidle'),
+        );
+
+        expect(await actor.asks(
+            Element.toBe.visible('#tinymce', { hasText: 'Your content goes here.' }).inFrame('#mce_0_ifr'),
+        )).toBe(true);
+    });
+
+    test('Handle nested Frames', async ({ actor }) => {
+        await actor.attemptsTo(
+            Navigate.to('https://the-internet.herokuapp.com/nested_frames'),
+            Wait.forLoadState('networkidle'),
+        );
+
+        expect(await actor.asks(
+            Element.toBe.visible('#content', { hasText: 'MIDDLE' }).inFrame('[name="frame-top"]').inFrame('[name="frame-middle"]'),
+        )).toBe(true);
+    });
+
     test('Wait + Recursive Locators', async ({ actor }) => {
         await actor.attemptsTo(
             Navigate.to('https://the-internet.herokuapp.com/tables'),

@@ -12,6 +12,7 @@ The `Clear` class is an action class in the Screenplay pattern designed for use 
     - [Methods](#methods)
     - [performAs](#performas)
     - [cookies](#cookies)
+    - [withAbilityAlias](#withabilityalias)
 
 ## Class Overview
 
@@ -36,5 +37,16 @@ public static cookies(): Clear;
 
 - **Description:** Creates a new instance of the `Clear` class specifically for clearing browser cookies.
 - **Returns:** `Clear` - Returns a new `Clear` instance.
+
+### withAbilityAlias
+
+```typescript
+public withAbilityAlias(alias: string): Clear;
+```
+
+- **Description:** Defines the ability alias to be used during execution.
+- **Parameters:**
+  - `alias` - The alias.
+- **Returns:** `Clear` - Returns the current action.
 
 [Back to overview](../../screenplay_elements.md)

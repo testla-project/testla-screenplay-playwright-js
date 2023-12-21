@@ -1,11 +1,12 @@
-import { Action, Actor } from '@testla/screenplay';
+import { Actor } from '@testla/screenplay';
 import { Selector, SelectorOptions } from '../types';
 import { BrowseTheWeb } from '../abilities/BrowseTheWeb';
+import { FrameEnabledAction } from '../templates/FrameEnabledAction';
 
 /**
  * Action Class. Hover over an element specified by a selector string.
  */
-export class Hover extends Action {
+export class Hover extends FrameEnabledAction {
     private constructor(private selector: Selector, private options?: SelectorOptions & { modifiers?: ('Alt' | 'Control' | 'Meta' | 'Shift')[] }) {
         super();
     }
@@ -17,7 +18,7 @@ export class Hover extends Action {
      * @return {void} Returns when hovered over the element
      */
     public performAs(actor: Actor): Promise<void> {
-        return BrowseTheWeb.as(actor, this.abilityAlias).hover(this.selector, this.options);
+        return BrowseTheWeb.as(actor, this.abilityAlias).hover(this.selector, this.options, this.frameTree);
     }
 
     /**

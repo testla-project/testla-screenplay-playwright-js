@@ -1,11 +1,12 @@
-import { Action, Actor } from '@testla/screenplay';
+import { Actor } from '@testla/screenplay';
 import { Selector, SelectorOptions } from '../types';
 import { BrowseTheWeb } from '../abilities/BrowseTheWeb';
+import { FrameEnabledAction } from '../templates/FrameEnabledAction';
 
 /**
  * Action Class. Click on an element specified by a selector string.
  */
-export class DoubleClick extends Action {
+export class DoubleClick extends FrameEnabledAction {
     // eslint-disable-next-line no-useless-constructor
     private constructor(private selector: Selector, private options?: SelectorOptions) {
         super();
@@ -18,7 +19,7 @@ export class DoubleClick extends Action {
      * @return {void} Returns after double clicking the element
      */
     public async performAs(actor: Actor): Promise<void> {
-        await BrowseTheWeb.as(actor, this.abilityAlias).dblclick(this.selector, this.options);
+        await BrowseTheWeb.as(actor, this.abilityAlias).dblclick(this.selector, this.options, this.frameTree);
     }
 
     /**

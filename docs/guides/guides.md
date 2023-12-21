@@ -13,5 +13,7 @@
   - [Use it in your test](./advanced_test_setup/write_tests.md)
 - **Aliasing**
   - [Ability Aliasing](./ability_aliasing//ability_aliasing.md) - Using the same ability with different configurations
+- **Frame Handling**
+  - [Frame(s)](./frame_handling//frame_handling.md) - Handling frames
 
 [Back to overview](../../README.md)

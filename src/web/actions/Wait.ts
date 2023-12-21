@@ -1,11 +1,12 @@
-import { Action, Actor } from '@testla/screenplay';
+import { Actor } from '@testla/screenplay';
 import { Selector, SelectorOptions } from '../types';
 import { BrowseTheWeb } from '../abilities/BrowseTheWeb';
+import { FrameEnabledAction } from '../templates/FrameEnabledAction';
 
 /**
  * Action Class. Wait for either a specified loading state or for a selector to become visible/active.
  */
-export class Wait extends Action {
+export class Wait extends FrameEnabledAction {
     // the object that determines what to wait for (loading state, selector or selector == expected).
     // only 1 property is active at all times.
     private action: {
@@ -29,7 +30,7 @@ export class Wait extends Action {
             return BrowseTheWeb.as(actor, this.abilityAlias).waitForLoadState(this.action.payload.state);
         }
         if (this.action.mode === 'selector') {
-            return BrowseTheWeb.as(actor, this.abilityAlias).waitForSelector(this.action.payload.selector, this.action.payload.options);
+            return BrowseTheWeb.as(actor, this.abilityAlias).waitForSelector(this.action.payload.selector, this.action.payload.options, this.frameTree);
         }
         throw new Error('Error: no match for Wait.performAs()!');
     }

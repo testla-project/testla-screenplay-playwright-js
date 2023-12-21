@@ -12,6 +12,8 @@ The `Hover` class is an action class in the Screenplay pattern designed for use 
     - [Methods](#methods)
     - [performAs](#performas)
     - [over](#over)
+    - [inFrame](#inframe)
+    - [withAbilityAlias](#withabilityalias)
 
 ## Class Overview
 
@@ -39,5 +41,27 @@ public static over(selector: Selector, options?: SelectorOptions & { modifiers?:
   - `selector` - The selector that should be hovered over.
   - `options` (optional) - Advanced selector lookup options + Modifier keys to press. Ensures that only these modifiers are pressed during the operation.
 - **Returns:** `Hover` - Returns a new `Hover` instance.
+
+### inFrame
+
+```typescript
+public inFrame(frameSelector: FrameSelector): Hover;
+```
+
+- **Description:** Finds the specified frame selector using the `BrowseTheWeb` ability.
+- **Parameters:**
+  - `frameSelector` - The FrameSelector.
+- **Returns:** `Hover` - Returns the current action.
+
+### withAbilityAlias
+
+```typescript
+public withAbilityAlias(alias: string): Hover;
+```
+
+- **Description:** Defines the ability alias to be used during execution.
+- **Parameters:**
+  - `alias` - The alias.
+- **Returns:** `Hover` - Returns the current action.
 
 [Back to overview](../../screenplay_elements.md)

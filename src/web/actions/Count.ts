@@ -1,11 +1,12 @@
-import { Action, Actor } from '@testla/screenplay';
+import { Actor } from '@testla/screenplay';
 import { BrowseTheWeb } from '../abilities/BrowseTheWeb';
 import { Selector, SelectorOptions } from '../types';
+import { FrameEnabledAction } from '../templates/FrameEnabledAction';
 
 /**
  * Action Class. Count elements.
  */
-export class Count extends Action {
+export class Count extends FrameEnabledAction {
     private selector: Selector;
 
     private options?: SelectorOptions;
@@ -25,7 +26,7 @@ export class Count extends Action {
      */
     // eslint-disable-next-line class-methods-use-this
     public performAs(actor: Actor): Promise<number> {
-        return BrowseTheWeb.as(actor, this.abilityAlias).count(this.selector, this.options);
+        return BrowseTheWeb.as(actor, this.abilityAlias).count(this.selector, this.options, this.frameTree);
     }
 
     /**

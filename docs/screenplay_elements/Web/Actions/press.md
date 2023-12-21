@@ -12,7 +12,9 @@ The `Press` class is an action class in the Screenplay pattern designed for use 
     - [Methods](#methods)
     - [performAs](#performas)
     - [key](#key)
-    - [pressSequentially](#pressSequentially)
+    - [pressSequentially](#presssequentially)
+    - [inFrame](#inframe)
+    - [withAbilityAlias](#withabilityalias)
 
 ## Class Overview
 
@@ -52,5 +54,27 @@ public static pressSequentially(selector: Selector, input: string, options?: Sel
   - `input` - The input to type into the element.
   - `options` - (optional) Advanced selector lookup options.
 - **Returns:** `Promise<void>` - Returns when the key(s) have been pressed.
+
+### inFrame
+
+```typescript
+public inFrame(frameSelector: FrameSelector): Press;
+```
+
+- **Description:** Finds the specified frame selector using the `BrowseTheWeb` ability.
+- **Parameters:**
+  - `frameSelector` - The FrameSelector.
+- **Returns:** `Press` - Returns the current action.
+
+### withAbilityAlias
+
+```typescript
+public withAbilityAlias(alias: string): Press;
+```
+
+- **Description:** Defines the ability alias to be used during execution.
+- **Parameters:**
+  - `alias` - The alias.
+- **Returns:** `Press` - Returns the current action.
 
 [Back to overview](../../screenplay_elements.md)

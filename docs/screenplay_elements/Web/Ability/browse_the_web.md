@@ -115,19 +115,20 @@ public async waitForLoadState(status: 'load' | 'domcontentloaded' | 'networkidle
 #### hover
 
 ```typescript
-public async hover(selector: Selector, options?: SelectorOptions & { modifiers?: ('Alt' | 'Control' | 'Meta' | 'Shift')[] }): Promise<void>;
+public async hover(selector: Selector, options?: SelectorOptions & { modifiers?: ('Alt' | 'Control' | 'Meta' | 'Shift')[] }, frameTree?: FrameSelector[]): Promise<void>;
 ```
 
 - **Description:** Uses the page mouse to hover over the specified element.
 - **Parameters:**
   - `selector` - The selector of the element to hover over.
   - `options` - (optional) Advanced selector lookup options + Modifier keys to press. Ensures that only these modifiers are pressed during the operation.
+  - `frameTree` - An array of frame selector(s).
 - **Returns:** `Promise<void>` - Returns when hovered over the element.
 
 #### press
 
 ```typescript
-public async pressSequentially(selector: Selector, input: string, options?: SelectorOptions): Promise<void>;
+public async pressSequentially(selector: Selector, input: string, options?: SelectorOptions, frameTree?: FrameSelector[]): Promise<void>;
 ```
 
 - **Description:** Types the given input into the element specified by the selector.
@@ -135,6 +136,7 @@ public async pressSequentially(selector: Selector, input: string, options?: Sele
   - `selector` - The selector of the source element.
   - `input` - The input to type into the element.
   - `options` - (optional) Advanced selector lookup options.
+  - `frameTree` - An array of frame selector(s).
 - **Returns:** `Promise<void>` - Returns when the key(s) have been pressed.
 
 ```typescript
@@ -149,31 +151,33 @@ public async press(input: string): Promise<void>;
 #### checkBox
 
 ```typescript
-public async checkBox(selector: Selector, options?: SelectorOptions): Promise<void>;
+public async checkBox(selector: Selector, options?: SelectorOptions, frameTree?: FrameSelector[]): Promise<void>;
 ```
 
 - **Description:** Checks the specified checkbox.
 - **Parameters:**
   - `selector` - The selector of the checkbox.
   - `options` - (optional) Advanced selector lookup options.
+  - `frameTree` - An array of frame selector(s).
 - **Returns:** `Promise<void>` - Returns after checking the element.
 
 #### waitForSelector
 
 ```typescript
-public async waitForSelector(selector: Selector, options?: SelectorOptions): Promise<Locator>;
+public async waitForSelector(selector: Selector, options?: SelectorOptions, frameTree?: FrameSelector[]): Promise<Locator>;
 ```
 
 - **Description:** Waits until the element of the specified selector exists.
 - **Parameters:**
   - `selector` - The selector of the element.
   - `options` - (optional) Advanced selector lookup options.
+  - `frameTree` - An array of frame selector(s).
 - **Returns:** `Promise<Locator>` - Returns a `Locator` promise.
 
 #### dragAndDrop
 
 ```typescript
-public async dragAndDrop(sourceSelector: Selector, targetSelector: Selector, options?: { source?: SelectorOptions; target?: SelectorOptions; }): Promise<void>;
+public async dragAndDrop(sourceSelector: Selector, targetSelector: Selector, options?: { source?: SelectorOptions; target?: SelectorOptions; }, frameTree?: FrameSelector[]): Promise<void>;
 ```
 
 - **Description:** Drags the specified source element to the specified target element and drops it.
@@ -181,12 +185,13 @@ public async dragAndDrop(sourceSelector: Selector, targetSelector: Selector, opt
   - `sourceSelector` - The selector of the source element.
   - `targetSelector` - The selector of the target element.
   - `options` - (optional) Advanced selector lookup options for source and target.
+  - `frameTree` - An array of frame selector(s).
 - **Returns:** `Promise<void>` - Returns after dragging the locator to another target locator or target position.
 
 #### fill
 
 ```typescript
-public async fill(selector: Selector, input: string, options?: SelectorOptions): Promise<void>;
+public async fill(selector: Selector, input: string, options?: SelectorOptions, frameTree?: FrameSelector[]): Promise<void>;
 ```
 
 - **Description:** Fills the element specified by the selector with the given input.
@@ -194,12 +199,13 @@ public async fill(selector: Selector, input: string, options?: SelectorOptions):
   - `selector` - The selector of the source element.
   - `input` - The input to fill the element with.
   - `options` - (optional) Advanced selector lookup options.
+  - `frameTree` - An array of frame selector(s).
 - **Returns:** `Promise<void>` - Returns after checks, focuses the element, fills it, and triggers an `input` event after filling.
 
 #### type
 
 ```typescript
-public async type(selector: Selector, input: string, options?: SelectorOptions): Promise<void>;
+public async type(selector: Selector, input: string, options?: SelectorOptions, frameTree?: FrameSelector[]): Promise<void>;
 ```
 
 - **Description:** Types the given input into the element specified by the selector.
@@ -207,36 +213,39 @@ public async type(selector: Selector, input: string, options?: SelectorOptions):
   - `selector` - The selector of the source element.
   - `input` - The input to type into the element.
   - `options` - (optional) Advanced selector lookup options.
+  - `frameTree` - An array of frame selector(s).
 - **Returns:** `Promise<void>` - Focuses the element and then sends a `keydown`, `keypress`/`input`, and `keyup` event for each character in the text.
 
 #### click
 
 ```typescript
-public async click(selector: Selector, options?: SelectorOptions): Promise<void>;
+public async click(selector: Selector, options?: SelectorOptions, frameTree?: FrameSelector[]): Promise<void>;
 ```
 
 - **Description:** Clicks the element specified by the selector.
 - **Parameters:**
   - `selector` - The selector of the element to click.
   - `options` - (optional) Advanced selector lookup options.
+  - `frameTree` - An array of frame selector(s).
 - **Returns:** `Promise<void>` - Returns after clicking the element.
 
 #### dblclick
 
 ```typescript
-public async dblclick(selector: Selector, options?: SelectorOptions): Promise<void>;
+public async dblclick(selector: Selector, options?: SelectorOptions, frameTree?: FrameSelector[]): Promise<void>;
 ```
 
 - **Description:** Double clicks the element specified by the selector.
 - **Parameters:**
   - `selector` - The selector of the element to double click.
   - `options` - (optional) Advanced selector lookup options.
+  - `frameTree` - An array of frame selector(s).
 - **Returns:** `Promise<void>` - Returns after double clicking the element.
 
 #### checkVisibilityState
 
 ```typescript
-public async checkVisibilityState(selector: Selector, mode: 'visible' | 'hidden', options?: SelectorOptions): Promise<boolean>;
+public async checkVisibilityState(selector: Selector, mode: 'visible' | 'hidden', options?: SelectorOptions, frameTree?: FrameSelector[]): Promise<boolean>;
 ```
 
 - **Description:** Validates if a locator on the page is visible or hidden.
@@ -244,12 +253,13 @@ public async checkVisibilityState(selector: Selector, mode: 'visible' | 'hidden'
   - `selector` - The locator to search for.
   - `mode` - The expected property of the selector that needs to be checked, either visible (positive) or hidden (negative).
   - `options` - (optional) Advanced selector lookup options.
+  - `frameTree` - An array of frame selector(s).
 - **Returns:** `Promise<boolean>` - True if the element is visible/hidden as expected, false if the timeout was reached.
 
 #### checkEnabledState
 
 ```typescript
-public async checkEnabledState(selector: Selector, mode: 'enabled' | 'disabled', options?: SelectorOptions): Promise<boolean>;
+public async checkEnabledState(selector: Selector, mode: 'enabled' | 'disabled', options?: SelectorOptions, frameTree?: FrameSelector[]): Promise<boolean>;
 ```
 
 - **Description:** Validates if a locator on the page is enabled or disabled.
@@ -257,12 +267,13 @@ public async checkEnabledState(selector: Selector, mode: 'enabled' | 'disabled',
   - `selector` - The locator to search for.
   - `mode` - The expected property of the selector that needs to be checked, either 'enabled' or 'disabled'.
   - `options` - (optional) Advanced selector lookup options.
+  - `frameTree` - An array of frame selector(s).
 - **Returns:** `Promise<boolean>` - True if the element is enabled/disabled as expected, false if the timeout was reached.
 
 #### checkSelectorText
 
 ```typescript
-public async checkSelectorText(selector: Selector, text: string | RegExp | (string | RegExp)[], mode: 'positive' | 'negative', options?: SelectorOptions): Promise<boolean>;
+public async checkSelectorText(selector: Selector, text: string | RegExp | (string | RegExp)[], mode: 'positive' | 'negative', options?: SelectorOptions, frameTree?: FrameSelector[]): Promise<boolean>;
 ```
 
 - **Description:** Validates if the given element has the given text or not.
@@ -271,20 +282,22 @@ public async checkSelectorText(selector: Selector, text: string | RegExp | (stri
   - `text` - The text to check.
   - `mode` - Whether to check if the element has (positive) or has not (negative) the specified text.
   - `options` - (optional) Advanced selector lookup options.
+  - `frameTree` - An array of frame selector(s).
 - **Returns:** `Promise<boolean>` - True if the element has/doesn't have the specified text, false if the timeout was reached.
 
 #### checkSelectorValue
 
 ```typescript
-public async checkSelectorValue(selector: Selector, value: string | RegExp, mode: 'positive' | 'negative', options?: SelectorOptions): Promise<boolean>;
+public async checkSelectorValue(selector: Selector, value: string | RegExp, mode: 'positive' | 'negative', options?: SelectorOptions, frameTree?: FrameSelector[]): Promise<boolean>;
 ```
 
 - **Description:** Validates if the given element has the given input value or not.
 - **Parameters:**
-  - `selector` - The selector of the element to hover over.
+  - `selector` - The selector of the element to check.
   - `value` - The single value to check.
   - `mode` - Whether to check if the element has (positive) or has not (negative) the specified value.
   - `options` - (optional) Advanced selector lookup options.
+  - `frameTree` - An array of frame selector(s).
 - **Returns:** `Promise<boolean>` - True if the element has/doesn't have the specified value, false if the timeout was reached.
 
 #### getCookies
@@ -389,7 +402,7 @@ public async removeSessionStorageItem(key: string): Promise<void>;
 #### selectOption
 
 ```typescript
-public async selectOption(selector: Selector, option: string | { value?: string, label?: string, index?: number }, selectorOptions?: SelectorOptions): Promise<any>;
+public async selectOption(selector: Selector, option: string | { value?: string, label?: string, index?: number }, selectorOptions?: SelectorOptions, frameTree?: FrameSelector[]): Promise<any>;
 ```
 
 - **Description:** Set the value of a Selector of type select to the given option.
@@ -397,6 +410,7 @@ public async selectOption(selector: Selector, option: string | { value?: string,
   - `selector` - The string representing the (select) selector.
   - `option` - The label of the option or an object with properties `value`, `label`, or `index`.
   - `selectorOptions` - (optional) Advanced selector lookup options.
+  - `frameTree` - An array of frame selector(s).
 - **Returns:** `Promise<any>` - Returns the array of option values that have been successfully selected.
 
 #### getElement
@@ -415,19 +429,20 @@ public async getElement(selector: Selector, singular?: boolean, selectorOptions?
 #### count
 
 ```typescript
-public async count(selector: Selector, options?: SelectorOptions): Promise<number>;
+public async count(selector: Selector, options?: SelectorOptions, frameTree?: FrameSelector[]): Promise<number>;
 ```
 
 - **Description:** Counts screen elements which can be found via a selector.
 - **Parameters:**
   - `selector` - The selector.
   - `options` - (optional) Advanced selector lookup options.
+  - `frameTree` - An array of frame selector(s).
 - **Returns:** `Promise<number>` - Promise of number of counted elements
 
 #### checkCount
 
 ```typescript
-public async checkCount(selector: Selector, count: number, mode: 'positive' | 'negative',  options?: SelectorOptions): Promise<number>;
+public async checkCount(selector: Selector, count: number, mode: 'positive' | 'negative',  options?: SelectorOptions, frameTree?: FrameSelector[]): Promise<number>;
 ```
 
 - **Description:** Validate if the given element has the given count.
@@ -436,12 +451,13 @@ public async checkCount(selector: Selector, count: number, mode: 'positive' | 'n
   - `count` - The desired count.
   - `mode` - Whether to check if the element has (positive) or has not (negative) the specified count.
   - `options` - (optional) Advanced selector lookup options.
+  - `frameTree` - An array of frame selector(s).
 - **Returns:** `Promise<true>` - Promise of true if evaluation met, else exception.
 
 #### checkMinCount
 
 ```typescript
-public async checkMinCount(selector: Selector, count: number, mode: 'positive' | 'negative',  options?: SelectorOptions): Promise<number>;
+public async checkMinCount(selector: Selector, count: number, mode: 'positive' | 'negative',  options?: SelectorOptions, frameTree?: FrameSelector[]): Promise<number>;
 ```
 
 - **Description:** Validate if the given element has the given minimum count.
@@ -450,12 +466,13 @@ public async checkMinCount(selector: Selector, count: number, mode: 'positive' |
   - `count` - The desired minimum count.
   - `mode` - Whether to check if the element has (positive) or has not (negative) the specified minimum count.
   - `options` - (optional) Advanced selector lookup options.
+  - `frameTree` - An array of frame selector(s).
 - **Returns:** `Promise<true>` - Promise of true if evaluation met, else exception.
 
 #### checkChecked
 
 ```typescript
-public async checkChecked(selector: Selector, mode: 'positive' | 'negative',  options?: SelectorOptions): Promise<number>;
+public async checkChecked(selector: Selector, mode: 'positive' | 'negative',  options?: SelectorOptions, frameTree?: FrameSelector[]): Promise<number>;
 ```
 
 - **Description:** Validate if the given element is checked.
@@ -463,6 +480,7 @@ public async checkChecked(selector: Selector, mode: 'positive' | 'negative',  op
   - `selector` - The selector.
   - `mode` - Whether to check if the element is (positive) or is not (negative) checked.
   - `options` - (optional) Advanced selector lookup options.
+  - `frameTree` - An array of frame selector(s).
 - **Returns:** `Promise<true>` - Promise of true if evaluation met, else exception.
 
 [Back to overview](../../screenplay_elements.md)

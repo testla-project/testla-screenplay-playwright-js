@@ -13,6 +13,7 @@ The `Remove` class is an action class in the Screenplay pattern designed for use
     - [performAs](#performas)
     - [sessionStorageItem](#sessionstorageitem)
     - [localStorageItem](#localstorageitem)
+    - [withAbilityAlias](#withabilityalias)
 
 ## Class Overview
 
@@ -50,5 +51,16 @@ public static localStorageItem(key: string): Remove;
 - **Parameters:**
   - `key` - The key that specifies the item to be removed.
 - **Returns:** `Remove` - Returns a new `Remove` instance for local storage.
+
+### withAbilityAlias
+
+```typescript
+public withAbilityAlias(alias: string): Remove;
+```
+
+- **Description:** Defines the ability alias to be used during execution.
+- **Parameters:**
+  - `alias` - The alias.
+- **Returns:** `Remove` - Returns the current action.
 
 [Back to overview](../../screenplay_elements.md)

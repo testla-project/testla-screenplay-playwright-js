@@ -22,6 +22,8 @@ The `Element` class is a question class in the Screenplay pattern designed for u
     - [value](#value)
     - [count](#count)
     - [minCount](#mincount)
+    - [inFrame](#inframe)
+    - [withAbilityAlias](#withabilityalias)
 
 ## Class Overview
 
@@ -161,5 +163,27 @@ public minCount(selector: Selector, minimumCount: number, options?: SelectorOpti
   - `minimumCount` - The minimum count.
   - `options` - (optional) Advanced selector lookup options.
 - **Returns:** `Element` - Returns this `Element` instance.
+
+### inFrame
+
+```typescript
+public inFrame(frameSelector: FrameSelector): Element;
+```
+
+- **Description:** Finds the specified frame selector using the `BrowseTheWeb` ability.
+- **Parameters:**
+  - `frameSelector` - The FrameSelector.
+- **Returns:** `Element` - Returns the current action.
+
+### withAbilityAlias
+
+```typescript
+public withAbilityAlias(alias: string): Element;
+```
+
+- **Description:** Defines the ability alias to be used during execution.
+- **Parameters:**
+  - `alias` - The alias.
+- **Returns:** `Element` - Returns the current action.
 
 [Back to overview](../../screenplay_elements.md)
