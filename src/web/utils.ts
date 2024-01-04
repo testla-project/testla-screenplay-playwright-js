@@ -20,8 +20,13 @@ const subLocatorLookup = async ({
     if (subSelector) {
         // subSelector: if selector is a string, need to find it using page.locator(), if it is already a Playwright Locator use it directly.
         // PROBLEM: if we use the Playwright locator directly, it does not consider the parent selector anymore -> can lead to problems regarding resolving to multiple elements
-        resolvedLocator = typeof subSelector[0] === 'string' ? resolvedLocator.locator(subSelector[0], { hasText: subSelector[1]?.hasText })
-            : await getSubLocator(resolvedLocator, subSelector[0], subSelector[1]?.hasText);
+        if (typeof subSelector[0] === 'string') {
+            resolvedLocator = resolvedLocator.locator(subSelector[0], { hasText: subSelector[1]?.hasText });
+        } else if (typeof subSelector[0] === 'function') {
+            resolvedLocator = subSelector[0](base);
+        } else {
+            resolvedLocator = await getSubLocator(resolvedLocator, subSelector[0], subSelector[1]?.hasText);
+        }
 
         // wait for sub selector to become visible based on timeout options
         await resolvedLocator.waitFor({ timeout });
@@ -47,8 +52,16 @@ export const recursiveLocatorLookup = async ({
     page, selector, options, frameTree,
 }: { page: Page; selector: Selector; options?: SelectorOptions & { evaluateVisible?: boolean }, frameTree?: FrameSelector[] }): Promise<Locator> => {
     const base = frameTree === undefined || frameTree.length === 0 ? page : recursiveFrameLookup(page, frameTree);
-    // find first level locator: if selector is a string, need to find it using page.locator(), if it is already a Playwright Locator use it directly.
-    const locator = typeof selector === 'string' ? base.locator(selector, { hasText: options?.hasText }) : await getSubLocator(selector, undefined, options?.hasText);
+
+    let locator;
+    if (typeof selector === 'string') {
+        locator = base.locator(selector, { hasText: options?.hasText });
+    } else if (typeof selector === 'function') {
+        locator = selector(base);
+    } else {
+        locator = await getSubLocator(selector, undefined, options?.hasText);
+    }
+
     // pass the first level locator into sub locator lookup
     return subLocatorLookup({
         base, locator, timeout: options?.timeout, subSelector: options?.subSelector, state: options?.state, evaluateVisible: options?.evaluateVisible,
