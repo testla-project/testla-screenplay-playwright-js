@@ -50,7 +50,24 @@ export class BrowseTheWeb extends Ability {
     }
 
     /**
+     * Use the page mouse to hover over the specified element.
+     *
+     * @param {Selector} selector the selector of the element.
+     * @param {SelectorOptions} options (optional) advanced selector lookup options.
+     * @param {FrameSelector[]} [frameTree] - An array of frame selector(s).
+     * @return {Locator} Returns resolved Locator(s) as per Playwright definition.
+     */
+    public async resolveSelectorToLocator(selector: Selector, options?: SelectorOptions, frameTree?: FrameSelector[]): Promise<Locator> {
+        const { page } = this;
+        return recursiveLocatorLookup({
+            page, selector, options, frameTree,
+        });
+    }
+
+    /**
      * Use the page to navigate to the specified URL.
+     *
+     * @deprecated Please use getPage instead to get access to Playwright page object to build a custom implementation upon it.
      *
      * @param {string} url the url to access.
      * @return {Response} Returns the main resource response
@@ -61,6 +78,8 @@ export class BrowseTheWeb extends Ability {
 
     /**
      * Reload the current page.
+     *
+     * @deprecated Please use getPage instead to get access to Playwright page object to build a custom implementation upon it.
      */
     public async reload(): Promise<Response | null> {
         return this.page.reload();
@@ -68,6 +87,8 @@ export class BrowseTheWeb extends Ability {
 
     /**
      * Wait for the specified loading state.
+     *
+     * @deprecated Please use getPage instead to get access to Playwright page object to build a custom implementation upon it.
      *
      * @param {string} status the status to wait for. Allowed: "load" | "domcontentloaded" | "networkidle".
      * @return {void} Returns when the required load state has been reached.
@@ -78,6 +99,8 @@ export class BrowseTheWeb extends Ability {
 
     /**
      * Use the page mouse to hover over the specified element.
+     *
+     * @deprecated Please use getPage instead to get access to Playwright page object to build a custom implementation upon it.
      *
      * @param {Selector} selector the selector of the element to hover over.
      * @param {SelectorOptions} options (optional) advanced selector lookup options + Modifier keys to press. Ensures that only these modifiers are pressed during the operation.
@@ -94,6 +117,8 @@ export class BrowseTheWeb extends Ability {
     /**
      * Press the specified key(s) on the keyboard.
      *
+     * @deprecated Please use getPage instead to get access to Playwright page object to build a custom implementation upon it.
+     *
      * @param {string} input the key(s). multiple keys can be pressed by concatenating with "+"
      * @return {void} Returns when the `key` can specify the intended value or a single character to generate the text for.
      */
@@ -103,6 +128,8 @@ export class BrowseTheWeb extends Ability {
 
     /**
      * Check the specified checkbox.
+     *
+     * @deprecated Please use resolveSelectorToLocator instead to get access to a resoved Playwright Locator to build a custom implementation upon it.
      *
      * @param {Selector} selector the selector of the checkbox.
      * @param {SelectorOptions} options (optional) advanced selector lookup options.
@@ -119,6 +146,8 @@ export class BrowseTheWeb extends Ability {
     /**
      * Wait until the element of the specified selector exists.
      *
+     * @deprecated Please use resolveSelectorToLocator instead to get access to a resoved Playwright Locator to build a custom implementation upon it.
+     *
      * @param {Selector} selector the selector of the element.
      * @param {SelectorOptions} options (optional) advanced selector lookup options.
      * @param {FrameSelector[]} [frameTree] - An array of frame selector(s).
@@ -132,6 +161,8 @@ export class BrowseTheWeb extends Ability {
 
     /**
      * Drag the specified source element to the specified target element and drop it.
+     *
+     * @deprecated Please use resolveSelectorToLocator instead to get access to a resoved Playwright Locator to build a custom implementation upon it.
      *
      * @param {Selector} sourceSelector the selector of the source element.
      * @param {Selector} targetSelector the selector of the target element.
@@ -155,6 +186,8 @@ export class BrowseTheWeb extends Ability {
     /**
      * Fill the element specified by the selector with the given input.
      *
+     * @deprecated Please use resolveSelectorToLocator instead to get access to a resoved Playwright Locator to build a custom implementation upon it.
+     *
      * @param {Selector} selector the selector of the source element.
      * @param {string} input the input to fill the element with.
      * @param {SelectorOptions} options (optional) advanced selector lookup options.
@@ -171,6 +204,8 @@ export class BrowseTheWeb extends Ability {
     /**
      * Type the given input into the element specified by the selector.
      *
+     * @deprecated Please use resolveSelectorToLocator instead to get access to a resoved Playwright Locator to build a custom implementation upon it.
+     *
      * @param {Selector} selector the selector of the source element.
      * @param {string} input the input to type into the element.
      * @param {SelectorOptions} options (optional) advanced selector lookup options.
@@ -184,6 +219,8 @@ export class BrowseTheWeb extends Ability {
 
     /**
      * Type the given input into the element specified by the selector.
+     *
+     * @deprecated Please use resolveSelectorToLocator instead to get access to a resoved Playwright Locator to build a custom implementation upon it.
      *
      * @param {Selector} selector the selector of the source element.
      * @param {string} input the input to type into the element.
@@ -201,6 +238,8 @@ export class BrowseTheWeb extends Ability {
     /**
      * Click the element specified by the selector.
      *
+     * @deprecated Please use resolveSelectorToLocator instead to get access to a resoved Playwright Locator to build a custom implementation upon it.
+     *
      * @param {Selector} selector the selector of the element to click.
      * @param {SelectorOptions} options (optional) advanced selector lookup options.
      * @param {FrameSelector[]} [frameTree] - An array of frame selector(s).
@@ -216,6 +255,8 @@ export class BrowseTheWeb extends Ability {
     /**
      * Double click the element specified by the selector.
      *
+     * @deprecated Please use resolveSelectorToLocator instead to get access to a resoved Playwright Locator to build a custom implementation upon it.
+     *
      * @param {Selector} selector the selector of the element to double click.
      * @param {SelectorOptions} options (optional) advanced selector lookup options.
      * @param {FrameSelector[]} [frameTree] - An array of frame selector(s) defining the location for the double click.
@@ -230,6 +271,8 @@ export class BrowseTheWeb extends Ability {
 
     /**
      * Validate if a locator on the page is visible or hidden.
+     *
+     * @deprecated Please use resolveSelectorToLocator instead to get access to a resoved Playwright Locator to build a custom implementation upon it.
      *
      * @param {Selector} selector the locator to search for.
      * @param {string} mode the expected property of the selector that needs to be checked. either 'visible' or 'hidden'.
@@ -253,6 +296,8 @@ export class BrowseTheWeb extends Ability {
     /**
      * Validate if a locator on the page is enabled or disabled.
      *
+     * @deprecated Please use resolveSelectorToLocator instead to get access to a resoved Playwright Locator to build a custom implementation upon it.
+     *
      * @param {Selector} selector the locator to search for.
      * @param {string} mode the expected property of the selector that needs to be checked. either 'positive' or 'negative'.
      * @param {SelectorOptions} options (optional) advanced selector lookup options.
@@ -273,15 +318,17 @@ export class BrowseTheWeb extends Ability {
     }
 
     /**
-    * Validate if the given element has the given text or not.
-    *
-    * @param {Selector} selector the locator to search for.
-    * @param {string | RegExp} text the expected property of the selector that needs to be checked. either '' or 'disabled'.
-    * @param {string} mode the expected property of the selector that needs to be checked. either 'positive' or 'negative'.
-    * @param {SelectorOptions} options (optional) advanced selector lookup options.
-    * @param {FrameSelector[]} [frameTree] - An array of frame selector(s).
-    * @returns {boolean} true if the element is have text/have not text as expected, false if the timeout was reached.
-    */
+     * Validate if the given element has the given text or not.
+     *
+     * @deprecated Please use resolveSelectorToLocator instead to get access to a resoved Playwright Locator to build a custom implementation upon it.
+     *
+     * @param {Selector} selector the locator to search for.
+     * @param {string | RegExp} text the expected property of the selector that needs to be checked. either '' or 'disabled'.
+     * @param {string} mode the expected property of the selector that needs to be checked. either 'positive' or 'negative'.
+     * @param {SelectorOptions} options (optional) advanced selector lookup options.
+     * @param {FrameSelector[]} [frameTree] - An array of frame selector(s).
+     * @returns {boolean} true if the element is have text/have not text as expected, false if the timeout was reached.
+     */
     public async checkSelectorText(selector: Selector, text: string | RegExp | (string | RegExp)[], mode: CheckMode, options?: SelectorOptions, frameTree?: FrameSelector[]): Promise<boolean> {
         if (mode === 'positive') {
             await expect(await recursiveLocatorLookup({
@@ -296,15 +343,17 @@ export class BrowseTheWeb extends Ability {
     }
 
     /**
-    * Validate if the given element has the given input value or not.
-    *
-    * @param {Selector} selector the locator to search for.
-    * @param {string | RegExp} value the single value to check.
-    * @param {CheckMode} mode the expected property of the selector that needs to be checked. either 'positive' or 'negative'.
-    * @param {SelectorOptions} options (optional) advanced selector lookup options.
-    * @param {FrameSelector[]} [frameTree] - An array of frame selector(s).
-    * @returns {boolean} true if the element is have value/have not value as expected, false if the timeout was reached.
-    */
+     * Validate if the given element has the given input value or not.
+     *
+     * @deprecated Please use resolveSelectorToLocator instead to get access to a resoved Playwright Locator to build a custom implementation upon it.
+     *
+     * @param {Selector} selector the locator to search for.
+     * @param {string | RegExp} value the single value to check.
+     * @param {CheckMode} mode the expected property of the selector that needs to be checked. either 'positive' or 'negative'.
+     * @param {SelectorOptions} options (optional) advanced selector lookup options.
+     * @param {FrameSelector[]} [frameTree] - An array of frame selector(s).
+     * @returns {boolean} true if the element is have value/have not value as expected, false if the timeout was reached.
+     */
     public async checkSelectorValue(selector: Selector, value: string | RegExp, mode: CheckMode, options?: SelectorOptions, frameTree?: FrameSelector[]): Promise<boolean> {
         if (mode === 'positive') {
             await expect(await recursiveLocatorLookup({
@@ -319,30 +368,34 @@ export class BrowseTheWeb extends Ability {
     }
 
     /**
-    * Validate if the given element has the given minimum count.
-    *
-    * @param {Selector} selector the selector of the element.
-    * @param {number} count the minumum count of the element to be visible.
-    * @param {CheckMode} mode the check mode - whether positive or negative
-    * @param {SelectorOptions} options (optional) advanced selector lookup options.
-    * @param {FrameSelector[]} [frameTree] - An array of frame selector(s).
-    * @returns {boolean} true if the element has the given minimum count as expected, false if the timeout was reached.
-    */
+     * Validate if the given element has the given minimum count.
+     *
+     * @deprecated Please use resolveSelectorToLocator instead to get access to a resoved Playwright Locator to build a custom implementation upon it.
+     *
+     * @param {Selector} selector the selector of the element.
+     * @param {number} count the minumum count of the element to be visible.
+     * @param {CheckMode} mode the check mode - whether positive or negative
+     * @param {SelectorOptions} options (optional) advanced selector lookup options.
+     * @param {FrameSelector[]} [frameTree] - An array of frame selector(s).
+     * @returns {boolean} true if the element has the given minimum count as expected, false if the timeout was reached.
+     */
     public async checkMinCount(selector: Selector, count: number, mode: CheckMode, options?: SelectorOptions, frameTree?: FrameSelector[]): Promise<boolean> {
         await this.checkVisibilityState(`${selector} >> nth=${count - 1}`, mode, options, frameTree);
         return Promise.resolve(true);
     }
 
     /**
-    * Validate if the given element has the given count.
-    *
-    * @param {Selector} selector the selector of the element.
-    * @param {number} count the exact count of the element to be visible.
-    * @param {CheckMode} mode the check mode - whether positive or negative
-    * @param {SelectorOptions} options (optional) advanced selector lookup options.
-    * @param {FrameSelector[]} [frameTree] - An array of frame selector(s).
-    * @returns {boolean} true if the element has the given count as expected, false if the timeout was reached.
-    */
+     * Validate if the given element has the given count.
+     *
+     * @deprecated Please use resolveSelectorToLocator instead to get access to a resoved Playwright Locator to build a custom implementation upon it.
+     *
+     * @param {Selector} selector the selector of the element.
+     * @param {number} count the exact count of the element to be visible.
+     * @param {CheckMode} mode the check mode - whether positive or negative
+     * @param {SelectorOptions} options (optional) advanced selector lookup options.
+     * @param {FrameSelector[]} [frameTree] - An array of frame selector(s).
+     * @returns {boolean} true if the element has the given count as expected, false if the timeout was reached.
+     */
     public async checkCount(selector: Selector, count: number, mode: CheckMode, options?: SelectorOptions, frameTree?: FrameSelector[]): Promise<boolean> {
         if (mode === 'positive') {
             await expect(await recursiveLocatorLookup({
@@ -357,13 +410,15 @@ export class BrowseTheWeb extends Ability {
     }
 
     /**
-    * Counts screen elements which can be found via a selector.
-    *
-    * @param {Selector} selector the selector of the element.
-    * @param {SelectorOptions} options (optional) advanced selector lookup options.
-    * @param {FrameSelector[]} [frameTree] - An array of frame selector(s) defining the location for the count.
-    * @returns {boolean} Promise of number of counted elements
-    */
+     * Counts screen elements which can be found via a selector.
+     *
+     * @deprecated Please use resolveSelectorToLocator instead to get access to a resoved Playwright Locator to build a custom implementation upon it.
+     *
+     * @param {Selector} selector the selector of the element.
+     * @param {SelectorOptions} options (optional) advanced selector lookup options.
+     * @param {FrameSelector[]} [frameTree] - An array of frame selector(s) defining the location for the count.
+     * @returns {boolean} Promise of number of counted elements
+     */
     public async count(selector: Selector, options?: SelectorOptions, frameTree?: FrameSelector[]): Promise<number> {
         const counted = await (await recursiveLocatorLookup({
             page: this.page, selector, options: { ...options, state: 'visible', evaluateVisible: false }, frameTree,
@@ -372,14 +427,16 @@ export class BrowseTheWeb extends Ability {
     }
 
     /**
-    * Validate if the given element is checked.
-    *
-    * @param {Selector} selector the selector of the element.
-    * @param {CheckMode} mode the check mode - whether positive or negative
-    * @param {SelectorOptions} options (optional) advanced selector lookup options.
-    * @param {FrameSelector[]} [frameTree] - An array of frame selector(s).
-    * @returns {boolean} true if the element is checked or not checked
-    */
+     * Validate if the given element is checked.
+     *
+     * @deprecated Please use resolveSelectorToLocator instead to get access to a resoved Playwright Locator to build a custom implementation upon it.
+     *
+     * @param {Selector} selector the selector of the element.
+     * @param {CheckMode} mode the check mode - whether positive or negative
+     * @param {SelectorOptions} options (optional) advanced selector lookup options.
+     * @param {FrameSelector[]} [frameTree] - An array of frame selector(s).
+     * @returns {boolean} true if the element is checked or not checked
+     */
     public async checkChecked(selector: Selector, mode: CheckMode, options?: SelectorOptions, frameTree?: FrameSelector[]): Promise<boolean> {
         if (mode === 'positive') {
             await expect(await recursiveLocatorLookup({
@@ -395,6 +452,9 @@ export class BrowseTheWeb extends Ability {
 
     /**
      * Get the cookies of the current browser context. If no URLs are specified, this method returns all cookies. If URLs are specified, only cookies that affect those URLs are returned.
+     *
+     * @deprecated Please use getPage instead to get access to Playwright page object to build a custom implementation upon it.
+     *
      * @param {string|string[]} urls affected urls
      * @return {Cookie[]} Returns the cookies of the current browser context.
      */
@@ -404,6 +464,9 @@ export class BrowseTheWeb extends Ability {
 
     /**
      * Adds cookies into this browser context. All pages within this context will have these cookies installed. Cookies can be obtained via BrowseTheWeb.getCookies([urls]).
+     *
+     * @deprecated Please use getPage instead to get access to Playwright page object to build a custom implementation upon it.
+     *
      * @param {Cookie[]} cookies Cookies to add at browser context
      * @return {void} Returns after adding cookies into this browser context.
      */
@@ -413,6 +476,9 @@ export class BrowseTheWeb extends Ability {
 
     /**
      * Clear the browser context cookies.
+     *
+     * @deprecated Please use getPage instead to get access to Playwright page object to build a custom implementation upon it.
+     *
      * @return {void} Clears context cookies.
      */
     public async clearCookies(): Promise<void> {
@@ -421,6 +487,8 @@ export class BrowseTheWeb extends Ability {
 
     /**
      * Get a local storage item.
+     *
+     * @deprecated Please use getPage instead to get access to Playwright page object to build a custom implementation upon it.
      *
      * @param {string} key the key that specifies the item.
      * @return {any} Returns the local storage item
@@ -438,6 +506,8 @@ export class BrowseTheWeb extends Ability {
     /**
      * Set a local storage item identified by the given key + value, creating a new key/value pair if none existed for key previously.
      *
+     * @deprecated Please use getPage instead to get access to Playwright page object to build a custom implementation upon it.
+     *
      * @param {string} key the key that specifies the item.
      * @param {any} value the value to set.
      * @return {void} Returns after adding the local storage item
@@ -452,6 +522,8 @@ export class BrowseTheWeb extends Ability {
     /**
      * Delete a local storage item, if a key/value pair with the given key exists.
      *
+     * @deprecated Please use getPage instead to get access to Playwright page object to build a custom implementation upon it.
+     *
      * @param {string} key the key that specifies the item.
      * @return {void} Returns after deleting a local storage item
      */
@@ -464,6 +536,8 @@ export class BrowseTheWeb extends Ability {
 
     /**
      * Get a session storage item.
+     *
+     * @deprecated Please use getPage instead to get access to Playwright page object to build a custom implementation upon it.
      *
      * @param {string} key the key that specifies the item.
      * @return {any} Retrieves a session storage item
@@ -481,6 +555,8 @@ export class BrowseTheWeb extends Ability {
     /**
      * Set a session storage item identified by the given key + value, creating a new key/value pair if none existed for key previously.
      *
+     * @deprecated Please use getPage instead to get access to Playwright page object to build a custom implementation upon it.
+     *
      * @param {string} key the key that specifies the item.
      * @param {any} value the value to set.
      * @return {void} Set the session storage item
@@ -495,6 +571,8 @@ export class BrowseTheWeb extends Ability {
     /**
      * Delete a session storage item, if a key/value pair with the given key exists.
      *
+     * @deprecated Please use getPage instead to get access to Playwright page object to build a custom implementation upon it.
+     *
      * @param {string} key the key that specifies the item.
      * @return {void} Returns after removing a session storage item.
      */
@@ -507,6 +585,8 @@ export class BrowseTheWeb extends Ability {
 
     /**
      * Set the value of a Selector of type select to the given option.
+     *
+     * @deprecated Please use resolveSelectorToLocator instead to get access to a resoved Playwright Locator to build a custom implementation upon it.
      *
      * @param {Selector} selector the string representing the (select) selector.
      * @param {string} option the label of the option.
@@ -522,6 +602,8 @@ export class BrowseTheWeb extends Ability {
 
     /**
      * Get a single screen element or list of screen elements.
+     *
+     * @deprecated Please use getPage instead to get access to Playwright page object to build a custom implementation upon it.
      *
      * @param {Selector} selector the string or locator representing the selector.
      * @param {boolean} singular (optional): the indicator whether to return a single item or a list of items. In case of single item the first item is returned if more than 1 items are found. Defaults to true.

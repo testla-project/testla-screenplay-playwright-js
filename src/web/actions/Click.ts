@@ -18,7 +18,8 @@ export class Click extends FrameEnabledAction {
      * @return {void} Returns after clicking the element
      */
     public async performAs(actor: Actor): Promise<void> {
-        await BrowseTheWeb.as(actor, this.abilityAlias).click(this.selector, this.options, this.frameTree);
+        const locator = await BrowseTheWeb.as(actor, this.abilityAlias).resolveSelectorToLocator(this.selector, this.options, this.frameTree);
+        return locator.click();
     }
 
     /**

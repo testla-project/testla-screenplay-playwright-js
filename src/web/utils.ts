@@ -45,7 +45,7 @@ export const recursiveFrameLookup = (page: Page, frameTree: FrameSelector[]): Fr
 
 export const recursiveLocatorLookup = async ({
     page, selector, options, frameTree,
-}: { page: Page; selector: Selector; options?: SelectorOptions & { evaluateVisible?: boolean }, frameTree?: FrameSelector[] }): Promise<Locator> => {
+}: { page: Page; selector: Selector; options?: SelectorOptions, frameTree?: FrameSelector[] }): Promise<Locator> => {
     const base = frameTree === undefined || frameTree.length === 0 ? page : recursiveFrameLookup(page, frameTree);
     // find first level locator: if selector is a string, need to find it using page.locator(), if it is already a Playwright Locator use it directly.
     const locator = typeof selector === 'string' ? base.locator(selector, { hasText: options?.hasText }) : await getSubLocator(selector, undefined, options?.hasText);

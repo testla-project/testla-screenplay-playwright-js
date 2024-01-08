@@ -1,4 +1,5 @@
 import { Actor } from '@testla/screenplay';
+import { expect } from '@playwright/test';
 import { Selector, SelectorOptions } from '../types';
 import { BrowseTheWeb } from '../abilities/BrowseTheWeb';
 import { CheckMode } from '../../types';
@@ -33,9 +34,16 @@ export class Element extends FrameEnabledQuestion {
      */
     public async answeredBy(actor: Actor): Promise<boolean> {
         if (this.mode === 'visible') {
-            return Promise.resolve(
-                await BrowseTheWeb.as(actor).checkVisibilityState(this.selector, this.checkMode, this.options, this.frameTree),
-            ); // if the ability method is not the expected result there will be an exception
+            const locator = await BrowseTheWeb.as(actor).resolveSelectorToLocator(this.selector, { ...this.options, state: this.checkMode === 'positive' ? 'visible' : 'hidden' }, this.frameTree);
+
+            if (this.checkMode === 'positive') {
+                await expect(locator).toBeVisible({ timeout: this.options?.timeout });
+            } else {
+                await expect(locator).toBeHidden({ timeout: this.options?.timeout });
+            }
+
+            return Promise.resolve(true);
+            // if the ability method is not the expected result there will be an exception
         }
         if (this.mode === 'enabled') {
             return Promise.resolve(
