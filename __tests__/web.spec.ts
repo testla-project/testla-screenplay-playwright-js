@@ -399,7 +399,7 @@ test.describe('Testing screenplay-playwright-js web module', () => {
         expect(notTextRes).toBeTruthy();
     });
 
-    test('Element.values', async ({ actor }) => {
+    test('Element.value', async ({ actor }) => {
         await actor.attemptsTo(
             Navigate.to('https://the-internet.herokuapp.com/login'),
             Wait.forLoadState('networkidle'),
