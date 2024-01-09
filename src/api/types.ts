@@ -6,7 +6,6 @@ export type Headers = {
 };
 
 export type ResponseBodyType = unknown;
-// export type ResponseBodyType = Buffer | object | string | null;
 
 /**
  * Response type which is returned from any request.
@@ -14,7 +13,6 @@ export type ResponseBodyType = unknown;
  * @param T (optional) Response body type - usually one out of `Buffer` | `object` | `string` | `null`, defaults to `unknown`.
  */
 export type Response<T = ResponseBodyType> = {
-    // export type Response<T = unknown> = {
     body: T;
     status: number;
     headers: Headers;
