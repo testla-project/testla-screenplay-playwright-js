@@ -7,8 +7,18 @@ import { FrameEnabledAction } from '../templates/FrameEnabledAction';
  * Action Class. Type specified input into an element specified by a selector string.
  */
 export class Type extends FrameEnabledAction {
-    private constructor(private selector: Selector, private input: string, private options?: SelectorOptions) {
+    private selector: Selector;
+
+    private options?: SelectorOptions;
+
+    private input: string;
+
+    private constructor(selector: Selector, input: string, options?: SelectorOptions) {
         super();
+
+        this.selector = selector;
+        this.options = options;
+        this.input = input;
     }
 
     /**
@@ -18,7 +28,11 @@ export class Type extends FrameEnabledAction {
      * @return {void} Focuses the element, and then sends a `keydown`, `keypress`/`input`, and `keyup` event for each character in the text.
      */
     public async performAs(actor: Actor): Promise<void> {
-        return BrowseTheWeb.as(actor, this.abilityAlias).type(this.selector, this.input, this.options, this.frameTree);
+        const {
+            abilityAlias, selector, options, frameTree, input,
+        } = this;
+        const locator = await BrowseTheWeb.as(actor, abilityAlias).resolveSelectorToLocator(selector, options, frameTree);
+        return locator.type(input);
     }
 
     /**

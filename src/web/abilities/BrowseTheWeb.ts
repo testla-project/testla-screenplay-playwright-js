@@ -211,7 +211,6 @@ export class BrowseTheWeb extends Ability {
      * @param {SelectorOptions} options (optional) advanced selector lookup options.
      * @param {FrameSelector[]} [frameTree] - An array of frame selector(s) defining the location for the type event.
      * @return {void} Focuses the element, and then sends a `keydown`, `keypress`/`input`, and `keyup` event for each character in the text.
-     * @deprecated Please use pressSequentially instead. This function will be removed in the future.
      */
     public async type(selector: Selector, input: string, options?: SelectorOptions, frameTree?: FrameSelector[]): Promise<void> {
         return this.pressSequentially(selector, input, options, frameTree);

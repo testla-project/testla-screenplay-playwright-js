@@ -1,12 +1,17 @@
 import { Action, Actor } from '@testla/screenplay';
+import { Response } from '@playwright/test';
 import { BrowseTheWeb } from '../abilities/BrowseTheWeb';
 
 /**
  * Action Class. Navigate to a URL using the specified url string.
  */
 export class Navigate extends Action {
-    private constructor(private url: string) {
+    private url: string;
+
+    private constructor(url: string) {
         super();
+
+        this.url = url;
     }
 
     /**
@@ -15,8 +20,9 @@ export class Navigate extends Action {
      * @param {Actor} actor Actor performing this action
      * @return {any} Returns the main resource response.
      */
-    public performAs(actor: Actor): Promise<any> {
-        return BrowseTheWeb.as(actor, this.abilityAlias).goto(this.url);
+    public performAs(actor: Actor): Promise<null | Response> {
+        const page = BrowseTheWeb.as(actor, this.abilityAlias).getPage();
+        return page.goto(this.url);
     }
 
     /**

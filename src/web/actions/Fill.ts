@@ -7,8 +7,18 @@ import { FrameEnabledAction } from '../templates/FrameEnabledAction';
  * Action Class. Fill an element specified by a selector string with the specified input.
  */
 export class Fill extends FrameEnabledAction {
-    private constructor(private selector: Selector, private input: string, private options?: SelectorOptions) {
+    private selector: Selector;
+
+    private options?: SelectorOptions;
+
+    private input: string;
+
+    private constructor(selector: Selector, input: string, options?: SelectorOptions) {
         super();
+
+        this.selector = selector;
+        this.options = options;
+        this.input = input;
     }
 
     /**
@@ -18,7 +28,11 @@ export class Fill extends FrameEnabledAction {
      * @return {void} Returns after checks, focuses the element, fills it and triggers an `input` event after filling.
      */
     public async performAs(actor: Actor): Promise<void> {
-        return BrowseTheWeb.as(actor, this.abilityAlias).fill(this.selector, this.input, this.options, this.frameTree);
+        const {
+            abilityAlias, selector, options, frameTree, input,
+        } = this;
+        const locator = await BrowseTheWeb.as(actor, abilityAlias).resolveSelectorToLocator(selector, options, frameTree);
+        return locator.fill(input);
     }
 
     /**

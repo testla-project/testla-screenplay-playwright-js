@@ -25,14 +25,15 @@ export class Wait extends FrameEnabledAction {
      * @param {Actor} actor the actor object
      * @return {any} Returns when the required load state has been reached.
      */
-    public performAs(actor: Actor): Promise<any> {
+    public async performAs(actor: Actor): Promise<any> {
+        const { abilityAlias, action, frameTree } = this;
+
         if (this.action.mode === 'loadState') {
-            return BrowseTheWeb.as(actor, this.abilityAlias).waitForLoadState(this.action.payload.state);
+            const page = BrowseTheWeb.as(actor, abilityAlias).getPage();
+            return page.waitForLoadState(action.payload.state);
         }
-        if (this.action.mode === 'selector') {
-            return BrowseTheWeb.as(actor, this.abilityAlias).waitForSelector(this.action.payload.selector, this.action.payload.options, this.frameTree);
-        }
-        throw new Error('Error: no match for Wait.performAs()!');
+        // fallback: action.mode === 'selector'
+        return BrowseTheWeb.as(actor, abilityAlias).resolveSelectorToLocator(action.payload.selector, action.payload.options, frameTree);
     }
 
     /**

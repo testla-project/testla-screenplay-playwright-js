@@ -1,37 +1,58 @@
-import { Action, Actor } from '@testla/screenplay';
+import { Actor } from '@testla/screenplay';
+import { Page } from '@playwright/test';
 import { BrowseTheWeb } from '../abilities/BrowseTheWeb';
 import { Selector, SelectorOptions } from '../types';
+import { FrameEnabledAction } from '../templates/FrameEnabledAction';
 
 type Mode = 'cookies' | 'sessionStorage' | 'localStorage' | 'element' | 'elements';
 
 /**
- * Action Class. Get either Cookies, Session Storage Items or Local Storage Items from the Browser.
+ * Action Class. Get either Cookies, Session Storage Items, Local Storage Items or Elements from the Browser.
  */
-export class Get extends Action {
-    private constructor(private mode: Mode, private payload: any) {
+export class Get extends FrameEnabledAction {
+    private mode: Mode;
+
+    private payload: any;
+
+    private constructor(mode: Mode, payload: any) {
         super();
+
+        this.mode = mode;
+        this.payload = payload;
     }
 
     /**
-     * wait for either a specified loading state or for a selector to become visible/active.
+     * Get either Cookies, Session Storage Items, Local Storage Items or Elements from the Browser.
      *
      * @param {Actor} actor Actor performing this action
-     * @return {any} Returns cookies, session storage items or local storage items
+     * @return {any} Returns cookies, session storage items, local storage items or Locator(s)
      */
-    public performAs(actor: Actor): Promise<any> {
-        if (this.mode === 'cookies') {
-            return BrowseTheWeb.as(actor, this.abilityAlias).getCookies(this.payload);
+    public async performAs(actor: Actor): Promise<any> {
+        const {
+            abilityAlias, payload, mode, frameTree,
+        } = this;
+        const page = BrowseTheWeb.as(actor, abilityAlias).getPage();
+
+        if (mode === 'cookies') {
+            return page.context().cookies(payload);
         }
-        if (this.mode === 'sessionStorage') {
-            return BrowseTheWeb.as(actor, this.abilityAlias).getSessionStorageItem(this.payload);
+        if (mode === 'sessionStorage' || mode === 'localStorage') {
+            return Get.getStorageItem(page, mode, payload);
         }
-        if (this.mode === 'localStorage') {
-            return BrowseTheWeb.as(actor, this.abilityAlias).getLocalStorageItem(this.payload);
-        }
-        if (this.mode === 'element') {
-            return BrowseTheWeb.as(actor, this.abilityAlias).getElement(this.payload.selector, this.payload.singular, this.payload.options);
-        }
-        throw new Error('Error: no match for Get.performAs()!');
+        // fallback: mode === 'element'
+        const locator = (await BrowseTheWeb.as(actor, abilityAlias).resolveSelectorToLocator(payload.selector, { ...payload.options, evaluateVisible: false }, frameTree)).filter();
+        return payload.singular === false ? locator.all() : locator.first();
+    }
+
+    private static async getStorageItem(page: Page, storageType: 'sessionStorage' | 'localStorage', key: string): Promise<any> {
+        return page.evaluate(({ key, storageType }) => {
+            const storage = storageType === 'sessionStorage' ? sessionStorage : localStorage;
+            const value = storage.getItem(key);
+            if (value) {
+                return Promise.resolve(JSON.parse(value));
+            }
+            return Promise.resolve(undefined);
+        }, { key, storageType });
     }
 
     /**

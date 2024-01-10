@@ -8,11 +8,24 @@ import { FrameEnabledAction } from '../templates/FrameEnabledAction';
  * selector string.
  */
 export class DragAndDrop extends FrameEnabledAction {
-    private constructor(private sourceSelector: Selector, private targetSelector: Selector, private options?: {
+    private sourceSelector: Selector;
+
+    private targetSelector: Selector;
+
+    private options?: {
+        source?: SelectorOptions;
+        target?: SelectorOptions;
+    };
+
+    private constructor(sourceSelector: Selector, targetSelector: Selector, options?: {
         source?: SelectorOptions;
         target?: SelectorOptions;
     }) {
         super();
+
+        this.sourceSelector = sourceSelector;
+        this.targetSelector = targetSelector;
+        this.options = options;
     }
 
     /**
@@ -20,8 +33,14 @@ export class DragAndDrop extends FrameEnabledAction {
      * @param {Actor} actor Actor performing this action
      * @return {void} Returns after dragging the locator to another target locator or target position
      */
-    public performAs(actor: Actor): Promise<void> {
-        return BrowseTheWeb.as(actor, this.abilityAlias).dragAndDrop(this.sourceSelector, this.targetSelector, this.options, this.frameTree);
+    public async performAs(actor: Actor): Promise<void> {
+        const {
+            abilityAlias, sourceSelector, targetSelector, options, frameTree,
+        } = this;
+        const browseTheWeb = BrowseTheWeb.as(actor, abilityAlias);
+        const target = await browseTheWeb.resolveSelectorToLocator(targetSelector, options?.target, frameTree);
+        const source = await browseTheWeb.resolveSelectorToLocator(sourceSelector, options?.source, frameTree);
+        return source.dragTo(target, { targetPosition: { x: 0, y: 0 } });
     }
 
     /**

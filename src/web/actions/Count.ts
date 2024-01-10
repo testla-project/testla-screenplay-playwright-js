@@ -19,14 +19,18 @@ export class Count extends FrameEnabledAction {
     }
 
     /**
-     * wait for either a specified loading state or for a selector to become visible/active.
+     * Counts the number of elements satisfying the given Selector.
      *
      * @param {Actor} actor Actor performing this action
      * @return {any} Clears context cookies
      */
     // eslint-disable-next-line class-methods-use-this
-    public performAs(actor: Actor): Promise<number> {
-        return BrowseTheWeb.as(actor, this.abilityAlias).count(this.selector, this.options, this.frameTree);
+    public async performAs(actor: Actor): Promise<number> {
+        const {
+            abilityAlias, selector, options, frameTree,
+        } = this;
+        const locator = await BrowseTheWeb.as(actor, abilityAlias).resolveSelectorToLocator(selector, { ...options, evaluateVisible: false }, frameTree);
+        return locator.count();
     }
 
     /**

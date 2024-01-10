@@ -7,8 +7,15 @@ import { FrameEnabledAction } from '../templates/FrameEnabledAction';
  * Action Class. Click on an element specified by a selector string.
  */
 export class Click extends FrameEnabledAction {
-    private constructor(private selector: Selector, private options?: SelectorOptions) {
+    private selector: Selector;
+
+    private options?: SelectorOptions;
+
+    private constructor(selector: Selector, options?: SelectorOptions) {
         super();
+
+        this.selector = selector;
+        this.options = options;
     }
 
     /**
@@ -18,7 +25,10 @@ export class Click extends FrameEnabledAction {
      * @return {void} Returns after clicking the element
      */
     public async performAs(actor: Actor): Promise<void> {
-        const locator = await BrowseTheWeb.as(actor, this.abilityAlias).resolveSelectorToLocator(this.selector, this.options, this.frameTree);
+        const {
+            abilityAlias, selector, options, frameTree,
+        } = this;
+        const locator = await BrowseTheWeb.as(actor, abilityAlias).resolveSelectorToLocator(selector, options, frameTree);
         return locator.click();
     }
 

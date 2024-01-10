@@ -7,8 +7,15 @@ import { FrameEnabledAction } from '../templates/FrameEnabledAction';
  * Action Class. Hover over an element specified by a selector string.
  */
 export class Hover extends FrameEnabledAction {
-    private constructor(private selector: Selector, private options?: SelectorOptions & { modifiers?: ('Alt' | 'Control' | 'Meta' | 'Shift')[] }) {
+    private selector: Selector;
+
+    private options?: SelectorOptions & { modifiers?: ('Alt' | 'Control' | 'Meta' | 'Shift')[] };
+
+    private constructor(selector: Selector, options?: SelectorOptions & { modifiers?: ('Alt' | 'Control' | 'Meta' | 'Shift')[] }) {
         super();
+
+        this.selector = selector;
+        this.options = options;
     }
 
     /**
@@ -17,8 +24,12 @@ export class Hover extends FrameEnabledAction {
      * @param {Actor} actor Actor performing this action
      * @return {void} Returns when hovered over the element
      */
-    public performAs(actor: Actor): Promise<void> {
-        return BrowseTheWeb.as(actor, this.abilityAlias).hover(this.selector, this.options, this.frameTree);
+    public async performAs(actor: Actor): Promise<void> {
+        const {
+            abilityAlias, selector, options, frameTree,
+        } = this;
+        const locator = await BrowseTheWeb.as(actor, abilityAlias).resolveSelectorToLocator(selector, options, frameTree);
+        return locator.hover({ modifiers: options?.modifiers });
     }
 
     /**

@@ -142,10 +142,11 @@ test.describe('Testing screenplay-playwright-js web module', () => {
             Wait.forLoadState('networkidle'),
         );
 
-        // assert that there is nothing in the result box
+        // more than 1 element to find
         await expect(await actor.attemptsTo(Get.element('[type="checkbox"]'))).toHaveCount(1);
         await expect((await actor.attemptsTo(Get.elements('[type="checkbox"]'))).length).toBe(2);
 
+        // exact 1 element to find
         await expect(await actor.attemptsTo(Get.element('h3'))).toHaveCount(1);
         await expect((await actor.attemptsTo(Get.elements('h3'))).length).toBe(1);
     });

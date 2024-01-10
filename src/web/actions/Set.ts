@@ -5,8 +5,15 @@ import { BrowseTheWeb } from '../abilities/BrowseTheWeb';
  * Action Class. Set either Session Storage Items or Local Storage Items on the Browser.
  */
 export class Set extends Action {
-    private constructor(private mode: 'sessionStorage' | 'localStorage', private payload: any) {
+    private mode: 'sessionStorage' | 'localStorage';
+
+    private payload?: any;
+
+    private constructor(mode: 'sessionStorage' | 'localStorage', payload?: any) {
         super();
+
+        this.mode = mode;
+        this.payload = payload;
     }
 
     /**
@@ -16,13 +23,13 @@ export class Set extends Action {
      * @return {any} Returns the value of the `pageFunction` invocation.
      */
     public performAs(actor: Actor): Promise<any> {
-        if (this.mode === 'sessionStorage') {
-            return BrowseTheWeb.as(actor, this.abilityAlias).setSessionStorageItem(this.payload.key, this.payload.value);
-        }
-        if (this.mode === 'localStorage') {
-            return BrowseTheWeb.as(actor, this.abilityAlias).setLocalStorageItem(this.payload.key, this.payload.value);
-        }
-        throw new Error('Error: no match for Set.performAs()!');
+        const { abilityAlias, mode, payload } = this;
+        const page = BrowseTheWeb.as(actor, abilityAlias).getPage();
+        return page.evaluate(({ k, v, mode }) => {
+            const storage = mode === 'sessionStorage' ? sessionStorage : localStorage;
+            storage.setItem(k, JSON.stringify(v));
+            return Promise.resolve();
+        }, { k: payload.key, v: payload.value, mode });
     }
 
     /**
