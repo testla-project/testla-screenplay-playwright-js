@@ -25,11 +25,11 @@ export class Set extends Action {
     public performAs(actor: Actor): Promise<any> {
         const { abilityAlias, mode, payload } = this;
         const page = BrowseTheWeb.as(actor, abilityAlias).getPage();
-        return page.evaluate(({ k, v, mode }) => {
-            const storage = mode === 'sessionStorage' ? sessionStorage : localStorage;
+        return page.evaluate(({ k, v, m }) => {
+            const storage = m === 'sessionStorage' ? sessionStorage : localStorage;
             storage.setItem(k, JSON.stringify(v));
             return Promise.resolve();
-        }, { k: payload.key, v: payload.value, mode });
+        }, { k: payload.key, v: payload.value, m: mode });
     }
 
     /**

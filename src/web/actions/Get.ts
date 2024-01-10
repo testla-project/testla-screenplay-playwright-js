@@ -45,14 +45,14 @@ export class Get extends FrameEnabledAction {
     }
 
     private static async getStorageItem(page: Page, storageType: 'sessionStorage' | 'localStorage', key: string): Promise<any> {
-        return page.evaluate(({ key, storageType }) => {
-            const storage = storageType === 'sessionStorage' ? sessionStorage : localStorage;
-            const value = storage.getItem(key);
+        return page.evaluate(({ k, t }) => {
+            const storage = t === 'sessionStorage' ? sessionStorage : localStorage;
+            const value = storage.getItem(k);
             if (value) {
                 return Promise.resolve(JSON.parse(value));
             }
             return Promise.resolve(undefined);
-        }, { key, storageType });
+        }, { k: key, t: storageType });
     }
 
     /**

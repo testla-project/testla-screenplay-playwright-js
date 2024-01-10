@@ -25,11 +25,11 @@ export class Remove extends Action {
     public performAs(actor: Actor): Promise<any> {
         const { abilityAlias, mode, payload } = this;
         const page = BrowseTheWeb.as(actor, abilityAlias).getPage();
-        return page.evaluate(({ k, mode }) => {
-            const storage = mode === 'sessionStorage' ? sessionStorage : localStorage;
+        return page.evaluate(({ k, m }) => {
+            const storage = m === 'sessionStorage' ? sessionStorage : localStorage;
             storage.removeItem(k);
             return Promise.resolve();
-        }, { k: payload, mode });
+        }, { k: payload, m: mode });
     }
 
     /**
