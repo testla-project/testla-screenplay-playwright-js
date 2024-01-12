@@ -1,6 +1,8 @@
-import { Locator } from '@playwright/test';
+import { FrameLocator, Locator, Page } from '@playwright/test';
 
-export type Selector = string | Locator;
+export type LazySelector = (page: Page | FrameLocator) => Locator;
+
+export type Selector = string | Locator | LazySelector;
 
 export type FrameSelector = string;
 
