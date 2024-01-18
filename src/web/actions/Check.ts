@@ -7,8 +7,15 @@ import { FrameEnabledAction } from '../templates/FrameEnabledAction';
  * Action Class. Check a checkbox specified by a selector string.
  */
 export class Check extends FrameEnabledAction {
-    private constructor(private selector: Selector, private options?: SelectorOptions) {
+    private selector: Selector;
+
+    private options?: SelectorOptions;
+
+    private constructor(selector: Selector, options?: SelectorOptions) {
         super();
+
+        this.selector = selector;
+        this.options = options;
     }
 
     /**
@@ -18,7 +25,11 @@ export class Check extends FrameEnabledAction {
      * @return {void} Returns after checking the element
      */
     public async performAs(actor: Actor): Promise<void> {
-        await BrowseTheWeb.as(actor, this.abilityAlias).checkBox(this.selector, this.options, this.frameTree);
+        const {
+            abilityAlias, selector, options, frameTree,
+        } = this;
+        const locator = await BrowseTheWeb.as(actor, abilityAlias).resolveSelectorToLocator(selector, options, frameTree);
+        return locator.check();
     }
 
     /**

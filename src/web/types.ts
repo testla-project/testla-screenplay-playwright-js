@@ -17,4 +17,5 @@ export type SelectorOptions = {
     subSelector?: SubSelector;
     timeout?: number;
     state?: SelectorOptionsState;
+    evaluateVisible?: boolean;
 };

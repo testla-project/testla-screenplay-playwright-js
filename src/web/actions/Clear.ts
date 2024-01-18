@@ -6,14 +6,15 @@ import { BrowseTheWeb } from '../abilities/BrowseTheWeb';
  */
 export class Clear extends Action {
     /**
-     * wait for either a specified loading state or for a selector to become visible/active.
+     * Clears all browser cookies.
      *
      * @param {Actor} actor Actor performing this action
      * @return {any} Clears context cookies
      */
     // eslint-disable-next-line class-methods-use-this
-    public performAs(actor: Actor): Promise<any> {
-        return BrowseTheWeb.as(actor, this.abilityAlias).clearCookies();
+    public performAs(actor: Actor): Promise<void> {
+        const page = BrowseTheWeb.as(actor, this.abilityAlias).getPage();
+        return page.context().clearCookies();
     }
 
     /**

@@ -6,18 +6,23 @@ import { BrowseTheWeb } from '../abilities/BrowseTheWeb';
  * Action Class. Add Cookies to the Browser.
  */
 export class Add extends Action {
-    private constructor(private cookies: Cookie[]) {
+    private cookies: Cookie[];
+
+    private constructor(cookies: Cookie[]) {
         super();
+
+        this.cookies = cookies;
     }
 
     /**
-     * add the cookies to the browser.
+     * Add the cookies to the browser.
      *
      * @param {Actor} actor Actor performing this action
      * @return {any} Adds cookies into this browser context.
      */
-    public performAs(actor: Actor): Promise<any> {
-        return BrowseTheWeb.as(actor, this.abilityAlias).addCookies(this.cookies);
+    public performAs(actor: Actor): Promise<void> {
+        const page = BrowseTheWeb.as(actor, this.abilityAlias).getPage();
+        return page.context().addCookies(this.cookies);
     }
 
     /**

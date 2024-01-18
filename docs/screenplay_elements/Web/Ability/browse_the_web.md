@@ -13,6 +13,7 @@ The `BrowseTheWeb` class represents an actor's ability to interact with a browse
       - [using](#using)
       - [as](#as)
       - [getPage](#getpage)
+      - [resolveSelectorToLocator](#resolveselectortolocator)
       - [goto](#goto)
       - [reload](#reload)
       - [waitForLoadState](#waitforloadstate)
@@ -81,7 +82,23 @@ public getPage(): Page;
 - **Description:** Gets the page object.
 - **Returns:** `Page` - The page object.
 
+#### resolveSelectorToLocator
+*Introduced in: 1.4.0*
+
+```typescript
+public resolveSelectorToLocator(): Page;
+```
+
+- **Description:** Resolves a given Selector to a Playwright Locator.
+- **Parameters:**
+  - `selector` - The selector of the element.
+  - `options` - (optional) Advanced selector lookup options.
+  - `frameTree` - An array of frame selector(s).
+- **Returns:** `Promise<Locator>` - Returns resolved Locator(s) as per Playwright definition.
+
 #### goto
+
+> DEPRECATED - Please use getPage instead to get access to Playwright page object to build a custom implementation upon it.
 
 ```typescript
 public async goto(url: string): Promise<Response | null>;
@@ -94,6 +111,8 @@ public async goto(url: string): Promise<Response | null>;
 
 #### reload
 
+> DEPRECATED - Please use getPage instead to get access to Playwright page object to build a custom implementation upon it.
+
 ```typescript
 public async reload(): Promise<Response | null>;
 ```
@@ -102,6 +121,8 @@ public async reload(): Promise<Response | null>;
 - **Returns:** `Promise<Response | null>` - Returns the main resource response.
 
 #### waitForLoadState
+
+> DEPRECATED - Please use getPage instead to get access to Playwright page object to build a custom implementation upon it.
 
 ```typescript
 public async waitForLoadState(status: 'load' | 'domcontentloaded' | 'networkidle'): Promise<void>;
@@ -113,6 +134,8 @@ public async waitForLoadState(status: 'load' | 'domcontentloaded' | 'networkidle
 - **Returns:** `Promise<void>` - Returns when the required load state has been reached.
 
 #### hover
+
+> DEPRECATED - Please use resolveSelectorToLocator instead to get access to a resoved Playwright Locator to build a custom implementation upon it.
 
 ```typescript
 public async hover(selector: Selector, options?: SelectorOptions & { modifiers?: ('Alt' | 'Control' | 'Meta' | 'Shift')[] }, frameTree?: FrameSelector[]): Promise<void>;
@@ -126,6 +149,8 @@ public async hover(selector: Selector, options?: SelectorOptions & { modifiers?:
 - **Returns:** `Promise<void>` - Returns when hovered over the element.
 
 #### press
+
+> DEPRECATED - Please use resolveSelectorToLocator instead to get access to a resoved Playwright Locator to build a custom implementation upon it.
 
 ```typescript
 public async pressSequentially(selector: Selector, input: string, options?: SelectorOptions, frameTree?: FrameSelector[]): Promise<void>;
@@ -150,6 +175,8 @@ public async press(input: string): Promise<void>;
 
 #### checkBox
 
+> DEPRECATED - Please use resolveSelectorToLocator instead to get access to a resoved Playwright Locator to build a custom implementation upon it.
+
 ```typescript
 public async checkBox(selector: Selector, options?: SelectorOptions, frameTree?: FrameSelector[]): Promise<void>;
 ```
@@ -163,6 +190,8 @@ public async checkBox(selector: Selector, options?: SelectorOptions, frameTree?:
 
 #### waitForSelector
 
+> DEPRECATED - Please use resolveSelectorToLocator instead to get access to a resoved Playwright Locator to build a custom implementation upon it.
+
 ```typescript
 public async waitForSelector(selector: Selector, options?: SelectorOptions, frameTree?: FrameSelector[]): Promise<Locator>;
 ```
@@ -175,6 +204,8 @@ public async waitForSelector(selector: Selector, options?: SelectorOptions, fram
 - **Returns:** `Promise<Locator>` - Returns a `Locator` promise.
 
 #### dragAndDrop
+
+> DEPRECATED - Please use resolveSelectorToLocator instead to get access to a resoved Playwright Locator to build a custom implementation upon it.
 
 ```typescript
 public async dragAndDrop(sourceSelector: Selector, targetSelector: Selector, options?: { source?: SelectorOptions; target?: SelectorOptions; }, frameTree?: FrameSelector[]): Promise<void>;
@@ -190,6 +221,8 @@ public async dragAndDrop(sourceSelector: Selector, targetSelector: Selector, opt
 
 #### fill
 
+> DEPRECATED - Please use resolveSelectorToLocator instead to get access to a resoved Playwright Locator to build a custom implementation upon it.
+
 ```typescript
 public async fill(selector: Selector, input: string, options?: SelectorOptions, frameTree?: FrameSelector[]): Promise<void>;
 ```
@@ -203,6 +236,8 @@ public async fill(selector: Selector, input: string, options?: SelectorOptions, 
 - **Returns:** `Promise<void>` - Returns after checks, focuses the element, fills it, and triggers an `input` event after filling.
 
 #### type
+
+> DEPRECATED - Please use resolveSelectorToLocator instead to get access to a resoved Playwright Locator to build a custom implementation upon it.
 
 ```typescript
 public async type(selector: Selector, input: string, options?: SelectorOptions, frameTree?: FrameSelector[]): Promise<void>;
@@ -218,6 +253,8 @@ public async type(selector: Selector, input: string, options?: SelectorOptions, 
 
 #### click
 
+> DEPRECATED - Please use resolveSelectorToLocator instead to get access to a resoved Playwright Locator to build a custom implementation upon it.
+
 ```typescript
 public async click(selector: Selector, options?: SelectorOptions, frameTree?: FrameSelector[]): Promise<void>;
 ```
@@ -231,6 +268,8 @@ public async click(selector: Selector, options?: SelectorOptions, frameTree?: Fr
 
 #### dblclick
 
+> DEPRECATED - Please use resolveSelectorToLocator instead to get access to a resoved Playwright Locator to build a custom implementation upon it.
+
 ```typescript
 public async dblclick(selector: Selector, options?: SelectorOptions, frameTree?: FrameSelector[]): Promise<void>;
 ```
@@ -243,6 +282,8 @@ public async dblclick(selector: Selector, options?: SelectorOptions, frameTree?:
 - **Returns:** `Promise<void>` - Returns after double clicking the element.
 
 #### checkVisibilityState
+
+> DEPRECATED - Please use resolveSelectorToLocator instead to get access to a resoved Playwright Locator to build a custom implementation upon it.
 
 ```typescript
 public async checkVisibilityState(selector: Selector, mode: 'visible' | 'hidden', options?: SelectorOptions, frameTree?: FrameSelector[]): Promise<boolean>;
@@ -258,6 +299,8 @@ public async checkVisibilityState(selector: Selector, mode: 'visible' | 'hidden'
 
 #### checkEnabledState
 
+> DEPRECATED - Please use resolveSelectorToLocator instead to get access to a resoved Playwright Locator to build a custom implementation upon it.
+
 ```typescript
 public async checkEnabledState(selector: Selector, mode: 'enabled' | 'disabled', options?: SelectorOptions, frameTree?: FrameSelector[]): Promise<boolean>;
 ```
@@ -271,6 +314,8 @@ public async checkEnabledState(selector: Selector, mode: 'enabled' | 'disabled',
 - **Returns:** `Promise<boolean>` - True if the element is enabled/disabled as expected, false if the timeout was reached.
 
 #### checkSelectorText
+
+> DEPRECATED - Please use resolveSelectorToLocator instead to get access to a resoved Playwright Locator to build a custom implementation upon it.
 
 ```typescript
 public async checkSelectorText(selector: Selector, text: string | RegExp | (string | RegExp)[], mode: 'positive' | 'negative', options?: SelectorOptions, frameTree?: FrameSelector[]): Promise<boolean>;
@@ -287,6 +332,8 @@ public async checkSelectorText(selector: Selector, text: string | RegExp | (stri
 
 #### checkSelectorValue
 
+> DEPRECATED - Please use resolveSelectorToLocator instead to get access to a resoved Playwright Locator to build a custom implementation upon it.
+
 ```typescript
 public async checkSelectorValue(selector: Selector, value: string | RegExp, mode: 'positive' | 'negative', options?: SelectorOptions, frameTree?: FrameSelector[]): Promise<boolean>;
 ```
@@ -302,6 +349,8 @@ public async checkSelectorValue(selector: Selector, value: string | RegExp, mode
 
 #### getCookies
 
+> DEPRECATED - Please use getPage instead to get access to Playwright page object to build a custom implementation upon it.
+
 ```typescript
 public async getCookies(urls?: string | string[] | undefined): Promise<Cookie[]>;
 ```
@@ -312,6 +361,8 @@ public async getCookies(urls?: string | string[] | undefined): Promise<Cookie[]>
 - **Returns:** `Promise<Cookie[]>` - Returns the cookies of the current browser context.
 
 #### addCookies
+
+> DEPRECATED - Please use getPage instead to get access to Playwright page object to build a custom implementation upon it.
 
 ```typescript
 public async addCookies(cookies: Cookie[]): Promise<void>;
@@ -324,6 +375,8 @@ public async addCookies(cookies: Cookie[]): Promise<void>;
 
 #### clearCookies
 
+> DEPRECATED - Please use getPage instead to get access to Playwright page object to build a custom implementation upon it.
+
 ```typescript
 public async clearCookies(): Promise<void>;
 ```
@@ -332,6 +385,8 @@ public async clearCookies(): Promise<void>;
 - **Returns:** `Promise<void>` - Clears context cookies.
 
 #### getLocalStorageItem
+
+> DEPRECATED - Please use getPage instead to get access to Playwright page object to build a custom implementation upon it.
 
 ```typescript
 public async getLocalStorageItem(key: string): Promise<any>;
@@ -343,6 +398,8 @@ public async getLocalStorageItem(key: string): Promise<any>;
 - **Returns:** `Promise<any>` - Returns the local storage item.
 
 #### setLocalStorageItem
+
+> DEPRECATED - Please use getPage instead to get access to Playwright page object to build a custom implementation upon it.
 
 ```typescript
 public async setLocalStorageItem(key: string, value: any): Promise<void>;
@@ -356,6 +413,8 @@ public async setLocalStorageItem(key: string, value: any): Promise<void>;
 
 #### removeLocalStorageItem
 
+> DEPRECATED - Please use getPage instead to get access to Playwright page object to build a custom implementation upon it.
+
 ```typescript
 public async removeLocalStorageItem(key: string): Promise<void>;
 ```
@@ -367,6 +426,8 @@ public async removeLocalStorageItem(key: string): Promise<void>;
 
 #### getSessionStorageItem
 
+> DEPRECATED - Please use getPage instead to get access to Playwright page object to build a custom implementation upon it.
+
 ```typescript
 public async getSessionStorageItem(key: string): Promise<any>;
 ```
@@ -377,6 +438,8 @@ public async getSessionStorageItem(key: string): Promise<any>;
 - **Returns:** `Promise<any>` - Retrieves a session storage item.
 
 #### setSessionStorageItem
+
+> DEPRECATED - Please use getPage instead to get access to Playwright page object to build a custom implementation upon it.
 
 ```typescript
 public async setSessionStorageItem(key: string, value: any): Promise<void>;
@@ -390,6 +453,8 @@ public async setSessionStorageItem(key: string, value: any): Promise<void>;
 
 #### removeSessionStorageItem
 
+> DEPRECATED - Please use getPage instead to get access to Playwright page object to build a custom implementation upon it.
+
 ```typescript
 public async removeSessionStorageItem(key: string): Promise<void>;
 ```
@@ -400,6 +465,8 @@ public async removeSessionStorageItem(key: string): Promise<void>;
 - **Returns:** `Promise<void>` - Returns after removing a session storage item.
 
 #### selectOption
+
+> DEPRECATED - Please use resolveSelectorToLocator instead to get access to a resoved Playwright Locator to build a custom implementation upon it.
 
 ```typescript
 public async selectOption(selector: Selector, option: string | { value?: string, label?: string, index?: number }, selectorOptions?: SelectorOptions, frameTree?: FrameSelector[]): Promise<any>;
@@ -415,6 +482,8 @@ public async selectOption(selector: Selector, option: string | { value?: string,
 
 #### getElement
 
+> DEPRECATED - Please use resolveSelectorToLocator instead to get access to a resoved Playwright Locator to build a custom implementation upon it.
+
 ```typescript
 public async getElement(selector: Selector, singular?: boolean, selectorOptions?: SelectorOptions): Promise<any>;
 ```
@@ -428,6 +497,8 @@ public async getElement(selector: Selector, singular?: boolean, selectorOptions?
 
 #### count
 
+> DEPRECATED - Please use resolveSelectorToLocator instead to get access to a resoved Playwright Locator to build a custom implementation upon it.
+
 ```typescript
 public async count(selector: Selector, options?: SelectorOptions, frameTree?: FrameSelector[]): Promise<number>;
 ```
@@ -440,6 +511,8 @@ public async count(selector: Selector, options?: SelectorOptions, frameTree?: Fr
 - **Returns:** `Promise<number>` - Promise of number of counted elements
 
 #### checkCount
+
+> DEPRECATED - Please use resolveSelectorToLocator instead to get access to a resoved Playwright Locator to build a custom implementation upon it.
 
 ```typescript
 public async checkCount(selector: Selector, count: number, mode: 'positive' | 'negative',  options?: SelectorOptions, frameTree?: FrameSelector[]): Promise<number>;
@@ -456,6 +529,8 @@ public async checkCount(selector: Selector, count: number, mode: 'positive' | 'n
 
 #### checkMinCount
 
+> DEPRECATED - Please use resolveSelectorToLocator instead to get access to a resoved Playwright Locator to build a custom implementation upon it.
+
 ```typescript
 public async checkMinCount(selector: Selector, count: number, mode: 'positive' | 'negative',  options?: SelectorOptions, frameTree?: FrameSelector[]): Promise<number>;
 ```
@@ -470,6 +545,8 @@ public async checkMinCount(selector: Selector, count: number, mode: 'positive' |
 - **Returns:** `Promise<true>` - Promise of true if evaluation met, else exception.
 
 #### checkChecked
+
+> DEPRECATED - Please use resolveSelectorToLocator instead to get access to a resoved Playwright Locator to build a custom implementation upon it.
 
 ```typescript
 public async checkChecked(selector: Selector, mode: 'positive' | 'negative',  options?: SelectorOptions, frameTree?: FrameSelector[]): Promise<number>;
