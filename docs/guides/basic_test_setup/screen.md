@@ -31,6 +31,6 @@ Actor.attemptsTo(
     Type.in(LoginScreen.PASSWORD_FIELD, 'abc123!'),
     Click.on(LoginScreen.LOGIN_BUTTON),
 );
-``````
+```
 
 [Back to overview](../guides.md)
