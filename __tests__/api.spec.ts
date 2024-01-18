@@ -66,7 +66,6 @@ test.describe('Testing screenplay-playwright-js api module', () => {
         expect(response.body).not.toBeNull();
     });
 
-    // skip POST test until website is back or this test is replaced.
     test('POST', async ({ actor }) => {
         const data = {
             title: 'foo',
@@ -74,16 +73,19 @@ test.describe('Testing screenplay-playwright-js api module', () => {
             userId: 1,
         };
 
+        type ExpectedResponseBody = { title: string; body: string; userId: number; id: number; };
+
         const expected = {
             title: 'foo', body: 'bar', userId: 1, id: 101,
         };
 
-        const response = await actor.attemptsTo(
+        const response: ResponseType<ExpectedResponseBody> = await actor.attemptsTo(
             Post.to('https://jsonplaceholder.typicode.com/posts').withData(data),
         );
 
         expect(response.status).toBe(201);
         expect(response.body).toStrictEqual(expected);
+        expect(response.body.id).toBe(expected.id);
     });
 
     test('PUT', async ({ actor }) => {
