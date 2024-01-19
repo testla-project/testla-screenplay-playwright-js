@@ -614,6 +614,8 @@ export class BrowseTheWeb extends Ability {
         if (typeof selector === 'string') {
             await this.page.waitForSelector(selector, { timeout: selectorOptions?.timeout });
             locators = await this.page.locator(selector, { hasText: selectorOptions?.hasText });
+        } else if (typeof selector === 'function') {
+            locators = selector(this.page);
         } else {
             locators = selector;
         }
