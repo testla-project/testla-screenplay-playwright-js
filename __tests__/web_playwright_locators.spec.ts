@@ -18,6 +18,7 @@ import { Get } from '../src/web/actions/Get';
 import { Set } from '../src/web/actions/Set';
 import { Remove } from '../src/web/actions/Remove';
 import { Element } from '../src/web/questions/Element';
+import { LazySelector } from '../src/web/types';
 
 type MyActors = {
     actor: Actor;
@@ -31,6 +32,16 @@ const test = base.extend<MyActors>({
         await use(actor);
     },
 });
+
+class MyScreen {
+    static LAZY_SELECTOR: LazySelector = (page) => page.getByRole('button', { name: 'Add Element' });
+
+    static IFRAME = '#mce_0_ifr';
+
+    static TINYMCE: LazySelector = (page) => page.getByLabel('Rich Text Area. Press ALT-0 for help.');
+
+    static TINYMCE_IN_IFRAME: LazySelector = (page) => page.frameLocator('iframe[title="Rich Text Area"]').getByText('Your content goes here.');
+}
 
 // TODO: implement test for DoubleClick
 // TODO: test different details between Fill and Type
@@ -358,7 +369,7 @@ test.describe('Testing screenplay-playwright-js web module', () => {
         expect(notEnabledRes).toBeTruthy();
     });
 
-    test('Click with lazy selector', async ({ actor }) => {
+    test('Click with LazySelector', async ({ actor }) => {
         const page: Page = BrowseTheWeb.as(actor).getPage();
 
         await actor.attemptsTo(
@@ -369,10 +380,22 @@ test.describe('Testing screenplay-playwright-js web module', () => {
         await expect(page.locator('[class="added-manually"]')).toHaveCount(0);
 
         await actor.attemptsTo(
-            Click.on((runtimePage) => runtimePage.getByRole('button', { name: 'Add Element' })),
+            Click.on(MyScreen.LAZY_SELECTOR),
         );
 
         // assert that the button is here after our Click
         await expect(page.locator('[class="added-manually"]')).toHaveCount(1);
+    });
+
+    test('Handle iFrames in combination with LazySelector', async ({ actor }) => {
+        await actor.attemptsTo(
+            Navigate.to('https://the-internet.herokuapp.com/iframe'),
+            Wait.forLoadState('networkidle'),
+        );
+
+        expect(await actor.asks(
+            Element.toBe.visible(MyScreen.TINYMCE).inFrame(MyScreen.IFRAME),
+            Element.toBe.visible(MyScreen.TINYMCE_IN_IFRAME),
+        )).toBe(true);
     });
 });
