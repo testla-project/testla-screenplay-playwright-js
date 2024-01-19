@@ -148,7 +148,7 @@ test.describe('Testing screenplay-playwright-js web module', () => {
 
         // exact 1 element to find
         await expect(await actor.attemptsTo(Get.element('h3'))).toHaveCount(1);
-        await expect((await actor.attemptsTo(Get.elements('h3'))).length).toBe(1);
+        await expect((await actor.attemptsTo(Get.elements((page) => page.getByRole('heading')))).length).toBe(1);
     });
 
     test('Count', async ({ actor }) => {
