@@ -150,7 +150,7 @@ test.describe('Testing screenplay-playwright-js web module', () => {
         await expect(await actor.attemptsTo(Get.element('h3'))).toHaveCount(1);
         await expect((await actor.attemptsTo(Get.elements('h3'))).length).toBe(1);
         // test for deprecated function inside BrowseTheWeb
-        await expect(((await BrowseTheWeb.as(actor).getElement((page) => page.getByRole('alert'), false) as Locator[])).length).toBe(1);
+        await expect(((await BrowseTheWeb.as(actor).getElement((page) => page.getByRole('heading'), false) as Locator[])).length).toBe(1);
     });
 
     test('Count', async ({ actor }) => {
