@@ -29,7 +29,9 @@ export class Head extends ARequest {
      * @return {Head} new instance
      */
     public static from(url: string): Head {
-        return new Head(url);
+        const instance = new Head(url);
+        instance.setCallStackInitializeCalledWith({ url });
+        return instance;
     }
 
     /**
@@ -40,6 +42,7 @@ export class Head extends ARequest {
      */
     public withHeaders(headers: Headers): Head {
         this.headers = headers;
+        this.addToCallStack({ caller: 'withHeaders', calledWith: { headers } });
         return this;
     }
 }

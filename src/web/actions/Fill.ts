@@ -44,6 +44,8 @@ export class Fill extends FrameEnabledAction {
      * @return {Fill} new Fill instance
      */
     public static in(selector: Selector, input: string, options?: SelectorOptions): Fill {
-        return new Fill(selector, input, options);
+        const instance = new Fill(selector, input, options);
+        instance.setCallStackInitializeCalledWith({ selector, input, options });
+        return instance;
     }
 }

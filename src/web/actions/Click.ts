@@ -40,6 +40,8 @@ export class Click extends FrameEnabledAction {
      * @return {Click} new Click instance
      */
     public static on(selector: Selector, options?: SelectorOptions): Click {
-        return new Click(selector, options);
+        const instance = new Click(selector, options);
+        instance.setCallStackInitializeCalledWith({ selector, options });
+        return instance;
     }
 }

@@ -22,6 +22,8 @@ export class Clear extends Action {
      * @return {Clear} new Clear instance
      */
     public static cookies(): Clear {
-        return new Clear();
+        const instance = new Clear();
+        instance.setCallStackInitializeCalledWith({});
+        return instance;
     }
 }

@@ -33,7 +33,9 @@ export class Post extends ARequest {
      * @return {Post} a new Post instance
      */
     public static to(url: string): Post {
-        return new Post(url);
+        const instance = new Post(url);
+        instance.setCallStackInitializeCalledWith({ url });
+        return instance;
     }
 
     /**
@@ -44,6 +46,7 @@ export class Post extends ARequest {
      */
     public withData(data: any): Post {
         this.data = data;
+        this.addToCallStack({ caller: 'withData', calledWith: { data } });
         return this;
     }
 
@@ -55,6 +58,7 @@ export class Post extends ARequest {
      */
     public withHeaders(headers: Headers): Post {
         this.headers = headers;
+        this.addToCallStack({ caller: 'withHeaders', calledWith: { headers } });
         return this;
     }
 
@@ -66,6 +70,7 @@ export class Post extends ARequest {
      */
     public withResponseBodyFormat(responseBodyFormat: ResponseBodyFormat): Post {
         this.responseBodyFormat = responseBodyFormat;
+        this.addToCallStack({ caller: 'withResponseBodyFormat', calledWith: { responseBodyFormat } });
         return this;
     }
 }

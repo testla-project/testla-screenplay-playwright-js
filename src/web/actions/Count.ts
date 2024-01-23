@@ -38,6 +38,8 @@ export class Count extends FrameEnabledAction {
      * @return {Count} new Count instance
      */
     public static elements(selector: Selector, options?: SelectorOptions): Count {
-        return new Count(selector, options);
+        const instance = new Count(selector, options);
+        instance.setCallStackInitializeCalledWith({ selector, options });
+        return instance;
     }
 }

@@ -32,6 +32,8 @@ export class Add extends Action {
      * @return {Add} new Add instance
      */
     public static cookies(cookies: Cookie[]): Add {
-        return new Add(cookies);
+        const instance = new Add(cookies);
+        instance.setCallStackInitializeCalledWith({ cookies });
+        return instance;
     }
 }

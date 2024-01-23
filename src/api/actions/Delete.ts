@@ -31,7 +31,9 @@ export class Delete extends ARequest {
      * @return {Delete} new instance
      */
     public static from(url: string): Delete {
-        return new Delete(url);
+        const instance = new Delete(url);
+        instance.setCallStackInitializeCalledWith({ url });
+        return instance;
     }
 
     /**
@@ -42,6 +44,7 @@ export class Delete extends ARequest {
      */
     public withHeaders(headers: Headers): Delete {
         this.headers = headers;
+        this.addToCallStack({ caller: 'withHeaders', calledWith: { headers } });
         return this;
     }
 
@@ -53,6 +56,7 @@ export class Delete extends ARequest {
      */
     public withResponseBodyFormat(responseBodyFormat: ResponseBodyFormat): Delete {
         this.responseBodyFormat = responseBodyFormat;
+        this.addToCallStack({ caller: 'withResponseBodyFormat', calledWith: { responseBodyFormat } });
         return this;
     }
 }

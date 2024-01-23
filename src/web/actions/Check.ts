@@ -40,6 +40,8 @@ export class Check extends FrameEnabledAction {
      * @return {Check} new Check instance
      */
     public static element(selector: Selector, options?: SelectorOptions): Check {
-        return new Check(selector, options);
+        const instance = new Check(selector, options);
+        instance.setCallStackInitializeCalledWith({ selector, options });
+        return instance;
     }
 }

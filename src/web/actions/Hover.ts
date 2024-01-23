@@ -40,6 +40,8 @@ export class Hover extends FrameEnabledAction {
      * @return {Hover} new Hover instance
      */
     public static over(selector: Selector, options?: SelectorOptions & { modifiers?: ('Alt' | 'Control' | 'Meta' | 'Shift')[] }): Hover {
-        return new Hover(selector, options);
+        const instance = new Hover(selector, options);
+        instance.setCallStackInitializeCalledWith({ selector, options });
+        return instance;
     }
 }

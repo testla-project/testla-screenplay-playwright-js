@@ -154,6 +154,7 @@ export class Element extends FrameEnabledQuestion {
         this.mode = 'visible';
         this.selector = selector;
         this.options = options;
+        this.addToCallStack({ caller: 'visible', calledWith: { selector, options } });
 
         return this;
     }
@@ -169,6 +170,7 @@ export class Element extends FrameEnabledQuestion {
         this.mode = 'enabled';
         this.selector = selector;
         this.options = options;
+        this.addToCallStack({ caller: 'enabled', calledWith: { selector, options } });
 
         return this;
     }
@@ -185,6 +187,7 @@ export class Element extends FrameEnabledQuestion {
         this.selector = selector;
         this.payload = text;
         this.options = options;
+        this.addToCallStack({ caller: 'text', calledWith: { selector, text, options } });
 
         return this;
     }
@@ -201,6 +204,7 @@ export class Element extends FrameEnabledQuestion {
         this.selector = selector;
         this.payload = value;
         this.options = options;
+        this.addToCallStack({ caller: 'value', calledWith: { selector, value, options } });
 
         return this;
     }
@@ -218,6 +222,7 @@ export class Element extends FrameEnabledQuestion {
         this.mode = 'minCount';
         this.selector = selector;
         this.options = options;
+        this.addToCallStack({ caller: 'minCount', calledWith: { selector, minimumCount, options } });
 
         return this;
     }
@@ -235,6 +240,7 @@ export class Element extends FrameEnabledQuestion {
         this.selector = selector;
         this.mode = 'count';
         this.options = options;
+        this.addToCallStack({ caller: 'count', calledWith: { selector, desiredCount, options } });
 
         return this;
     }
@@ -250,6 +256,7 @@ export class Element extends FrameEnabledQuestion {
         this.selector = selector;
         this.mode = 'checked';
         this.options = options;
+        this.addToCallStack({ caller: 'checked', calledWith: { selector, options } });
 
         return this;
     }

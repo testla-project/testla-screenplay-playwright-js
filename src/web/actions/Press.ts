@@ -44,7 +44,9 @@ export class Press extends FrameEnabledAction {
      * @return {Press} new Press instance
      */
     public static key(keys: string): Press {
-        return new Press('key', { keys });
+        const instance = new Press('key', { keys });
+        instance.setCallStackInitializeCalledWith({ keys });
+        return instance;
     }
 
     /**
@@ -55,6 +57,8 @@ export class Press extends FrameEnabledAction {
      * @return {Press} new Press instance
      */
     public static sequentially(selector: Selector, input: string, options?: SelectorOptions): Press {
-        return new Press('sequentially', { selector, input, options });
+        const instance = new Press('sequentially', { selector, input, options });
+        instance.setCallStackInitializeCalledWith({ selector, input, options });
+        return instance;
     }
 }
