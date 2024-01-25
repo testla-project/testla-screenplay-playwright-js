@@ -12,8 +12,10 @@
   - [Write your own Questions](./advanced_test_setup/create_question.md)
   - [Use it in your test](./advanced_test_setup/write_tests.md)
 - **Aliasing**
-  - [Ability Aliasing](./ability_aliasing//ability_aliasing.md) - Using the same ability with different configurations
+  - [Ability Aliasing](./ability_aliasing/ability_aliasing.md) - Using the same ability with different configurations
 - **Frame Handling**
-  - [Frame(s)](./frame_handling//frame_handling.md) - Handling frames
+  - [Frame(s)](./frame_handling/frame_handling.md) - Handling frames
+- **Logging**
+  - [Logging](./logging/logging.md) - How to enable debug logs
 
 [Back to overview](../../README.md)

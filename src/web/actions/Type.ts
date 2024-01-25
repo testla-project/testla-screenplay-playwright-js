@@ -45,6 +45,8 @@ export class Type extends FrameEnabledAction {
      * @deprecated Please use pressSequentially instead. This function will be removed in the future.
      */
     public static in(selector: Selector, input: string, options?: SelectorOptions): Type {
-        return new Type(selector, input, options);
+        const instance = new Type(selector, input, options);
+        instance.setCallStackInitializeCalledWith({ selector, input, options });
+        return instance;
     }
 }

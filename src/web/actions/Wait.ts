@@ -43,7 +43,9 @@ export class Wait extends FrameEnabledAction {
      * @return {Wait} new Wait instance
      */
     public static forLoadState(state: 'load' | 'domcontentloaded' | 'networkidle'): Wait {
-        return new Wait({ mode: 'loadState', payload: { state } });
+        const instance = new Wait({ mode: 'loadState', payload: { state } });
+        instance.setCallStackInitializeCalledWith({ state });
+        return instance;
     }
 
     /**
@@ -54,6 +56,8 @@ export class Wait extends FrameEnabledAction {
      * @return {Wait} new Wait instance
      */
     public static forSelector(selector: Selector, options?: SelectorOptions): Wait {
-        return new Wait({ mode: 'selector', payload: { selector, options } });
+        const instance = new Wait({ mode: 'selector', payload: { selector, options } });
+        instance.setCallStackInitializeCalledWith({ selector, options });
+        return instance;
     }
 }

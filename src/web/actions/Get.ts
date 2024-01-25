@@ -62,7 +62,9 @@ export class Get extends FrameEnabledAction {
      * @return {Get} new Get instance for cookies
      */
     public static cookies(urls?: string | string[] | undefined): Get {
-        return new Get('cookies', urls);
+        const instance = new Get('cookies', urls);
+        instance.setCallStackInitializeCalledWith({ urls });
+        return instance;
     }
 
     /**
@@ -72,7 +74,9 @@ export class Get extends FrameEnabledAction {
      * @return {Get} new Get instance for session storage
      */
     public static sessionStorageItem(key: string): Get {
-        return new Get('sessionStorage', key);
+        const instance = new Get('sessionStorage', key);
+        instance.setCallStackInitializeCalledWith({ key });
+        return instance;
     }
 
     /**
@@ -82,7 +86,9 @@ export class Get extends FrameEnabledAction {
      * @return {Get} new Get instance for local storage
      */
     public static localStorageItem(key: string): Get {
-        return new Get('localStorage', key);
+        const instance = new Get('localStorage', key);
+        instance.setCallStackInitializeCalledWith({ key });
+        return instance;
     }
 
     /**
@@ -93,7 +99,9 @@ export class Get extends FrameEnabledAction {
      * @returns new Get instance
      */
     public static element(selector: Selector, options?: SelectorOptions): Get {
-        return new Get('element', { selector, options });
+        const instance = new Get('element', { selector, options });
+        instance.setCallStackInitializeCalledWith({ selector, options });
+        return instance;
     }
 
     /**
@@ -104,6 +112,8 @@ export class Get extends FrameEnabledAction {
      * @returns new Get instance
      */
     public static elements(selector: Selector, options?: SelectorOptions): Get {
-        return new Get('element', { selector, options, singular: false });
+        const instance = new Get('element', { selector, options, singular: false });
+        instance.setCallStackInitializeCalledWith({ selector, options });
+        return instance;
     }
 }

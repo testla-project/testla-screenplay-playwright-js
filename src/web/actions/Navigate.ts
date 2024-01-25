@@ -32,6 +32,8 @@ export class Navigate extends Action {
      * @return {Navigate} new Navigate instance
      */
     public static to(url: string): Navigate {
-        return new Navigate(url);
+        const instance = new Navigate(url);
+        instance.setCallStackInitializeCalledWith({ url });
+        return instance;
     }
 }

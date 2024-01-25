@@ -43,6 +43,8 @@ export class Select extends FrameEnabledAction {
      * @return {Select} new Select instance
      */
     public static option(selector: Selector, option: string | { value?: string, label?: string, index?: number }, selectorOptions?: SelectorOptions): Select {
-        return new Select(selector, option, selectorOptions);
+        const instance = new Select(selector, option, selectorOptions);
+        instance.setCallStackInitializeCalledWith({ selector, option, selectorOptions });
+        return instance;
     }
 }

@@ -12,6 +12,8 @@ export class Reload extends Action {
      * Reload the current browser page.
      */
     public static page(): Reload {
-        return new Reload();
+        const instance = new Reload();
+        instance.setCallStackInitializeCalledWith({});
+        return instance;
     }
 }

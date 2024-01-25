@@ -55,6 +55,8 @@ export class DragAndDrop extends FrameEnabledAction {
         source?: SelectorOptions;
         target?: SelectorOptions;
     }): DragAndDrop {
-        return new DragAndDrop(sourceSelector, targetSelector, options);
+        const instance = new DragAndDrop(sourceSelector, targetSelector, options);
+        instance.setCallStackInitializeCalledWith({ sourceSelector, targetSelector, options });
+        return instance;
     }
 }

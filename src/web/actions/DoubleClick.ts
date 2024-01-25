@@ -40,6 +40,8 @@ export class DoubleClick extends FrameEnabledAction {
      * @return {DoubleClick} new DoubleClick instance
      */
     public static on(selector: Selector, options?: SelectorOptions): DoubleClick {
-        return new DoubleClick(selector, options);
+        const instance = new DoubleClick(selector, options);
+        instance.setCallStackInitializeCalledWith({ selector, options });
+        return instance;
     }
 }
