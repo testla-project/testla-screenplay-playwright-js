@@ -2,6 +2,8 @@
 
 # Logging
 
+> This feature is currently in experimental stage and might see bigger changes.
+
 Testla comes with logging which helps you to debug your test code. When logging is enabled all activities an actor triggers are logged in a comprehensive way to stdout. To enable logging set the DEBUG environment variable as follows:
 
 ```typescript
