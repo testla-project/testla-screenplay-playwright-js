@@ -19,10 +19,10 @@ export class Download extends Action {
     }
 
     /**
-     * Add the cookies to the browser.
+     * Downloads the file.
      *
      * @param {Actor} actor Actor performing this action
-     * @return {any} Adds cookies into this browser context.
+     * @return {boolean} returns true if download is successful
      */
     public async performAs(actor: Actor): Promise<boolean> {
         const [download] = await Promise.all([
@@ -40,10 +40,11 @@ export class Download extends Action {
     }
 
     /**
-     * Add the specified cookies.
+     * Download file
      *
-     * @param {Cookie} cookies the cookies to add.
-     * @return {Add} new Add instance
+     * @param {Selector} selector the selector to start the download.
+     * @param {SelectorOptions} options (optional) the selector options including a potential filepath and filename.
+     * @return {Download} new Download instance
      */
     public static file(selector: Selector, options?: SelectorOptions & { filepath?: string; filename?: string }): Download {
         const instance = new Download(selector, options);
