@@ -10,11 +10,11 @@ export class Wait extends FrameEnabledAction {
     // the object that determines what to wait for (loading state, selector or selector == expected).
     // only 1 property is active at all times.
     private action: {
-        mode: 'selector' | 'loadState';
+        mode: 'selector' | 'loadState' | 'event';
         payload?: any;
     };
 
-    private constructor(action: { mode: 'selector' | 'loadState', payload?: any }) {
+    private constructor(action: { mode: 'selector' | 'loadState' | 'event', payload?: any }) {
         super();
         this.action = action;
     }
@@ -31,6 +31,10 @@ export class Wait extends FrameEnabledAction {
         if (this.action.mode === 'loadState') {
             const page = BrowseTheWeb.as(actor, abilityAlias).getPage();
             return page.waitForLoadState(action.payload.state);
+        }
+        if (this.action.mode === 'event') {
+            const page = BrowseTheWeb.as(actor, abilityAlias).getPage();
+            return page.waitForEvent(action.payload.event);
         }
         // fallback: action.mode === 'selector'
         return BrowseTheWeb.as(actor, abilityAlias).resolveSelectorToLocator(action.payload.selector, action.payload.options, frameTree);
@@ -58,6 +62,12 @@ export class Wait extends FrameEnabledAction {
     public static forSelector(selector: Selector, options?: SelectorOptions): Wait {
         const instance = new Wait({ mode: 'selector', payload: { selector, options } });
         instance.setCallStackInitializeCalledWith({ selector, options });
+        return instance;
+    }
+
+    public static forEvent(event: string): Wait {
+        const instance = new Wait({ mode: 'event', payload: { event } });
+        instance.setCallStackInitializeCalledWith({ event });
         return instance;
     }
 }
