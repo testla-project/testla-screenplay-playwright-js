@@ -39,6 +39,7 @@
 - [Click](./Web/Actions/click.md)
 - [Count](./Web/Actions/count.md)
 - [DoubleClick](./Web/Actions/double_click.md)
+- [Download](./Web/Actions/download.md)
 - [DragAndDrop](./Web/Actions/drag_and_drop.md)
 - [Fill](./Web/Actions/fill.md)
 - [Get](./Web/Actions/get.md)
