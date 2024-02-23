@@ -13,6 +13,7 @@ The `Wait` class is an action class in the Screenplay pattern designed for use w
     - [performAs](#performas)
     - [forLoadState](#forloadstate)
     - [forSelector](#forselector)
+    - [forEvent](#forevent)
     - [inFrame](#inframe)
     - [withAbilityAlias](#withabilityalias)
 
@@ -52,6 +53,17 @@ public static forSelector(selector: Selector, options?: SelectorOptions): Wait;
 - **Parameters:**
   - `selector` - The selector.
   - `options` - (optional) Advanced selector lookup options.
+- **Returns:** `Wait` - Returns a new `Wait` instance.
+
+### forEvent
+
+```typescript
+public static forEvent(event: string): Wait;
+```
+
+- **Description:** Creates a new instance of the `Wait` class to wait for a specific event.
+- **Parameters:**
+  - `event` - The event.
 - **Returns:** `Wait` - Returns a new `Wait` instance.
 
 ### inFrame

@@ -65,6 +65,12 @@ export class Wait extends FrameEnabledAction {
         return instance;
     }
 
+    /**
+     * Wait for a specific event.
+     *
+     * @param {string} event the event.
+     * @return {Wait} new Wait instance
+     */
     public static forEvent(event: string): Wait {
         const instance = new Wait({ mode: 'event', payload: { event } });
         instance.setCallStackInitializeCalledWith({ event });

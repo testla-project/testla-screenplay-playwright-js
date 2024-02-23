@@ -515,6 +515,42 @@ test.describe('Testing screenplay-playwright-js web module', () => {
         expect(notEnabledRes).toBeTruthy();
     });
 
+    test('Element.minCount', async ({ actor }) => {
+        await actor.attemptsTo(
+            Navigate.to('https://the-internet.herokuapp.com/checkboxes'),
+            Wait.forLoadState('networkidle'),
+        );
+
+        expect(await actor.asks(
+            Element.toHave.minCount('[type="checkbox"]', 1),
+            Element.toHave.minCount('[type="checkbox"]', 2),
+        )).toBe(true);
+
+        let enabledRes = false;
+        try {
+            expect(await actor.asks(
+                Element.toHave.minCount('h3', 2, { timeout: 1000 }),
+            )).toBe(true);
+        } catch (error) {
+            enabledRes = true;
+        }
+        expect(enabledRes).toBeTruthy();
+
+        expect(await actor.asks(
+            Element.notToHave.minCount('[type="checkbox"]', 3),
+        )).toBe(true);
+
+        let notEnabledRes = false;
+        try {
+            expect(await actor.asks(
+                Element.notToHave.minCount('h3', 1, { timeout: 1000 }),
+            )).toBe(true);
+        } catch (error) {
+            notEnabledRes = true;
+        }
+        expect(notEnabledRes).toBeTruthy();
+    });
+
     test('Download File', async ({ actor }) => {
         const res = await actor.attemptsTo(
             Navigate.to('https://the-internet.herokuapp.com/download'),
