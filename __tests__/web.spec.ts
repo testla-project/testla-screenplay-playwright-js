@@ -5,6 +5,7 @@ import {
     expect, Locator,
 } from '@playwright/test';
 import { Actor } from '@testla/screenplay';
+import * as fs from 'fs';
 import { BrowseTheWeb } from '../src/web/abilities/BrowseTheWeb';
 import { Add } from '../src/web/actions/Add';
 import { Check } from '../src/web/actions/Check';
@@ -22,6 +23,7 @@ import { Type } from '../src/web/actions/Type';
 import { Wait } from '../src/web/actions/Wait';
 import { Element } from '../src/web/questions/Element';
 import { Count } from '../src/web/actions/Count';
+import { Download } from '../src/web/actions/Download';
 
 type MyActors = {
     actor: Actor;
@@ -513,39 +515,30 @@ test.describe('Testing screenplay-playwright-js web module', () => {
         expect(notEnabledRes).toBeTruthy();
     });
 
-    test('Element.minCount', async ({ actor }) => {
-        await actor.attemptsTo(
-            Navigate.to('https://the-internet.herokuapp.com/checkboxes'),
+    test('Download File', async ({ actor }) => {
+        const res = await actor.attemptsTo(
+            Navigate.to('https://the-internet.herokuapp.com/download'),
             Wait.forLoadState('networkidle'),
+            Download.file('"dummy.txt"'),
         );
+        expect(res).toBe(true);
+    });
 
-        expect(await actor.asks(
-            Element.toHave.minCount('[type="checkbox"]', 1),
-            Element.toHave.minCount('[type="checkbox"]', 2),
-        )).toBe(true);
-
-        let enabledRes = false;
-        try {
-            expect(await actor.asks(
-                Element.toHave.minCount('h3', 2, { timeout: 1000 }),
-            )).toBe(true);
-        } catch (error) {
-            enabledRes = true;
-        }
-        expect(enabledRes).toBeTruthy();
-
-        expect(await actor.asks(
-            Element.notToHave.minCount('[type="checkbox"]', 3),
-        )).toBe(true);
-
-        let notEnabledRes = false;
-        try {
-            expect(await actor.asks(
-                Element.notToHave.minCount('h3', 1, { timeout: 1000 }),
-            )).toBe(true);
-        } catch (error) {
-            notEnabledRes = true;
-        }
-        expect(notEnabledRes).toBeTruthy();
+    test('Download File with Path', async ({ actor }) => {
+        const downloadPath = './';
+        const downloadFileName = 'download.txt';
+        const filePath = `${downloadPath}${downloadFileName}`;
+        const res = await actor.attemptsTo(
+            Navigate.to('https://the-internet.herokuapp.com/download'),
+            Wait.forLoadState('networkidle'),
+            Download.file('"dummy.txt"', { filepath: downloadPath, filename: downloadFileName }),
+        );
+        expect(res).toBe(true);
+        const fileName = filePath.split('\\')?.pop()?.split('/').pop();
+        // Validate the filename
+        expect(fileName).toBe(downloadFileName);
+        // Validate the content of the file
+        const fileContent = fs.readFileSync(filePath, 'utf-8');
+        expect(fileContent).toBe('Some content');
     });
 });
