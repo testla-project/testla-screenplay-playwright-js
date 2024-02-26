@@ -555,7 +555,7 @@ test.describe('Testing screenplay-playwright-js web module', () => {
         const res = await actor.attemptsTo(
             Navigate.to('https://the-internet.herokuapp.com/download'),
             Wait.forLoadState('networkidle'),
-            Download.file('"dummy.txt"'),
+            Download.file('"test-file.txt"'),
         );
         expect(res).toBe(true);
     });
@@ -567,7 +567,7 @@ test.describe('Testing screenplay-playwright-js web module', () => {
         const res = await actor.attemptsTo(
             Navigate.to('https://the-internet.herokuapp.com/download'),
             Wait.forLoadState('networkidle'),
-            Download.file('"dummy.txt"', { filepath: downloadPath, filename: downloadFileName }),
+            Download.file('"test-file.txt"', { filepath: downloadPath, filename: downloadFileName }),
         );
         expect(res).toBe(true);
         const fileName = filePath.split('\\')?.pop()?.split('/').pop();
@@ -575,6 +575,6 @@ test.describe('Testing screenplay-playwright-js web module', () => {
         expect(fileName).toBe(downloadFileName);
         // Validate the content of the file
         const fileContent = fs.readFileSync(filePath, 'utf-8');
-        expect(fileContent).toBe('Some content');
+        expect(fileContent).toBe('Test file');
     });
 });

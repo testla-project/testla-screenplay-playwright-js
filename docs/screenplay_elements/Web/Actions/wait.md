@@ -57,6 +57,8 @@ public static forSelector(selector: Selector, options?: SelectorOptions): Wait;
 
 ### forEvent
 
+*Introduced in: 1.5.0*
+
 ```typescript
 public static forEvent(event: string): Wait;
 ```

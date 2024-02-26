@@ -8,3 +8,4 @@ results.xml
 **/test-results
 testCoverage.json
 .vscode/
+download.txt
