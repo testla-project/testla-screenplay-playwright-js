@@ -21,7 +21,7 @@ In order to use testla you need to [install](https://playwright.dev/docs/intro) 
 Get started by installing Testla Screenplay for Playwright using npm. 
 
 ```bash
-npm install --save-dev testla-screenplay-playwright
+npm install --save-dev @testla/screenplay-playwright
 ```
 
 ## 👨‍🏫 Learn Testla
