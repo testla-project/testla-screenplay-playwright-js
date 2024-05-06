@@ -32,7 +32,7 @@ const wasLoggedIn = await actors.asks(
 
 // proceed based on answer from above
 if (wasLoggedIn === false) {
-    // some code to be axecuted on false case
+    // some code to be executed on false case
 }
 ```
 

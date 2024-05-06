@@ -13,6 +13,7 @@ The `Clear` class is an action class in the Screenplay pattern designed for use 
     - [performAs](#performas)
     - [cookies](#cookies)
     - [withAbilityAlias](#withabilityalias)
+    - [orSkipOnFail](#orskiponfail)
 
 ## Class Overview
 
@@ -47,6 +48,17 @@ public withAbilityAlias(alias: string): Clear;
 - **Description:** Defines the ability alias to be used during execution.
 - **Parameters:**
   - `alias` - The alias.
+- **Returns:** `Clear` - Returns the current action.
+
+### orSkipOnFail
+
+*Introduced in: 1.6.0*
+
+```typescript
+public get orSkipOnFail(): Clear;
+```
+
+- **Description:** Allows to skip an action on fail.
 - **Returns:** `Clear` - Returns the current action.
 
 [Back to overview](../../screenplay_elements.md)

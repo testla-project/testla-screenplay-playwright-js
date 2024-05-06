@@ -24,6 +24,7 @@ The `Element` class is a question class in the Screenplay pattern designed for u
     - [minCount](#mincount)
     - [inFrame](#inframe)
     - [withAbilityAlias](#withabilityalias)
+    - [failAsFalse](#failasfalse)
 
 ## Class Overview
 
@@ -184,6 +185,17 @@ public withAbilityAlias(alias: string): Element;
 - **Description:** Defines the ability alias to be used during execution.
 - **Parameters:**
   - `alias` - The alias.
-- **Returns:** `Element` - Returns the current action.
+- **Returns:** `Element` - Returns the current question.
+
+### failAsFalse
+
+*Introduced in: 1.6.0*
+
+```typescript
+public get failAsFalse(): Element;
+```
+
+- **Description:** Returns false instead of failing when exception occurrs.
+- **Returns:** `Element` - Returns the current question.
 
 [Back to overview](../../screenplay_elements.md)

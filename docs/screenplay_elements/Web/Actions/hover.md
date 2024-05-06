@@ -14,6 +14,7 @@ The `Hover` class is an action class in the Screenplay pattern designed for use 
     - [over](#over)
     - [inFrame](#inframe)
     - [withAbilityAlias](#withabilityalias)
+    - [orSkipOnFail](#orskiponfail)
 
 ## Class Overview
 
@@ -62,6 +63,17 @@ public withAbilityAlias(alias: string): Hover;
 - **Description:** Defines the ability alias to be used during execution.
 - **Parameters:**
   - `alias` - The alias.
+- **Returns:** `Hover` - Returns the current action.
+
+### orSkipOnFail
+
+*Introduced in: 1.6.0*
+
+```typescript
+public get orSkipOnFail(): Hover;
+```
+
+- **Description:** Allows to skip an action on fail.
 - **Returns:** `Hover` - Returns the current action.
 
 [Back to overview](../../screenplay_elements.md)

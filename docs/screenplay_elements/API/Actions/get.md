@@ -16,6 +16,7 @@ The `Get` class provides a convenient way to perform HTTP GET requests. It allow
     - [withHeaders](#withheaders)
     - [withResponseBodyFormat](#withresponsebodyformat)
     - [withAbilityAlias](#withabilityalias)
+    - [orSkipOnFail](#orskiponfail)
 
 ## Class Overview
 
@@ -78,6 +79,17 @@ public withAbilityAlias(alias: string): Get;
 - **Description:** Defines the ability alias to be used during execution.
 - **Parameters:**
   - `alias` - The alias.
+- **Returns:** `Get` - Returns the current action.
+
+### orSkipOnFail
+
+*Introduced in: 1.6.0*
+
+```typescript
+public get orSkipOnFail(): Get;
+```
+
+- **Description:** Allows to skip an action on fail.
 - **Returns:** `Get` - Returns the current action.
 
 [Back to overview](../../screenplay_elements.md)

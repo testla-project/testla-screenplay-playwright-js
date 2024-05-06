@@ -15,6 +15,7 @@ The `Head` class provides a convenient way to perform HTTP HEAD requests. It all
     - [from](#from)
     - [withHeaders](#withheaders)
     - [withAbilityAlias](#withabilityalias)
+    - [orSkipOnFail](#orskiponfail)
 
 ## Class Overview
 
@@ -66,6 +67,17 @@ public withAbilityAlias(alias: string): Head;
 - **Description:** Defines the ability alias to be used during execution.
 - **Parameters:**
   - `alias` - The alias.
+- **Returns:** `Head` - Returns the current action.
+
+### orSkipOnFail
+
+*Introduced in: 1.6.0*
+
+```typescript
+public get orSkipOnFail(): Head;
+```
+
+- **Description:** Allows to skip an action on fail.
 - **Returns:** `Head` - Returns the current action.
 
 [Back to overview](../../screenplay_elements.md)

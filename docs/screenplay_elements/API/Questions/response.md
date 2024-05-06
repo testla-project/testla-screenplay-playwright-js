@@ -18,6 +18,8 @@ The `Response` class provides a flexible way to verify various aspects of an API
     - [body](#body)
     - [headers](#headers)
     - [beenReceivedWithin](#beenreceivedwithin)
+    - [withAbilityAlias](#withabilityalias)
+    - [failAsFalse](#failasfalse)
 
 ## Class Overview
 
@@ -103,5 +105,27 @@ public beenReceivedWithin(response: ResponseType, duration: number): Response;
   - `response` - The response to check.
   - `duration` - The expected duration (in milliseconds).
 - **Returns:** `Response` - The updated instance of the `Response` class.
+
+### withAbilityAlias
+
+```typescript
+public withAbilityAlias(alias: string): Response;
+```
+
+- **Description:** Defines the ability alias to be used during execution.
+- **Parameters:**
+  - `alias` - The alias.
+- **Returns:** `Response` - Returns the current question.
+
+### failAsFalse
+
+*Introduced in: 1.6.0*
+
+```typescript
+public get failAsFalse(): Response;
+```
+
+- **Description:** Returns false instead of failing when exception occurrs.
+- **Returns:** `Response` - Returns the current action.
 
 [Back to overview](../../screenplay_elements.md)
