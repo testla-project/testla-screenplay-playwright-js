@@ -20,7 +20,7 @@ test.describe('Testing screenplay-playwright-js failure handling', () => {
     test('orSkipOnFail', async ({ actor }) => {
         await actor.attemptsTo(
             Navigate.to('https://google.de'),
-            Click.on('#not-existing-element').orSkipOnFail,
+            Click.on('#not-existing-element', { timeout: 1000 }).orSkipOnFail,
         );
     });
 
@@ -30,7 +30,7 @@ test.describe('Testing screenplay-playwright-js failure handling', () => {
         );
 
         const shallBeFalse = await actor.asks(
-            Element.toBe.visible('#not-existing-element').failAsFalse,
+            Element.toBe.visible('#not-existing-element', { timeout: 1000 }).failAsFalse,
         );
 
         await expect(shallBeFalse).toBe(false);
