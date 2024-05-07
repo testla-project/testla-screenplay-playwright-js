@@ -42,7 +42,7 @@ export class Type extends FrameEnabledAction {
      * @param {string} input the input.
      * @param {SelectorOptions} options (optional) advanced selector lookup options.
      * @return {Type} new Type instance
-     * @deprecated Please use pressSequentially instead. This function will be removed in the future.
+     * @deprecated Please use Press.sequentially instead. This function will be removed in the future.
      */
     public static in(selector: Selector, input: string, options?: SelectorOptions): Type {
         const instance = new Type(selector, input, options);

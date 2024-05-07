@@ -57,10 +57,6 @@
 
 - [Element](./Web/Questions/element.md)
 
-### Miscellaneous
-
-- [Utils](./Web/Miscellaneous/utils.md)
-
 ## Shared 
 
 ### Action

@@ -4,6 +4,8 @@
 
 The `Sleep` class is an useful action for introducing delays in test scenarios, allowing for better synchronization with the system under test. This performs the action of pausing the test execution for the specified interval.
 
+This Action does not rely on a specific Ability.
+
 ## Table of Contents
 
 - [Sleep](#sleep)
