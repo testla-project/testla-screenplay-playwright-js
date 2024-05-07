@@ -2,7 +2,7 @@
 import {
     BrowserContext, Cookie,
     test as base,
-    expect, Locator,
+    expect,
 } from '@playwright/test';
 import { Actor } from '@testla/screenplay';
 import * as fs from 'fs';

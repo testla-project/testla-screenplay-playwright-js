@@ -1,6 +1,9 @@
 import { FrameLocator, Locator, Page } from '@playwright/test';
 import { Ability, Actor } from '@testla/screenplay';
-import { FrameSelector, Selector, SelectorOptions } from '../types';
+import {
+    FrameSelector, Selector, SelectorOptions,
+    SelectorOptionsState, SubSelector,
+} from '../types';
 
 /**
  * This class represents the actor's ability to use a Browser.
