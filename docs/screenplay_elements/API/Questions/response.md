@@ -126,6 +126,6 @@ public get failAsFalse(): Response;
 ```
 
 - **Description:** Returns false instead of failing when exception occurrs.
-- **Returns:** `Response` - Returns the current action.
+- **Returns:** `Response` - Returns the current question.
 
 [Back to overview](../../screenplay_elements.md)
