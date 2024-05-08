@@ -8,8 +8,6 @@ const config: PlaywrightTestConfig = {
     use: {
         browserName: 'chromium',
 
-        // baseURL: process.env.APP_BASE_URL,
-
         headless: true,
 
         /* What is this? */

@@ -2,7 +2,7 @@
 import {
     BrowserContext, Cookie,
     test as base,
-    expect, Locator,
+    expect,
 } from '@playwright/test';
 import { Actor } from '@testla/screenplay';
 import * as fs from 'fs';
@@ -151,8 +151,6 @@ test.describe('Testing screenplay-playwright-js web module', () => {
         // exact 1 element to find
         await expect(await actor.attemptsTo(Get.element('h3'))).toHaveCount(1);
         await expect((await actor.attemptsTo(Get.elements('h3'))).length).toBe(1);
-        // test for deprecated function inside BrowseTheWeb
-        await expect(((await BrowseTheWeb.as(actor).getElement((page) => page.getByRole('heading'), false) as Locator[])).length).toBe(1);
     });
 
     test('Count', async ({ actor }) => {
@@ -551,11 +549,14 @@ test.describe('Testing screenplay-playwright-js web module', () => {
         expect(notEnabledRes).toBeTruthy();
     });
 
+    const DOWNLOAD_FILENAME = 'newFile.txt';
+    const DOWNLOAD_FILECONTENT = 'First file ';
+
     test('Download File', async ({ actor }) => {
         const res = await actor.attemptsTo(
             Navigate.to('https://the-internet.herokuapp.com/download'),
             Wait.forLoadState('networkidle'),
-            Download.file('"test-file.txt"'),
+            Download.file(`"${DOWNLOAD_FILENAME}"`),
         );
         expect(res).toBe(true);
     });
@@ -567,7 +568,7 @@ test.describe('Testing screenplay-playwright-js web module', () => {
         const res = await actor.attemptsTo(
             Navigate.to('https://the-internet.herokuapp.com/download'),
             Wait.forLoadState('networkidle'),
-            Download.file('"test-file.txt"', { filepath: downloadPath, filename: downloadFileName }),
+            Download.file(`"${DOWNLOAD_FILENAME}"`, { filepath: downloadPath, filename: downloadFileName }),
         );
         expect(res).toBe(true);
         const fileName = filePath.split('\\')?.pop()?.split('/').pop();
@@ -575,6 +576,6 @@ test.describe('Testing screenplay-playwright-js web module', () => {
         expect(fileName).toBe(downloadFileName);
         // Validate the content of the file
         const fileContent = fs.readFileSync(filePath, 'utf-8');
-        expect(fileContent).toBe('Test file');
+        expect(fileContent).toBe(DOWNLOAD_FILECONTENT);
     });
 });
