@@ -549,8 +549,16 @@ test.describe('Testing screenplay-playwright-js web module', () => {
         expect(notEnabledRes).toBeTruthy();
     });
 
-    const DOWNLOAD_FILENAME = 'newFile.txt';
-    const DOWNLOAD_FILECONTENT = 'First file ';
+    // the download page contents change a lot
+    // thus keeping a few options in place
+    const DOWNLOAD_FILENAME = 'Hi.txt';
+    const DOWNLOAD_FILECONTENT = '';
+    // or
+    // const DOWNLOAD_FILENAME = 'test-file.txt';
+    // const DOWNLOAD_FILECONTENT = 'Test file';
+    // or
+    // const DOWNLOAD_FILENAME = 'newFile.txt';
+    // const DOWNLOAD_FILECONTENT = 'First file ';
 
     test('Download File', async ({ actor }) => {
         const res = await actor.attemptsTo(
