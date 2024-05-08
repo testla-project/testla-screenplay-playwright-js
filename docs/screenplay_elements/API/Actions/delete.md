@@ -16,6 +16,7 @@ The `Delete` class provides a convenient way to perform HTTP DELETE requests. It
     - [withHeaders](#withheaders)
     - [withResponseBodyFormat](#withresponsebodyformat)
     - [withAbilityAlias](#withabilityalias)
+    - [orSkipOnFail](#orskiponfail)
 
 ## Class Overview
 
@@ -78,6 +79,17 @@ public withAbilityAlias(alias: string): Delete;
 - **Description:** Defines the ability alias to be used during execution.
 - **Parameters:**
   - `alias` - The alias.
+- **Returns:** `Delete` - Returns the current action.
+
+### orSkipOnFail
+
+*Introduced in: 1.6.0*
+
+```typescript
+public get orSkipOnFail(): Delete;
+```
+
+- **Description:** Allows to skip an action on fail.
 - **Returns:** `Delete` - Returns the current action.
 
 [Back to overview](../../screenplay_elements.md)

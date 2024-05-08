@@ -14,6 +14,7 @@ The `Remove` class is an action class in the Screenplay pattern designed for use
     - [sessionStorageItem](#sessionstorageitem)
     - [localStorageItem](#localstorageitem)
     - [withAbilityAlias](#withabilityalias)
+    - [orSkipOnFail](#orskiponfail)
 
 ## Class Overview
 
@@ -61,6 +62,17 @@ public withAbilityAlias(alias: string): Remove;
 - **Description:** Defines the ability alias to be used during execution.
 - **Parameters:**
   - `alias` - The alias.
+- **Returns:** `Remove` - Returns the current action.
+
+### orSkipOnFail
+
+*Introduced in: 1.6.0*
+
+```typescript
+public get orSkipOnFail(): Remove;
+```
+
+- **Description:** Allows to skip an action on fail.
 - **Returns:** `Remove` - Returns the current action.
 
 [Back to overview](../../screenplay_elements.md)

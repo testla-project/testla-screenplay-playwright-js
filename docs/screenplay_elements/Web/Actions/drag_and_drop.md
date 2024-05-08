@@ -14,6 +14,7 @@ The `DragAndDrop` class is an action class in the Screenplay pattern designed fo
     - [execute](#execute)
     - [inFrame](#inframe)
     - [withAbilityAlias](#withabilityalias)
+    - [orSkipOnFail](#orskiponfail)
 
 ## Class Overview
 
@@ -66,6 +67,17 @@ public withAbilityAlias(alias: string): DragAndDrop;
 - **Description:** Defines the ability alias to be used during execution.
 - **Parameters:**
   - `alias` - The alias.
+- **Returns:** `DragAndDrop` - Returns the current action.
+
+### orSkipOnFail
+
+*Introduced in: 1.6.0*
+
+```typescript
+public get orSkipOnFail(): DragAndDrop;
+```
+
+- **Description:** Allows to skip an action on fail.
 - **Returns:** `DragAndDrop` - Returns the current action.
 
 [Back to overview](../../screenplay_elements.md)

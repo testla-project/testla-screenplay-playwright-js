@@ -17,6 +17,7 @@ The `Post` class provides a convenient way to perform HTTP POST requests. It all
     - [withHeaders](#withheaders)
     - [withResponseBodyFormat](#withresponsebodyformat)
     - [withAbilityAlias](#withabilityalias)
+    - [orSkipOnFail](#orskiponfail)
 
 ## Class Overview
 
@@ -90,6 +91,17 @@ public withAbilityAlias(alias: string): Post;
 - **Description:** Defines the ability alias to be used during execution.
 - **Parameters:**
   - `alias` - The alias.
+- **Returns:** `Post` - Returns the current action.
+
+### orSkipOnFail
+
+*Introduced in: 1.6.0*
+
+```typescript
+public get orSkipOnFail(): Post;
+```
+
+- **Description:** Allows to skip an action on fail.
 - **Returns:** `Post` - Returns the current action.
 
 [Back to overview](../../screenplay_elements.md)

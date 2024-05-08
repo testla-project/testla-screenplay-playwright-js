@@ -13,6 +13,7 @@ The `Reload` class is an action class in the Screenplay pattern designed for use
     - [performAs](#performas)
     - [page](#page)
     - [withAbilityAlias](#withabilityalias)
+    - [orSkipOnFail](#orskiponfail)
 
 ## Class Overview
 
@@ -47,6 +48,17 @@ public withAbilityAlias(alias: string): Reload;
 - **Description:** Defines the ability alias to be used during execution.
 - **Parameters:**
   - `alias` - The alias.
+- **Returns:** `Reload` - Returns the current action.
+
+### orSkipOnFail
+
+*Introduced in: 1.6.0*
+
+```typescript
+public get orSkipOnFail(): Reload;
+```
+
+- **Description:** Allows to skip an action on fail.
 - **Returns:** `Reload` - Returns the current action.
 
 [Back to overview](../../screenplay_elements.md)
