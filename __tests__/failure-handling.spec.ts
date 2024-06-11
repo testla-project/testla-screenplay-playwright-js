@@ -1,6 +1,8 @@
 import { expect, test as base } from '@playwright/test';
 import { Actor } from '@testla/screenplay';
-import { BrowseTheWeb, Navigate, Click, Element } from '../src/web';
+import {
+    BrowseTheWeb, Navigate, Click, Element,
+} from '../src/web';
 
 type MyActors = {
     actor: Actor;

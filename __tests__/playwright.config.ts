@@ -40,13 +40,17 @@ const config: PlaywrightTestConfig = {
     forbidOnly: Boolean(process.env.CI),
 
     /* Retry on CI only */
-    retries: process.env.CI ? 2 : 0,
+    retries: process.env.CI ? 2 : 1,
 
     /* Opt out of parallel tests on CI. */
     workers: process.env.CI ? 2 : undefined,
 
     /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-    reporter: [['html'], ['junit', { outputFile: 'results.xml' }]],
+    reporter: [
+        ['html'],
+        ['junit', { outputFile: 'results.xml' }],
+        ['../src/reporter/text-reporter.ts', { outputFile: 'results.txt' }],
+    ],
     /* reporter: process.env.CI ? 'dot' : 'list', */
 
     /* Configure projects for major browsers */
