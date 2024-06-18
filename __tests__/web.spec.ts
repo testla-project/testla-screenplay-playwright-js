@@ -41,7 +41,7 @@ const test = base.extend<MyActors>({
 // TODO: implement test for DoubleClick
 // TODO: test different details between Fill and Type
 test.describe('Testing screenplay-playwright-js web module', () => {
-    test.skip('Navigate', async ({ actor }) => {
+    test('Navigate', async ({ actor }) => {
         await test.step('Navigate to playwright page', async () => {
             await actor.attemptsTo(
                 Navigate.to('https://google.de'),

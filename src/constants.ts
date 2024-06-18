@@ -4,3 +4,5 @@ export const ICON = {
     FAIL: '✗',
     SKIP: '⤿',
 };
+
+export const BLANKS_PER_INDENTATION_LEVEL = 4;
