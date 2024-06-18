@@ -20,7 +20,7 @@ The `Fill` class is an action class in the Screenplay pattern designed for use w
 
 ### Methods
 
-### performAs
+#### performAs
 
 ```typescript
 public async performAs(actor: Actor): Promise<void>;
@@ -31,20 +31,22 @@ public async performAs(actor: Actor): Promise<void>;
   - `actor` - The actor performing this action.
 - **Returns:** `Promise<void>` - Returns a promise that resolves after filling the specified element.
 
-### in
+#### in
 
 ```typescript
-public static in(selector: Selector, input: string, options?: SelectorOptions): Fill;
+public static in(selector: Selector, input: string, options?: SelectorOptions & Maskable): Fill;
 ```
 
 - **Description:** Creates a new instance of the `Fill` class specifically for filling the specified element with the specified input.
 - **Parameters:**
   - `selector` - The selector of the element to be filled.
   - `input` - The input string to fill the element with.
-  - `options` (optional) - Advanced selector lookup options.
+  - `options` (optional) - Advanced selector lookup and masking options.
 - **Returns:** `Fill` - Returns a new `Fill` instance.
 
-### inFrame
+*As of 1.7.0 input values can be masked in the logs via the option `{ maskInLogs: true }` which is suggested for handling passwords or other clasified information in tests.*
+
+#### inFrame
 
 ```typescript
 public inFrame(frameSelector: FrameSelector): Fill;
@@ -55,7 +57,7 @@ public inFrame(frameSelector: FrameSelector): Fill;
   - `frameSelector` - The FrameSelector.
 - **Returns:** `Fill` - Returns the current action.
 
-### withAbilityAlias
+#### withAbilityAlias
 
 ```typescript
 public withAbilityAlias(alias: string): Fill;
@@ -66,7 +68,7 @@ public withAbilityAlias(alias: string): Fill;
   - `alias` - The alias.
 - **Returns:** `Fill` - Returns the current action.
 
-### orSkipOnFail
+#### orSkipOnFail
 
 *Introduced in: 1.6.0*
 

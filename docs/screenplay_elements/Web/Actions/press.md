@@ -21,7 +21,7 @@ The `Press` class is an action class in the Screenplay pattern designed for use 
 
 ### Methods
 
-### performAs
+#### performAs
 
 ```typescript
 public async performAs(actor: Actor): Promise<void>;
@@ -32,7 +32,7 @@ public async performAs(actor: Actor): Promise<void>;
   - `actor` - The actor performing this action.
 - **Returns:** `Promise<void>` - Returns when the key(s) are pressed.
 
-### key
+#### key
 
 ```typescript
 public static key(keys: string): Press;
@@ -43,20 +43,22 @@ public static key(keys: string): Press;
   - `keys` - The key(s) to press. Multiple keys can be pressed by concatenating with "+" (e.g., Shift+A).
 - **Returns:** `Press` - Returns a new `Press` instance.
 
-### pressSequentially
+#### sequentially
 
 ```typescript
-public static pressSequentially(selector: Selector, input: string, options?: SelectorOptions): Press;
+public static sequentially(selector: Selector, input: string, options?: SelectorOptions & Maskable): Press;
 ```
 
 - **Description:** Creates a new instance of the `Press` class types the given input into the element specified by the selector.
 - **Parameters:**
   - `selector` - The selector of the source element.
   - `input` - The input to type into the element.
-  - `options` - (optional) Advanced selector lookup options.
+  - `options` - (optional) Advanced selector lookup and masking options.
 - **Returns:** `Promise<void>` - Returns when the key(s) have been pressed.
 
-### inFrame
+*As of 1.7.0 input values can be masked in the logs via the option `{ maskInLogs: true }` which is suggested for handling passwords or other clasified information in tests.*
+
+#### inFrame
 
 ```typescript
 public inFrame(frameSelector: FrameSelector): Press;
@@ -67,7 +69,7 @@ public inFrame(frameSelector: FrameSelector): Press;
   - `frameSelector` - The FrameSelector.
 - **Returns:** `Press` - Returns the current action.
 
-### withAbilityAlias
+#### withAbilityAlias
 
 ```typescript
 public withAbilityAlias(alias: string): Press;
@@ -78,7 +80,7 @@ public withAbilityAlias(alias: string): Press;
   - `alias` - The alias.
 - **Returns:** `Press` - Returns the current action.
 
-### orSkipOnFail
+#### orSkipOnFail
 
 *Introduced in: 1.6.0*
 

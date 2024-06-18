@@ -45,7 +45,7 @@ class TextReporter implements Reporter {
             case 'passed':
             default:
                 if (this.failed.some((entry) => entry === testId)) {
-                    this.failed = this.failed.filter((entry) => entry !== testId)
+                    this.failed = this.failed.filter((entry) => entry !== testId);
                     this.flaky.push(testId);
                 }
                 this.passed.push(testId);
@@ -117,7 +117,7 @@ class TextReporter implements Reporter {
         this.write(`Finished the run: ${result.status.toUpperCase()} after ${TextReporter.printRuntime(result.duration)}\n`);
         if (this.failed.length) {
             this.write(`Failed: ${this.failed.length}`);
-            this.failed.sort().forEach((failed: string) => this.write(`    - ${TextReporter.reformatFailedString(failed)}`))
+            this.failed.sort().forEach((failed: string) => this.write(`    - ${TextReporter.reformatFailedString(failed)}`));
         }
         if (this.skipped.length) {
             this.write(`Skipped: ${this.skipped.length}`);
