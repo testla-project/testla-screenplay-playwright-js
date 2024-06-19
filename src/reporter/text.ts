@@ -28,7 +28,7 @@ class TextReporter implements Reporter {
         this.outputFile = `${config.configDir}/${config.outputFile || 'screenplay-report.txt'}`;
     }
 
-    private putIntoBucket(testId: string, status: TestStatus) {
+    private putIntoBucket(testId: string, status: TestStatus): void {
         switch (status) {
             case 'skipped':
                 this.skipped.push(testId);
@@ -52,7 +52,7 @@ class TextReporter implements Reporter {
         }
     }
 
-    private static getResultStatusIcon(status: TestStatus) {
+    private static getResultStatusIcon(status: TestStatus): string {
         switch (status) {
             case 'failed':
                 return ICON.FAIL;
@@ -68,10 +68,10 @@ class TextReporter implements Reporter {
         }
     }
 
-    private static getTestId = (test: TestCase) => {
+    private static getTestId(test: TestCase): string {
         const paths = test.titlePath();
         return paths.filter((entry: string) => entry !== '').join(' > ');
-    };
+    }
 
     private write(msg: string) {
         if (this.outputFile) {
@@ -83,7 +83,7 @@ class TextReporter implements Reporter {
         if (this.outputFile && existsSync(this.outputFile)) {
             rm(this.outputFile, (err) => {
                 if (err) {
-                    console.error(err);
+                    throw (err);
                 }
             });
         }
@@ -112,7 +112,7 @@ class TextReporter implements Reporter {
         this.putIntoBucket(TextReporter.getTestId(test), result.status);
     }
 
-    onEnd(result: FullResult) {
+    onEnd(result: FullResult): void {
         this.write('────────────────────────────────\n');
         this.write(`Finished the run: ${result.status.toUpperCase()} after ${TextReporter.printRuntime(result.duration)}\n`);
         if (this.failed.length) {
@@ -133,13 +133,15 @@ class TextReporter implements Reporter {
         }
     }
 
-    private static printRuntime = (time: number) => `${(Math.round(time * 1000) / 1000000).toFixed(3)}s`;
+    private static printRuntime(time: number): string {
+        return `${(Math.round(time * 1000) / 1000000).toFixed(3)}s`;
+    }
 
-    private static reformatFailedString = (str: string) => {
+    private static reformatFailedString(str: string): string {
         const firstArrowReplaced = str.replace('>', '›');
         const parts = firstArrowReplaced.split('›');
         return `[${parts[0].trim().toUpperCase()}] ✗ ${parts[1].trim().replaceAll('>', '›')}`;
-    };
+    }
 
     // eslint-disable-next-line class-methods-use-this
     printsToStdio(): boolean {
