@@ -14,8 +14,11 @@ import { Remove } from './actions/Remove';
 import { Set } from './actions/Set';
 import { Type } from './actions/Type';
 import { Wait } from './actions/Wait';
+import { Select } from './actions/Select';
 import { Element } from './questions/Element';
 
 export {
-    BrowseTheWeb, Check, Wait, Hover, Navigate, Fill, Press, DragAndDrop, Click, DoubleClick, Type, Element, Get, Add, Clear, Remove, Set,
+    BrowseTheWeb, Check, Wait, Hover, Navigate, Fill, Press,
+    DragAndDrop, Click, DoubleClick, Type, Element, Get, Add,
+    Clear, Remove, Set, Select,
 };

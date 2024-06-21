@@ -15,7 +15,7 @@ reporter: [
     [
         // the reporter from testla
         '@testla/screenplay-playwright/reporter/text',
-        // the path to the output file
+        // optional: the path to the output file
         { outputFile: 'results.txt' },
     ],
     // other reporters
