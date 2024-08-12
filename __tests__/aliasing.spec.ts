@@ -3,6 +3,7 @@ import { Actor } from '@testla/screenplay';
 import { UseAPI } from '../src/api/abilities/UseAPI';
 import { Get } from '../src/api/actions/Get';
 import { BrowseTheWeb, Navigate } from '../src/web';
+import { Element } from '../src/web/questions/Element';
 
 const ALIAS = 'alias';
 
@@ -47,5 +48,15 @@ test.describe('Testing screenplay-playwright-js ability aliasing', () => {
             Navigate.to('https://google.com').withAbilityAlias(ALIAS),
         );
         await expect(BrowseTheWeb.as(actor, ALIAS).getPage()).toHaveURL('https://www.google.com');
+    });
+
+    test('BrowseTheWeb - Question with aliasing', async ({ actor }) => {
+        await actor.attemptsTo(
+            Navigate.to('https://the-internet.herokuapp.com/tables').withAbilityAlias(ALIAS),
+        );
+
+        await actor.asks(
+            Element.toHave.text('h3', 'Data Tables').withAbilityAlias(ALIAS),
+        );
     });
 });
