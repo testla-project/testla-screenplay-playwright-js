@@ -34,11 +34,11 @@ export class Element extends FrameEnabledQuestion {
      */
     public async answeredBy(actor: Actor): Promise<boolean> {
         const {
-            mode, selector, payload, checkMode, options, frameTree,
+            mode, selector, payload, checkMode, options, frameTree, abilityAlias,
         } = this;
 
         if (mode === 'visible') {
-            const locator = await BrowseTheWeb.as(actor).resolveSelectorToLocator(selector, { ...options, state: checkMode === 'positive' ? 'visible' : 'hidden' }, frameTree);
+            const locator = await BrowseTheWeb.as(actor, abilityAlias).resolveSelectorToLocator(selector, { ...options, state: checkMode === 'positive' ? 'visible' : 'hidden' }, frameTree);
 
             if (this.checkMode === 'positive') {
                 await expect(locator).toBeVisible({ timeout: options?.timeout });
@@ -49,7 +49,7 @@ export class Element extends FrameEnabledQuestion {
             return Promise.resolve(true); // if the ability method is not the expected result there will be an exception
         }
         if (mode === 'enabled') {
-            const locator = await BrowseTheWeb.as(actor).resolveSelectorToLocator(selector, options, frameTree);
+            const locator = await BrowseTheWeb.as(actor, abilityAlias).resolveSelectorToLocator(selector, options, frameTree);
 
             if (this.checkMode === 'positive') {
                 await expect(locator).toBeEnabled({ timeout: options?.timeout });
@@ -59,7 +59,7 @@ export class Element extends FrameEnabledQuestion {
             return Promise.resolve(true); // if the ability method is not the expected result there will be an exception
         }
         if (mode === 'text') {
-            const locator = await BrowseTheWeb.as(actor).resolveSelectorToLocator(selector, options, frameTree);
+            const locator = await BrowseTheWeb.as(actor, abilityAlias).resolveSelectorToLocator(selector, options, frameTree);
 
             if (this.checkMode === 'positive') {
                 await expect(locator).toHaveText(payload as string, { timeout: options?.timeout });
@@ -69,7 +69,7 @@ export class Element extends FrameEnabledQuestion {
             return Promise.resolve(true); // if the ability method is not the expected result there will be an exception
         }
         if (mode === 'value') {
-            const locator = await BrowseTheWeb.as(actor).resolveSelectorToLocator(selector, options, frameTree);
+            const locator = await BrowseTheWeb.as(actor, abilityAlias).resolveSelectorToLocator(selector, options, frameTree);
 
             if (this.checkMode === 'positive') {
                 await expect(locator).toHaveValue(payload as string | RegExp, { timeout: options?.timeout });
@@ -79,7 +79,7 @@ export class Element extends FrameEnabledQuestion {
             return Promise.resolve(true); // if the ability method is not the expected result there will be an exception
         }
         if (mode === 'checked') {
-            const locator = await BrowseTheWeb.as(actor).resolveSelectorToLocator(selector, options, frameTree);
+            const locator = await BrowseTheWeb.as(actor, abilityAlias).resolveSelectorToLocator(selector, options, frameTree);
 
             if (this.checkMode === 'positive') {
                 await expect(locator).toBeChecked({ timeout: options?.timeout });
@@ -89,7 +89,7 @@ export class Element extends FrameEnabledQuestion {
             return Promise.resolve(true); // if the ability method is not the expected result there will be an exception
         }
         if (mode === 'count') {
-            const locator = await BrowseTheWeb.as(actor).resolveSelectorToLocator(selector, { ...options, evaluateVisible: false }, frameTree);
+            const locator = await BrowseTheWeb.as(actor, abilityAlias).resolveSelectorToLocator(selector, { ...options, evaluateVisible: false }, frameTree);
 
             if (this.checkMode === 'positive') {
                 await expect(locator).toHaveCount(payload as number, { timeout: options?.timeout });
@@ -100,9 +100,9 @@ export class Element extends FrameEnabledQuestion {
         }
         if (mode === 'minCount') {
             if (checkMode === 'positive') {
-                await BrowseTheWeb.as(actor).resolveSelectorToLocator(`${selector} >> nth=${payload as number - 1}`, options, frameTree);
+                await BrowseTheWeb.as(actor, abilityAlias).resolveSelectorToLocator(`${selector} >> nth=${payload as number - 1}`, options, frameTree);
             } else {
-                await BrowseTheWeb.as(actor).resolveSelectorToLocator(`${selector} >> nth=${payload as number - 1}`, { ...options, state: 'hidden' }, frameTree);
+                await BrowseTheWeb.as(actor, abilityAlias).resolveSelectorToLocator(`${selector} >> nth=${payload as number - 1}`, { ...options, state: 'hidden' }, frameTree);
             }
 
             return Promise.resolve(true);

@@ -1,5 +1,7 @@
 version: "1.0"
-linter: jetbrains/qodana-js:2023.3
+linter: jetbrains/qodana-js:2024.1
 include:
   - name: CheckDependencyLicenses
   - name: DuplicatedCode
+exclude:
+  - name: ES6PreferShortImport
