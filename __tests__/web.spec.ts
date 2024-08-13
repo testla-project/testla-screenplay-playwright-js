@@ -41,7 +41,7 @@ const test = base.extend<MyActors>({
 // TODO: implement test for DoubleClick
 // TODO: test different details between Fill and Type
 test.describe('Testing screenplay-playwright-js web module', () => {
-    test.skip('Navigate', async ({ actor }) => {
+    test('Navigate', async ({ actor }) => {
         await test.step('Navigate to playwright page', async () => {
             await actor.attemptsTo(
                 Navigate.to('https://google.de'),
@@ -332,20 +332,28 @@ test.describe('Testing screenplay-playwright-js web module', () => {
     });
 
     test('Element.enabled', async ({ actor }) => {
+        // const ENABLED_ELEMENT = '[aria-label="Undo"]';
+        // const DISABLED_ELEMENT = '[aria-label="Redo"]';
+        // const URL = 'https://the-internet.herokuapp.com/tinymce';
+        // or
+        const ENABLED_ELEMENT = '#checkbox input[type="checkbox"]';
+        const DISABLED_ELEMENT = '#input-example input[type="text"]';
+        const URL = 'https://the-internet.herokuapp.com/dynamic_controls';
+
         await actor.attemptsTo(
-            Navigate.to('https://the-internet.herokuapp.com/tinymce'),
+            Navigate.to(URL),
             Wait.forLoadState('networkidle'),
-            Click.on('[aria-label="Bold"]'),
+            // Click.on('[aria-label="Bold"]'),
         );
 
         expect(await actor.asks(
-            Element.toBe.enabled('[aria-label="Undo"]'),
+            Element.toBe.enabled(ENABLED_ELEMENT),
         )).toBe(true);
 
         let enabledRes = false;
         try {
             expect(await actor.asks(
-                Element.toBe.enabled('[aria-label="Redo"]', { timeout: 1000 }),
+                Element.toBe.enabled(DISABLED_ELEMENT, { timeout: 1000 }),
             )).toBe(true);
         } catch (error) {
             enabledRes = true;
@@ -353,13 +361,13 @@ test.describe('Testing screenplay-playwright-js web module', () => {
         expect(enabledRes).toBeTruthy();
 
         expect(await actor.asks(
-            Element.notToBe.enabled('[aria-label="Redo"]'),
+            Element.notToBe.enabled(DISABLED_ELEMENT),
         )).toBe(true);
 
         let notEnabledRes = false;
         try {
             expect(await actor.asks(
-                Element.notToBe.enabled('[aria-label="Undo"]', { timeout: 1000 }),
+                Element.notToBe.enabled(ENABLED_ELEMENT, { timeout: 1000 }),
             )).toBe(true);
         } catch (error) {
             notEnabledRes = true;
@@ -551,11 +559,11 @@ test.describe('Testing screenplay-playwright-js web module', () => {
 
     // the download page contents change a lot
     // thus keeping a few options in place
-    const DOWNLOAD_FILENAME = 'Hi.txt';
-    const DOWNLOAD_FILECONTENT = '';
+    // const DOWNLOAD_FILENAME = 'Hi.txt';
+    // const DOWNLOAD_FILECONTENT = '';
     // or
-    // const DOWNLOAD_FILENAME = 'test-file.txt';
-    // const DOWNLOAD_FILECONTENT = 'Test file';
+    const DOWNLOAD_FILENAME = 'test-file.txt';
+    const DOWNLOAD_FILECONTENT = 'Test file';
     // or
     // const DOWNLOAD_FILENAME = 'newFile.txt';
     // const DOWNLOAD_FILECONTENT = 'First file ';

@@ -332,22 +332,30 @@ test.describe('Testing screenplay-playwright-js web module', () => {
     });
 
     test('Element.enabled', async ({ actor }) => {
+        // const ENABLED_ELEMENT = '[aria-label="Undo"]';
+        // const DISABLED_ELEMENT = '[aria-label="Redo"]';
+        // const URL = 'https://the-internet.herokuapp.com/tinymce';
+        // or
+        const ENABLED_ELEMENT = '#checkbox input[type="checkbox"]';
+        const DISABLED_ELEMENT = '#input-example input[type="text"]';
+        const URL = 'https://the-internet.herokuapp.com/dynamic_controls';
+
         const page: Page = BrowseTheWeb.as(actor).getPage();
 
         await actor.attemptsTo(
-            Navigate.to('https://the-internet.herokuapp.com/tinymce'),
+            Navigate.to(URL),
             Wait.forLoadState('networkidle'),
-            Click.on('[aria-label="Bold"]'),
+            // Click.on('[aria-label="Bold"]'),
         );
 
         expect(await actor.asks(
-            Element.toBe.enabled(page.locator('[aria-label="Undo"]')),
+            Element.toBe.enabled(page.locator(ENABLED_ELEMENT)),
         )).toBe(true);
 
         let enabledRes = false;
         try {
             expect(await actor.asks(
-                Element.toBe.enabled(page.locator('[aria-label="Redo"]'), { timeout: 1000 }),
+                Element.toBe.enabled(page.locator(DISABLED_ELEMENT), { timeout: 1000 }),
             )).toBe(true);
         } catch (error) {
             enabledRes = true;
@@ -355,13 +363,13 @@ test.describe('Testing screenplay-playwright-js web module', () => {
         expect(enabledRes).toBeTruthy();
 
         expect(await actor.asks(
-            Element.notToBe.enabled(page.locator('[aria-label="Redo"]')),
+            Element.notToBe.enabled(page.locator(DISABLED_ELEMENT)),
         )).toBe(true);
 
         let notEnabledRes = false;
         try {
             expect(await actor.asks(
-                Element.notToBe.enabled(page.locator('[aria-label="Undo"]'), { timeout: 1000 }),
+                Element.notToBe.enabled(page.locator(ENABLED_ELEMENT), { timeout: 1000 }),
             )).toBe(true);
         } catch (error) {
             notEnabledRes = true;

@@ -1,7 +1,8 @@
 import { Actor } from '@testla/screenplay';
 import { BrowseTheWeb } from '../abilities/BrowseTheWeb';
-import { Selector, SelectorOptions } from '../types';
+import { Maskable, Selector, SelectorOptions } from '../types';
 import { FrameEnabledAction } from '../templates/FrameEnabledAction';
+import { MASKING_STRING } from '../../constants';
 
 /**
  * Action Class. Press the specified key on the keyboard.
@@ -56,9 +57,10 @@ export class Press extends FrameEnabledAction {
      * @param {SelectorOptions} options (optional) advanced selector lookup options.
      * @return {Press} new Press instance
      */
-    public static sequentially(selector: Selector, input: string, options?: SelectorOptions): Press {
+    public static sequentially(selector: Selector, input: string, options?: SelectorOptions & Maskable): Press {
         const instance = new Press('sequentially', { selector, input, options });
-        instance.setCallStackInitializeCalledWith({ selector, input, options });
+        const inputToLog = options?.maskInLogs ? MASKING_STRING : input;
+        instance.setCallStackInitializeCalledWith({ selector, input: inputToLog, options });
         return instance;
     }
 }

@@ -20,7 +20,7 @@ The `Type` class is an action class in the Screenplay pattern designed for use w
 
 ### Methods
 
-### performAs
+#### performAs
 
 ```typescript
 public async performAs(actor: Actor): Promise<void>;
@@ -31,20 +31,22 @@ public async performAs(actor: Actor): Promise<void>;
   - `actor` - The actor performing this action.
 - **Returns:** `Promise<void>` - Resolves when the action is complete.
 
-### in
+#### in
 
 ```typescript
-public static in(selector: Selector, input: string, options?: SelectorOptions): Type;
+public static in(selector: Selector, input: string, options?: SelectorOptions & Maskable): Type;
 ```
 
 - **Description:** Creates a new instance of the `Type` class for typing specified input into an element specified by a selector string.
 - **Parameters:**
   - `selector` - The selector.
   - `input` - The input string to type into the element.
-  - `options` - (optional) Advanced selector lookup options.
+  - `options` - (optional) Advanced selector lookup ans masking options.
 - **Returns:** `Type` - Returns a new `Type` instance.
 
-### inFrame
+*As of 1.7.0 input values can be masked in the logs via the option `{ maskInLogs: true }` which is suggested for handling passwords or other clasified information in tests.*
+
+#### inFrame
 
 ```typescript
 public inFrame(frameSelector: FrameSelector): Type;
@@ -55,7 +57,7 @@ public inFrame(frameSelector: FrameSelector): Type;
   - `frameSelector` - The FrameSelector.
 - **Returns:** `Type` - Returns the current action.
 
-### withAbilityAlias
+#### withAbilityAlias
 
 ```typescript
 public withAbilityAlias(alias: string): Type;
@@ -66,7 +68,7 @@ public withAbilityAlias(alias: string): Type;
   - `alias` - The alias.
 - **Returns:** `Type` - Returns the current action.
 
-### orSkipOnFail
+#### orSkipOnFail
 
 *Introduced in: 1.6.0*
 

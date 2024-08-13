@@ -19,5 +19,7 @@
   - [Frame(s)](./frame_handling/frame_handling.md) - Handling frames
 - **Logging**
   - [Logging](./logging/logging.md) - How to enable debug logs
+- **Reporter**
+  - [Logging](./reporter/text.md) - Screenplay report in text format
 
 [Back to overview](../../README.md)

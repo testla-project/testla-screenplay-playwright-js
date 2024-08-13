@@ -1,7 +1,8 @@
 import { Actor } from '@testla/screenplay';
-import { Selector, SelectorOptions } from '../types';
+import { Maskable, Selector, SelectorOptions } from '../types';
 import { BrowseTheWeb } from '../abilities/BrowseTheWeb';
 import { FrameEnabledAction } from '../templates/FrameEnabledAction';
+import { MASKING_STRING } from '../../constants';
 
 /**
  * Action Class. Fill an element specified by a selector string with the specified input.
@@ -43,9 +44,10 @@ export class Fill extends FrameEnabledAction {
      * @param {SelectorOptions} options (optional) advanced selector lookup options.
      * @return {Fill} new Fill instance
      */
-    public static in(selector: Selector, input: string, options?: SelectorOptions): Fill {
+    public static in(selector: Selector, input: string, options?: SelectorOptions & Maskable): Fill {
         const instance = new Fill(selector, input, options);
-        instance.setCallStackInitializeCalledWith({ selector, input, options });
+        const inputToLog = options?.maskInLogs ? MASKING_STRING : input;
+        instance.setCallStackInitializeCalledWith({ selector, input: inputToLog, options });
         return instance;
     }
 }

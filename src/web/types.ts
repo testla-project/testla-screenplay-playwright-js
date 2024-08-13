@@ -19,3 +19,7 @@ export type SelectorOptions = {
     state?: SelectorOptionsState;
     evaluateVisible?: boolean;
 };
+
+export type Maskable = {
+    maskInLogs?: boolean;
+};
