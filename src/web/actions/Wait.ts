@@ -10,11 +10,11 @@ export class Wait extends FrameEnabledAction {
     // the object that determines what to wait for (loading state, selector or selector == expected).
     // only 1 property is active at all times.
     private action: {
-        mode: 'selector' | 'loadState' | 'event';
+        mode: 'selector' | 'loadState' | 'event' | 'url';
         payload?: any;
     };
 
-    private constructor(action: { mode: 'selector' | 'loadState' | 'event', payload?: any }) {
+    private constructor(action: { mode: 'selector' | 'loadState' | 'event' | 'url', payload?: any }) {
         super();
         this.action = action;
     }
@@ -27,14 +27,16 @@ export class Wait extends FrameEnabledAction {
      */
     public async performAs(actor: Actor): Promise<any> {
         const { abilityAlias, action, frameTree } = this;
+        const page = BrowseTheWeb.as(actor, abilityAlias).getPage();
 
         if (this.action.mode === 'loadState') {
-            const page = BrowseTheWeb.as(actor, abilityAlias).getPage();
             return page.waitForLoadState(action.payload.state);
         }
         if (this.action.mode === 'event') {
-            const page = BrowseTheWeb.as(actor, abilityAlias).getPage();
             return page.waitForEvent(action.payload.event);
+        }
+        if (this.action.mode === 'url') {
+            return page.waitForURL(action.payload.url);
         }
         // fallback: action.mode === 'selector'
         return BrowseTheWeb.as(actor, abilityAlias).resolveSelectorToLocator(action.payload.selector, action.payload.options, frameTree);
@@ -74,6 +76,18 @@ export class Wait extends FrameEnabledAction {
     public static forEvent(event: string): Wait {
         const instance = new Wait({ mode: 'event', payload: { event } });
         instance.setCallStackInitializeCalledWith({ event });
+        return instance;
+    }
+
+    /**
+     * Wait for a specific url.
+     *
+     * @param {string} url the url to wait for.
+     * @return {Wait} new Wait instance
+     */
+    public static forUrl(url: string): Wait {
+        const instance = new Wait({ mode: 'url', payload: { url } });
+        instance.setCallStackInitializeCalledWith({ url });
         return instance;
     }
 }
