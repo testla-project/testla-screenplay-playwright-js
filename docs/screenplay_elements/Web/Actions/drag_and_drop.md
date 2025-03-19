@@ -10,17 +10,17 @@ The `DragAndDrop` class is an action class in the Screenplay pattern designed fo
   - [Table of Contents](#table-of-contents)
   - [Class Overview](#class-overview)
     - [Methods](#methods)
-    - [performAs](#performas)
-    - [execute](#execute)
-    - [inFrame](#inframe)
-    - [withAbilityAlias](#withabilityalias)
-    - [orSkipOnFail](#orskiponfail)
+      - [performAs](#performas)
+      - [execute](#execute)
+      - [inFrame](#inframe)
+      - [withAbilityAlias](#withabilityalias)
+      - [orSkipOnFail](#orskiponfail)
 
 ## Class Overview
 
 ### Methods
 
-### performAs
+#### performAs
 
 ```typescript
 public performAs(actor: Actor): Promise<void>;
@@ -31,7 +31,7 @@ public performAs(actor: Actor): Promise<void>;
   - `actor` - The actor performing this action.
 - **Returns:** `Promise<void>` - Returns a promise that resolves after dragging the locator to another target locator or target position.
 
-### execute
+#### execute
 
 ```typescript
 public static execute(sourceSelector: Selector, targetSelector: Selector, options?: {
@@ -47,7 +47,7 @@ public static execute(sourceSelector: Selector, targetSelector: Selector, option
   - `options` (optional) - Advanced selector lookup options.
 - **Returns:** `DragAndDrop` - Returns a new `DragAndDrop` instance.
 
-### inFrame
+#### inFrame
 
 ```typescript
 public inFrame(frameSelector: FrameSelector): DragAndDrop;
@@ -58,7 +58,7 @@ public inFrame(frameSelector: FrameSelector): DragAndDrop;
   - `frameSelector` - The FrameSelector.
 - **Returns:** `DragAndDrop` - Returns the current action.
 
-### withAbilityAlias
+#### withAbilityAlias
 
 ```typescript
 public withAbilityAlias(alias: string): DragAndDrop;
@@ -69,7 +69,7 @@ public withAbilityAlias(alias: string): DragAndDrop;
   - `alias` - The alias.
 - **Returns:** `DragAndDrop` - Returns the current action.
 
-### orSkipOnFail
+#### orSkipOnFail
 
 *Introduced in: 1.6.0*
 

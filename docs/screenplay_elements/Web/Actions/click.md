@@ -10,17 +10,17 @@ The `Click` class is an action class in the Screenplay pattern designed for use 
   - [Table of Contents](#table-of-contents)
   - [Class Overview](#class-overview)
     - [Methods](#methods)
-    - [performAs](#performas)
-    - [on](#on)
-    - [inFrame](#inframe)
-    - [withAbilityAlias](#withabilityalias)
-    - [orSkipOnFail](#orskiponfail)
+      - [performAs](#performas)
+      - [on](#on)
+      - [inFrame](#inframe)
+      - [withAbilityAlias](#withabilityalias)
+      - [orSkipOnFail](#orskiponfail)
 
 ## Class Overview
 
 ### Methods
 
-### performAs
+#### performAs
 
 ```typescript
 public async performAs(actor: Actor): Promise<void>;
@@ -31,7 +31,7 @@ public async performAs(actor: Actor): Promise<void>;
   - `actor` - The actor performing this action.
 - **Returns:** `Promise<void>` - Returns a promise that resolves after clicking the element.
 
-### on
+#### on
 
 ```typescript
 public static on(selector: Selector, options?: SelectorOptions): Click;
@@ -43,7 +43,7 @@ public static on(selector: Selector, options?: SelectorOptions): Click;
   - `options` (optional) - Advanced selector lookup options.
 - **Returns:** `Click` - Returns a new `Click` instance.
 
-### inFrame
+#### inFrame
 
 ```typescript
 public inFrame(frameSelector: FrameSelector): Click;
@@ -54,7 +54,7 @@ public inFrame(frameSelector: FrameSelector): Click;
   - `frameSelector` - The FrameSelector.
 - **Returns:** `Click` - Returns the current action.
 
-### withAbilityAlias
+#### withAbilityAlias
 
 ```typescript
 public withAbilityAlias(alias: string): Click;
@@ -65,7 +65,7 @@ public withAbilityAlias(alias: string): Click;
   - `alias` - The alias.
 - **Returns:** `Click` - Returns the current action.
 
-### orSkipOnFail
+#### orSkipOnFail
 
 *Introduced in: 1.6.0*
 

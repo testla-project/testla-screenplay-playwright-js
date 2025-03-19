@@ -10,17 +10,17 @@ The `Check` class is an action class in the Screenplay pattern designed for use 
   - [Table of Contents](#table-of-contents)
   - [Class Overview](#class-overview)
     - [Methods](#methods)
-    - [performAs](#performas)
-    - [element](#element)
-    - [inFrame](#inframe)
-    - [withAbilityAlias](#withabilityalias)
-    - [orSkipOnFail](#orskiponfail)
+      - [performAs](#performas)
+      - [element](#element)
+      - [inFrame](#inframe)
+      - [withAbilityAlias](#withabilityalias)
+      - [orSkipOnFail](#orskiponfail)
 
 ## Class Overview
 
 ### Methods
 
-### performAs
+#### performAs
 
 ```typescript
 public async performAs(actor: Actor): Promise<void>;
@@ -31,7 +31,7 @@ public async performAs(actor: Actor): Promise<void>;
   - `actor` - The actor performing this action.
 - **Returns:** `Promise<void>` - Returns a promise that resolves after checking the element.
 
-### element
+#### element
 
 ```typescript
 public static element(selector: Selector, options?: SelectorOptions): Check;
@@ -43,7 +43,7 @@ public static element(selector: Selector, options?: SelectorOptions): Check;
   - `options` (optional) - Advanced selector lookup options.
 - **Returns:** `Check` - Returns a new `Check` instance.
 
-### inFrame
+#### inFrame
 
 ```typescript
 public inFrame(frameSelector: FrameSelector): Check;
@@ -54,7 +54,7 @@ public inFrame(frameSelector: FrameSelector): Check;
   - `frameSelector` - The FrameSelector.
 - **Returns:** `Check` - Returns the current action.
 
-### withAbilityAlias
+#### withAbilityAlias
 
 ```typescript
 public withAbilityAlias(alias: string): Check;
@@ -65,7 +65,7 @@ public withAbilityAlias(alias: string): Check;
   - `alias` - The alias.
 - **Returns:** `Check` - Returns the current action.
 
-### orSkipOnFail
+#### orSkipOnFail
 
 *Introduced in: 1.6.0*
 

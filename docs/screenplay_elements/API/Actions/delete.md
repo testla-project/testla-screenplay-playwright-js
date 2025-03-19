@@ -10,13 +10,13 @@ The `Delete` class provides a convenient way to perform HTTP DELETE requests. It
   - [Table of Contents](#table-of-contents)
   - [Class Overview](#class-overview)
     - [Extends](#extends)
-  - [Methods](#methods)
-    - [performAs](#performas)
-    - [from](#from)
-    - [withHeaders](#withheaders)
-    - [withResponseBodyFormat](#withresponsebodyformat)
-    - [withAbilityAlias](#withabilityalias)
-    - [orSkipOnFail](#orskiponfail)
+    - [Methods](#methods)
+      - [performAs](#performas)
+      - [from](#from)
+      - [withHeaders](#withheaders)
+      - [withResponseBodyFormat](#withresponsebodyformat)
+      - [withAbilityAlias](#withabilityalias)
+      - [orSkipOnFail](#orskiponfail)
 
 ## Class Overview
 
@@ -24,9 +24,9 @@ The `Delete` class provides a convenient way to perform HTTP DELETE requests. It
 
 This class extends the `ARequest` abstract class, providing a specific implementation for sending HTTP DELETE requests.
 
-## Methods
+### Methods
 
-### performAs
+#### performAs
 
 ```typescript
 public async performAs(actor: Actor): Promise<Response>;
@@ -37,7 +37,7 @@ public async performAs(actor: Actor): Promise<Response>;
   - `actor` - The actor performing the action.
 - **Returns:** `Promise<Response>` - The response object.
 
-### from
+#### from
 
 ```typescript
 public static from(url: string): Delete;
@@ -48,7 +48,7 @@ public static from(url: string): Delete;
   - `url` - The URL of the target.
 - **Returns:** `Delete` - A new instance of the `Delete` class.
 
-### withHeaders
+#### withHeaders
 
 ```typescript
 public withHeaders(headers: Headers): Delete;
@@ -59,7 +59,7 @@ public withHeaders(headers: Headers): Delete;
   - `headers` - The headers to be added.
 - **Returns:** `Delete` - The updated instance of the `Delete` class.
 
-### withResponseBodyFormat
+#### withResponseBodyFormat
 
 ```typescript
 public withResponseBodyFormat(responseBodyFormat: ResponseBodyFormat): Delete;
@@ -70,7 +70,7 @@ public withResponseBodyFormat(responseBodyFormat: ResponseBodyFormat): Delete;
   - `responseBodyFormat` - The desired format of the response body which can be one out of `json`, `text`, `buffer` or `none`. The default is `json`.
 - **Returns:** `Delete` - The updated instance of the `Delete` class.
 
-### withAbilityAlias
+#### withAbilityAlias
 
 ```typescript
 public withAbilityAlias(alias: string): Delete;
@@ -81,7 +81,7 @@ public withAbilityAlias(alias: string): Delete;
   - `alias` - The alias.
 - **Returns:** `Delete` - Returns the current action.
 
-### orSkipOnFail
+#### orSkipOnFail
 
 *Introduced in: 1.6.0*
 

@@ -10,17 +10,17 @@ The `Hover` class is an action class in the Screenplay pattern designed for use 
   - [Table of Contents](#table-of-contents)
   - [Class Overview](#class-overview)
     - [Methods](#methods)
-    - [performAs](#performas)
-    - [over](#over)
-    - [inFrame](#inframe)
-    - [withAbilityAlias](#withabilityalias)
-    - [orSkipOnFail](#orskiponfail)
+      - [performAs](#performas)
+      - [over](#over)
+      - [inFrame](#inframe)
+      - [withAbilityAlias](#withabilityalias)
+      - [orSkipOnFail](#orskiponfail)
 
 ## Class Overview
 
 ### Methods
 
-### performAs
+#### performAs
 
 ```typescript
 public async performAs(actor: Actor): Promise<void>;
@@ -31,7 +31,7 @@ public async performAs(actor: Actor): Promise<void>;
   - `actor` - The actor performing this action.
 - **Returns:** `Promise<void>` - Returns when hovered over the element.
 
-### over
+#### over
 
 ```typescript
 public static over(selector: Selector, options?: SelectorOptions & { modifiers?: ('Alt' | 'Control' | 'Meta' | 'Shift')[] }): Hover;
@@ -43,7 +43,7 @@ public static over(selector: Selector, options?: SelectorOptions & { modifiers?:
   - `options` (optional) - Advanced selector lookup options + Modifier keys to press. Ensures that only these modifiers are pressed during the operation.
 - **Returns:** `Hover` - Returns a new `Hover` instance.
 
-### inFrame
+#### inFrame
 
 ```typescript
 public inFrame(frameSelector: FrameSelector): Hover;
@@ -54,7 +54,7 @@ public inFrame(frameSelector: FrameSelector): Hover;
   - `frameSelector` - The FrameSelector.
 - **Returns:** `Hover` - Returns the current action.
 
-### withAbilityAlias
+#### withAbilityAlias
 
 ```typescript
 public withAbilityAlias(alias: string): Hover;
@@ -65,7 +65,7 @@ public withAbilityAlias(alias: string): Hover;
   - `alias` - The alias.
 - **Returns:** `Hover` - Returns the current action.
 
-### orSkipOnFail
+#### orSkipOnFail
 
 *Introduced in: 1.6.0*
 

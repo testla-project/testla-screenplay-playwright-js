@@ -10,17 +10,17 @@ The `Count` class is an action class in the Screenplay pattern designed for use 
   - [Table of Contents](#table-of-contents)
   - [Class Overview](#class-overview)
     - [Methods](#methods)
-    - [performAs](#performas)
-    - [page](#page)
-    - [inFrame](#inframe)
-    - [withAbilityAlias](#withabilityalias)
-    - [orSkipOnFail](#orskiponfail)
+      - [performAs](#performas)
+      - [page](#page)
+      - [inFrame](#inframe)
+      - [withAbilityAlias](#withabilityalias)
+      - [orSkipOnFail](#orskiponfail)
 
 ## Class Overview
 
 ### Methods
 
-### performAs
+#### performAs
 
 ```typescript
 public async performAs(actor: Actor): Promise<any>;
@@ -31,7 +31,7 @@ public async performAs(actor: Actor): Promise<any>;
   - `actor` - The actor performing this action.
 - **Returns:** `Promise<number>` - Returns the count of found elements.
 
-### page
+#### page
 
 ```typescript
 public static page(): Count;
@@ -43,7 +43,7 @@ public static page(): Count;
   - `options` (optional) - Advanced selector lookup options.
 - **Returns:** `Count` - Returns a new `Count` instance.
 
-### inFrame
+#### inFrame
 
 ```typescript
 public inFrame(frameSelector: FrameSelector): Count;
@@ -54,7 +54,7 @@ public inFrame(frameSelector: FrameSelector): Count;
   - `frameSelector` - The FrameSelector.
 - **Returns:** `Count` - Returns the current action.
 
-### withAbilityAlias
+#### withAbilityAlias
 
 ```typescript
 public withAbilityAlias(alias: string): Count;
@@ -65,7 +65,7 @@ public withAbilityAlias(alias: string): Count;
   - `alias` - The alias.
 - **Returns:** `Count` - Returns the current action.
 
-### orSkipOnFail
+#### orSkipOnFail
 
 *Introduced in: 1.6.0*
 

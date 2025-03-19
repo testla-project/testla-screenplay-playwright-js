@@ -12,9 +12,9 @@ This Action does not rely on a specific Ability.
   - [Table of Contents](#table-of-contents)
   - [Class Overview](#class-overview)
     - [Extends](#extends)
-  - [Methods](#methods)
-    - [performAs](#performas)
-    - [for](#for)
+    - [Methods](#methods)
+      - [performAs](#performas)
+      - [for](#for)
 
 ## Class Overview
 
@@ -22,9 +22,9 @@ This Action does not rely on a specific Ability.
 
 This class extends the `Action` class, providing functionality for pausing test execution.
 
-## Methods
+### Methods
 
-### performAs
+#### performAs
 
 ```typescript
 public async performAs(): Promise<void>;
@@ -34,7 +34,7 @@ public async performAs(): Promise<void>;
 - **Parameters:** None
 - **Returns:** `Promise<void>` - A promise that resolves when the pause is complete.
 
-### for
+#### for
 
 ```typescript
 public static for(ms: number): Sleep;

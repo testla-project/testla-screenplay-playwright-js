@@ -10,20 +10,20 @@ The `Get` class is an action class in the Screenplay pattern designed for use wi
   - [Table of Contents](#table-of-contents)
   - [Class Overview](#class-overview)
     - [Methods](#methods)
-    - [performAs](#performas)
-    - [cookies](#cookies)
-    - [sessionStorageItem](#sessionstorageitem)
-    - [localStorageItem](#localstorageitem)
-    - [element](#element)
-    - [elements](#elements)
-    - [withAbilityAlias](#withabilityalias)
-    - [orSkipOnFail](#orskiponfail)
+      - [performAs](#performas)
+      - [cookies](#cookies)
+      - [sessionStorageItem](#sessionstorageitem)
+      - [localStorageItem](#localstorageitem)
+      - [element](#element)
+      - [elements](#elements)
+      - [withAbilityAlias](#withabilityalias)
+      - [orSkipOnFail](#orskiponfail)
 
 ## Class Overview
 
 ### Methods
 
-### performAs
+#### performAs
 
 ```typescript
 public async performAs(actor: Actor): Promise<any>;
@@ -34,7 +34,7 @@ public async performAs(actor: Actor): Promise<any>;
   - `actor` - The actor performing this action.
 - **Returns:** `Promise<any>` - Returns cookies, session storage items, or local storage items.
 
-### cookies
+#### cookies
 
 ```typescript
 public static cookies(urls?: string | string[] | undefined): Get;
@@ -45,7 +45,7 @@ public static cookies(urls?: string | string[] | undefined): Get;
   - `urls` (optional) - If URLs are specified, only cookies that affect those URLs are returned. If no URLs are specified, all cookies are returned.
 - **Returns:** `Get` - Returns a new `Get` instance for cookies.
 
-### sessionStorageItem
+#### sessionStorageItem
 
 ```typescript
 public static sessionStorageItem(key: string): Get;
@@ -56,7 +56,7 @@ public static sessionStorageItem(key: string): Get;
   - `key` - The key that specifies the session storage item.
 - **Returns:** `Get` - Returns a new `Get` instance for session storage.
 
-### localStorageItem
+#### localStorageItem
 
 ```typescript
 public static localStorageItem(key: string): Get;
@@ -67,7 +67,7 @@ public static localStorageItem(key: string): Get;
   - `key` - The key that specifies the local storage item.
 - **Returns:** `Get` - Returns a new `Get` instance for local storage.
 
-### element
+#### element
 
 ```typescript
 public static element(selector: Selector, options?: SelectorOptions): Get;
@@ -79,7 +79,7 @@ public static element(selector: Selector, options?: SelectorOptions): Get;
   - `options` (optional) - Advanced selector lookup options.
 - **Returns:** `Get` - Returns a new `Get` instance for single screen elements.
 
-### elements
+#### elements
 
 ```typescript
 public static elements(selector: Selector, options?: SelectorOptions): Get;
@@ -91,7 +91,7 @@ public static elements(selector: Selector, options?: SelectorOptions): Get;
   - `options` (optional) - Advanced selector lookup options.
 - **Returns:** `Get` - Returns a new `Get` instance for a list of screen elements.
 
-### withAbilityAlias
+#### withAbilityAlias
 
 ```typescript
 public withAbilityAlias(alias: string): Get;
@@ -102,7 +102,7 @@ public withAbilityAlias(alias: string): Get;
   - `alias` - The alias.
 - **Returns:** `Get` - Returns the current action.
 
-### orSkipOnFail
+#### orSkipOnFail
 
 *Introduced in: 1.6.0*
 

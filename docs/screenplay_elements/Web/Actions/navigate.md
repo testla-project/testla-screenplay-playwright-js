@@ -10,16 +10,16 @@ The `Navigate` class is an action class in the Screenplay pattern designed for u
   - [Table of Contents](#table-of-contents)
   - [Class Overview](#class-overview)
     - [Methods](#methods)
-    - [performAs](#performas)
-    - [to](#to)
-    - [withAbilityAlias](#withabilityalias)
-    - [orSkipOnFail](#orskiponfail)
+      - [performAs](#performas)
+      - [to](#to)
+      - [withAbilityAlias](#withabilityalias)
+      - [orSkipOnFail](#orskiponfail)
 
 ## Class Overview
 
 ### Methods
 
-### performAs
+#### performAs
 
 ```typescript
 public async performAs(actor: Actor): Promise<any>;
@@ -30,7 +30,7 @@ public async performAs(actor: Actor): Promise<any>;
   - `actor` - The actor performing this action.
 - **Returns:** `Promise<any>` - Returns the main resource response.
 
-### to
+#### to
 
 ```typescript
 public static to(url: string): Navigate;
@@ -41,7 +41,7 @@ public static to(url: string): Navigate;
   - `url` - The URL which should be accessed.
 - **Returns:** `Navigate` - Returns a new `Navigate` instance.
 
-### withAbilityAlias
+#### withAbilityAlias
 
 ```typescript
 public withAbilityAlias(alias: string): Navigate;
@@ -52,7 +52,7 @@ public withAbilityAlias(alias: string): Navigate;
   - `alias` - The alias.
 - **Returns:** `Navigate` - Returns the current action.
 
-### orSkipOnFail
+#### orSkipOnFail
 
 *Introduced in: 1.6.0*
 

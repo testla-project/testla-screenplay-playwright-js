@@ -24,6 +24,7 @@ import { Wait } from '../src/web/actions/Wait';
 import { Element } from '../src/web/questions/Element';
 import { Count } from '../src/web/actions/Count';
 import { Download } from '../src/web/actions/Download';
+import { Page } from '../src/web/questions/Page';
 
 type MyActors = {
     actor: Actor;
@@ -593,5 +594,50 @@ test.describe('Testing screenplay-playwright-js web module', () => {
         // Validate the content of the file
         const fileContent = fs.readFileSync(filePath, 'utf-8');
         expect(fileContent).toBe(DOWNLOAD_FILECONTENT);
+    });
+
+    test('Wait.forUrl', async ({ actor }) => {
+        const URL = 'https://the-internet.herokuapp.com';
+        await actor.attemptsTo(
+            Navigate.to(URL),
+            Wait.forUrl(URL),
+        );
+    });
+
+    test('Page.url', async ({ actor }) => {
+        const URL_A = 'https://the-internet.herokuapp.com';
+        const URL_B = 'https://the-internet.herokuapp.com/tables';
+        await actor.attemptsTo(
+            Navigate.to(URL_A),
+            Wait.forLoadState('networkidle'),
+        );
+
+        expect(await actor.asks(
+            Page.toHave.url(URL_A),
+        )).toBe(true);
+
+        let urlRes = false;
+        try {
+            expect(await actor.asks(
+                Page.toHave.url(URL_B, { timeout: 1000 }),
+            )).toBe(true);
+        } catch (error) {
+            urlRes = true;
+        }
+        expect(urlRes).toBeTruthy();
+
+        expect(await actor.asks(
+            Page.notToHave.url(URL_B), // RegExp that does not exist
+        )).toBe(true);
+
+        let notUrlRes = false;
+        try {
+            expect(await actor.asks(
+                Page.notToHave.url(URL_A, { timeout: 1000 }),
+            )).toBe(true);
+        } catch (error) {
+            notUrlRes = true;
+        }
+        expect(notUrlRes).toBeTruthy();
     });
 });

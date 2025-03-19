@@ -12,17 +12,17 @@ The `Download` class is an action class in the Screenplay pattern designed for u
   - [Table of Contents](#table-of-contents)
   - [Class Overview](#class-overview)
     - [Methods](#methods)
-    - [performAs](#performas)
-    - [file](#file)
-    - [inFrame](#inframe)
-    - [withAbilityAlias](#withabilityalias)
-    - [orSkipOnFail](#orskiponfail)
+      - [performAs](#performas)
+      - [file](#file)
+      - [inFrame](#inframe)
+      - [withAbilityAlias](#withabilityalias)
+      - [orSkipOnFail](#orskiponfail)
 
 ## Class Overview
 
 ### Methods
 
-### performAs
+#### performAs
 
 ```typescript
 public async performAs(actor: Actor): Promise<boolean>;
@@ -33,7 +33,7 @@ public async performAs(actor: Actor): Promise<boolean>;
   - `actor` - The actor performing this action.
 - **Returns:** `Promise<boolean>` - Returns a promise of true after the download is complete.
 
-### file
+#### file
 
 ```typescript
 public static file(selector: Selector, options?: SelectorOptions & { filepath?: string; filename?: string }): Download;
@@ -45,7 +45,7 @@ public static file(selector: Selector, options?: SelectorOptions & { filepath?: 
   - `options` (optional) - Advanced selector lookup options and filepath and filename configuration.
 - **Returns:** `Downlaod` - Returns a new `Download` instance.
 
-### inFrame
+#### inFrame
 
 ```typescript
 public inFrame(frameSelector: FrameSelector): Download;
@@ -56,7 +56,7 @@ public inFrame(frameSelector: FrameSelector): Download;
   - `frameSelector` - The FrameSelector.
 - **Returns:** `Download` - Returns the current action.
 
-### withAbilityAlias
+#### withAbilityAlias
 
 ```typescript
 public withAbilityAlias(alias: string): Download;
@@ -67,7 +67,7 @@ public withAbilityAlias(alias: string): Download;
   - `alias` - The alias.
 - **Returns:** `Download` - Returns the current action.
 
-### orSkipOnFail
+#### orSkipOnFail
 
 *Introduced in: 1.6.0*
 

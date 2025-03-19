@@ -10,17 +10,17 @@ The `Select` class is an action class in the Screenplay pattern designed for use
   - [Table of Contents](#table-of-contents)
   - [Class Overview](#class-overview)
     - [Methods](#methods)
-    - [performAs](#performas)
-    - [option](#option)
-    - [inFrame](#inframe)
-    - [withAbilityAlias](#withabilityalias)
-    - [orSkipOnFail](#orskiponfail)
+      - [performAs](#performas)
+      - [option](#option)
+      - [inFrame](#inframe)
+      - [withAbilityAlias](#withabilityalias)
+      - [orSkipOnFail](#orskiponfail)
 
 ## Class Overview
 
 ### Methods
 
-### performAs
+#### performAs
 
 ```typescript
 public async performAs(actor: Actor): Promise<any>;
@@ -31,7 +31,7 @@ public async performAs(actor: Actor): Promise<any>;
   - `actor` - The actor performing this action.
 - **Returns:** `Promise<any>` - This method checks, waits until all specified options are present in the `<select>` element and selects these options.
 
-### option
+#### option
 
 ```typescript
 public static option(selector: Selector, option: string | { value?: string, label?: string, index?: number }, selectorOptions?: SelectorOptions): Select;
@@ -44,7 +44,7 @@ public static option(selector: Selector, option: string | { value?: string, labe
   - `selectorOptions` - (optional): Advanced selector lookup options.
 - **Returns:** `Select` - Returns a new `Select` instance.
 
-### inFrame
+#### inFrame
 
 ```typescript
 public inFrame(frameSelector: FrameSelector): Select;
@@ -55,7 +55,7 @@ public inFrame(frameSelector: FrameSelector): Select;
   - `frameSelector` - The FrameSelector.
 - **Returns:** `Select` - Returns the current action.
 
-### withAbilityAlias
+#### withAbilityAlias
 
 ```typescript
 public withAbilityAlias(alias: string): Select;
@@ -66,7 +66,7 @@ public withAbilityAlias(alias: string): Select;
   - `alias` - The alias.
 - **Returns:** `Select` - Returns the current action.
 
-### orSkipOnFail
+#### orSkipOnFail
 
 *Introduced in: 1.6.0*
 

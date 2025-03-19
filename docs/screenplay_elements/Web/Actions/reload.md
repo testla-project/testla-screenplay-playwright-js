@@ -10,16 +10,16 @@ The `Reload` class is an action class in the Screenplay pattern designed for use
   - [Table of Contents](#table-of-contents)
   - [Class Overview](#class-overview)
     - [Methods](#methods)
-    - [performAs](#performas)
-    - [page](#page)
-    - [withAbilityAlias](#withabilityalias)
-    - [orSkipOnFail](#orskiponfail)
+      - [performAs](#performas)
+      - [page](#page)
+      - [withAbilityAlias](#withabilityalias)
+      - [orSkipOnFail](#orskiponfail)
 
 ## Class Overview
 
 ### Methods
 
-### performAs
+#### performAs
 
 ```typescript
 public async performAs(actor: Actor): Promise<any>;
@@ -30,7 +30,7 @@ public async performAs(actor: Actor): Promise<any>;
   - `actor` - The actor performing this action.
 - **Returns:** `Promise<any>` - Returns the main resource response.
 
-### page
+#### page
 
 ```typescript
 public static page(): Reload;
@@ -39,7 +39,7 @@ public static page(): Reload;
 - **Description:** Creates a new instance of the `Reload` class specifically for reloading the currently browsed page.
 - **Returns:** `Reload` - Returns a new `Reload` instance.
 
-### withAbilityAlias
+#### withAbilityAlias
 
 ```typescript
 public withAbilityAlias(alias: string): Reload;
@@ -50,7 +50,7 @@ public withAbilityAlias(alias: string): Reload;
   - `alias` - The alias.
 - **Returns:** `Reload` - Returns the current action.
 
-### orSkipOnFail
+#### orSkipOnFail
 
 *Introduced in: 1.6.0*
 

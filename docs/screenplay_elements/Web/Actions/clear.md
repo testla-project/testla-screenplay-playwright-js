@@ -10,16 +10,16 @@ The `Clear` class is an action class in the Screenplay pattern designed for use 
   - [Table of Contents](#table-of-contents)
   - [Class Overview](#class-overview)
     - [Methods](#methods)
-    - [performAs](#performas)
-    - [cookies](#cookies)
-    - [withAbilityAlias](#withabilityalias)
-    - [orSkipOnFail](#orskiponfail)
+      - [performAs](#performas)
+      - [cookies](#cookies)
+      - [withAbilityAlias](#withabilityalias)
+      - [orSkipOnFail](#orskiponfail)
 
 ## Class Overview
 
 ### Methods
 
-### performAs
+#### performAs
 
 ```typescript
 public async performAs(actor: Actor): Promise<any>;
@@ -30,7 +30,7 @@ public async performAs(actor: Actor): Promise<any>;
   - `actor` - The actor performing this action.
 - **Returns:** `Promise<any>` - Returns a promise that resolves after clearing cookies.
 
-### cookies
+#### cookies
 
 ```typescript
 public static cookies(): Clear;
@@ -39,7 +39,7 @@ public static cookies(): Clear;
 - **Description:** Creates a new instance of the `Clear` class specifically for clearing browser cookies.
 - **Returns:** `Clear` - Returns a new `Clear` instance.
 
-### withAbilityAlias
+#### withAbilityAlias
 
 ```typescript
 public withAbilityAlias(alias: string): Clear;
@@ -50,7 +50,7 @@ public withAbilityAlias(alias: string): Clear;
   - `alias` - The alias.
 - **Returns:** `Clear` - Returns the current action.
 
-### orSkipOnFail
+#### orSkipOnFail
 
 *Introduced in: 1.6.0*
 

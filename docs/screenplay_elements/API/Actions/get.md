@@ -10,13 +10,13 @@ The `Get` class provides a convenient way to perform HTTP GET requests. It allow
   - [Table of Contents](#table-of-contents)
   - [Class Overview](#class-overview)
     - [Extends](#extends)
-  - [Methods](#methods)
-    - [performAs](#performas)
-    - [from](#from)
-    - [withHeaders](#withheaders)
-    - [withResponseBodyFormat](#withresponsebodyformat)
-    - [withAbilityAlias](#withabilityalias)
-    - [orSkipOnFail](#orskiponfail)
+    - [Methods](#methods)
+      - [performAs](#performas)
+      - [from](#from)
+      - [withHeaders](#withheaders)
+      - [withResponseBodyFormat](#withresponsebodyformat)
+      - [withAbilityAlias](#withabilityalias)
+      - [orSkipOnFail](#orskiponfail)
 
 ## Class Overview
 
@@ -24,9 +24,9 @@ The `Get` class provides a convenient way to perform HTTP GET requests. It allow
 
 This class extends the `ARequest` abstract class, providing a specific implementation for sending HTTP GET requests.
 
-## Methods
+### Methods
 
-### performAs
+#### performAs
 
 ```typescript
 public async performAs(actor: Actor): Promise<Response>;
@@ -37,7 +37,7 @@ public async performAs(actor: Actor): Promise<Response>;
   - `actor` - The actor performing the action.
 - **Returns:** `Promise<Response>` - The response object.
 
-### from
+#### from
 
 ```typescript
 public static from(url: string): Get;
@@ -48,7 +48,7 @@ public static from(url: string): Get;
   - `url` - The URL of the target.
 - **Returns:** `Get` - A new instance of the `Get` class.
 
-### withHeaders
+#### withHeaders
 
 ```typescript
 public withHeaders(headers: Headers): Get;
@@ -59,7 +59,7 @@ public withHeaders(headers: Headers): Get;
   - `headers` - The headers to be added.
 - **Returns:** `Get` - The updated instance of the `Get` class.
 
-### withResponseBodyFormat
+#### withResponseBodyFormat
 
 ```typescript
 public withResponseBodyFormat(responseBodyFormat: ResponseBodyFormat): Get;
@@ -70,7 +70,7 @@ public withResponseBodyFormat(responseBodyFormat: ResponseBodyFormat): Get;
   - `responseBodyFormat` - The desired format of the response body which can be one out of `json`, `text`, `buffer` or `none`. The default is `json`.
 - **Returns:** `Get` - The updated instance of the `Get` class.
 
-### withAbilityAlias
+#### withAbilityAlias
 
 ```typescript
 public withAbilityAlias(alias: string): Get;
@@ -81,7 +81,7 @@ public withAbilityAlias(alias: string): Get;
   - `alias` - The alias.
 - **Returns:** `Get` - Returns the current action.
 
-### orSkipOnFail
+#### orSkipOnFail
 
 *Introduced in: 1.6.0*
 

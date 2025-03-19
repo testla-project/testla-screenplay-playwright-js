@@ -10,16 +10,16 @@ The `Add` class is an action class in the Screenplay pattern designed for use wi
   - [Table of Contents](#table-of-contents)
   - [Class Overview](#class-overview)
     - [Methods](#methods)
-    - [performAs](#performas)
-    - [cookies](#cookies)
-    - [withAbilityAlias](#withabilityalias)
-    - [orSkipOnFail](#orskiponfail)
+      - [performAs](#performas)
+      - [cookies](#cookies)
+      - [withAbilityAlias](#withabilityalias)
+      - [orSkipOnFail](#orskiponfail)
 
 ## Class Overview
 
 ### Methods
 
-### performAs
+#### performAs
 
 ```typescript
 public performAs(actor: Actor): Promise<any>;
@@ -30,7 +30,7 @@ public performAs(actor: Actor): Promise<any>;
   - `actor` - The actor performing this action.
 - **Returns:** `Promise<any>` - Returns a promise that resolves after adding the cookies into the browser context.
 
-### cookies
+#### cookies
 
 ```typescript
 public static cookies(cookies: Cookie[]): Add;
@@ -41,7 +41,7 @@ public static cookies(cookies: Cookie[]): Add;
   - `cookies` - The cookies to add.
 - **Returns:** `Add` - Returns a new `Add` instance.
 
-### withAbilityAlias
+#### withAbilityAlias
 
 ```typescript
 public withAbilityAlias(alias: string): Add;
@@ -52,7 +52,7 @@ public withAbilityAlias(alias: string): Add;
   - `alias` - The alias.
 - **Returns:** `Add` - Returns the current action.
 
-### orSkipOnFail
+#### orSkipOnFail
 
 *Introduced in: 1.6.0*
 

@@ -3,6 +3,11 @@ import { Selector, SelectorOptions } from '../types';
 import { BrowseTheWeb } from '../abilities/BrowseTheWeb';
 import { FrameEnabledAction } from '../templates/FrameEnabledAction';
 
+type WaitFOrUrlOptions = {
+    timeout?: number;
+    waitUntil?: 'load' | 'domcontentloaded' | 'networkidle' | 'commit';
+};
+
 /**
  * Action Class. Wait for either a specified loading state or for a selector to become visible/active.
  */
@@ -36,7 +41,7 @@ export class Wait extends FrameEnabledAction {
             return page.waitForEvent(action.payload.event);
         }
         if (this.action.mode === 'url') {
-            return page.waitForURL(action.payload.url);
+            return page.waitForURL(action.payload.url, action.payload.options);
         }
         // fallback: action.mode === 'selector'
         return BrowseTheWeb.as(actor, abilityAlias).resolveSelectorToLocator(action.payload.selector, action.payload.options, frameTree);
@@ -85,9 +90,9 @@ export class Wait extends FrameEnabledAction {
      * @param {string} url the url to wait for.
      * @return {Wait} new Wait instance
      */
-    public static forUrl(url: string): Wait {
-        const instance = new Wait({ mode: 'url', payload: { url } });
-        instance.setCallStackInitializeCalledWith({ url });
+    public static forUrl(url: string | RegExp, options?: WaitFOrUrlOptions): Wait {
+        const instance = new Wait({ mode: 'url', payload: { url, options } });
+        instance.setCallStackInitializeCalledWith({ url, options });
         return instance;
     }
 }
