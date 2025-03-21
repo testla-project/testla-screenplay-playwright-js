@@ -564,7 +564,7 @@ test.describe('Testing screenplay-playwright-js web module', () => {
     // the download page contents change a lot
     // thus keeping a few options in place
     const DOWNLOAD_FILENAME = 'file.txt';
-    const DOWNLOAD_FILECONTENT = '';
+    const DOWNLOAD_FILECONTENT = 'Helllooooo!';
     // or
     // const DOWNLOAD_FILENAME = 'test-file.txt';
     // const DOWNLOAD_FILECONTENT = 'Test file';
