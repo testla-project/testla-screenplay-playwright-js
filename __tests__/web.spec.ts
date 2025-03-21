@@ -218,7 +218,8 @@ test.describe('Testing screenplay-playwright-js web module', () => {
             Wait.forLoadState('networkidle'),
         );
         // assert that there are cookies to clear
-        expect(await context.cookies()).not.toStrictEqual([]);
+        const oldCookies = await context.cookies();
+        expect(oldCookies).not.toStrictEqual([]);
 
         // Clear any cookies not added by us
         await actor.attemptsTo(
@@ -226,20 +227,22 @@ test.describe('Testing screenplay-playwright-js web module', () => {
         );
 
         // assert that cookies are successfully cleared
-        expect(await context.cookies()).toStrictEqual([]);
+        const clearedCookies = await context.cookies();
+        expect(clearedCookies).toStrictEqual([]);
 
         // Add some cookies
-        const cookiesToAdd: Cookie[] = [{
-            name: 'cookie1', value: 'someValue', domain: '.google.com', path: '/', expires: 1736932950.42523, httpOnly: true, secure: true, sameSite: 'Lax',
+        const cookiesToAdd: any[] = [{
+            name: 'cookie1', value: 'someValue', domain: '.google.com', path: '/', expires: -1, httpOnly: true, secure: true, sameSite: 'Lax',
         }, {
-            name: 'cookie2', value: 'val', domain: '.google.com', path: '/', expires: 1736932950.42523, httpOnly: true, secure: true, sameSite: 'Lax',
+            name: 'cookie2', value: 'val', domain: '.google.com', path: '/', expires: -1, httpOnly: true, secure: true, sameSite: 'Lax',
         }];
         await actor.attemptsTo(
             Add.cookies(cookiesToAdd),
         );
 
         // assert that cookies are successfully added
-        expect(await context.cookies()).toStrictEqual(cookiesToAdd);
+        const cookies = await context.cookies();
+        expect(cookies).toStrictEqual(cookiesToAdd);
 
         // Get the cookies we just added
         const getCookies: Cookie[] = await actor.attemptsTo(
@@ -560,11 +563,11 @@ test.describe('Testing screenplay-playwright-js web module', () => {
 
     // the download page contents change a lot
     // thus keeping a few options in place
-    // const DOWNLOAD_FILENAME = 'Hi.txt';
-    // const DOWNLOAD_FILECONTENT = '';
+    const DOWNLOAD_FILENAME = 'file.txt';
+    const DOWNLOAD_FILECONTENT = '';
     // or
-    const DOWNLOAD_FILENAME = 'test-file.txt';
-    const DOWNLOAD_FILECONTENT = 'Test file';
+    // const DOWNLOAD_FILENAME = 'test-file.txt';
+    // const DOWNLOAD_FILECONTENT = 'Test file';
     // or
     // const DOWNLOAD_FILENAME = 'newFile.txt';
     // const DOWNLOAD_FILECONTENT = 'First file ';
