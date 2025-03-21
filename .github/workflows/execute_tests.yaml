@@ -2,7 +2,7 @@ name: testla-test-execution
 on: [pull_request]
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     strategy:
       matrix:
         node-version: [20.x]
