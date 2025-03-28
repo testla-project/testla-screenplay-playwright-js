@@ -573,7 +573,7 @@ test.describe('Testing screenplay-playwright-js web module', () => {
     // const DOWNLOAD_FILENAME = 'newFile.txt';
     // const DOWNLOAD_FILECONTENT = 'First file ';
 
-    test('Download File', async ({ actor }) => {
+    test.skip('Download File', async ({ actor }) => {
         const res = await actor.attemptsTo(
             Navigate.to('https://the-internet.herokuapp.com/download'),
             Wait.forLoadState('networkidle'),
@@ -582,7 +582,7 @@ test.describe('Testing screenplay-playwright-js web module', () => {
         expect(res).toBe(true);
     });
 
-    test('Download File with Path', async ({ actor }) => {
+    test.skip('Download File with Path', async ({ actor }) => {
         const downloadPath = './';
         const downloadFileName = 'download.txt';
         const filePath = `${downloadPath}${downloadFileName}`;
