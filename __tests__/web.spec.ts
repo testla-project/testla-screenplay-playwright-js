@@ -568,7 +568,7 @@ test.describe('Testing screenplay-playwright-js web module', () => {
     // const DOWNLOAD_FILECONTENT = 'Hello World';
     // or
     const DOWNLOAD_FILENAME = 'test-file.txt';
-    const DOWNLOAD_FILECONTENT = '';
+    const DOWNLOAD_FILECONTENT = 'This is a test file for upload testing';
     // or
     // const DOWNLOAD_FILENAME = 'newFile.txt';
     // const DOWNLOAD_FILECONTENT = 'First file ';
