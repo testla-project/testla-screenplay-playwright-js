@@ -212,9 +212,10 @@ test.describe('Testing screenplay-playwright-js web module', () => {
     });
 
     test('Cookies: Add, Get, Clear', async ({ actor }) => {
+        const COOKIE_DOMAIN = 'the-internet.herokuapp.com';
         const context: BrowserContext = BrowseTheWeb.as(actor).getPage().context();
         await actor.attemptsTo(
-            Navigate.to('https://google.com'),
+            Navigate.to(`https://${COOKIE_DOMAIN}`),
             Wait.forLoadState('networkidle'),
         );
         // assert that there are cookies to clear
@@ -232,9 +233,9 @@ test.describe('Testing screenplay-playwright-js web module', () => {
 
         // Add some cookies
         const cookiesToAdd: any[] = [{
-            name: 'cookie1', value: 'someValue', domain: '.google.com', path: '/', expires: -1, httpOnly: true, secure: true, sameSite: 'Lax',
+            name: 'cookie1', value: 'someValue', domain: `.${COOKIE_DOMAIN}`, path: '/', expires: -1, httpOnly: true, secure: true, sameSite: 'Lax',
         }, {
-            name: 'cookie2', value: 'val', domain: '.google.com', path: '/', expires: -1, httpOnly: true, secure: true, sameSite: 'Lax',
+            name: 'cookie2', value: 'val', domain: `.${COOKIE_DOMAIN}`, path: '/', expires: -1, httpOnly: true, secure: true, sameSite: 'Lax',
         }];
         await actor.attemptsTo(
             Add.cookies(cookiesToAdd),
@@ -246,7 +247,7 @@ test.describe('Testing screenplay-playwright-js web module', () => {
 
         // Get the cookies we just added
         const getCookies: Cookie[] = await actor.attemptsTo(
-            Get.cookies('https://google.com'),
+            Get.cookies(`https://${COOKIE_DOMAIN}`),
         );
         // assert that cookies are retrieved successfully
         expect(getCookies).toStrictEqual(cookiesToAdd);
@@ -563,11 +564,11 @@ test.describe('Testing screenplay-playwright-js web module', () => {
 
     // the download page contents change a lot
     // thus keeping a few options in place
-    const DOWNLOAD_FILENAME = 'file.txt';
-    const DOWNLOAD_FILECONTENT = 'Hello World';
+    // const DOWNLOAD_FILENAME = 'file.txt';
+    // const DOWNLOAD_FILECONTENT = 'Hello World';
     // or
-    // const DOWNLOAD_FILENAME = 'test-file.txt';
-    // const DOWNLOAD_FILECONTENT = 'Test file';
+    const DOWNLOAD_FILENAME = 'test-file.txt';
+    const DOWNLOAD_FILECONTENT = 'This is a test file for upload testing';
     // or
     // const DOWNLOAD_FILENAME = 'newFile.txt';
     // const DOWNLOAD_FILECONTENT = 'First file ';
