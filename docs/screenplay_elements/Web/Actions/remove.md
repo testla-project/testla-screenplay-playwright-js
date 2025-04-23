@@ -10,17 +10,17 @@ The `Remove` class is an action class in the Screenplay pattern designed for use
   - [Table of Contents](#table-of-contents)
   - [Class Overview](#class-overview)
     - [Methods](#methods)
-    - [performAs](#performas)
-    - [sessionStorageItem](#sessionstorageitem)
-    - [localStorageItem](#localstorageitem)
-    - [withAbilityAlias](#withabilityalias)
-    - [orSkipOnFail](#orskiponfail)
+      - [performAs](#performas)
+      - [sessionStorageItem](#sessionstorageitem)
+      - [localStorageItem](#localstorageitem)
+      - [withAbilityAlias](#withabilityalias)
+      - [orSkipOnFail](#orskiponfail)
 
 ## Class Overview
 
 ### Methods
 
-### performAs
+#### performAs
 
 ```typescript
 public performAs(actor: Actor): Promise<any>;
@@ -31,7 +31,7 @@ public performAs(actor: Actor): Promise<any>;
   - `actor` - The actor performing this action.
 - **Returns:** `Promise<any>` - Returns the value of the `pageFunction` invocation.
 
-### sessionStorageItem
+#### sessionStorageItem
 
 ```typescript
 public static sessionStorageItem(key: string): Remove;
@@ -42,7 +42,7 @@ public static sessionStorageItem(key: string): Remove;
   - `key` - The key that specifies the item to be removed.
 - **Returns:** `Remove` - Returns a new `Remove` instance for session storage.
 
-### localStorageItem
+#### localStorageItem
 
 ```typescript
 public static localStorageItem(key: string): Remove;
@@ -53,7 +53,7 @@ public static localStorageItem(key: string): Remove;
   - `key` - The key that specifies the item to be removed.
 - **Returns:** `Remove` - Returns a new `Remove` instance for local storage.
 
-### withAbilityAlias
+#### withAbilityAlias
 
 ```typescript
 public withAbilityAlias(alias: string): Remove;
@@ -64,7 +64,7 @@ public withAbilityAlias(alias: string): Remove;
   - `alias` - The alias.
 - **Returns:** `Remove` - Returns the current action.
 
-### orSkipOnFail
+#### orSkipOnFail
 
 *Introduced in: 1.6.0*
 

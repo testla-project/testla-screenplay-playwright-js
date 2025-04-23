@@ -10,19 +10,19 @@ The `Wait` class is an action class in the Screenplay pattern designed for use w
   - [Table of Contents](#table-of-contents)
   - [Class Overview](#class-overview)
     - [Methods](#methods)
-    - [performAs](#performas)
-    - [forLoadState](#forloadstate)
-    - [forSelector](#forselector)
-    - [forEvent](#forevent)
-    - [inFrame](#inframe)
-    - [withAbilityAlias](#withabilityalias)
-    - [orSkipOnFail](#orskiponfail)
+      - [performAs](#performas)
+      - [forLoadState](#forloadstate)
+      - [forSelector](#forselector)
+      - [forEvent](#forevent)
+      - [inFrame](#inframe)
+      - [withAbilityAlias](#withabilityalias)
+      - [orSkipOnFail](#orskiponfail)
 
 ## Class Overview
 
 ### Methods
 
-### performAs
+#### performAs
 
 ```typescript
 public performAs(actor: Actor): Promise<any>;
@@ -33,7 +33,7 @@ public performAs(actor: Actor): Promise<any>;
   - `actor` - The actor performing this action.
 - **Returns:** `Promise<any>` - Resolves when the required load state or selector visibility is reached.
 
-### forLoadState
+#### forLoadState
 
 ```typescript
 public static forLoadState(state: 'load' | 'domcontentloaded' | 'networkidle'): Wait;
@@ -44,7 +44,7 @@ public static forLoadState(state: 'load' | 'domcontentloaded' | 'networkidle'): 
   - `state` - Either 'load', 'domcontentloaded', or 'networkidle'.
 - **Returns:** `Wait` - Returns a new `Wait` instance.
 
-### forSelector
+#### forSelector
 
 ```typescript
 public static forSelector(selector: Selector, options?: SelectorOptions): Wait;
@@ -56,7 +56,7 @@ public static forSelector(selector: Selector, options?: SelectorOptions): Wait;
   - `options` - (optional) Advanced selector lookup options.
 - **Returns:** `Wait` - Returns a new `Wait` instance.
 
-### forEvent
+#### forEvent
 
 *Introduced in: 1.5.0*
 
@@ -69,7 +69,20 @@ public static forEvent(event: string): Wait;
   - `event` - The event.
 - **Returns:** `Wait` - Returns a new `Wait` instance.
 
-### inFrame
+#### forUrl
+
+*Introduced in: 1.8.0*
+
+```typescript
+public static forUrl(url: string | RegExp, options): Wait;
+```
+
+- **Description:** Creates a new instance of the `Wait` class to wait for a specific url.
+- **Parameters:**
+  - `url` - The url.
+- **Returns:** `Wait` - Returns a new `Wait` instance.
+
+#### inFrame
 
 ```typescript
 public inFrame(frameSelector: FrameSelector): Wait;
@@ -80,7 +93,7 @@ public inFrame(frameSelector: FrameSelector): Wait;
   - `frameSelector` - The FrameSelector.
 - **Returns:** `Wait` - Returns the current action.
 
-### withAbilityAlias
+#### withAbilityAlias
 
 ```typescript
 public withAbilityAlias(alias: string): Wait;
@@ -91,7 +104,7 @@ public withAbilityAlias(alias: string): Wait;
   - `alias` - The alias.
 - **Returns:** `Wait` - Returns the current action.
 
-### orSkipOnFail
+#### orSkipOnFail
 
 *Introduced in: 1.6.0*
 

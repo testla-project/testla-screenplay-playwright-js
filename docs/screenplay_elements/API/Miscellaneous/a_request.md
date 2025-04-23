@@ -10,8 +10,8 @@ The `ARequest` class is intended to be extended by specific HTTP request action 
   - [Table of Contents](#table-of-contents)
   - [Class Overview](#class-overview)
     - [Extends](#extends)
-  - [Methods](#methods)
-    - [performAs](#performas)
+    - [Methods](#methods)
+      - [performAs](#performas)
 
 ## Class Overview
 
@@ -19,9 +19,9 @@ The `ARequest` class is intended to be extended by specific HTTP request action 
 
 This class extends the `Action` class from the '@testla/screenplay' library, providing a foundation for defining HTTP request actions.
 
-## Methods
+### Methods
 
-### performAs
+#### performAs
 
 ```typescript
 abstract performAs(actor: Actor): Promise<any>;

@@ -10,12 +10,12 @@ The `Head` class provides a convenient way to perform HTTP HEAD requests. It all
   - [Table of Contents](#table-of-contents)
   - [Class Overview](#class-overview)
     - [Extends](#extends)
-  - [Methods](#methods)
-    - [performAs](#performas)
-    - [from](#from)
-    - [withHeaders](#withheaders)
-    - [withAbilityAlias](#withabilityalias)
-    - [orSkipOnFail](#orskiponfail)
+    - [Methods](#methods)
+      - [performAs](#performas)
+      - [from](#from)
+      - [withHeaders](#withheaders)
+      - [withAbilityAlias](#withabilityalias)
+      - [orSkipOnFail](#orskiponfail)
 
 ## Class Overview
 
@@ -23,9 +23,9 @@ The `Head` class provides a convenient way to perform HTTP HEAD requests. It all
 
 This class extends the `ARequest` abstract class, providing a specific implementation for sending HTTP HEAD requests.
 
-## Methods
+### Methods
 
-### performAs
+#### performAs
 
 ```typescript
 public async performAs(actor: Actor): Promise<Response>;
@@ -36,7 +36,7 @@ public async performAs(actor: Actor): Promise<Response>;
   - `actor` - The actor performing the action.
 - **Returns:** `Promise<Response>` - The response object.
 
-### from
+#### from
 
 ```typescript
 public static from(url: string): Head;
@@ -47,7 +47,7 @@ public static from(url: string): Head;
   - `url` - The URL of the target.
 - **Returns:** `Head` - A new instance of the `Head` class.
 
-### withHeaders
+#### withHeaders
 
 ```typescript
 public withHeaders(headers: Headers): Head;
@@ -58,7 +58,7 @@ public withHeaders(headers: Headers): Head;
   - `headers` - The headers to be added.
 - **Returns:** `Head` - The updated instance of the `Head` class.
 
-### withAbilityAlias
+#### withAbilityAlias
 
 ```typescript
 public withAbilityAlias(alias: string): Head;
@@ -69,7 +69,7 @@ public withAbilityAlias(alias: string): Head;
   - `alias` - The alias.
 - **Returns:** `Head` - Returns the current action.
 
-### orSkipOnFail
+#### orSkipOnFail
 
 *Introduced in: 1.6.0*
 

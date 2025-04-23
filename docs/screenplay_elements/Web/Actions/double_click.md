@@ -10,17 +10,17 @@ The `DoubleClick` class is an action class in the Screenplay pattern designed fo
   - [Table of Contents](#table-of-contents)
   - [Class Overview](#class-overview)
     - [Methods](#methods)
-    - [performAs](#performas)
-    - [on](#on)
-    - [inFrame](#inframe)
-    - [withAbilityAlias](#withabilityalias)
-    - [orSkipOnFail](#orskiponfail)
+      - [performAs](#performas)
+      - [on](#on)
+      - [inFrame](#inframe)
+      - [withAbilityAlias](#withabilityalias)
+      - [orSkipOnFail](#orskiponfail)
 
 ## Class Overview
 
 ### Methods
 
-### performAs
+#### performAs
 
 ```typescript
 public async performAs(actor: Actor): Promise<void>;
@@ -31,7 +31,7 @@ public async performAs(actor: Actor): Promise<void>;
   - `actor` - The actor performing this action.
 - **Returns:** `Promise<void>` - Returns a promise that resolves after double clicking the element.
 
-### on
+#### on
 
 ```typescript
 public static on(selector: Selector, options?: SelectorOptions): DoubleClick;
@@ -43,7 +43,7 @@ public static on(selector: Selector, options?: SelectorOptions): DoubleClick;
   - `options` (optional) - Advanced selector lookup options.
 - **Returns:** `DoubleClick` - Returns a new `DoubleClick` instance.
 
-### inFrame
+#### inFrame
 
 ```typescript
 public inFrame(frameSelector: FrameSelector): DoubleClick;
@@ -54,7 +54,7 @@ public inFrame(frameSelector: FrameSelector): DoubleClick;
   - `frameSelector` - The FrameSelector.
 - **Returns:** `DoubleClick` - Returns the current action.
 
-### withAbilityAlias
+#### withAbilityAlias
 
 ```typescript
 public withAbilityAlias(alias: string): DoubleClick;
@@ -65,7 +65,7 @@ public withAbilityAlias(alias: string): DoubleClick;
   - `alias` - The alias.
 - **Returns:** `DoubleClick` - Returns the current action.
 
-### orSkipOnFail
+#### orSkipOnFail
 
 *Introduced in: 1.6.0*
 

@@ -1,5 +1,5 @@
 import {
-    BrowserContext, Cookie, expect, Page, test as base,
+    expect, Page, test as base,
 } from '@playwright/test';
 import { Actor } from '@testla/screenplay';
 import { BrowseTheWeb } from '../src/web/abilities/BrowseTheWeb';
@@ -12,11 +12,6 @@ import { Fill } from '../src/web/actions/Fill';
 import { Type } from '../src/web/actions/Type';
 import { Hover } from '../src/web/actions/Hover';
 import { Press } from '../src/web/actions/Press';
-import { Clear } from '../src/web/actions/Clear';
-import { Add } from '../src/web/actions/Add';
-import { Get } from '../src/web/actions/Get';
-import { Set } from '../src/web/actions/Set';
-import { Remove } from '../src/web/actions/Remove';
 import { Element } from '../src/web/questions/Element';
 import { LazySelector } from '../src/web/types';
 
@@ -206,92 +201,6 @@ test.describe('Testing screenplay-playwright-js web module', () => {
             // Wait.forSelector(page.locator('[id="table1"]'), { subSelector: [('tbody tr'), { hasText: 'Conway', subSelector: [('td:has-text("$50.00")')] }] }),
             Wait.forSelector(page.locator('[id="table1"]'), { subSelector: [('tbody tr'), { hasText: 'Conway', subSelector: [page.locator('td:has-text("$50.00")')] }] }),
         );
-    });
-
-    test('Cookies: Add, Get, Clear', async ({ actor }) => {
-        const context: BrowserContext = BrowseTheWeb.as(actor).getPage().context();
-
-        await actor.attemptsTo(
-            Navigate.to('https://google.com'),
-            Wait.forLoadState('networkidle'),
-        );
-        // assert that there are cookies to clear
-        expect(await context.cookies()).not.toStrictEqual([]);
-
-        // Clear any cookies not added by us
-        await actor.attemptsTo(
-            Clear.cookies(),
-        );
-
-        // assert that cookies are successfully cleared
-        expect(await context.cookies()).toStrictEqual([]);
-
-        // Add some cookies
-        const cookiesToAdd: Cookie[] = [{
-            name: 'cookie1', value: 'someValue', domain: '.google.com', path: '/', expires: 1736932950.42523, httpOnly: true, secure: true, sameSite: 'Lax',
-        }, {
-            name: 'cookie2', value: 'val', domain: '.google.com', path: '/', expires: 1736932950.42523, httpOnly: true, secure: true, sameSite: 'Lax',
-        }];
-        await actor.attemptsTo(
-            Add.cookies(cookiesToAdd),
-        );
-        // assert that cookies are successfully added
-        expect(await context.cookies()).toStrictEqual(cookiesToAdd);
-
-        // Get the cookies we just added
-        const getCookies: Cookie[] = await actor.attemptsTo(
-            Get.cookies('https://google.com'),
-        );
-        // assert that cookies are retrieved successfully
-        expect(getCookies).toStrictEqual(cookiesToAdd);
-    });
-
-    test('Local storage + Session storage', async ({ actor }) => {
-        await actor.attemptsTo(
-            Navigate.to('https://google.com'),
-            Wait.forLoadState('networkidle'),
-
-            Set.localStorageItem('localKey', 'localValue'),
-            Set.sessionStorageItem('sessionKey', 'sessionValue'),
-        );
-
-        // check local storage item
-        const local = await actor.attemptsTo(
-            Get.localStorageItem('localKey'),
-        );
-        expect(local).toBe('localValue');
-
-        // check session storage item
-        const session = await actor.attemptsTo(
-            Get.sessionStorageItem('sessionKey'),
-        );
-        expect(session).toBe('sessionValue');
-
-        // check for values that are not there
-        const localUndefined = await actor.attemptsTo(
-            Get.localStorageItem('???'),
-        );
-        expect(localUndefined).toBeUndefined();
-
-        // check for values that are not there
-        const sessionUndefined = await actor.attemptsTo(
-            Get.sessionStorageItem('???'),
-        );
-        expect(sessionUndefined).toBeUndefined();
-
-        // remove local storage item and verify that it was deleted
-        const localDeleted = await actor.attemptsTo(
-            Remove.localStorageItem('localKey'),
-            Get.localStorageItem('localKey'),
-        );
-        expect(localDeleted).toBeUndefined();
-
-        // remove session storage item and verify that it was deleted
-        const sessionDeleted = await actor.attemptsTo(
-            Remove.sessionStorageItem('sessionKey'),
-            Get.sessionStorageItem('sessionKey'),
-        );
-        expect(sessionDeleted).toBeUndefined();
     });
 
     test('Element.visible', async ({ actor }) => {

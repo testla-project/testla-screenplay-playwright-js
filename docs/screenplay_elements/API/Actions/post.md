@@ -10,14 +10,14 @@ The `Post` class provides a convenient way to perform HTTP POST requests. It all
   - [Table of Contents](#table-of-contents)
   - [Class Overview](#class-overview)
     - [Extends](#extends)
-  - [Methods](#methods)
-    - [performAs](#performas)
-    - [to](#to)
-    - [withData](#withdata)
-    - [withHeaders](#withheaders)
-    - [withResponseBodyFormat](#withresponsebodyformat)
-    - [withAbilityAlias](#withabilityalias)
-    - [orSkipOnFail](#orskiponfail)
+    - [Methods](#methods)
+      - [performAs](#performas)
+      - [to](#to)
+      - [withData](#withdata)
+      - [withHeaders](#withheaders)
+      - [withResponseBodyFormat](#withresponsebodyformat)
+      - [withAbilityAlias](#withabilityalias)
+      - [orSkipOnFail](#orskiponfail)
 
 ## Class Overview
 
@@ -25,9 +25,9 @@ The `Post` class provides a convenient way to perform HTTP POST requests. It all
 
 This class extends the `ARequest` abstract class, providing a specific implementation for sending HTTP POST requests.
 
-## Methods
+### Methods
 
-### performAs
+#### performAs
 
 ```typescript
 public async performAs(actor: Actor): Promise<Response>;
@@ -38,7 +38,7 @@ public async performAs(actor: Actor): Promise<Response>;
   - `actor` - The actor performing the action.
 - **Returns:** `Promise<Response>` - The response object.
 
-### to
+#### to
 
 ```typescript
 public static to(url: string): Post;
@@ -49,7 +49,7 @@ public static to(url: string): Post;
   - `url` - The URL of the target.
 - **Returns:** `Post` - A new instance of the `Post` class.
 
-### withData
+#### withData
 
 ```typescript
 public withData(data: any): Post;
@@ -60,7 +60,7 @@ public withData(data: any): Post;
   - `data` - The data to be added.
 - **Returns:** `Post` - The updated instance of the `Post` class.
 
-### withHeaders
+#### withHeaders
 
 ```typescript
 public withHeaders(headers: Headers): Post;
@@ -71,7 +71,7 @@ public withHeaders(headers: Headers): Post;
   - `headers` - The headers to be added.
 - **Returns:** `Post` - The updated instance of the `Post` class.
 
-### withResponseBodyFormat
+#### withResponseBodyFormat
 
 ```typescript
 public withResponseBodyFormat(responseBodyFormat: ResponseBodyFormat): Post;
@@ -82,7 +82,7 @@ public withResponseBodyFormat(responseBodyFormat: ResponseBodyFormat): Post;
   - `responseBodyFormat` - The desired format of the response body which can be one out of `json`, `text`, `buffer` or `none`. The default is `json`.
 - **Returns:** `Post` - The updated instance of the `Post` class.
 
-### withAbilityAlias
+#### withAbilityAlias
 
 ```typescript
 public withAbilityAlias(alias: string): Post;
@@ -93,7 +93,7 @@ public withAbilityAlias(alias: string): Post;
   - `alias` - The alias.
 - **Returns:** `Post` - Returns the current action.
 
-### orSkipOnFail
+#### orSkipOnFail
 
 *Introduced in: 1.6.0*
 

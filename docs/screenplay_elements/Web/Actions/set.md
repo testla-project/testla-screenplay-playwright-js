@@ -10,17 +10,17 @@ The `Set` class is an action class in the Screenplay pattern designed for use wi
   - [Table of Contents](#table-of-contents)
   - [Class Overview](#class-overview)
     - [Methods](#methods)
-    - [performAs](#performas)
-    - [sessionStorageItem](#sessionstorageitem)
-    - [localStorageItem](#localstorageitem)
-    - [withAbilityAlias](#withabilityalias)
-    - [orSkipOnFail](#orskiponfail)
+      - [performAs](#performas)
+      - [sessionStorageItem](#sessionstorageitem)
+      - [localStorageItem](#localstorageitem)
+      - [withAbilityAlias](#withabilityalias)
+      - [orSkipOnFail](#orskiponfail)
 
 ## Class Overview
 
 ### Methods
 
-### performAs
+#### performAs
 
 ```typescript
 public performAs(actor: Actor): Promise<any>;
@@ -31,7 +31,7 @@ public performAs(actor: Actor): Promise<any>;
   - `actor` - The actor performing this action.
 - **Returns:** `Promise<any>` - Returns the value of the `pageFunction` invocation.
 
-### sessionStorageItem
+#### sessionStorageItem
 
 ```typescript
 public static sessionStorageItem(key: string, value: any): Set;
@@ -43,7 +43,7 @@ public static sessionStorageItem(key: string, value: any): Set;
   - `value` - The value of the item.
 - **Returns:** `Set` - Returns a new `Set` instance for session storage.
 
-### localStorageItem
+#### localStorageItem
 
 ```typescript
 public static localStorageItem(key: string, value: any): Set;
@@ -55,7 +55,7 @@ public static localStorageItem(key: string, value: any): Set;
   - `value` - The value of the item.
 - **Returns:** `Set` - Returns a new `Set` instance for local storage.
 
-### withAbilityAlias
+#### withAbilityAlias
 
 ```typescript
 public withAbilityAlias(alias: string): Set;
@@ -66,7 +66,7 @@ public withAbilityAlias(alias: string): Set;
   - `alias` - The alias.
 - **Returns:** `Set` - Returns the current action.
 
-### orSkipOnFail
+#### orSkipOnFail
 
 *Introduced in: 1.6.0*
 

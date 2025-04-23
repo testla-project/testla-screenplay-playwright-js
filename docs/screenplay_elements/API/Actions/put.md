@@ -10,14 +10,14 @@ The `Put` class provides a convenient way to perform HTTP PUT requests. It allow
   - [Table of Contents](#table-of-contents)
   - [Class Overview](#class-overview)
     - [Extends](#extends)
-  - [Methods](#methods)
-    - [performAs](#performas)
-    - [to](#to)
-    - [withData](#withdata)
-    - [withHeaders](#withheaders)
-    - [withResponseBodyFormat](#withresponsebodyformat)
-    - [withAbilityAlias](#withabilityalias)
-    - [orSkipOnFail](#orskiponfail)
+    - [Methods](#methods)
+      - [performAs](#performas)
+      - [to](#to)
+      - [withData](#withdata)
+      - [withHeaders](#withheaders)
+      - [withResponseBodyFormat](#withresponsebodyformat)
+      - [withAbilityAlias](#withabilityalias)
+      - [orSkipOnFail](#orskiponfail)
 
 ## Class Overview
 
@@ -25,9 +25,9 @@ The `Put` class provides a convenient way to perform HTTP PUT requests. It allow
 
 This class extends the `ARequest` abstract class, providing a specific implementation for sending HTTP PUT requests.
 
-## Methods
+### Methods
 
-### performAs
+#### performAs
 
 ```typescript
 public async performAs(actor: Actor): Promise<Response>;
@@ -38,7 +38,7 @@ public async performAs(actor: Actor): Promise<Response>;
   - `actor` - The actor performing the action.
 - **Returns:** `Promise<Response>` - The response object.
 
-### to
+#### to
 
 ```typescript
 public static to(url: string): Put;
@@ -49,7 +49,7 @@ public static to(url: string): Put;
   - `url` - The URL of the target.
 - **Returns:** `Put` - A new instance of the `Put` class.
 
-### withData
+#### withData
 
 ```typescript
 public withData(data: any): Put;
@@ -60,7 +60,7 @@ public withData(data: any): Put;
   - `data` - The data to be added.
 - **Returns:** `Put` - The updated instance of the `Put` class.
 
-### withHeaders
+#### withHeaders
 
 ```typescript
 public withHeaders(headers: Headers): Put;
@@ -71,7 +71,7 @@ public withHeaders(headers: Headers): Put;
   - `headers` - The headers to be added.
 - **Returns:** `Put` - The updated instance of the `Put` class.
 
-### withResponseBodyFormat
+#### withResponseBodyFormat
 
 ```typescript
 public withResponseBodyFormat(responseBodyFormat: ResponseBodyFormat): Put;
@@ -82,7 +82,7 @@ public withResponseBodyFormat(responseBodyFormat: ResponseBodyFormat): Put;
   - `responseBodyFormat` - The desired format of the response body which can be one out of `json`, `text`, `buffer` or `none`. The default is `json`.
 - **Returns:** `Put` - The updated instance of the `Put` class.
 
-### withAbilityAlias
+#### withAbilityAlias
 
 ```typescript
 public withAbilityAlias(alias: string): Put;
@@ -93,7 +93,7 @@ public withAbilityAlias(alias: string): Put;
   - `alias` - The alias.
 - **Returns:** `Put` - Returns the current action.
 
-### orSkipOnFail
+#### orSkipOnFail
 
 *Introduced in: 1.6.0*
 

@@ -10,27 +10,27 @@ The `Element` class is a question class in the Screenplay pattern designed for u
   - [Table of Contents](#table-of-contents)
   - [Class Overview](#class-overview)
     - [Methods](#methods)
-    - [answeredBy](#answeredby)
-    - [toBe](#tobe)
-    - [notToBe](#nottobe)
-    - [toHave](#tohave)
-    - [notToHave](#nottohave)
-    - [visible](#visible)
-    - [enabled](#enabled)
-    - [checked](#checked)
-    - [text](#text)
-    - [value](#value)
-    - [count](#count)
-    - [minCount](#mincount)
-    - [inFrame](#inframe)
-    - [withAbilityAlias](#withabilityalias)
-    - [failAsFalse](#failasfalse)
+      - [answeredBy](#answeredby)
+      - [toBe](#tobe)
+      - [notToBe](#nottobe)
+      - [toHave](#tohave)
+      - [notToHave](#nottohave)
+      - [visible](#visible)
+      - [enabled](#enabled)
+      - [checked](#checked)
+      - [text](#text)
+      - [value](#value)
+      - [count](#count)
+      - [minCount](#mincount)
+      - [inFrame](#inframe)
+      - [withAbilityAlias](#withabilityalias)
+      - [failAsFalse](#failasfalse)
 
 ## Class Overview
 
 ### Methods
 
-### answeredBy
+#### answeredBy
 
 ```typescript
 public async answeredBy(actor: Actor): Promise<boolean>;
@@ -41,7 +41,7 @@ public async answeredBy(actor: Actor): Promise<boolean>;
   - `actor` - The actor answering this question.
 - **Returns:** `Promise<boolean>` - Resolves to `true` for a positive check, `false` for a negative check.
 
-### toBe
+#### toBe
 
 ```typescript
 public static get toBe(): Element;
@@ -50,7 +50,7 @@ public static get toBe(): Element;
 - **Description:** Creates a new instance of the `Element` class for a positive check.
 - **Returns:** `Element` - Returns a new `Element` instance.
 
-### notToBe
+#### notToBe
 
 ```typescript
 public static get notToBe(): Element;
@@ -59,7 +59,7 @@ public static get notToBe(): Element;
 - **Description:** Creates a new instance of the `Element` class for a negative check.
 - **Returns:** `Element` - Returns a new `Element` instance.
 
-### toHave
+#### toHave
 
 ```typescript
 public static get toHave(): Element;
@@ -68,7 +68,7 @@ public static get toHave(): Element;
 - **Description:** Alias for `toBe`. Creates a new instance of the `Element` class for a positive check.
 - **Returns:** `Element` - Returns a new `Element` instance.
 
-### notToHave
+#### notToHave
 
 ```typescript
 public static get notToHave(): Element;
@@ -77,7 +77,7 @@ public static get notToHave(): Element;
 - **Description:** Alias for `notToBe`. Creates a new instance of the `Element` class for a negative check.
 - **Returns:** `Element` - Returns a new `Element` instance.
 
-### visible
+#### visible
 
 ```typescript
 public visible(selector: Selector, options?: SelectorOptions): Element;
@@ -89,7 +89,7 @@ public visible(selector: Selector, options?: SelectorOptions): Element;
   - `options` - (optional) Advanced selector lookup options.
 - **Returns:** `Element` - Returns this `Element` instance.
 
-### enabled
+#### enabled
 
 ```typescript
 public enabled(selector: Selector, options?: SelectorOptions): Element;
@@ -101,7 +101,7 @@ public enabled(selector: Selector, options?: SelectorOptions): Element;
   - `options` - (optional) Advanced selector lookup options.
 - **Returns:** `Element` - Returns this `Element` instance.
 
-### checked
+#### checked
 
 ```typescript
 public enabled(selector: Selector, options?: SelectorOptions): Element;
@@ -113,7 +113,7 @@ public enabled(selector: Selector, options?: SelectorOptions): Element;
   - `options` - (optional) Advanced selector lookup options.
 - **Returns:** `Element` - Returns this `Element` instance.
 
-### text
+#### text
 
 ```typescript
 public text(selector: Selector, text: string | RegExp | (string | RegExp)[], options?: SelectorOptions): Element;
@@ -126,7 +126,7 @@ public text(selector: Selector, text: string | RegExp | (string | RegExp)[], opt
   - `options` - (optional) Advanced selector lookup options.
 - **Returns:** `Element` - Returns this `Element` instance.
 
-### value
+#### value
 
 ```typescript
 public value(selector: Selector, value: string | RegExp, options?: SelectorOptions): Element;
@@ -139,7 +139,7 @@ public value(selector: Selector, value: string | RegExp, options?: SelectorOptio
   - `options` - (optional) Advanced selector lookup options.
 - **Returns:** `Element` - Returns this `Element` instance.
 
-### count
+#### count
 
 ```typescript
 public count(selector: Selector, desiredCount: number, options?: SelectorOptions): Element;
@@ -152,7 +152,7 @@ public count(selector: Selector, desiredCount: number, options?: SelectorOptions
   - `options` - (optional) Advanced selector lookup options.
 - **Returns:** `Element` - Returns this `Element` instance.
 
-### minCount
+#### minCount
 
 ```typescript
 public minCount(selector: Selector, minimumCount: number, options?: SelectorOptions): Element;
@@ -165,7 +165,7 @@ public minCount(selector: Selector, minimumCount: number, options?: SelectorOpti
   - `options` - (optional) Advanced selector lookup options.
 - **Returns:** `Element` - Returns this `Element` instance.
 
-### inFrame
+#### inFrame
 
 ```typescript
 public inFrame(frameSelector: FrameSelector): Element;
@@ -176,7 +176,7 @@ public inFrame(frameSelector: FrameSelector): Element;
   - `frameSelector` - The FrameSelector.
 - **Returns:** `Element` - Returns the current action.
 
-### withAbilityAlias
+#### withAbilityAlias
 
 ```typescript
 public withAbilityAlias(alias: string): Element;
@@ -187,7 +187,7 @@ public withAbilityAlias(alias: string): Element;
   - `alias` - The alias.
 - **Returns:** `Element` - Returns the current question.
 
-### failAsFalse
+#### failAsFalse
 
 *Introduced in: 1.6.0*
 

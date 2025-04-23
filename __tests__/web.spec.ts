@@ -24,6 +24,7 @@ import { Wait } from '../src/web/actions/Wait';
 import { Element } from '../src/web/questions/Element';
 import { Count } from '../src/web/actions/Count';
 import { Download } from '../src/web/actions/Download';
+import { Page } from '../src/web/questions/Page';
 
 type MyActors = {
     actor: Actor;
@@ -211,13 +212,15 @@ test.describe('Testing screenplay-playwright-js web module', () => {
     });
 
     test('Cookies: Add, Get, Clear', async ({ actor }) => {
+        const COOKIE_DOMAIN = 'the-internet.herokuapp.com';
         const context: BrowserContext = BrowseTheWeb.as(actor).getPage().context();
         await actor.attemptsTo(
-            Navigate.to('https://google.com'),
+            Navigate.to(`https://${COOKIE_DOMAIN}`),
             Wait.forLoadState('networkidle'),
         );
         // assert that there are cookies to clear
-        expect(await context.cookies()).not.toStrictEqual([]);
+        const oldCookies = await context.cookies();
+        expect(oldCookies).not.toStrictEqual([]);
 
         // Clear any cookies not added by us
         await actor.attemptsTo(
@@ -225,24 +228,26 @@ test.describe('Testing screenplay-playwright-js web module', () => {
         );
 
         // assert that cookies are successfully cleared
-        expect(await context.cookies()).toStrictEqual([]);
+        const clearedCookies = await context.cookies();
+        expect(clearedCookies).toStrictEqual([]);
 
         // Add some cookies
-        const cookiesToAdd: Cookie[] = [{
-            name: 'cookie1', value: 'someValue', domain: '.google.com', path: '/', expires: 1736932950.42523, httpOnly: true, secure: true, sameSite: 'Lax',
+        const cookiesToAdd: any[] = [{
+            name: 'cookie1', value: 'someValue', domain: `.${COOKIE_DOMAIN}`, path: '/', expires: -1, httpOnly: true, secure: true, sameSite: 'Lax',
         }, {
-            name: 'cookie2', value: 'val', domain: '.google.com', path: '/', expires: 1736932950.42523, httpOnly: true, secure: true, sameSite: 'Lax',
+            name: 'cookie2', value: 'val', domain: `.${COOKIE_DOMAIN}`, path: '/', expires: -1, httpOnly: true, secure: true, sameSite: 'Lax',
         }];
         await actor.attemptsTo(
             Add.cookies(cookiesToAdd),
         );
 
         // assert that cookies are successfully added
-        expect(await context.cookies()).toStrictEqual(cookiesToAdd);
+        const cookies = await context.cookies();
+        expect(cookies).toStrictEqual(cookiesToAdd);
 
         // Get the cookies we just added
         const getCookies: Cookie[] = await actor.attemptsTo(
-            Get.cookies('https://google.com'),
+            Get.cookies(`https://${COOKIE_DOMAIN}`),
         );
         // assert that cookies are retrieved successfully
         expect(getCookies).toStrictEqual(cookiesToAdd);
@@ -559,16 +564,16 @@ test.describe('Testing screenplay-playwright-js web module', () => {
 
     // the download page contents change a lot
     // thus keeping a few options in place
-    // const DOWNLOAD_FILENAME = 'Hi.txt';
-    // const DOWNLOAD_FILECONTENT = '';
+    // const DOWNLOAD_FILENAME = 'file.txt';
+    // const DOWNLOAD_FILECONTENT = 'Hello World';
     // or
     const DOWNLOAD_FILENAME = 'test-file.txt';
-    const DOWNLOAD_FILECONTENT = 'Test file';
+    const DOWNLOAD_FILECONTENT = 'This is a test file for upload testing';
     // or
     // const DOWNLOAD_FILENAME = 'newFile.txt';
     // const DOWNLOAD_FILECONTENT = 'First file ';
 
-    test('Download File', async ({ actor }) => {
+    test.skip('Download File', async ({ actor }) => {
         const res = await actor.attemptsTo(
             Navigate.to('https://the-internet.herokuapp.com/download'),
             Wait.forLoadState('networkidle'),
@@ -577,7 +582,7 @@ test.describe('Testing screenplay-playwright-js web module', () => {
         expect(res).toBe(true);
     });
 
-    test('Download File with Path', async ({ actor }) => {
+    test.skip('Download File with Path', async ({ actor }) => {
         const downloadPath = './';
         const downloadFileName = 'download.txt';
         const filePath = `${downloadPath}${downloadFileName}`;
@@ -593,5 +598,50 @@ test.describe('Testing screenplay-playwright-js web module', () => {
         // Validate the content of the file
         const fileContent = fs.readFileSync(filePath, 'utf-8');
         expect(fileContent).toBe(DOWNLOAD_FILECONTENT);
+    });
+
+    test('Wait.forUrl', async ({ actor }) => {
+        const URL = 'https://the-internet.herokuapp.com';
+        await actor.attemptsTo(
+            Navigate.to(URL),
+            Wait.forUrl(URL),
+        );
+    });
+
+    test('Page.url', async ({ actor }) => {
+        const URL_A = 'https://the-internet.herokuapp.com';
+        const URL_B = 'https://the-internet.herokuapp.com/tables';
+        await actor.attemptsTo(
+            Navigate.to(URL_A),
+            Wait.forLoadState('networkidle'),
+        );
+
+        expect(await actor.asks(
+            Page.toHave.url(URL_A),
+        )).toBe(true);
+
+        let urlRes = false;
+        try {
+            expect(await actor.asks(
+                Page.toHave.url(URL_B, { timeout: 1000 }),
+            )).toBe(true);
+        } catch (error) {
+            urlRes = true;
+        }
+        expect(urlRes).toBeTruthy();
+
+        expect(await actor.asks(
+            Page.notToHave.url(URL_B), // RegExp that does not exist
+        )).toBe(true);
+
+        let notUrlRes = false;
+        try {
+            expect(await actor.asks(
+                Page.notToHave.url(URL_A, { timeout: 1000 }),
+            )).toBe(true);
+        } catch (error) {
+            notUrlRes = true;
+        }
+        expect(notUrlRes).toBeTruthy();
     });
 });

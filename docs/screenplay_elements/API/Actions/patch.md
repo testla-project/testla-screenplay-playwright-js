@@ -10,14 +10,14 @@ The `Patch` class provides a convenient way to perform HTTP PATCH requests. It a
   - [Table of Contents](#table-of-contents)
   - [Class Overview](#class-overview)
     - [Extends](#extends)
-  - [Methods](#methods)
-    - [performAs](#performas)
-    - [to](#to)
-    - [withData](#withdata)
-    - [withHeaders](#withheaders)
-    - [withResponseBodyFormat](#withresponsebodyformat)
-    - [withAbilityAlias](#withabilityalias)
-    - [orSkipOnFail](#orskiponfail)
+    - [Methods](#methods)
+      - [performAs](#performas)
+      - [to](#to)
+      - [withData](#withdata)
+      - [withHeaders](#withheaders)
+      - [withResponseBodyFormat](#withresponsebodyformat)
+      - [withAbilityAlias](#withabilityalias)
+      - [orSkipOnFail](#orskiponfail)
 
 ## Class Overview
 
@@ -25,9 +25,9 @@ The `Patch` class provides a convenient way to perform HTTP PATCH requests. It a
 
 This class extends the `ARequest` abstract class, providing a specific implementation for sending HTTP PATCH requests.
 
-## Methods
+### Methods
 
-### performAs
+#### performAs
 
 ```typescript
 public async performAs(actor: Actor): Promise<Response>;
@@ -38,7 +38,7 @@ public async performAs(actor: Actor): Promise<Response>;
   - `actor` - The actor performing the action.
 - **Returns:** `Promise<Response>` - The response object.
 
-### to
+#### to
 
 ```typescript
 public static to(url: string): Patch;
@@ -49,7 +49,7 @@ public static to(url: string): Patch;
   - `url` - The URL of the target.
 - **Returns:** `Patch` - A new instance of the `Patch` class.
 
-### withData
+#### withData
 
 ```typescript
 public withData(data: any): Patch;
@@ -60,7 +60,7 @@ public withData(data: any): Patch;
   - `data` - The data to be added.
 - **Returns:** `Patch` - The updated instance of the `Patch` class.
 
-### withHeaders
+#### withHeaders
 
 ```typescript
 public withHeaders(headers: Headers): Patch;
@@ -71,7 +71,7 @@ public withHeaders(headers: Headers): Patch;
   - `headers` - The headers to be added.
 - **Returns:** `Patch` - The updated instance of the `Patch` class.
 
-### withResponseBodyFormat
+#### withResponseBodyFormat
 
 ```typescript
 public withResponseBodyFormat(responseBodyFormat: ResponseBodyFormat): Patch;
@@ -82,7 +82,7 @@ public withResponseBodyFormat(responseBodyFormat: ResponseBodyFormat): Patch;
   - `responseBodyFormat` - The desired format of the response body which can be one out of `json`, `text`, `buffer` or `none`. The default is `json`.
 - **Returns:** `Patch` - The updated instance of the `Patch` class.
 
-### withAbilityAlias
+#### withAbilityAlias
 
 ```typescript
 public withAbilityAlias(alias: string): Patch;
@@ -93,7 +93,7 @@ public withAbilityAlias(alias: string): Patch;
   - `alias` - The alias.
 - **Returns:** `Patch` - Returns the current action.
 
-### orSkipOnFail
+#### orSkipOnFail
 
 *Introduced in: 1.6.0*
 

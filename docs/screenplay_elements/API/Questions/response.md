@@ -10,16 +10,16 @@ The `Response` class provides a flexible way to verify various aspects of an API
   - [Table of Contents](#table-of-contents)
   - [Class Overview](#class-overview)
     - [Extends](#extends)
-  - [Methods](#methods)
-    - [answeredBy](#answeredby)
-    - [has](#has)
-    - [hasNot](#hasnot)
-    - [statusCode](#statuscode)
-    - [body](#body)
-    - [headers](#headers)
-    - [beenReceivedWithin](#beenreceivedwithin)
-    - [withAbilityAlias](#withabilityalias)
-    - [failAsFalse](#failasfalse)
+    - [Methods](#methods)
+      - [answeredBy](#answeredby)
+      - [has](#has)
+      - [hasNot](#hasnot)
+      - [statusCode](#statuscode)
+      - [body](#body)
+      - [headers](#headers)
+      - [beenReceivedWithin](#beenreceivedwithin)
+      - [withAbilityAlias](#withabilityalias)
+      - [failAsFalse](#failasfalse)
 
 ## Class Overview
 
@@ -27,9 +27,9 @@ The `Response` class provides a flexible way to verify various aspects of an API
 
 This class extends the `Question<boolean>` class, providing specific functionality for verifying API response aspects.
 
-## Methods
+### Methods
 
-### answeredBy
+#### answeredBy
 
 ```typescript
 public async answeredBy(actor: Actor): Promise<boolean>;
@@ -40,7 +40,7 @@ public async answeredBy(actor: Actor): Promise<boolean>;
   - `actor` - The actor performing the action.
 - **Returns:** `Promise<boolean>` - The verification result (true or false).
 
-### has
+#### has
 
 ```typescript
 static get has(): Response;
@@ -49,7 +49,7 @@ static get has(): Response;
 - **Description:** Create a new instance of the `Response` class for positive verification.
 - **Returns:** `Response` - A new instance of the `Response` class.
 
-### hasNot
+#### hasNot
 
 ```typescript
 static get hasNot(): Response;
@@ -58,7 +58,7 @@ static get hasNot(): Response;
 - **Description:** Create a new instance of the `Response` class for negative verification.
 - **Returns:** `Response` - A new instance of the `Response` class.
 
-### statusCode
+#### statusCode
 
 ```typescript
 public statusCode(response: ResponseType, statusCode: number): Response;
@@ -70,7 +70,7 @@ public statusCode(response: ResponseType, statusCode: number): Response;
   - `statusCode` - The expected status code.
 - **Returns:** `Response` - The updated instance of the `Response` class.
 
-### body
+#### body
 
 ```typescript
 public body(response: ResponseType, body: ResponseBodyType): Response;
@@ -82,7 +82,7 @@ public body(response: ResponseType, body: ResponseBodyType): Response;
   - `body` - The expected body.
 - **Returns:** `Response` - The updated instance of the `Response` class.
 
-### headers
+#### headers
 
 ```typescript
 public headers(response: ResponseType, headers: Headers): Response;
@@ -94,7 +94,7 @@ public headers(response: ResponseType, headers: Headers): Response;
   - `headers` - The expected headers.
 - **Returns:** `Response` - The updated instance of the `Response` class.
 
-### beenReceivedWithin
+#### beenReceivedWithin
 
 ```typescript
 public beenReceivedWithin(response: ResponseType, duration: number): Response;
@@ -106,7 +106,7 @@ public beenReceivedWithin(response: ResponseType, duration: number): Response;
   - `duration` - The expected duration (in milliseconds).
 - **Returns:** `Response` - The updated instance of the `Response` class.
 
-### withAbilityAlias
+#### withAbilityAlias
 
 ```typescript
 public withAbilityAlias(alias: string): Response;
@@ -117,7 +117,7 @@ public withAbilityAlias(alias: string): Response;
   - `alias` - The alias.
 - **Returns:** `Response` - Returns the current question.
 
-### failAsFalse
+#### failAsFalse
 
 *Introduced in: 1.6.0*
 
