@@ -50,6 +50,9 @@ const config: PlaywrightTestConfig = {
         ['html'],
         ['junit', { outputFile: 'results.xml' }],
         ['../src/reporter/text', { outputFile: 'results.txt' }],
+        ['../src/reporter/json', { outputFile: 'results.json' }],
+        // ['../src/reporter/html', { outputFile: 'results.html' }],
+        ['../src/reporter/html'],
     ],
     /* reporter: process.env.CI ? 'dot' : 'list', */
 

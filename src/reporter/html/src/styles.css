@@ -1,0 +1,43 @@
+body {
+    background-color: #000;
+    color: #c9d1d9;
+}
+#container {
+    margin: 0 auto;
+    max-width: 800px;
+}
+#status-bar {
+    display: flex;
+    border : 1px solid #30363d;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+#status-bar div {
+    flex: 1;
+    padding: 2px 5px;
+    text-align: center;
+    border-right: 1px solid #30363d;
+    cursor: pointer;
+    font-size: 13px;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+#status-bar div:last-child {
+    border-right: none;
+}
+#status-bar div .count {
+    display: inline-block;
+    margin-left: 5px;
+    padding: 2px 5px;
+    border-radius: 7px;
+    background-color: #30363d;
+}
+#status-bar div .icon {
+    margin-right: 10px;
+    display: inline-block;
+}
+ul {
+    list-style-type: none;
+    padding: 0;
+}
