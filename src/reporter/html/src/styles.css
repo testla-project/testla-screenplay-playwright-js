@@ -4,7 +4,7 @@ body {
 }
 #container {
     margin: 0 auto;
-    max-width: 800px;
+    max-width: 976px;
 }
 #status-bar {
     display: flex;
@@ -40,4 +40,65 @@ body {
 ul {
     list-style-type: none;
     padding: 0;
+}
+
+.collapsible {
+    border : 1px solid #30363d;
+    border-radius: 5px;
+    padding: 5px 10px;
+    margin-bottom: 10px;
+}
+
+.collapsible header {
+    background-color: #30363d;
+    margin: -5px -10px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.collapsible header .icon {
+    margin-right: 10px;
+    display: inline-block
+}
+
+.collapsible.collapsed header .icon {
+    transform: rotate(180deg);
+}
+
+.collapsible > .content {
+    margin-top: 5px;
+}
+
+.collapsible.collapsed > .content {
+    display: none;
+    margin-top: 0;
+}
+
+.collapsible .content li .content {
+    display: flex;
+    align-items: center;
+}
+
+.collapsible .content li .content > *{
+    padding: 5px;
+}
+
+.collapsible .content li .content .title {
+    font-size: 16px;
+}
+
+.collapsible .content li .content .duration {
+    font-size: 13px;
+}
+
+.collapsible .content li .content .project {
+    flex: 1; 
+}
+
+.collapsible .content li .content .project .inner {
+    font-size: 13px;
+    border: 1px solid #30363d;
+    border-radius: 15px;
+    padding: 5px 10px;
+    display: inline-block;
 }
