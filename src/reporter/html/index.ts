@@ -17,7 +17,7 @@ class HtmlReporter extends JsonReporter {
 
     protected write(content: string) {
         if (this.outputDir) {
-            writeFileSync(`${this.outputDir}/report.js`, content);
+            writeFileSync(`${this.outputDir}/files/report.js`, content);
         }
     }
 

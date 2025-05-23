@@ -1,6 +1,7 @@
 body {
     background-color: #000;
     color: #c9d1d9;
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
 }
 #container {
     margin: 0 auto;
@@ -50,10 +51,12 @@ ul {
 }
 
 .collapsible header {
-    background-color: #30363d;
+    background-color: #161b22;
     margin: -5px -10px;
     padding: 5px 10px;
     cursor: pointer;
+    font-size: 14px;
+    line-height: 26px;
 }
 
 .collapsible header .icon {
@@ -77,9 +80,12 @@ ul {
 .collapsible .content li .content {
     display: flex;
     align-items: center;
+    border-top: 1px solid #30363d;
+    margin: 0 -10px;
+    padding: 0 10px;
 }
 
-.collapsible .content li .content > *{
+.collapsible .content li .content > * {
     padding: 5px;
 }
 
@@ -91,14 +97,42 @@ ul {
     font-size: 13px;
 }
 
+.collapsible .content li .location {
+    font-size: 14px;
+    color: #999;
+    display: block;
+    margin-left: 34px;
+    margin-bottom: 5px;
+}
+
 .collapsible .content li .content .project {
     flex: 1; 
 }
 
 .collapsible .content li .content .project .inner {
-    font-size: 13px;
+    font-size: 12px;
     border: 1px solid #30363d;
-    border-radius: 15px;
-    padding: 5px 10px;
+    border-radius: 2em;
+    padding: 0px 8px;
+    line-height: 18px;
+    font-weight: 600;
     display: inline-block;
+}
+
+.collapsible .content li .content .project.chromium .inner {
+    border-color: #388bfd;
+    color: #79c0ff;
+    background-color: #051d4d;
+}
+
+.collapsible .content li .content .project.firefox .inner {
+    border-color: #bb8009;
+    color: #e3b341;
+    background-color: #341a00;
+}
+
+.collapsible .content li .content .project.webkit .inner {
+    border-color: #a371f7;
+    color: #d2a8ff;
+    background-color: #271052;
 }

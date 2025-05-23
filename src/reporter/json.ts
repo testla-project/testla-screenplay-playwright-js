@@ -56,6 +56,7 @@ class JsonReporter implements Reporter {
             status: result.status.toString() as ExecStatus,
             startTime: result.startTime,
             duration: result.duration,
+            location: test.location,
             steps,
         };
         this.executions.push(newExecution);

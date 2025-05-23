@@ -1,4 +1,4 @@
-import { FullResult } from '@playwright/test/reporter';
+import { FullResult, Location } from '@playwright/test/reporter';
 import { ActivityType, ExecStatus } from '@testla/screenplay/lib/interfaces';
 
 export type CheckMode = 'positive' | 'negative';
@@ -27,6 +27,7 @@ export type TestExecution = {
     startTime: Date;
     duration?: number;
     steps?: TestExecutionSteps;
+    location: Location;
 };
 
 export type JsonReport = FullResult & {
