@@ -77,7 +77,11 @@ ul {
     margin-top: 0;
 }
 
-.collapsible .content li .content {
+.collapsible .content li {
+   cursor: pointer;
+}
+
+.list-item .content {
     display: flex;
     align-items: center;
     border-top: 1px solid #30363d;
@@ -85,19 +89,19 @@ ul {
     padding: 0 10px;
 }
 
-.collapsible .content li .content > * {
+.list-item .content > * {
     padding: 5px;
 }
 
-.collapsible .content li .content .title {
+.list-item .content .title {
     font-size: 16px;
 }
 
-.collapsible .content li .content .duration {
+.list-item .content .duration {
     font-size: 13px;
 }
 
-.collapsible .content li .location {
+.list-item .location {
     font-size: 14px;
     color: #999;
     display: block;
@@ -105,11 +109,11 @@ ul {
     margin-bottom: 5px;
 }
 
-.collapsible .content li .content .project {
+.list-item .content .project {
     flex: 1; 
 }
 
-.collapsible .content li .content .project .inner {
+.list-item .content .project .inner {
     font-size: 12px;
     border: 1px solid #30363d;
     border-radius: 2em;
@@ -119,20 +123,48 @@ ul {
     display: inline-block;
 }
 
-.collapsible .content li .content .project.chromium .inner {
+.list-item .content .project.chromium .inner {
     border-color: #388bfd;
     color: #79c0ff;
     background-color: #051d4d;
 }
 
-.collapsible .content li .content .project.firefox .inner {
+.list-item .content .project.firefox .inner {
     border-color: #bb8009;
     color: #e3b341;
     background-color: #341a00;
 }
 
-.collapsible .content li .content .project.webkit .inner {
+.list-item .content .project.webkit .inner {
     border-color: #a371f7;
     color: #d2a8ff;
     background-color: #271052;
+}
+
+#flyin {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 90%;
+    max-width: 800px;
+    height: 100%;
+    background-color: #3a3333;
+    border-left: 1px solid #30363d;
+    /* box-shadow: #30363d 0px 0px 10px; */
+    padding: 0 10px 10px 10px;
+    z-index: 9999;
+}
+
+#flyin.collapsed {
+    display: none;
+};
+
+#flyin-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9998;
 }

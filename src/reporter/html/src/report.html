@@ -15,7 +15,16 @@
                 <div id="skipped" onClick="displayFiltered('skipped')"><span class="icon"><script>document.write(getStatusIcon('skipped'))</script></span>Skipped<span class="count" id="skipped-count" /></div>
                 <div id="interrupted" onClick="displayFiltered('interrupted')"><span class="icon"><script>document.write(getStatusIcon('interrupted'))</script></span>Interrupted<span class="count" id="interrupted-count" /></div>
             </div>
-            <div id="report" />
+            <div id="report"></div>
+        </div>
+        <div id="flyin" class="collapsible collapsed">
+            <div id="flyin-background"></div>
+            <div class="inner">
+                <header onclick="document.getElementById('flyin').classList.add('collapsed');">
+                    >> Close Execution Details
+                </header>
+                <div id="flyin-content"></div>
+            </div>
         </div>
         <script>onLoaded()</script>
     </body>
