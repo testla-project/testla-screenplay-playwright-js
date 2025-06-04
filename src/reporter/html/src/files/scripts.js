@@ -1,4 +1,4 @@
-const getCount = (status) => report.executions.filter((execution) => execution.status === status).length;
+const getCount = (status) => report.executions.filter((execution) => execution.runs[execution.runs.length - 1].status === status).length;
 
 const showCount = (status, element) => {
     const count = status === 'all' ? report.executions.length : getCount(status);
@@ -40,6 +40,9 @@ const formatDuration = (duration) => {
 const createElement = (elem, options) => {
     const el = document.createElement(elem);
     if (options) {
+        if (options.id) {
+            el.id = options.id;
+        }
         if (options.className) {
             el.className = options.className;
         }
@@ -54,26 +57,34 @@ const createElement = (elem, options) => {
                 el.appendChild(child);
             });
         }
+        if (options.tooltip) {
+            el.title = options.tooltip;
+        }
     }
     return el;
 };
 
 const createListItem = ({
-    status, project, onclick, title, duration, filePath,
-}) => createElement('li', {
+    status, project, onclick, title, duration, filePath, element = 'li', mayExpand = false, children = [],
+}) => createElement(element, {
     onclick,
-    className: 'list-item',
+    className: `list-item${status ? '' : ' no-status'}`,
     children: [
         createElement('div', {
             className: 'content',
             children: [
-                createElement('div', {
+                mayExpand ? createElement('div', {
+                    text: '▶',
+                    className: `expand-icon${children.length > 0 ? '' : ' hidden'}`,
+                }) : createElement('div', { className: 'hidden' }),
+                status ? createElement('div', {
                     className: 'status-icon',
                     text: getStatusIcon(status),
-                }),
+                }) : createElement('div', { className: 'hidden' }),
                 createElement('div', {
                     className: 'title',
-                    text: title,
+                    text: typeof title === 'string' ? title : undefined,
+                    children: typeof title !== 'string' ? [title] : [],
                 }),
                 project ? createElement('div', {
                     className: `project ${project}`,
@@ -83,7 +94,7 @@ const createListItem = ({
                             text: project,
                         }),
                     ],
-                }) : createElement('div'),
+                }) : createElement('div', { className: 'project' }),
                 createElement('div', {
                     className: 'duration',
                     text: formatDuration(duration),
@@ -92,34 +103,138 @@ const createListItem = ({
         }),
         filePath ? createElement('div', {
             className: 'location',
-            text: filePath,//`${suite}:${location.line}`,
+            text: filePath,
         }) : createElement('div'),
     ],
 });
+
+const renderActivityDetails = (details) => details.map((detail, idx) => {
+    // if (!detail.parameters) {
+    //     return createElement('div', { text: detail.methodName });
+    // }
+    // return `${detail.methodName}(${Object.entries(detail.parameters || {}).map(([, value]) => `${
+    //     typeof value === 'object' || Array.isArray(value)
+    //         ? JSON.stringify(value)
+    //         : typeof value === 'string' ? `"${value}"` : value
+    // }`).join(', ')})`;
+    const parts = [];
+    if (idx > 0) {
+        parts.push(createElement('div', { text: '.' }));
+    }
+    parts.push(createElement('div', { text: detail.methodName }));
+    if (detail.parameters) {
+        const paramList = [];
+        Object.entries(detail.parameters || {}).forEach(([, value], innerIdx) => {
+            if (innerIdx > 0) {
+                paramList.push(createElement('span', { text: ', ' }));
+            }
+            paramList.push(createElement('span', {
+                text: typeof value === 'object' || Array.isArray(value)
+                    ? undefined
+                    : typeof value === 'string' ? `"${value}"` : value,
+                children: typeof value === 'object' || Array.isArray(value)
+                    ? [createElement('span', { className: 'tooltip', tooltip: JSON.stringify(value, undefined, 2), text: '▶ [object]' })]
+                    : [],
+            }));
+        });
+        parts.push(createElement('div', {
+            children: [
+                createElement('span', { text: '(' }),
+                ...paramList,
+                // ...Object.entries(detail.parameters || {}).map(([, value]) => createElement('span', {
+                //     text: typeof value === 'object' || Array.isArray(value)
+                //         ? undefined
+                //         : typeof value === 'string' ? `"${value}"` : value,
+                //     children: typeof value === 'object' || Array.isArray(value)
+                //         ? [createElement('span', { className: 'tooltip', tooltip: JSON.stringify(value, undefined, 2), text: '▶ [object]' })]
+                //         : [],
+                // })),
+                createElement('span', { text: ')' }),
+            ],
+        }));
+        // return `${detail.methodName}(${Object.entries(detail.parameters || {}).map(([, value]) => `${
+        //     typeof value === 'object' || Array.isArray(value)
+        //         ? JSON.stringify(value)
+        //         : typeof value === 'string' ? `"${value}"` : value
+        // }`).join(', ')})`;
+    }
+    return createElement('div', { children: parts });
+});
+
+const createStepsList = (steps, isActive = false) => {
+    const list = createElement('ul', {
+        className: `steps-list${isActive ? ' active' : ''}`,
+    });
+    steps.forEach((step) => {
+        const stepItem = createListItem({
+            status: step.status,
+            // project: execution.project,
+            // onclick,
+            // title: `${step.actor} ${step.activityAction} ${renderActivityDetails(step.activityDetails)}`,
+            title: createElement('div', {
+                className: 'wrapper',
+                children: [
+                    createElement('div', {
+                        className: 'actor',
+                        text: step.actor,
+                    }),
+                    createElement('div', {
+                        className: 'activity-action',
+                        text: step.activityAction,
+                    }),
+                    createElement('div', {
+                        className: 'activity-details',
+                        children: renderActivityDetails(step.activityDetails),
+                    }),
+                ],
+            }),
+            duration: step.duration,
+            // suite: execution.suite,
+            // location: step.location,
+            filePath: step.filePath,
+            mayExpand: true,
+        });
+        list.appendChild(stepItem);
+    });
+    return list;
+};
 
 const showExecutionDetails = (execution) => {
     console.log(execution);
     const content = document.getElementById('flyin-content');
     content.innerHTML = '';
-    const list = createElement('ul');
-    execution.steps.forEach((step) => {
-        const stepItem = createListItem({
-            status: step.status,
-            // project: execution.project,
-            // onclick,
-            title: `${step.actor} ${step.activityAction} ${step.activityDetails}`,
-            duration: step.duration,
-            // suite: execution.suite,
-            // location: step.location,
-            filePath: step.filePath,
-        });
-        // const stepItem = createElement('div', {
-        //     className: 'step',
-        //     text: `${step.actor} ${step.activityAction} ${step.activityDetails}`,
-        // });
-        // console.log(stepItem);
-        list.appendChild(stepItem);
-        content.appendChild(list);
+    content.appendChild(createListItem({
+        element: 'div',
+        // status: execution.status,
+        project: execution.project,
+        // onclick,
+        title: execution.title,
+        // duration: execution.duration,
+        duration: execution.runs.reduce((acc, run) => acc + run.duration, 0),
+        // suite: execution.suite,
+        // location: step.location,
+        filePath: `${execution.suite}:${execution.location.line}`,
+    }));
+    const runDetails = createElement('div', { id: 'run-details' });
+    const runList = createElement('ul', {
+        className: 'run-list',
+        children: execution.runs.map((run, runIdx) => createElement('li', {
+            className: `run-list-item${runIdx === 0 ? ' active' : ''}`,
+            text: `${getStatusIcon(run.status)} ${runIdx === 0 ? 'Run' : `Retry #${runIdx}`}`,
+            onclick: () => {
+                document.querySelector('.run-list-item.active').classList.remove('active');
+                document.querySelector(`.run-list-item:nth-child(${runIdx + 1})`).classList.add('active');
+                document.querySelector('.steps-list.active').classList.remove('active');
+                document.querySelector(`.steps-list:nth-child(${runIdx + 1})`).classList.add('active');
+            },
+        })),
+    });
+    content.appendChild(runList);
+    content.appendChild(runDetails);
+    execution.runs.forEach((run, runIdx) => {
+        console.log(run);
+        const list = createStepsList(run.steps, runIdx === 0);
+        runDetails.appendChild(list);
     });
     document.getElementById('flyin').classList.remove('collapsed');
 };
@@ -160,50 +275,14 @@ const renderExecutions = (executions) => {
         });
         executions.forEach((execution) => {
             const subitem = createListItem({
-                status: execution.status,
+                status: execution.runs[execution.runs.length - 1].status,
                 project: execution.project,
                 onclick: () => showExecutionDetails(execution),
                 title: execution.title,
-                duration: execution.duration,
-                // suite: execution.suite,
-                // location: execution.location,
+                // duration: execution.duration,
+                duration: execution.runs.reduce((acc, run) => acc + run.duration, 0),
                 filePath: `${execution.suite}:${execution.location.line}`,
             });
-            // const subitem = createElement('li', {
-            //     onclick: () => showExecutionDetails(execution),
-            //     children: [
-            //         createElement('div', {
-            //             className: 'content',
-            //             children: [
-            //                 createElement('div', {
-            //                     className: 'status-icon',
-            //                     text: getStatusIcon(execution.status),
-            //                 }),
-            //                 createElement('div', {
-            //                     className: 'title',
-            //                     text: execution.title,
-            //                 }),
-            //                 createElement('div', {
-            //                     className: `project ${execution.project}`,
-            //                     children: [
-            //                         createElement('div', {
-            //                             className: 'inner',
-            //                             text: execution.project,
-            //                         }),
-            //                     ],
-            //                 }),
-            //                 createElement('div', {
-            //                     className: 'duration',
-            //                     text: formatDuration(execution.duration),
-            //                 }),
-            //             ],
-            //         }),
-            //         createElement('div', {
-            //             className: 'location',
-            //             text: `${suite}:${execution.location.line}`,
-            //         }),
-            //     ],
-            // });
             sublist.appendChild(subitem);
         });
         item.appendChild(sublist);
@@ -214,7 +293,7 @@ const renderExecutions = (executions) => {
 };
 
 const displayFiltered = (status) => {
-    const filteredExecutions = status === 'all' ? report.executions : report.executions.filter((execution) => execution.status === status);
+    const filteredExecutions = status === 'all' ? report.executions : report.executions.filter((execution) => execution.runs[execution.runs.length - 1].status === status);
     renderExecutions(filteredExecutions);
 };
 

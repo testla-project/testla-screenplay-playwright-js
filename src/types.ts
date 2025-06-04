@@ -19,15 +19,36 @@ export type TestExecutionStep = {
 
 export type TestExecutionSteps = TestExecutionStep[];
 
-export type TestExecution = {
-    title: string;
-    project: string;
-    suite: string;
+// export type TestExecution = {
+//     testCaseId: string; // playwright testcase id
+//     title: string;
+//     project: string;
+//     suite: string;
+//     status: ExecStatus;
+//     startTime: Date;
+//     duration?: number;
+//     steps?: TestExecutionSteps;
+//     location: Location;
+// };
+
+export type TestExecutionRun = {
     status: ExecStatus;
     startTime: Date;
     duration?: number;
     steps?: TestExecutionSteps;
+};
+
+export type TestExecution = {
+    testCaseId: string; // playwright testcase id
+    title: string;
+    project: string;
+    suite: string;
+    // status: ExecStatus;
+    // startTime: Date;
+    // duration?: number;
+    // steps?: TestExecutionSteps;
     location: Location;
+    runs: TestExecutionRun[];
 };
 
 export type JsonReport = FullResult & {

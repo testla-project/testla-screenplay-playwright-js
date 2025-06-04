@@ -3,16 +3,23 @@ body {
     color: #c9d1d9;
     font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
 }
+
+.hidden {
+    display: none;
+}
+
 #container {
     margin: 0 auto;
     max-width: 976px;
 }
+
 #status-bar {
     display: flex;
     border : 1px solid #30363d;
     border-radius: 5px;
     margin-bottom: 10px;
 }
+
 #status-bar div {
     flex: 1;
     padding: 2px 5px;
@@ -24,9 +31,11 @@ body {
     display: flex;
     justify-content: center;
 }
+
 #status-bar div:last-child {
     border-right: none;
 }
+
 #status-bar div .count {
     display: inline-block;
     margin-left: 5px;
@@ -34,10 +43,12 @@ body {
     border-radius: 7px;
     background-color: #30363d;
 }
+
 #status-bar div .icon {
     margin-right: 10px;
     display: inline-block;
 }
+
 ul {
     list-style-type: none;
     padding: 0;
@@ -97,8 +108,39 @@ ul {
     font-size: 16px;
 }
 
+.list-item.no-status .content .title {
+    padding-left: 0;
+    font-size: 20px;
+}
+
 .list-item .content .duration {
     font-size: 13px;
+}
+
+.list-item .content .title .wrapper {
+    display: flex;
+    gap: 0.25em;
+}
+
+.list-item .content .title .wrapper > * {
+    /* margin-right: 5px; */
+    display: inline;
+}
+
+.list-item .content .title .wrapper > .activity-details > *:first-child {
+    margin-left: -1em;
+}
+
+.list-item .content .title .wrapper > .activity-details {
+    padding-left: 1em;
+}
+
+.list-item .content .title .wrapper > * > * {
+    display: inline-flex;
+}
+
+.list-item .content .title .wrapper .tooltip {
+    cursor: help;
 }
 
 .list-item .location {
@@ -107,6 +149,10 @@ ul {
     display: block;
     margin-left: 34px;
     margin-bottom: 5px;
+}
+
+.list-item.no-status .location {
+    margin-left: 0;
 }
 
 .list-item .content .project {
@@ -141,14 +187,23 @@ ul {
     background-color: #271052;
 }
 
+.list-item .expand-icon {
+    margin-right: 10px;
+}
+
+.list-item .expand-icon.hidden {
+    visibility: hidden;
+    display: inline-block;
+}
+
 #flyin {
     position: fixed;
     top: 0;
     right: 0;
     width: 90%;
-    max-width: 800px;
+    max-width: 1000px;
     height: 100%;
-    background-color: #3a3333;
+    background-color: #000;
     border-left: 1px solid #30363d;
     /* box-shadow: #30363d 0px 0px 10px; */
     padding: 0 10px 10px 10px;
@@ -167,4 +222,30 @@ ul {
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 9998;
+}
+
+.run-list {
+    display: flex;
+    border-bottom: 2px solid #30363d;
+}
+
+.run-list-item {
+    flex-shrink: 1;
+    padding: 10px;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.run-list-item.active {
+    border-color: #c9d1d9;
+}
+
+.steps-list {
+    display: none;
+}
+
+.steps-list.active {
+    display: block;
 }

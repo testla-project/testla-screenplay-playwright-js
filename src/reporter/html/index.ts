@@ -34,7 +34,7 @@ class HtmlReporter extends JsonReporter {
     onEnd(result: FullResult): void {
         const report = {
             ...result,
-            executions: this.executions,
+            executions: Array.from(this.executions.values()),
         };
         this.write(`const report = ${JSON.stringify(report)}`);
     }

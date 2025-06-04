@@ -12,7 +12,6 @@ export const streamToString = (stream: Readable): Promise<string> => {
 };
 
 export const streamToTestExecutionDetails = (stream: Readable): Promise<TestExecutionSteps | undefined> => {
-    // const report: TestExecutionSteps = [];
     const report: { steps?: TestExecutionSteps } = {};
     let prevWrapLevel = 0;
     return new Promise((resolve, reject) => {
