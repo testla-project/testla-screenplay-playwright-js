@@ -1,4 +1,13 @@
-const getCount = (status) => report.executions.filter((execution) => execution.runs[execution.runs.length - 1].status === status).length;
+const checkIsFlaky = (runs) => runs.length > 1 && runs[runs.length - 1].status === 'passed';
+
+const getExecutionStatus = (execution) => (checkIsFlaky(execution.runs)
+    ? 'flaky'
+    : execution.runs[execution.runs.length - 1].status);
+
+const getCount = (status) => report.executions.filter((execution) => {
+    const runStatus = getExecutionStatus(execution);
+    return runStatus === status;
+}).length;
 
 const showCount = (status, element) => {
     const count = status === 'all' ? report.executions.length : getCount(status);
@@ -14,6 +23,8 @@ const getStatusIcon = (status) => {
             return '⏭️';
         case 'interrupted':
             return '⏸️';
+        case 'flaky':
+            return '⚠️';
         case 'passed':
         default:
             return '✅';
@@ -200,7 +211,6 @@ const createStepsList = (steps, isActive = false) => {
 };
 
 const showExecutionDetails = (execution) => {
-    console.log(execution);
     const content = document.getElementById('flyin-content');
     content.innerHTML = '';
     content.appendChild(createListItem({
@@ -232,7 +242,6 @@ const showExecutionDetails = (execution) => {
     content.appendChild(runList);
     content.appendChild(runDetails);
     execution.runs.forEach((run, runIdx) => {
-        console.log(run);
         const list = createStepsList(run.steps, runIdx === 0);
         runDetails.appendChild(list);
     });
@@ -275,7 +284,7 @@ const renderExecutions = (executions) => {
         });
         executions.forEach((execution) => {
             const subitem = createListItem({
-                status: execution.runs[execution.runs.length - 1].status,
+                status: getExecutionStatus(execution),
                 project: execution.project,
                 onclick: () => showExecutionDetails(execution),
                 title: execution.title,
@@ -293,7 +302,9 @@ const renderExecutions = (executions) => {
 };
 
 const displayFiltered = (status) => {
-    const filteredExecutions = status === 'all' ? report.executions : report.executions.filter((execution) => execution.runs[execution.runs.length - 1].status === status);
+    const filteredExecutions = status === 'all'
+        ? report.executions
+        : report.executions.filter((execution) => getExecutionStatus(execution) === status);
     renderExecutions(filteredExecutions);
 };
 
@@ -301,6 +312,7 @@ const onLoaded = () => {
     showCount('all', 'all-count');
     showCount('passed', 'passed-count');
     showCount('failed', 'failed-count');
+    showCount('flaky', 'flaky-count');
     showCount('skipped', 'skipped-count');
     showCount('interrupted', 'interrupted-count');
     displayFiltered('all');
