@@ -94,14 +94,14 @@ const createListItem = ({
     const subList = createStepsList(children);
     const listItem = createElement(element, {
         onclick,
-        className: `list-item${status ? '' : ' no-status'}`,
+        className: `list-item${status ? '' : ' no-status'}${details ? ' expanded' : ''}`,
         children: [
             createElement('div', {
                 className: 'content',
                 children: [
                     mayExpand ? createElement('div', {
                         text: '▶',
-                        className: `expand-icon${children.length > 0 ? '' : ' hidden'}`,
+                        className: `expand-icon${children.length > 0 || details ? '' : ' hidden'}`,
                         onclick: () => {
                             subList.classList.toggle('active');
                             listItem.classList.toggle('expanded');
@@ -338,6 +338,8 @@ const renderExecutions = (executions) => {
 };
 
 const displayFiltered = (status) => {
+    document.querySelector('.count-container.active').classList.remove('active');
+    document.querySelector(`#${status}`).classList.add('active');
     const filteredExecutions = status === 'all'
         ? report.executions
         : report.executions.filter((execution) => getExecutionStatus(execution) === status);
