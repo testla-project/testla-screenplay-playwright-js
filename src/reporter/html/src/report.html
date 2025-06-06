@@ -18,10 +18,10 @@
             </div>
             <div id="report"></div>
         </div>
+        <div id="flyin-background" class="collapsible collapsed" onclick="setFylinOpen(false);"></div>
         <div id="flyin" class="collapsible collapsed">
-            <div id="flyin-background"></div>
             <div class="inner">
-                <header onclick="document.getElementById('flyin').classList.add('collapsed');">
+                <header onclick="setFylinOpen(false);">
                     >> Close Execution Details
                 </header>
                 <div id="flyin-content"></div>

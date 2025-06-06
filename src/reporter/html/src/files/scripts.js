@@ -16,6 +16,7 @@ const showCount = (status, element) => {
 };
 
 const getStatusIcon = (status) => {
+    console.log(status)
     switch (status) {
         case 'failed':
             return '❌';
@@ -26,10 +27,19 @@ const getStatusIcon = (status) => {
         case 'flaky':
             return '⚠️';
         case 'passed':
+        case 'success':
         default:
             return '✅';
     }
 };
+
+const formatCode = (code) => code
+    .replace(/\[39m/g, '</span>')
+    .replace(/\[2m/g, '')
+    .replace(/\[22m/g, '')
+    .replace(/\n/g, '<br>')
+    .replace(/\[31m/g, '<span style="color: red;">')
+    .replace(/\[32m/g, '<span style="color: green;">');
 
 const formatDuration = (duration) => {
     if (duration > 60 * 1000) {
@@ -60,6 +70,9 @@ const createElement = (elem, options) => {
         if (options.text) {
             el.innerText = options.text;
         }
+        if (options.html) {
+            el.innerHTML = options.html;
+        }
         if (options.onclick) {
             el.onclick = options.onclick;
         }
@@ -76,48 +89,65 @@ const createElement = (elem, options) => {
 };
 
 const createListItem = ({
-    status, project, onclick, title, duration, filePath, element = 'li', mayExpand = false, children = [],
-}) => createElement(element, {
-    onclick,
-    className: `list-item${status ? '' : ' no-status'}`,
-    children: [
-        createElement('div', {
-            className: 'content',
-            children: [
-                mayExpand ? createElement('div', {
-                    text: '▶',
-                    className: `expand-icon${children.length > 0 ? '' : ' hidden'}`,
-                }) : createElement('div', { className: 'hidden' }),
-                status ? createElement('div', {
-                    className: 'status-icon',
-                    text: getStatusIcon(status),
-                }) : createElement('div', { className: 'hidden' }),
-                createElement('div', {
-                    className: 'title',
-                    text: typeof title === 'string' ? title : undefined,
-                    children: typeof title !== 'string' ? [title] : [],
-                }),
-                project ? createElement('div', {
-                    className: `project ${project}`,
-                    children: [
-                        createElement('div', {
-                            className: 'inner',
-                            text: project,
-                        }),
-                    ],
-                }) : createElement('div', { className: 'project' }),
-                createElement('div', {
-                    className: 'duration',
-                    text: formatDuration(duration),
-                }),
-            ],
-        }),
-        filePath ? createElement('div', {
-            className: 'location',
-            text: filePath,
-        }) : createElement('div'),
-    ],
-});
+    status, project, onclick, title, duration, filePath, element = 'li', mayExpand = false, children = [], details, pwLogo = false,
+}) => {
+    const subList = createStepsList(children);
+    const listItem = createElement(element, {
+        onclick,
+        className: `list-item${status ? '' : ' no-status'}`,
+        children: [
+            createElement('div', {
+                className: 'content',
+                children: [
+                    mayExpand ? createElement('div', {
+                        text: '▶',
+                        className: `expand-icon${children.length > 0 ? '' : ' hidden'}`,
+                        onclick: () => {
+                            subList.classList.toggle('active');
+                            listItem.classList.toggle('expanded');
+                        },
+                    }) : createElement('div', { className: 'hidden' }),
+                    status ? createElement('div', {
+                        className: 'status-icon',
+                        text: getStatusIcon(status),
+                    }) : createElement('div', { className: 'hidden' }),
+                    createElement('div', {
+                        className: 'title',
+                        text: typeof title === 'string' ? title : undefined,
+                        children: typeof title !== 'string' ? [title] : [],
+                    }),
+                    project ? createElement('div', {
+                        className: `project ${project}`,
+                        children: [
+                            createElement('div', {
+                                className: 'inner',
+                                text: project,
+                            }),
+                        ],
+                    }) : createElement('div', { className: 'project' }),
+                    pwLogo ? createElement('div', {
+                        className: 'pw-logo',
+                        html: '<img src="files/icons/playwright-logo.svg" alt="Playwright Logo">',
+                    }) : createElement('div', { className: 'pw-logo' }),
+                    createElement('div', {
+                        className: 'duration',
+                        text: formatDuration(duration),
+                    }),
+                ],
+            }),
+            filePath ? createElement('div', {
+                className: 'location',
+                text: filePath,
+            }) : createElement('div'),
+            details ? createElement('code', {
+                className: 'details',
+                html: details,
+            }) : createElement('div'),
+        ],
+    });
+    listItem.appendChild(subList);
+    return listItem;
+};
 
 const renderActivityDetails = (details) => details.map((detail, idx) => {
     // if (!detail.parameters) {
@@ -177,12 +207,15 @@ const createStepsList = (steps, isActive = false) => {
         className: `steps-list${isActive ? ' active' : ''}`,
     });
     steps.forEach((step) => {
+        console.log(step);
         const stepItem = createListItem({
-            status: step.status,
+            status: step.status ? step.status
+                // pwStep handling
+                : (step.error ? 'failed' : 'passed'),
             // project: execution.project,
             // onclick,
             // title: `${step.actor} ${step.activityAction} ${renderActivityDetails(step.activityDetails)}`,
-            title: createElement('div', {
+            title: step.title || createElement('div', {
                 className: 'wrapper',
                 children: [
                     createElement('div', {
@@ -202,8 +235,11 @@ const createStepsList = (steps, isActive = false) => {
             duration: step.duration,
             // suite: execution.suite,
             // location: step.location,
-            filePath: step.filePath,
+            // filePath: step.filePath,
             mayExpand: true,
+            children: step.steps,
+            details: step.error ? formatCode(step.error.stack) : undefined,
+            pwLogo: step.category !== undefined,
         });
         list.appendChild(stepItem);
     });
@@ -245,7 +281,7 @@ const showExecutionDetails = (execution) => {
         const list = createStepsList(run.steps, runIdx === 0);
         runDetails.appendChild(list);
     });
-    document.getElementById('flyin').classList.remove('collapsed');
+    setFylinOpen(true);
 };
 
 const renderExecutions = (executions) => {
@@ -316,4 +352,10 @@ const onLoaded = () => {
     showCount('skipped', 'skipped-count');
     showCount('interrupted', 'interrupted-count');
     displayFiltered('all');
+};
+
+const setFylinOpen = (open) => {
+    const action = open ? 'remove' : 'add';
+    document.getElementById('flyin').classList[action]('collapsed');
+    document.getElementById('flyin-background').classList[action]('collapsed');
 };

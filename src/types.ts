@@ -1,7 +1,9 @@
-import { FullResult, Location } from '@playwright/test/reporter';
+import { FullResult, Location, TestStep } from '@playwright/test/reporter';
 import { ActivityType, ExecStatus } from '@testla/screenplay/lib/interfaces';
 
 export type CheckMode = 'positive' | 'negative';
+
+export type PwStepInTestExecution = Omit<TestStep, 'titlePath' | 'parent' | 'steps'>;
 
 export type TestExecutionStep = {
     activityType: ActivityType;
@@ -15,21 +17,9 @@ export type TestExecutionStep = {
     startTime: Date;
     duration?: number;
     steps?: TestExecutionSteps;
-};
+} | PwStepInTestExecution;
 
 export type TestExecutionSteps = TestExecutionStep[];
-
-// export type TestExecution = {
-//     testCaseId: string; // playwright testcase id
-//     title: string;
-//     project: string;
-//     suite: string;
-//     status: ExecStatus;
-//     startTime: Date;
-//     duration?: number;
-//     steps?: TestExecutionSteps;
-//     location: Location;
-// };
 
 export type TestExecutionRun = {
     status: ExecStatus;
@@ -43,10 +33,6 @@ export type TestExecution = {
     title: string;
     project: string;
     suite: string;
-    // status: ExecStatus;
-    // startTime: Date;
-    // duration?: number;
-    // steps?: TestExecutionSteps;
     location: Location;
     runs: TestExecutionRun[];
 };
