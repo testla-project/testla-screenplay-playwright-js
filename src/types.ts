@@ -1,5 +1,5 @@
 import { FullResult, Location, TestStep } from '@playwright/test/reporter';
-import { ActivityType, ExecStatus } from '@testla/screenplay/lib/interfaces';
+import { ActivityType, ExecStatus, ActivityDetail } from '@testla/screenplay/lib/interfaces';
 
 export type CheckMode = 'positive' | 'negative';
 
@@ -8,7 +8,7 @@ export type PwStepInTestExecution = Omit<TestStep, 'titlePath' | 'parent' | 'ste
 export type TestExecutionStep = {
     activityType: ActivityType;
     activityAction: string;
-    activityDetails: string;
+    activityDetails: ActivityDetail;
     status: ExecStatus;
     actor: string;
     filePath: string;

@@ -16,20 +16,19 @@ const showCount = (status, element) => {
 };
 
 const getStatusIcon = (status) => {
-    console.log(status)
     switch (status) {
         case 'failed':
-            return '❌';
+            return '<img src="files/icons/close.png" alt="Failed" class="status-icon failed" />';
         case 'skipped':
-            return '⏭️';
+            return '<img src="files/icons/curved-arrow.png" alt="Skipped" class="status-icon" />';
         case 'interrupted':
-            return '⏸️';
+            return '<img src="files/icons/stop.png" alt="Interrupted" class="status-icon" />';
         case 'flaky':
-            return '⚠️';
+            return '<img src="files/icons/caution.png" alt="Flaky" class="status-icon" />';
         case 'passed':
         case 'success':
         default:
-            return '✅';
+            return '<img src="files/icons/mark.png" alt="Success" class="status-icon" />';
     }
 };
 
@@ -37,7 +36,7 @@ const formatCode = (code) => code
     .replace(/\[39m/g, '</span>')
     .replace(/\[2m/g, '')
     .replace(/\[22m/g, '')
-    .replace(/\n/g, '<br>')
+    // .replace(/\n/g, '<br>')
     .replace(/\[31m/g, '<span style="color: red;">')
     .replace(/\[32m/g, '<span style="color: green;">');
 
@@ -109,7 +108,7 @@ const createListItem = ({
                     }) : createElement('div', { className: 'hidden' }),
                     status ? createElement('div', {
                         className: 'status-icon',
-                        text: getStatusIcon(status),
+                        html: getStatusIcon(status),
                     }) : createElement('div', { className: 'hidden' }),
                     createElement('div', {
                         className: 'title',
@@ -150,14 +149,6 @@ const createListItem = ({
 };
 
 const renderActivityDetails = (details) => details.map((detail, idx) => {
-    // if (!detail.parameters) {
-    //     return createElement('div', { text: detail.methodName });
-    // }
-    // return `${detail.methodName}(${Object.entries(detail.parameters || {}).map(([, value]) => `${
-    //     typeof value === 'object' || Array.isArray(value)
-    //         ? JSON.stringify(value)
-    //         : typeof value === 'string' ? `"${value}"` : value
-    // }`).join(', ')})`;
     const parts = [];
     if (idx > 0) {
         parts.push(createElement('div', { text: '.' }));
@@ -182,22 +173,9 @@ const renderActivityDetails = (details) => details.map((detail, idx) => {
             children: [
                 createElement('span', { text: '(' }),
                 ...paramList,
-                // ...Object.entries(detail.parameters || {}).map(([, value]) => createElement('span', {
-                //     text: typeof value === 'object' || Array.isArray(value)
-                //         ? undefined
-                //         : typeof value === 'string' ? `"${value}"` : value,
-                //     children: typeof value === 'object' || Array.isArray(value)
-                //         ? [createElement('span', { className: 'tooltip', tooltip: JSON.stringify(value, undefined, 2), text: '▶ [object]' })]
-                //         : [],
-                // })),
                 createElement('span', { text: ')' }),
             ],
         }));
-        // return `${detail.methodName}(${Object.entries(detail.parameters || {}).map(([, value]) => `${
-        //     typeof value === 'object' || Array.isArray(value)
-        //         ? JSON.stringify(value)
-        //         : typeof value === 'string' ? `"${value}"` : value
-        // }`).join(', ')})`;
     }
     return createElement('div', { children: parts });
 });
@@ -207,14 +185,12 @@ const createStepsList = (steps, isActive = false) => {
         className: `steps-list${isActive ? ' active' : ''}`,
     });
     steps.forEach((step) => {
-        console.log(step);
         const stepItem = createListItem({
             status: step.status ? step.status
                 // pwStep handling
                 : (step.error ? 'failed' : 'passed'),
             // project: execution.project,
             // onclick,
-            // title: `${step.actor} ${step.activityAction} ${renderActivityDetails(step.activityDetails)}`,
             title: step.title || createElement('div', {
                 className: 'wrapper',
                 children: [
@@ -235,7 +211,9 @@ const createStepsList = (steps, isActive = false) => {
             duration: step.duration,
             // suite: execution.suite,
             // location: step.location,
-            // filePath: step.filePath,
+            filePath: step.filePath
+                ? step.filePath
+                : `${step.location.file.split('/').slice(-1)[0]}:${step.location.line}:${step.location.column}`,
             mayExpand: true,
             children: step.steps,
             details: step.error ? formatCode(step.error.stack) : undefined,
@@ -266,7 +244,7 @@ const showExecutionDetails = (execution) => {
         className: 'run-list',
         children: execution.runs.map((run, runIdx) => createElement('li', {
             className: `run-list-item${runIdx === 0 ? ' active' : ''}`,
-            text: `${getStatusIcon(run.status)} ${runIdx === 0 ? 'Run' : `Retry #${runIdx}`}`,
+            html: `${getStatusIcon(run.status)} ${runIdx === 0 ? 'Run' : `Retry #${runIdx}`}`,
             onclick: () => {
                 document.querySelector('.run-list-item.active').classList.remove('active');
                 document.querySelector(`.run-list-item:nth-child(${runIdx + 1})`).classList.add('active');
