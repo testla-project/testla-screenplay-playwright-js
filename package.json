@@ -6,7 +6,7 @@
   "types": "index.d.ts",
   "commitHooks": false,
   "scripts": {
-    "build": "rm -r lib || true && tsc --project ./tsconfig-build.json",
+    "build": "rm -r lib || true && tsc --project ./tsconfig-build.json && cp -r src/reporter/html/src lib/reporter/html/src",
     "test": "npx playwright test __tests__ --config=__tests__/playwright.config.ts",
     "test:api": "npx playwright test __tests__/api.spec.ts --config=__tests__/playwright.config.ts",
     "test:web": "npx playwright test __tests__/web.spec.ts --config=__tests__/playwright.config.ts",

@@ -35,13 +35,16 @@ export const streamToTestExecutionDetails = (stream: Readable): Promise<TestExec
                     activityDetails: chunk.activityDetails,
                     status: chunk.status,
                     actor: chunk.actor,
-                    filePath: chunk.filePath,
+                    // filePath: chunk.filePath,
+                    location: chunk.location,
                     // skipOnFailLevel: chunk.skipOnFailLevel,
                     startTime: chunk.time,
                 });
             } else if (parent.steps) {
                 // const oldState = report[report.length - 1];
                 const oldState = parent.steps[parent.steps.length - 1];
+                // eslint-disable-next-line
+                // @ts-ignore
                 const newState: TestExecutionStep = {
                     ...oldState,
                     duration: new Date(chunk.time).getTime() - new Date(oldState.startTime).getTime(),

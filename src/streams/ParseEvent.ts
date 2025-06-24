@@ -10,7 +10,8 @@ export class ParseEventStream extends Transform {
 
     // eslint-disable-next-line no-underscore-dangle
     _transform(chunk: string, encoding: BufferEncoding, callback: TransformCallback): void {
-        this.push(parseLogEvent(chunk));
+        const parsedChunk = parseLogEvent(chunk);
+        this.push(parsedChunk);
         callback();
     }
 }

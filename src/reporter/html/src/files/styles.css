@@ -1,5 +1,5 @@
 body {
-    background-color: #000;
+    background-color: #19191a;
     color: #c9d1d9;
     font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
 }
@@ -34,7 +34,8 @@ body {
 
 #status-bar .count-container:hover,
 #status-bar .count-container.active {
-    background-color: #161b22;
+    /* background-color: #161b22; */
+    background-color: #272c32;
 }
 
 #status-bar .count-container:last-child {
@@ -47,6 +48,11 @@ body {
     padding: 2px 5px;
     border-radius: 7px;
     background-color: #30363d;
+}
+
+#status-bar .count-container:hover .count,
+#status-bar .count-container.active .count {
+    background-color: #000;
 }
 
 #status-bar .count-container .count.active {
@@ -71,7 +77,8 @@ ul {
 }
 
 .collapsible header {
-    background-color: #161b22;
+    /* background-color: #161b22; */
+    background-color: #272c32;
     margin: -5px -10px;
     padding: 5px 10px;
     cursor: pointer;
@@ -97,12 +104,16 @@ ul {
     margin-top: 0;
 }
 
-.collapsible .content li {
+.collapsible .content li:not(.no-cursor) {
    cursor: pointer;
 }
 
 .steps-list {
     padding-left: 24px;
+}
+
+#run-details > .steps-list > .list-item:first-child > .content {
+    border-top: none;
 }
 
 #run-details > .steps-list,
@@ -118,6 +129,10 @@ ul {
     padding: 0 10px;
     font-size: 14px;
 }
+
+/* .list-item:first-child .content {
+    border-top: none;
+} */
 
 .list-item .content > * {
     padding: 5px;
@@ -174,7 +189,7 @@ ul {
     margin-left: 0;
 }
 
-.list-item .content .project {
+.list-item:not(.no-status) .content .project:not(:empty) {
     flex: 1; 
 }
 
@@ -244,7 +259,7 @@ ul {
     width: 90%;
     max-width: 1000px;
     height: 100%;
-    background-color: #000;
+    background-color: #19191a;
     border-left: 1px solid #30363d;
     box-shadow: #30363d 0px 0px 10px;
     padding: 0 10px 10px 10px;
@@ -270,7 +285,8 @@ ul {
 }
 
 #flyin .list-item.no-status {
-    background-color: #161b22;
+    /* background-color: #161b22; */
+    background-color: #272c32;;
     margin: 0 -10px;
     padding: 0 10px 5px;
 }
@@ -278,7 +294,8 @@ ul {
 .run-list {
     display: flex;
     border-bottom: 2px solid #30363d;
-    margin-top: 5px;
+    margin: 5px -10px 0;
+    padding: 0 10px;
 }
 
 .run-list-item {
@@ -308,8 +325,23 @@ ul {
     display: inline-block;
     vertical-align: middle;
 }
+
 .status-icon.failed {
     width: 12px;
     height: 12px;
     margin: 4px;
+}
+
+.title.title-list,
+.list-item.pw-logo > .content > .title {
+    flex: 1;
+}
+
+.title-path {
+    margin: 0;
+}
+
+.title-path > li:not(:last-child) {
+    font-size: 12px;
+    margin-bottom: 2px;
 }

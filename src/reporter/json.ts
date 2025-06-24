@@ -1,4 +1,4 @@
-import { ExecStatus, STRUCTURED_LOGS_ENVVAR_NAME } from '@testla/screenplay';
+import { ExecStatus, STRUCTURED_LOGS_ENVVAR_NAME, shortenFilePath } from '@testla/screenplay';
 import type {
     FullResult,
     Reporter, TestCase, TestStep,
@@ -19,9 +19,14 @@ class JsonReporter implements Reporter {
         this.outputFile = `${config.configDir}/${config.outputFile || 'screenplay-report.json'}`;
     }
 
-    private static getTestId(test: TestCase): string {
+    // private static getTestId(test: TestCase): string {
+    //     const paths = test.titlePath();
+    //     return paths.filter((entry: string) => entry !== '').slice(2).join(' > ');
+    // }
+
+    private static getTitlePath(test: TestCase): string[] {
         const paths = test.titlePath();
-        return paths.filter((entry: string) => entry !== '').slice(2).join(' > ');
+        return paths.filter((entry: string) => entry !== '').slice(2);
     }
 
     protected write(msg: string) {
@@ -33,7 +38,7 @@ class JsonReporter implements Reporter {
     protected static isPwStepInStep(pwStep: TestStep, step: TestExecutionStep): boolean {
         const stepStartTime = new Date(step.startTime);
         return pwStep.startTime.getTime() >= stepStartTime.getTime()
-            && pwStep.startTime.getTime() <= (stepStartTime.getTime() + (step.duration || 0));
+            && (pwStep.startTime.getTime() + pwStep.duration) <= (stepStartTime.getTime() + (step.duration || 0));
     }
 
     onBegin() {
@@ -66,7 +71,11 @@ class JsonReporter implements Reporter {
                     category: pwStep.category,
                     duration: pwStep.duration,
                     error: pwStep.error,
-                    location: pwStep.location,
+                    // location: pwStep.location,
+                    location: pwStep.location ? {
+                        ...pwStep.location,
+                        file: shortenFilePath(pwStep.location?.file),
+                    } : undefined,
                     startTime: pwStep.startTime,
                     // steps: Array<TestStep>
                     title: pwStep.title,
@@ -123,11 +132,14 @@ class JsonReporter implements Reporter {
         });
         const newExecution: TestExecution = {
             testCaseId: test.id,
-            title: JsonReporter.getTestId(test),
+            titlePath: JsonReporter.getTitlePath(test),
             // eslint_disable-next-line no-underscore-dangle
             project: test.parent.parent?.parent?.title || '',
             suite: test.parent.parent?.title || '',
-            location: test.location,
+            location: {
+                ...test.location,
+                file: shortenFilePath(test.location.file),
+            },
             runs: test.results.map((run, idx) => ({
                 status: run.status.toString() as ExecStatus,
                 startTime: run.startTime,
