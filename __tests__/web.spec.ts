@@ -45,9 +45,9 @@ test.describe('Testing screenplay-playwright-js web module', () => {
     test('Navigate', async ({ actor }) => {
         await test.step('Navigate to playwright page', async () => {
             await actor.attemptsTo(
-                Navigate.to('https://google.de'),
+                Navigate.to('https://google.com'),
             );
-            await expect(BrowseTheWeb.as(actor).getPage()).toHaveURL('https://www.google.de');
+            await expect(BrowseTheWeb.as(actor).getPage()).toHaveURL('https://www.google.com');
         });
     });
 

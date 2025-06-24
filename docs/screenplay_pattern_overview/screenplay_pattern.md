@@ -61,7 +61,7 @@ await Ute.attemptsTo(Post.to('https://jsonplaceholder.typicode.com/posts').withD
 We can also instruct Andy to use actions to navigate to the web interface of our system under test:
 
 ```typescript
-await Andy.attemptsTo(Navigate.to('https://google.de'));
+await Andy.attemptsTo(Navigate.to('https://google.com'));
 ```
 
 ### Questions

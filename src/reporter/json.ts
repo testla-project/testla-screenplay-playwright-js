@@ -19,11 +19,6 @@ class JsonReporter implements Reporter {
         this.outputFile = `${config.configDir}/${config.outputFile || 'screenplay-report.json'}`;
     }
 
-    // private static getTestId(test: TestCase): string {
-    //     const paths = test.titlePath();
-    //     return paths.filter((entry: string) => entry !== '').slice(2).join(' > ');
-    // }
-
     private static getTitlePath(test: TestCase): string[] {
         const paths = test.titlePath();
         return paths.filter((entry: string) => entry !== '').slice(2);
@@ -55,7 +50,7 @@ class JsonReporter implements Reporter {
 
     protected static connectToRightStep(pwStep: TestStep, steps: TestExecutionStep[]): void {
         // find the right parent step
-        const stepToConnectTo = steps?.find((step) => JsonReporter.isPwStepInStep(pwStep, step));
+        const stepToConnectTo = steps?.findLast((step) => JsonReporter.isPwStepInStep(pwStep, step));
         // eslint-disable-next-line
         // @ts-ignore
         if (stepToConnectTo) {
@@ -101,29 +96,6 @@ class JsonReporter implements Reporter {
         test.results.forEach((run, runIdx) => {
             run.steps.forEach((pwStep: TestStep) => {
                 if (pwStep.category !== 'hook') {
-                    // find the right parent step
-                    // const stepToConnectTo = stepsPerRun[runIdx]?.find((step) => JsonReporter.isPwStepInStep(pwStep, step));
-                    // if (stepToConnectTo) {
-                    //     // eslint-disable-next-line
-                    //     // @ts-ignore
-                    //     if (!stepToConnectTo.steps) {
-                    //         // eslint-disable-next-line
-                    //         // @ts-ignore
-                    //         stepToConnectTo.steps = [];
-                    //     }
-                    //     const pwStepToAdd: PwStepInTestExecution = {
-                    //         category: pwStep.category,
-                    //         duration: pwStep.duration,
-                    //         error: pwStep.error,
-                    //         location: pwStep.location,
-                    //         startTime: pwStep.startTime,
-                    //         // steps: Array<TestStep>
-                    //         title: pwStep.title,
-                    //     };
-                    //     // eslint-disable-next-line
-                    //     // @ts-ignore
-                    //     stepToConnectTo.steps.push(pwStepToAdd);
-                    // }
                     // eslint-disable-next-line
                     // @ts-ignore
                     JsonReporter.connectToRightStep(pwStep, stepsPerRun[runIdx]);
