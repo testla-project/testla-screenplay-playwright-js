@@ -5,7 +5,7 @@ export type CheckMode = 'positive' | 'negative';
 
 export type PwStepInTestExecution = Omit<TestStep, 'titlePath' | 'parent' | 'steps'> & { steps?: undefined; status?: undefined };
 
-export type TestExecutionStep = {
+export type InternalTestExecutionStep = {
     activityType: ActivityType;
     activityAction: string;
     activityDetails: ActivityDetail[];
@@ -19,7 +19,9 @@ export type TestExecutionStep = {
     duration?: number;
     steps?: TestExecutionSteps;
     category?: undefined;
-} | PwStepInTestExecution;
+};
+
+export type TestExecutionStep = InternalTestExecutionStep | PwStepInTestExecution;
 
 export type TestExecutionSteps = TestExecutionStep[];
 

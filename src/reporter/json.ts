@@ -50,6 +50,8 @@ class JsonReporter implements Reporter {
 
     protected static connectToRightStep(pwStep: TestStep, steps: TestExecutionStep[]): void {
         // find the right parent step
+        // we need to find the last possible step to lower the risk for
+        // placing 0ms playwright steps to the wrong internal step
         const stepToConnectTo = steps?.findLast((step) => JsonReporter.isPwStepInStep(pwStep, step));
         // eslint-disable-next-line
         // @ts-ignore

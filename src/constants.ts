@@ -1,5 +1,5 @@
 export const ICON = {
-    PASS: '✔️',
+    PASS: '✓',
     EXEC: '↪',
     FAIL: '✗',
     SKIP: '⤿',

@@ -1,4 +1,5 @@
-import { Actor } from '@testla/screenplay';
+// eslint-disable-next-line max-classes-per-file
+import { Actor, Task } from '@testla/screenplay';
 import {
     test as base,
     expect,
@@ -18,12 +19,42 @@ const test = base.extend<MyActors>({
     },
 });
 
+class NavigateInnerTask extends Task {
+    // eslint-disable-next-line class-methods-use-this
+    public async performAs(actor: Actor): Promise<any> {
+        return actor.attemptsTo(
+            Navigate.to('xyz://google.com').orSkipOnFail,
+            Navigate.to('https://google.com'),
+        );
+    }
+
+    public static execute(): NavigateInnerTask {
+        const instance = new NavigateInnerTask();
+        instance.setCallStackInitializeCalledWith({});
+        return instance;
+    }
+}
+
+class NavigateTask extends Task {
+    // eslint-disable-next-line class-methods-use-this
+    public async performAs(actor: Actor): Promise<any> {
+        return actor.attemptsTo(
+            NavigateInnerTask.execute(),
+        );
+    }
+
+    public static execute(): NavigateTask {
+        const instance = new NavigateTask();
+        instance.setCallStackInitializeCalledWith({});
+        return instance;
+    }
+}
+
 test.describe('Testing screenplay-playwright-js web module', () => {
     test('Navigate', async ({ actor }) => {
         await test.step('Navigate to playwright page', async () => {
             await actor.attemptsTo(
-                Navigate.to('xyz://google.com').orSkipOnFail,
-                Navigate.to('https://google.com'),
+                NavigateTask.execute(),
             );
             await expect(BrowseTheWeb.as(actor).getPage()).toHaveURL('https://www.google.com');
         });
