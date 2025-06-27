@@ -1,13 +1,16 @@
 import { FullResult, TestStatus } from '@playwright/test/reporter';
-import { EXEC_STATUS, ExecStatus, STRUCTURED_LOGS_ENVVAR_NAME } from '@testla/screenplay';
+import {
+    EXEC_STATUS, ExecStatus, STRUCTURED_LOGS_ENVVAR_NAME,
+    activityDetailsToString,
+    getStatusIcon, getStatusText,
+} from '@testla/screenplay';
 import {
     existsSync,
     rm,
 } from 'fs';
-import { ActivityDetail } from '@testla/screenplay/lib/interfaces';
+import { LOGGING_BLANKS_PER_INDENTATION_LEVEL } from '@testla/screenplay/lib/constants';
 import JsonReporter from './json';
-import { TestExecution, TestExecutionRun, InternalTestExecutionStep } from '../types';
-import { BLANKS_PER_INDENTATION_LEVEL, ICON } from '../constants';
+import { InternalTestExecutionStep, TestExecution, TestExecutionRun } from '../types';
 
 class TextReporter extends JsonReporter {
     protected outputFile: string;
@@ -17,22 +20,10 @@ class TextReporter extends JsonReporter {
         this.outputFile = `${config.configDir}/${config.outputFile || 'screenplay-report.txt'}`;
     }
 
+    // Todo: remove after statuses consolidation
     private static getResultStatusIcon(status: string): string {
-        switch (status) {
-            case 'failed':
-                return ICON.FAIL;
-            case 'timedOut':
-                return ICON.FAIL;
-            case 'interrupted':
-                return ICON.FAIL;
-            case 'skipped':
-                return ICON.SKIP;
-            case EXEC_STATUS.START:
-                return ICON.EXEC;
-            case 'passed':
-            default:
-                return ICON.PASS;
-        }
+        const statusToRender = status === 'passed' ? EXEC_STATUS.SUCCESS : status;
+        return getStatusIcon(statusToRender);
     }
 
     private static getTitle(titlePath: string[]): string {
@@ -84,48 +75,14 @@ class TextReporter extends JsonReporter {
             : execution.runs[execution.runs.length - 1].status;
     }
 
-    private static getStatusText(status: ExecStatus) {
-        let badge = '';
-        switch (status) {
-            case EXEC_STATUS.START:
-                badge = 'EXEC';
-                break;
-            case EXEC_STATUS.FAILED:
-                badge = 'FAIL';
-                break;
-            case EXEC_STATUS.SKIPPED:
-                badge = 'SKIP';
-                break;
-            default:
-                badge = 'DONE';
-        }
-        return badge;
-    }
-
     private static indent(level: number) {
         let indentation = ' ';
 
-        for (let i = 0; i <= level * BLANKS_PER_INDENTATION_LEVEL; i += 1) {
+        for (let i = 0; i <= level * LOGGING_BLANKS_PER_INDENTATION_LEVEL; i += 1) {
             indentation = ` ${indentation}`;
         }
 
         return indentation;
-    }
-
-    private static renderActivityDetails(details: ActivityDetail[]) {
-        return details.map((detail) => {
-            let detailString = detail.methodName;
-            if (detail.parameters) {
-                const paramList: string[] = [];
-                Object.entries(detail.parameters || {}).forEach(([, value], innerIdx) => {
-                    paramList.push(
-                        typeof value === 'string' ? `"${value}"` : `${value}`,
-                    );
-                });
-                detailString += `(${paramList.join(', ')})`;
-            }
-            return detailString;
-        }).join('.');
     }
 
     private static getStepDetails(step: InternalTestExecutionStep, indentLevel = 0, isBefore = false): string {
@@ -136,7 +93,7 @@ class TextReporter extends JsonReporter {
         return `${
             startTimeToUse
         }  [${
-            TextReporter.getStatusText(statusToUse)
+            getStatusText(statusToUse)
         }]${
             TextReporter.indent(indentLevel)
         }${
@@ -146,7 +103,7 @@ class TextReporter extends JsonReporter {
         } ${
             step.activityAction
         } ${
-            TextReporter.renderActivityDetails(step.activityDetails)
+            activityDetailsToString(step.activityDetails)
         }  (${step.location.file}:${step.location.line})`;
     }
 
@@ -168,8 +125,8 @@ class TextReporter extends JsonReporter {
 
     private writeRunDetails(execution: TestExecution): void {
         execution.runs.forEach((run, runIdx) => {
-            this.write(`[${execution.project.toUpperCase()}] ${TextReporter.getResultStatusIcon(run.status as TestStatus)} ${TextReporter.getTitle(execution.titlePath)} ${runIdx > 0 ? `[RETRY#${runIdx}] ` : ''}[${run.status.toUpperCase()} after ${TextReporter.printRuntime(run.duration || 0)}]`);
-            if (TextReporter.getStatusText(run.status) !== 'skipped') {
+            this.write(`[${execution.project.toUpperCase()}] ${TextReporter.getResultStatusIcon(run.status)} ${TextReporter.getTitle(execution.titlePath)} ${runIdx > 0 ? `[RETRY#${runIdx}] ` : ''}[${run.status.toUpperCase()} after ${TextReporter.printRuntime(run.duration || 0)}]`);
+            if (run.status !== 'skipped') {
                 this.write('────────────────────────────────');
             }
 
@@ -185,7 +142,7 @@ class TextReporter extends JsonReporter {
         const failedExecutions = report.executions.filter((execution) => TextReporter.getExecutionStatus(execution) === 'failed').map((execution) => TextReporter.getTitle([execution.project, ...execution.titlePath]));
         const skippedCount = report.executions.filter((execution) => TextReporter.getExecutionStatus(execution) === 'skipped').length;
         const flakyCount = report.executions.filter((execution) => TextReporter.getExecutionStatus(execution) === 'flaky').length;
-        const interruptedCount = report.executions.filter((execution) => TextReporter.getExecutionStatus(execution) === 'interrupted').length;
+        const interruptedCount = report.executions.filter((execution) => TextReporter.getExecutionStatus(execution) as string === 'interrupted').length;
         const passedCount = report.executions.filter((execution) => TextReporter.getExecutionStatus(execution) as string === 'passed').length;
         this.write('────────────────────────────────\n');
         this.write(`Finished the run: ${report.status.toUpperCase()} after ${TextReporter.printRuntime(report.duration)}\n`);
