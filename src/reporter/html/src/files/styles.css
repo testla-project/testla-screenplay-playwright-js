@@ -346,6 +346,5 @@ ul {
     white-space: pre-wrap;
     word-break: break-word;
     overflow-wrap: break-word;
-    max-width: 990px;
-    width: 80%;
+    max-width: min(990px, 80%);
 }

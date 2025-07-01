@@ -1,5 +1,5 @@
 const EXECUTION_TITLE_JOINER = ' › ';
-const MAX_STRING_LENGTH_BEFORE_TOOLTIP = 20;
+const MAX_STRING_LENGTH_BEFORE_TOOLTIP = 25;
 const reporter = {
     checkIsFlaky: (runs) => runs.length > 1 && runs[runs.length - 1].status === 'passed',
     getExecutionStatus: (execution) => (reporter.checkIsFlaky(execution.runs)
