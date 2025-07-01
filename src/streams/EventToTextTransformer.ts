@@ -1,7 +1,7 @@
-import { ACTIVITY_TYPE, EXEC_STATUS } from '@testla/screenplay';
-import { ExecStatus, LogEvent } from '@testla/screenplay/lib/interfaces';
+import { getStatusIcon, getStatusText } from '@testla/screenplay';
+import { LOGGING_BLANKS_PER_INDENTATION_LEVEL } from '@testla/screenplay/lib/constants';
+import { LogEvent } from '@testla/screenplay/lib/interfaces';
 import { Transform, TransformCallback } from 'stream';
-import { BLANKS_PER_INDENTATION_LEVEL, ICON } from '../constants';
 
 export class TransformEventToTextStream extends Transform {
     constructor() {
@@ -10,28 +10,10 @@ export class TransformEventToTextStream extends Transform {
         });
     }
 
-    private static getStatusText(status: ExecStatus) {
-        let badge = '';
-        switch (status) {
-            case EXEC_STATUS.START:
-                badge = 'EXEC';
-                break;
-            case EXEC_STATUS.FAILED:
-                badge = 'FAIL';
-                break;
-            case EXEC_STATUS.SKIPPED:
-                badge = 'SKIP';
-                break;
-            default:
-                badge = 'DONE';
-        }
-        return badge;
-    }
-
     private static indent(level: number) {
         let indentation = ' ';
 
-        for (let i = 0; i <= level * BLANKS_PER_INDENTATION_LEVEL; i += 1) {
+        for (let i = 0; i <= level * LOGGING_BLANKS_PER_INDENTATION_LEVEL; i += 1) {
             indentation = ` ${indentation}`;
         }
 
@@ -43,18 +25,18 @@ export class TransformEventToTextStream extends Transform {
         const msg = `${
             record.time
         }  [${
-            TransformEventToTextStream.getStatusText(record.status)
+            getStatusText(record.status)
         }]${
             TransformEventToTextStream.indent(record.wrapLevel)
         }${
-            record.status !== EXEC_STATUS.FAILED ? (record.activityType === ACTIVITY_TYPE.QUESTION ? ICON.PASS : ICON.EXEC) : ICON.FAIL
+            getStatusIcon(record.status)
         } ${
             record.actor
         } ${
             record.activityAction
         } ${
             record.activityDetails
-        }  (${record.filePath})`;
+        }  (${record.location?.file}:${record.location?.line})`;
 
         this.push(msg);
         callback();

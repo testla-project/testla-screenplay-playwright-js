@@ -1,27 +1,30 @@
-import { FullResult, Location, TestStep } from '@playwright/test/reporter';
+import { FullResult, Location, TestError } from '@playwright/test/reporter';
 import { ActivityType, ExecStatus, ActivityDetail } from '@testla/screenplay/lib/interfaces';
 
 export type CheckMode = 'positive' | 'negative';
 
-export type PwStepInTestExecution = Omit<TestStep, 'titlePath' | 'parent' | 'steps'> & { steps?: undefined; status?: undefined };
+type TestExecutionStepBase = {
+    status: ExecStatus;
+    steps?: TestExecutionStep[];
+    location?: Location;
+    startTime: Date;
+    duration?: number;
+    isPW?: boolean; // identifies if playwright step or testla step - derived from category attribute
+}
 
-export type InternalTestExecutionStep = {
+export type TestExecutionStepInternal = TestExecutionStepBase & {
+    actor: string;
     activityType: ActivityType;
     activityAction: string;
     activityDetails: ActivityDetail[];
-    status: ExecStatus;
-    actor: string;
-    location: Location;
-    // filePath: string;
-    // skipOnFailLevel: number;
-    // wrapLevel: number;
-    startTime: Date;
-    duration?: number;
-    steps?: TestExecutionSteps;
-    category?: undefined;
-};
+}
 
-export type TestExecutionStep = InternalTestExecutionStep | PwStepInTestExecution;
+export type TestExecutionStepPW = TestExecutionStepBase & {
+    title: string;
+    error?: TestError; // only PW
+}
+
+export type TestExecutionStep = TestExecutionStepInternal | TestExecutionStepPW;
 
 export type TestExecutionSteps = TestExecutionStep[];
 

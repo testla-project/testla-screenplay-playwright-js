@@ -1,4 +1,4 @@
-import { ExecStatus, STRUCTURED_LOGS_ENVVAR_NAME, shortenFilePath } from '@testla/screenplay';
+import { EXEC_STATUS, ExecStatus, STRUCTURED_LOGS_ENVVAR_NAME, shortenFilePath } from '@testla/screenplay';
 import type {
     FullResult,
     Reporter, TestCase, TestStep,
@@ -8,7 +8,7 @@ import { Readable } from 'stream';
 import { FilterEventStream } from '../streams/FilterEvent';
 import { ParseEventStream } from '../streams/ParseEvent';
 import { streamToTestExecutionDetails } from '../utils/stream';
-import { PwStepInTestExecution, TestExecution, TestExecutionStep } from '../types';
+import { TestExecution, TestExecutionStep } from '../types';
 
 class JsonReporter implements Reporter {
     protected outputFile: string;
@@ -24,8 +24,8 @@ class JsonReporter implements Reporter {
         return paths.filter((entry: string) => entry !== '').slice(2);
     }
 
-    protected write(msg: string) {
-        if (this.outputFile) {
+    protected write(msg?: string) {
+        if (msg !== undefined && this.outputFile) {
             appendFileSync(this.outputFile, `${msg}\n`);
         }
     }
@@ -48,41 +48,31 @@ class JsonReporter implements Reporter {
         process.env[STRUCTURED_LOGS_ENVVAR_NAME] = 'true';
     }
 
-    protected static connectToRightStep(pwStep: TestStep, steps: TestExecutionStep[]): void {
+    protected static connectToRightStep(pwStep: TestStep, steps: TestExecutionStep[] = []): void {
         // find the right parent step
         // we need to find the last possible step to lower the risk for
         // placing 0ms playwright steps to the wrong internal step
-        const stepToConnectTo = steps?.findLast((step) => JsonReporter.isPwStepInStep(pwStep, step));
-        // eslint-disable-next-line
-        // @ts-ignore
+        const stepToConnectTo = steps.findLast((step: TestExecutionStep) => JsonReporter.isPwStepInStep(pwStep, step));
         if (stepToConnectTo) {
-            if (!stepToConnectTo.steps || stepToConnectTo.steps[0].category !== undefined) {
-                // eslint-disable-next-line
-                // @ts-ignore
+            if (!stepToConnectTo.steps || stepToConnectTo.steps[0].isPW) {
                 if (!stepToConnectTo.steps) {
-                    // eslint-disable-next-line
-                    // @ts-ignore
                     stepToConnectTo.steps = [];
                 }
-                const pwStepToAdd: PwStepInTestExecution = {
-                    category: pwStep.category,
+                const pwStepToAdd: TestExecutionStep = {
+                    isPW: true,
                     duration: pwStep.duration,
                     error: pwStep.error,
-                    // location: pwStep.location,
                     location: pwStep.location ? {
                         ...pwStep.location,
                         file: shortenFilePath(pwStep.location?.file),
                     } : undefined,
                     startTime: pwStep.startTime,
-                    // steps: Array<TestStep>
+                    steps: [], // currently no PW substeps supported
                     title: pwStep.title,
+                    status: !pwStep.error ? EXEC_STATUS.PASSED : EXEC_STATUS.FAILED,
                 };
-                // eslint-disable-next-line
-                // @ts-ignore
                 stepToConnectTo.steps.push(pwStepToAdd);
             } else {
-                // eslint-disable-next-line
-                // @ts-ignore
                 JsonReporter.connectToRightStep(pwStep, stepToConnectTo.steps);
             }
         }
@@ -98,8 +88,6 @@ class JsonReporter implements Reporter {
         test.results.forEach((run, runIdx) => {
             run.steps.forEach((pwStep: TestStep) => {
                 if (pwStep.category !== 'hook') {
-                    // eslint-disable-next-line
-                    // @ts-ignore
                     JsonReporter.connectToRightStep(pwStep, stepsPerRun[runIdx]);
                 }
             });
@@ -107,7 +95,6 @@ class JsonReporter implements Reporter {
         const newExecution: TestExecution = {
             testCaseId: test.id,
             titlePath: JsonReporter.getTitlePath(test),
-            // eslint_disable-next-line no-underscore-dangle
             project: test.parent.parent?.parent?.title || '',
             suite: test.parent.parent?.title || '',
             location: {
@@ -132,8 +119,7 @@ class JsonReporter implements Reporter {
         this.write(JSON.stringify(report, null, 2));
     }
 
-    // eslint-disable-next-line class-methods-use-this
-    printsToStdio(): boolean {
+    static printsToStdio(): boolean {
         return false;
     }
 }

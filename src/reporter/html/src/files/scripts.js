@@ -1,3 +1,5 @@
+const EXECUTION_TITLE_JOINER = ' › ';
+const MAX_STRING_LENGTH_BEFORE_TOOLTIP = 20;
 const reporter = {
     checkIsFlaky: (runs) => runs.length > 1 && runs[runs.length - 1].status === 'passed',
     getExecutionStatus: (execution) => (reporter.checkIsFlaky(execution.runs)
@@ -14,8 +16,6 @@ const reporter = {
     },
     getStatusIcon: (status) => {
         switch (status) {
-            case 'failed':
-                return '<img src="files/icons/close.png" alt="Failed" class="status-icon failed" />';
             case 'skipped':
                 return '<img src="files/icons/skip-right-line.svg" alt="Skipped" class="status-icon" style="filter: invert(1)" />';
             case 'interrupted':
@@ -23,16 +23,41 @@ const reporter = {
             case 'flaky':
                 return '<img src="files/icons/caution.png" alt="Flaky" class="status-icon" />';
             case 'passed':
-            case 'success':
+                return '<img src="files/icons/mark.png" alt="Passed" class="status-icon" />';
+            case 'failed':
             default:
-                return '<img src="files/icons/mark.png" alt="Success" class="status-icon" />';
+                return '<img src="files/icons/close.png" alt="Failed" class="status-icon failed" />';
         }
+    },
+    getTooltip: (obj, text) => {
+        const tooltip = reporter.createElement('div', {
+            className: 'tooltip',
+            text,
+        });
+        document.body.appendChild(tooltip);
+        const rect = obj.getBoundingClientRect();
+        const tooltipRect = tooltip.getBoundingClientRect();
+        let left = rect.left + window.scrollX;
+        let top = rect.bottom + window.scrollY + 5;
+        if (left + tooltipRect.width > window.innerWidth) {
+            left = window.innerWidth - tooltipRect.width - 10; // 10px margin
+        }
+        if (left < 0) {
+            left = 10;
+        }
+        if (top + tooltipRect.height > window.innerHeight + window.scrollY) {
+            top = rect.top + window.scrollY - tooltipRect.height - 5;
+        }
+        if (top < window.scrollY) {
+            top = window.scrollY + 10;
+        }
+        tooltip.style.left = `${left}px`;
+        tooltip.style.top = `${top}px`;
     },
     formatCode: (code) => code
         .replace(/\[39m/g, '</span>')
         .replace(/\[2m/g, '')
         .replace(/\[22m/g, '')
-        // .replace(/\n/g, '<br>')
         .replace(/\[31m/g, '<span style="color: red;">')
         .replace(/\[32m/g, '<span style="color: green;">'),
     formatDuration: (duration) => {
@@ -70,75 +95,124 @@ const reporter = {
                 el.onclick = options.onclick;
             }
             if (options.children) {
-                options.children.forEach((child) => {
+                options.children.filter((child) => child).forEach((child) => {
                     el.appendChild(child);
                 });
             }
             if (options.tooltip) {
-                el.title = options.tooltip;
+                el.addEventListener('mouseenter', (e) => {
+                    reporter.getTooltip(el, options.tooltip);
+                });
+                el.addEventListener('mouseleave', () => {
+                    const tooltip = document.querySelector('.tooltip');
+                    if (tooltip) {
+                        tooltip.remove();
+                    }
+                });
             }
         }
         return el;
     },
     createListItem: ({
-        status, project, onclick, title, duration, location, element = 'li', mayExpand = false, children = [], details, pwLogo = false,
+        status, project, onclick, title, duration, location, element = 'li', mayExpand = false, children = [], details, isPw = false,
     }) => {
         const subList = reporter.createStepsList(children);
         const listItem = reporter.createElement(element, {
             onclick,
-            className: `list-item${status ? '' : ' no-status'}${details ? ' expanded' : ''}${onclick === undefined ? ' no-cursor' : ''}${pwLogo ? ' pw-logo' : ''}`,
+            className: `list-item${
+                status ? '' : ' no-status'
+            }${
+                details ? ' expanded' : ''
+            }${
+                onclick === undefined ? ' no-cursor' : ''
+            }${
+                isPw ? ' pw' : ''
+            }`,
             children: [
                 reporter.createElement('div', {
                     className: 'content',
                     children: [
-                        mayExpand ? reporter.createElement('div', {
-                            text: '▶',
-                            className: `expand-icon${children.length > 0 || details ? '' : ' hidden'}`,
-                            onclick: () => {
-                                subList.classList.toggle('active');
-                                listItem.classList.toggle('expanded');
-                            },
-                        }) : reporter.createElement('div', { className: 'hidden' }),
-                        status ? reporter.createElement('div', {
-                            className: 'status-icon',
-                            html: reporter.getStatusIcon(status),
-                        }) : reporter.createElement('div', { className: 'hidden' }),
+                        mayExpand
+                            ? reporter.createElement('div', {
+                                text: '▶',
+                                className: `expand-icon${children.length > 0 || details ? '' : ' hidden'}`,
+                                onclick: () => {
+                                    subList.classList.toggle('active');
+                                    listItem.classList.toggle('expanded');
+                                },
+                            })
+                            : undefined,
+                        status
+                            ? reporter.createElement('div', {
+                                className: 'status-icon',
+                                html: reporter.getStatusIcon(status),
+                            })
+                            : undefined,
                         reporter.createElement('div', {
                             className: `title${typeof title === 'string' ? '' : ' title-list'}`,
                             text: typeof title === 'string' ? title : undefined,
                             children: typeof title !== 'string' ? [title] : [],
                         }),
-                        project ? reporter.createElement('div', {
-                            className: `project ${project}`,
-                            children: [
-                                reporter.createElement('div', {
-                                    className: 'inner',
-                                    text: project,
-                                }),
-                            ],
-                        }) : reporter.createElement('div', { className: 'project' }),
-                        pwLogo ? reporter.createElement('div', {
-                            className: 'pw-logo',
-                            html: '<img src="files/icons/playwright-logo.svg" alt="Playwright Logo">',
-                        }) : reporter.createElement('div', { className: 'pw-logo' }),
+                        reporter.createElement('div', {
+                            className: project
+                                ? `project ${project}`
+                                : 'project',
+                            children: project
+                                ? [
+                                    reporter.createElement('div', {
+                                        className: 'inner',
+                                        text: project,
+                                    }),
+                                ]
+                                : undefined,
+                        }),
+                        reporter.createElement('div', {
+                            className: 'pw',
+                            html: isPw
+                                ? '<img src="files/icons/playwright-logo.svg" alt="Playwright Logo">'
+                                : undefined,
+                        }),
                         reporter.createElement('div', {
                             className: 'duration',
                             text: reporter.formatDuration(duration),
                         }),
                     ],
                 }),
-                location ? reporter.createElement('div', {
-                    className: 'location',
-                    text: `${location.file}:${location.line}`,
-                }) : reporter.createElement('div'),
-                details ? reporter.createElement('code', {
-                    className: 'details',
-                    html: details,
-                }) : reporter.createElement('div'),
+                reporter.createElement('div', location
+                    ? {
+                        className: 'location',
+                        text: `${location.file}:${location.line}`,
+                    }
+                    : undefined),
+                details
+                    ? reporter.createElement('code', {
+                        className: 'details',
+                        html: details,
+                    })
+                    : undefined,
             ],
         });
         listItem.appendChild(subList);
         return listItem;
+    },
+    getParamValue: (value) => {
+        let attr = 'text';
+        let displayValue = typeof value === 'string' ? `"${value}"` : value;
+        if (typeof value === 'object' || Array.isArray(value) || (typeof value === 'string' && value.length > MAX_STRING_LENGTH_BEFORE_TOOLTIP)) {
+            attr = 'children';
+            if (typeof value === 'object' || Array.isArray(value)) {
+                displayValue = [reporter.createElement('span', {
+                    tooltip: JSON.stringify(value, undefined, 2),
+                    text: '▶ [object]',
+                })];
+            } else if (typeof value === 'string') {
+                displayValue = [reporter.createElement('span', {
+                    tooltip: value,
+                    text: `▶  ${value.substring(0, MAX_STRING_LENGTH_BEFORE_TOOLTIP)}...`,
+                })];
+            }
+        }
+        return { [attr]: displayValue };
     },
     renderActivityDetails: (details) => details.map((detail, idx) => {
         const parts = [];
@@ -152,14 +226,9 @@ const reporter = {
                 if (innerIdx > 0) {
                     paramList.push(reporter.createElement('span', { text: ', ' }));
                 }
-                paramList.push(reporter.createElement('span', {
-                    text: typeof value === 'object' || Array.isArray(value)
-                        ? undefined
-                        : typeof value === 'string' ? `"${value}"` : value,
-                    children: typeof value === 'object' || Array.isArray(value)
-                        ? [reporter.createElement('span', { className: 'tooltip', tooltip: JSON.stringify(value, undefined, 2), text: '▶ [object]' })]
-                        : [],
-                }));
+                paramList.push(
+                    reporter.createElement('span', reporter.getParamValue(value)),
+                );
             });
             parts.push(reporter.createElement('div', {
                 children: [
@@ -177,11 +246,7 @@ const reporter = {
         });
         steps.forEach((step) => {
             const stepItem = reporter.createListItem({
-                status: step.status ? step.status
-                    // pwStep handling
-                    : (step.error ? 'failed' : 'passed'),
-                // project: execution.project,
-                // onclick,
+                status: step.status,
                 title: step.title || reporter.createElement('div', {
                     className: 'wrapper',
                     children: [
@@ -200,16 +265,14 @@ const reporter = {
                     ],
                 }),
                 duration: step.duration,
-                // suite: execution.suite,
                 location: step.location,
-                // filePath: step.filePath
-                //     ? step.filePath
-                //     : `${step.location.file.split('/').slice(-1)[0]}:${step.location.line}:${step.location.column}`,
                 filePath: `${step.location.file}:${step.location.line}`,
                 mayExpand: true,
                 children: step.steps,
-                details: step.error ? reporter.formatCode(step.error.stack) : undefined,
-                pwLogo: step.category !== undefined,
+                details: step.error
+                    ? reporter.formatCode(step.error.stack)
+                    : undefined,
+                isPw: step.isPW,
             });
             list.appendChild(stepItem);
         });
@@ -217,7 +280,7 @@ const reporter = {
     },
     getExecutionTitle: (execution, asList = false) => {
         if (!asList) {
-            return execution.titlePath.join(' › ');
+            return execution.titlePath.join(EXECUTION_TITLE_JOINER);
         }
         return reporter.createElement('ul', {
             className: 'title-path',
@@ -231,16 +294,10 @@ const reporter = {
         content.innerHTML = '';
         content.appendChild(reporter.createListItem({
             element: 'div',
-            // status: execution.status,
             project: execution.project,
-            // onclick,
             title: reporter.getExecutionTitle(execution, true),
-            // title: execution.titlePath.join("\n"),
-            // duration: execution.duration,
             duration: execution.runs.reduce((acc, run) => acc + run.duration, 0),
-            // suite: execution.suite,
             location: execution.location,
-            // filePath: `${execution.suite}:${execution.location.line}`,
         }));
         const runDetails = reporter.createElement('div', { id: 'run-details' });
         const runList = reporter.createElement('ul', {
