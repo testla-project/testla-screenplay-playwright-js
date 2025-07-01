@@ -100,6 +100,23 @@ test.describe('Testing screenplay-playwright-js web module', () => {
         await expect(page.locator('[class="added-manually"]')).toHaveCount(1);
     });
 
+    test('Click with force option', async ({ actor }) => {
+        const page: Page = BrowseTheWeb.as(actor).getPage();
+
+        await actor.attemptsTo(
+            Navigate.to('https://the-internet.herokuapp.com/add_remove_elements/'),
+            Wait.forLoadState('networkidle'),
+        );
+        // assert that there is no button before we add it with our Click
+        await expect(page.locator('[class="added-manually"]')).toHaveCount(0);
+
+        await actor.attemptsTo(
+            Click.on(page.locator('button'), { hasText: 'Add Element', force: true }),
+        );
+        // assert that the button is here after our Click
+        await expect(page.locator('[class="added-manually"]')).toHaveCount(1);
+    });
+
     test('Fill+Type', async ({ actor }) => {
         const page: Page = BrowseTheWeb.as(actor).getPage();
 

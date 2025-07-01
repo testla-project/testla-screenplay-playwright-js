@@ -12,6 +12,7 @@ The `Click` class is an action class in the Screenplay pattern designed for use 
     - [Methods](#methods)
       - [performAs](#performas)
       - [on](#on)
+      - [Click Options](#click-options)
       - [inFrame](#inframe)
       - [withAbilityAlias](#withabilityalias)
       - [orSkipOnFail](#orskiponfail)
@@ -34,14 +35,32 @@ public async performAs(actor: Actor): Promise<void>;
 #### on
 
 ```typescript
-public static on(selector: Selector, options?: SelectorOptions): Click;
+public static on(selector: Selector, options?: SelectorOptions & ClickOptions): Click;
 ```
 
 - **Description:** Creates a new instance of the `Click` class specifically for clicking on an element specified by a selector.
 - **Parameters:**
-  - `selector` - The Selector.
-  - `options` (optional) - Advanced selector lookup options.
+  - `selector` - The Selector (can be a string or a Playwright Locator).
+  - `options` (optional) - An object that can include both advanced selector lookup options (e.g., Playwright locator options) and click options (see below).
 - **Returns:** `Click` - Returns a new `Click` instance.
+
+#### Click Options
+
+The `options` parameter is a combination of:
+- **SelectorOptions**: Options for locating the element (e.g., Playwright locator options like `hasText`, `has`, etc.).
+- **ClickOptions**: Options for the click action itself (e.g., `force`, `button`, `clickCount`, etc.).
+
+You can combine these options in a single object:
+
+**Example: Combining Locator and Click Options**
+
+```typescript
+await actor.attemptsTo(
+    Click.on(page.locator('button'), { hasText: 'Add Element', force: true })
+);
+```
+
+In this example, `hasText: 'Add Element'` is a locator option, and `force: true` is a click option.
 
 #### inFrame
 
