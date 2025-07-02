@@ -216,12 +216,18 @@ test.describe('Testing screenplay-playwright-js api module', () => {
         );
 
         const expectedBodyJSON = {
-            'post code': '90210',
             country: 'United States',
             'country abbreviation': 'US',
-            places: [{
-                'place name': 'Beverly Hills', longitude: '-118.4065', state: 'California', 'state abbreviation': 'CA', latitude: '34.0901',
-            }],
+            'post code': '90210',
+            places: [
+                {
+                    'place name': 'Beverly Hills',
+                    longitude: '-118.4065',
+                    latitude: '34.0901',
+                    state: 'California',
+                    'state abbreviation': 'CA',
+                },
+            ],
         };
 
         await verifyBodies(actor, responseJSON, expectedBodyJSON);
