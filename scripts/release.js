@@ -33,7 +33,7 @@ confirmToProceed('Is the set version correct for this release?', () => {
                 fs.writeFileSync('lib/package.json', JSON.stringify(releasePackage));
                 fs.copyFileSync('README.md', 'lib/README.md');
 
-                require('child_process').execSync(`npm publish ./dist${isBeta ? ' --tag beta' : ''}`);
+                require('child_process').execSync(`npm publish ./lib${isBeta ? ' --tag beta' : ''}`);
             } catch (err) {
                 console.error(err);
             }
