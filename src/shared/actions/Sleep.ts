@@ -13,7 +13,6 @@ export class Sleep extends Action {
      * @return {void} void
      */
     public async performAs(): Promise<void> {
-        // eslint-disable-next-line no-promise-executor-return
         return new Promise((resolve): any => setTimeout(resolve, this.ms));
     }
 

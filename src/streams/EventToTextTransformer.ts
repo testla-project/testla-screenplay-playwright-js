@@ -20,7 +20,6 @@ export class TransformEventToTextStream extends Transform {
         return indentation;
     }
 
-    // eslint-disable-next-line no-underscore-dangle
     _transform(record: LogEvent, encoding: BufferEncoding, callback: TransformCallback) {
         const msg = `${
             record.time

@@ -40,7 +40,7 @@ const reporter = {
         let left = rect.left + window.scrollX;
         let top = rect.bottom + window.scrollY + 5;
         if (left + tooltipRect.width > window.innerWidth) {
-            left = window.innerWidth - tooltipRect.width - 10; // 10px margin
+            left = window.innerWidth - tooltipRect.width - 10;
         }
         if (left < 0) {
             left = 10;

@@ -114,7 +114,6 @@ export class UseAPI extends Ability {
      * @param status the status to check.
      * @returns true if the status is equal/unequal as expected.
      */
-    // eslint-disable-next-line class-methods-use-this
     public async checkStatus(response: Response, status: number, mode: 'equal' | 'unequal'): Promise<boolean> {
         expect(response.status === status).toBe(mode === 'equal');
         return Promise.resolve(true);
@@ -128,7 +127,6 @@ export class UseAPI extends Ability {
      * @param body the body to check.
      * @returns true if the body equal/unequal as expected.
      */
-    // eslint-disable-next-line class-methods-use-this
     public async checkBody(response: Response, body: ResponseBodyType, mode: 'equal' | 'unequal'): Promise<boolean> {
         if (typeof response.body === 'string' && typeof body === 'string') {
             // response body is plain text -> can check for string equality
@@ -162,7 +160,6 @@ export class UseAPI extends Ability {
      * @param headers the headers to check.
      * @returns true if the headers are is included/excluded as expected.
      */
-    // eslint-disable-next-line class-methods-use-this
     public async checkHeaders(response: Response, headers: {[key: string]: string | undefined }, mode: 'included' | 'excluded'): Promise<boolean> {
         const allResponseHeaderKeys = Object.keys(response.headers);
         expect(
@@ -180,7 +177,6 @@ export class UseAPI extends Ability {
      * @param duration expected duration (in milliseconds) not to be exceeded
      * @returns true if response was received within given duration, false otherwise
      */
-    // eslint-disable-next-line class-methods-use-this
     public checkDuration(response: Response, duration: number, mode: 'lessOrEqual' | 'greater'): Promise<boolean> {
         expect(response.duration <= duration).toBe(mode === 'lessOrEqual');
         return Promise.resolve(true);

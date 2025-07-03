@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
     "rootDir": "./",
-    "target": "es2023",
+    "target": "es2022",
     "lib": [
-      "es2023",
+      "ES2022",
       "dom"
     ],
     "skipLibCheck": true,

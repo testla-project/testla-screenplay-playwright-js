@@ -1,4 +1,6 @@
-import { EXEC_STATUS, ExecStatus, STRUCTURED_LOGS_ENVVAR_NAME, shortenFilePath } from '@testla/screenplay';
+import {
+    EXEC_STATUS, ExecStatus, STRUCTURED_LOGS_ENVVAR_NAME, shortenFilePath,
+} from '@testla/screenplay';
 import type {
     FullResult,
     Reporter, TestCase, TestStep,

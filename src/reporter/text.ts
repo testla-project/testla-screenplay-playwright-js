@@ -10,7 +10,9 @@ import {
 } from 'fs';
 import { LOGGING_BLANKS_PER_INDENTATION_LEVEL } from '@testla/screenplay/lib/constants';
 import JsonReporter from './json';
-import { TestExecution, TestExecutionRun, TestExecutionStep, TestExecutionStepInternal } from '../types';
+import {
+    TestExecution, TestExecutionRun, TestExecutionStep, TestExecutionStepInternal,
+} from '../types';
 
 class TextReporter extends JsonReporter {
     protected outputFile: string;

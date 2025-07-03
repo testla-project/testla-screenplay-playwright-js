@@ -1,4 +1,3 @@
-// eslint-disable-next-line max-classes-per-file
 import { Actor, Task } from '@testla/screenplay';
 import {
     test as base,
@@ -20,7 +19,6 @@ const test = base.extend<MyActors>({
 });
 
 class NavigateInnerTask extends Task {
-    // eslint-disable-next-line class-methods-use-this
     public async performAs(actor: Actor): Promise<any> {
         return actor.attemptsTo(
             Navigate.to('xyz://google.com').orSkipOnFail,
@@ -36,7 +34,6 @@ class NavigateInnerTask extends Task {
 }
 
 class NavigateTask extends Task {
-    // eslint-disable-next-line class-methods-use-this
     public async performAs(actor: Actor): Promise<any> {
         return actor.attemptsTo(
             NavigateInnerTask.execute(),

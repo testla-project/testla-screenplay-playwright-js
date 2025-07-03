@@ -11,7 +11,6 @@ export class Clear extends Action {
      * @param {Actor} actor Actor performing this action
      * @return {any} Clears context cookies
      */
-    // eslint-disable-next-line class-methods-use-this
     public performAs(actor: Actor): Promise<void> {
         const page = BrowseTheWeb.as(actor, this.abilityAlias).getPage();
         return page.context().clearCookies();

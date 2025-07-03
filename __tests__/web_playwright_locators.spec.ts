@@ -220,7 +220,7 @@ test.describe('Testing screenplay-playwright-js web module', () => {
             expect(await actor.asks(
                 Element.toBe.visible(page.locator('h3'), { hasText: 'this does not exist', timeout: 1000 }),
             )).toBe(true);
-        } catch (error) {
+        } catch {
             visibleRes = true;
         }
         expect(visibleRes).toBeTruthy();
@@ -234,7 +234,7 @@ test.describe('Testing screenplay-playwright-js web module', () => {
             expect(await actor.asks(
                 Element.notToBe.visible(page.locator('h3'), { hasText: 'Data Tables', timeout: 1000 }),
             )).toBe(true);
-        } catch (error) {
+        } catch {
             notVisibleRes = true;
         }
         expect(notVisibleRes).toBeTruthy();
@@ -266,7 +266,7 @@ test.describe('Testing screenplay-playwright-js web module', () => {
             expect(await actor.asks(
                 Element.toBe.enabled(page.locator(DISABLED_ELEMENT), { timeout: 1000 }),
             )).toBe(true);
-        } catch (error) {
+        } catch {
             enabledRes = true;
         }
         expect(enabledRes).toBeTruthy();
@@ -280,7 +280,7 @@ test.describe('Testing screenplay-playwright-js web module', () => {
             expect(await actor.asks(
                 Element.notToBe.enabled(page.locator(ENABLED_ELEMENT), { timeout: 1000 }),
             )).toBe(true);
-        } catch (error) {
+        } catch {
             notEnabledRes = true;
         }
         expect(notEnabledRes).toBeTruthy();
