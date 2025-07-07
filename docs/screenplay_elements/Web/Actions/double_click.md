@@ -12,7 +12,7 @@ The `DoubleClick` class is an action class in the Screenplay pattern designed fo
     - [Methods](#methods)
       - [performAs](#performas)
       - [on](#on)
-      - [Double Click Options](#double-click-options)
+        - [Double Click Options](#double-click-options)
       - [inFrame](#inframe)
       - [withAbilityAlias](#withabilityalias)
       - [orSkipOnFail](#orskiponfail)
@@ -44,7 +44,7 @@ public static on(selector: Selector, options?: SelectorOptions): DoubleClick;
   - `options` (optional) - An object that can include both advanced selector lookup options (e.g., Playwright locator options) and double click options (see below).
 - **Returns:** `DoubleClick` - Returns a new `DoubleClick` instance.
 
-#### Double Click Options
+##### Double Click Options
 
 The `options` parameter is a combination of:
 - **SelectorOptions**: Options for locating the element (e.g., Playwright locator options like `hasText`, `has`, etc.).

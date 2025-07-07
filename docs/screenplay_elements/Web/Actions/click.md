@@ -12,7 +12,7 @@ The `Click` class is an action class in the Screenplay pattern designed for use 
     - [Methods](#methods)
       - [performAs](#performas)
       - [on](#on)
-      - [Click Options](#click-options)
+        - [Click Options](#click-options)
       - [inFrame](#inframe)
       - [withAbilityAlias](#withabilityalias)
       - [orSkipOnFail](#orskiponfail)
@@ -40,11 +40,11 @@ public static on(selector: Selector, options?: SelectorOptions & ClickOptions): 
 
 - **Description:** Creates a new instance of the `Click` class specifically for clicking on an element specified by a selector.
 - **Parameters:**
-  - `selector` - The Selector (can be a string or a Playwright Locator).
+  - `selector` - The Selector.
   - `options` (optional) - An object that can include both advanced selector lookup options (e.g., Playwright locator options) and click options (see below).
 - **Returns:** `Click` - Returns a new `Click` instance.
 
-#### Click Options
+##### Click Options
 
 The `options` parameter is a combination of:
 - **SelectorOptions**: Options for locating the element (e.g., Playwright locator options like `hasText`, `has`, etc.).
