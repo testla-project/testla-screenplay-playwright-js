@@ -334,6 +334,7 @@ ul {
     font-size: 12px;
     margin-bottom: 2px;
 }
+
 .tooltip {
     position: absolute;
     background: #272c32;
@@ -347,4 +348,21 @@ ul {
     word-break: break-word;
     overflow-wrap: break-word;
     max-width: min(990px, 80%);
+}
+
+.inverted-color {
+    filter: invert(1);
+}
+
+.valign-center {
+    display: inline-flex;
+    align-items: center;
+}
+
+.gap {
+    gap: .25em; /* or any desired spacing */
+}
+
+.pointer {
+    cursor: pointer;
 }

@@ -17,9 +17,9 @@ const reporter = {
     getStatusIcon: (status) => {
         switch (status) {
             case 'skipped':
-                return '<img src="files/icons/skip-right-line.svg" alt="Skipped" class="status-icon" style="filter: invert(1)" />';
+                return '<img src="files/icons/skip-right-line.svg" alt="Skipped" class="status-icon inverted-color" />';
             case 'interrupted':
-                return '<img src="files/icons/pause-line.svg" alt="Interrupted" class="status-icon" style="filter: invert(1)" />';
+                return '<img src="files/icons/pause-line.svg" alt="Interrupted" class="status-icon inverted-color" />';
             case 'flaky':
                 return '<img src="files/icons/caution.png" alt="Flaky" class="status-icon" />';
             case 'passed':
@@ -196,19 +196,37 @@ const reporter = {
         return listItem;
     },
     getParamValue: (value) => {
-        let attr = 'text';
+        let attr = 'html';
         let displayValue = typeof value === 'string' ? `"${value}"` : value;
         if (typeof value === 'object' || Array.isArray(value) || (typeof value === 'string' && value.length > MAX_STRING_LENGTH_BEFORE_TOOLTIP)) {
             attr = 'children';
+            const copyIcon = reporter.createElement('span', {
+                className: 'copy-icon inverted-color pointer',
+                html: '<img src="files/icons/copy.png" height="14" title="Copy to clipboard" alt="Copy to clipboard ->">',
+                title: 'Copy to clipboard',
+                onclick: () => {
+                    navigator.clipboard.writeText(
+                        typeof value === 'object' || Array.isArray(value)
+                        ? JSON.stringify(value, undefined, 2)
+                        : value
+                    )
+                },
+            });
             if (typeof value === 'object' || Array.isArray(value)) {
                 displayValue = [reporter.createElement('span', {
+                    className: 'valign-center gap',
                     tooltip: JSON.stringify(value, undefined, 2),
-                    text: '▶ [object]',
+                    children: [copyIcon, reporter.createElement('span', {
+                        text: `${JSON.stringify(value).substring(0, MAX_STRING_LENGTH_BEFORE_TOOLTIP)}...`,
+                    })],
                 })];
             } else if (typeof value === 'string') {
                 displayValue = [reporter.createElement('span', {
+                    className: 'valign-center gap',
                     tooltip: value,
-                    text: `▶  ${value.substring(0, MAX_STRING_LENGTH_BEFORE_TOOLTIP)}...`,
+                    children: [copyIcon, reporter.createElement('span', {
+                        text: `${value.substring(0, MAX_STRING_LENGTH_BEFORE_TOOLTIP)}...`,
+                    })],
                 })];
             }
         }
@@ -231,6 +249,7 @@ const reporter = {
                 );
             });
             parts.push(reporter.createElement('div', {
+                className: 'valign-center',
                 children: [
                     reporter.createElement('span', { text: '(' }),
                     ...paramList,

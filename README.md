@@ -1,4 +1,7 @@
-# Testla Screenplay-Playwright
+<h1 style="display: flex; align-items: center;">
+  <img src="./docs/logo-96x96.png" alt="Testla Logo" width="96" height="96">
+  Testla Screenplay-Playwright
+</h1>
 
 [![tests](https://github.com/testla-project/testla-screenplay-playwright-js/actions/workflows/execute_tests.yaml/badge.svg?branch=main)](https://github.com/testla-project/testla-screenplay-playwright-js/actions/workflows/execute_tests.yaml)
 [![NPM Version](https://badge.fury.io/js/@testla%2Fscreenplay-playwright.svg)](https://badge.fury.io/js/@testla%2Fscreenplay-playwright)
@@ -18,7 +21,13 @@ In order to use testla you need to [install](https://playwright.dev/docs/intro) 
 
 ## Installation
 
-Get started by installing Testla Screenplay for Playwright using npm. 
+The easiest way to get started is to use our kickstart CLI tool which you can find [here](https://www.npmjs.com/package/@testla/create-screenplay?activeTab=readme). It will also take care of the installation and optimal configuration of Playwright (see prerequisites).
+
+```bash
+npm init @testla/screenplay
+```
+
+If you prefer to do the setup manually you may want to start by installing Testla Screenplay for Playwright using npm.
 
 ```bash
 npm install --save-dev @testla/screenplay-playwright
