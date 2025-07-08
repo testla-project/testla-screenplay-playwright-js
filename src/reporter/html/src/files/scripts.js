@@ -202,7 +202,7 @@ const reporter = {
             attr = 'children';
             const copyIcon = reporter.createElement('span', {
                 className: 'copy-icon inverted-color pointer',
-                html: '<img src="files/icons/copy.png" height="14" title="Copy to clipboard" alt="Copy to clipboard ->">',
+                html: '<img src="files/icons/copy.png" height="14" title="Click to copy full value to clipboard" alt="">',
                 title: 'Copy to clipboard',
                 onclick: () => {
                     navigator.clipboard.writeText(
