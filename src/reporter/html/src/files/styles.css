@@ -359,10 +359,15 @@ ul {
     align-items: center;
 }
 
-.gap {
-    gap: .25em; /* or any desired spacing */
+.pad-right {
+    padding-right: 0.25em;
 }
 
-.pointer {
+.copy-value:hover {
+    background-color: #30363d;
     cursor: pointer;
+}
+
+.actor {
+    white-space: nowrap;
 }

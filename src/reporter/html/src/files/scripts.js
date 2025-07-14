@@ -85,6 +85,9 @@ const reporter = {
             if (options.className) {
                 el.className = options.className;
             }
+            if (options.title) {
+                el.title = options.title;
+            }
             if (options.text) {
                 el.innerText = options.text;
             }
@@ -200,37 +203,30 @@ const reporter = {
         let displayValue = typeof value === 'string' ? `"${value}"` : value;
         if (typeof value === 'object' || Array.isArray(value) || (typeof value === 'string' && value.length > MAX_STRING_LENGTH_BEFORE_TOOLTIP)) {
             attr = 'children';
-            const copyIcon = reporter.createElement('span', {
-                className: 'copy-icon inverted-color pointer',
-                html: '<img src="files/icons/copy.png" height="14" title="Click to copy full value to clipboard" alt="">',
-                title: 'Copy to clipboard',
-                onclick: () => {
-                    navigator.clipboard.writeText(
-                        typeof value === 'object' || Array.isArray(value)
-                        ? JSON.stringify(value, undefined, 2)
-                        : value
-                    )
-                },
-            });
             if (typeof value === 'object' || Array.isArray(value)) {
                 displayValue = [reporter.createElement('span', {
-                    className: 'valign-center gap',
                     tooltip: JSON.stringify(value, undefined, 2),
-                    children: [copyIcon, reporter.createElement('span', {
-                        text: `${JSON.stringify(value).substring(0, MAX_STRING_LENGTH_BEFORE_TOOLTIP)}...`,
-                    })],
+                    text: `${JSON.stringify(value).substring(0, MAX_STRING_LENGTH_BEFORE_TOOLTIP)}...`,
                 })];
             } else if (typeof value === 'string') {
                 displayValue = [reporter.createElement('span', {
-                    className: 'valign-center gap',
                     tooltip: value,
-                    children: [copyIcon, reporter.createElement('span', {
-                        text: `${value.substring(0, MAX_STRING_LENGTH_BEFORE_TOOLTIP)}...`,
-                    })],
+                    text: `${value.substring(0, MAX_STRING_LENGTH_BEFORE_TOOLTIP)}...`,
                 })];
             }
         }
-        return { [attr]: displayValue };
+        return {
+            [attr]: displayValue,
+            title: "Click to copy full value to clipboard",
+            className: 'copy-value',
+            onclick: () => {
+                navigator.clipboard.writeText(
+                    typeof value === 'object' || Array.isArray(value)
+                    ? JSON.stringify(value, undefined, 2)
+                    : value
+                )
+            },
+        };
     },
     renderActivityDetails: (details) => details.map((detail, idx) => {
         const parts = [];
@@ -242,7 +238,7 @@ const reporter = {
             const paramList = [];
             Object.entries(detail.parameters || {}).forEach(([, value], innerIdx) => {
                 if (innerIdx > 0) {
-                    paramList.push(reporter.createElement('span', { text: ', ' }));
+                    paramList.push(reporter.createElement('span', { text: ',', className: 'pad-right' }));
                 }
                 paramList.push(
                     reporter.createElement('span', reporter.getParamValue(value)),

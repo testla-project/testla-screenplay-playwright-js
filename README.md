@@ -1,5 +1,5 @@
 <h1 style="display: flex; align-items: center;">
-  <img src="./docs/logo-96x96.png" alt="Testla Logo" width="96" height="96">
+  <img src="./docs/testla-logo.png" alt="Testla Logo" style="height: 32px; margin-right: 10px;">
   Testla Screenplay-Playwright
 </h1>
 
@@ -45,6 +45,7 @@ Testla offers plenty of resources to help you get started with the solution:
 
 ## 📣 Your feedback matters!
 
-Do you find Testla useful? Give it a ⭐ star on GitHub!
+Do you find Testla useful? Give it a ⭐ star on GitHub!<br>
 Found a bug? Need a feature? Raise [an issue](https://github.com/testla-project/testla-screenplay-playwright-js/issues?state=open)
-or submit a pull request.
+or submit a pull request.<br>
+Want to get in direct contact with us? Use our [Discord Community](https://discord.gg/MDRjCH3v).
