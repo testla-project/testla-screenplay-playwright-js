@@ -22,4 +22,10 @@ reporter: [
 ],
 ```
 
+The generated html report will look like follows:
+
+![HTML Report Example](./assets/html-report-sample.png)
+
+![HTML Report Example - Execution Details](./assets/html-report-sample-execution-details.png)
+
 [Back to overview](../guides.md)
