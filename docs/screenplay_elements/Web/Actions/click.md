@@ -12,10 +12,11 @@ The `Click` class is an action class in the Screenplay pattern designed for use 
     - [Methods](#methods)
       - [performAs](#performas)
       - [on](#on)
-        - [Click Options](#click-options)
       - [inFrame](#inframe)
       - [withAbilityAlias](#withabilityalias)
       - [orSkipOnFail](#orskiponfail)
+    - [Options](#options)
+      - [ClickOptions](#clickoptions)
 
 ## Class Overview
 
@@ -41,26 +42,8 @@ public static on(selector: Selector, options?: SelectorOptions & ClickOptions): 
 - **Description:** Creates a new instance of the `Click` class specifically for clicking on an element specified by a selector.
 - **Parameters:**
   - `selector` - The Selector.
-  - `options` (optional) - An object that can include both advanced selector lookup options (e.g., Playwright locator options) and click options (see below).
+  - `options` (optional) - An object that can include both advanced selector lookup options (e.g., Playwright locator options) and click options.
 - **Returns:** `Click` - Returns a new `Click` instance.
-
-##### Click Options
-
-The `options` parameter is a combination of:
-- **SelectorOptions**: Options for locating the element (e.g., Playwright locator options like `hasText`, `has`, etc.).
-- **ClickOptions**: Options for the click action itself (e.g., `force`, `button`, `clickCount`, etc.).
-
-You can combine these options in a single object:
-
-**Example: Combining Locator and Click Options**
-
-```typescript
-await actor.attemptsTo(
-    Click.on(page.locator('button'), { hasText: 'Add Element', force: true })
-);
-```
-
-In this example, `hasText: 'Add Element'` is a locator option, and `force: true` is a click option.
 
 #### inFrame
 
@@ -94,5 +77,24 @@ public get orSkipOnFail(): Click;
 
 - **Description:** Allows to skip an action on fail.
 - **Returns:** `Click` - Returns the current action.
+
+### Options
+
+#### ClickOptions
+
+*Introduced in 1.8.0*
+
+|Option|Mandatory|Type|Default Value|
+|--|--|--|--|
+|force|-|boolean|-|
+|button|-|'left' \| 'right' \| 'middle'|-|
+|clickCount|-|number|-|
+|delay|-|number|-|
+|modifiers|-|Array<'Alt' \| 'Control' \| 'Meta' \| 'Shift'>|-|
+|noWaitAfter|-|boolean|-|
+|position|-|{ x: number; y: number }|-|
+|trial|-|boolean-|
+
+For detailed explainations per option please refer to the Playwright documentation.
 
 [Back to overview](../../screenplay_elements.md)
