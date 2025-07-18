@@ -1,6 +1,7 @@
-<h1 style="display: flex; align-items: center;">
-  <img src="./docs/testla-logo.png" alt="Testla Logo" style="height: 32px; margin-right: 10px;">
+<h1 style="display: flex; align-items: center; gap: 10px;">
+  <img src="./docs/testla-logo.png" alt="Testla Logo" style="height: 32px;">
   Testla Screenplay-Playwright
+  <img src="./src/reporter/html/src/files/icons/playwright-logo.svg" alt="Testla Logo" style="height: 32px;">
 </h1>
 
 [![tests](https://github.com/testla-project/testla-screenplay-playwright-js/actions/workflows/execute_tests.yaml/badge.svg?branch=main)](https://github.com/testla-project/testla-screenplay-playwright-js/actions/workflows/execute_tests.yaml)
