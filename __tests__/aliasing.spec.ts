@@ -40,9 +40,9 @@ test.describe('Testing screenplay-playwright-js ability aliasing', () => {
 
     test('BrowseTheWeb', async ({ actor }) => {
         await actor.attemptsTo(
-            Navigate.to('https://google.de'),
+            Navigate.to('https://google.com'),
         );
-        await expect(BrowseTheWeb.as(actor).getPage()).toHaveURL('https://www.google.de');
+        await expect(BrowseTheWeb.as(actor).getPage()).toHaveURL('https://www.google.com');
 
         await actor.attemptsTo(
             Navigate.to('https://google.com').withAbilityAlias(ALIAS),

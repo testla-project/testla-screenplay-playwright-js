@@ -10,7 +10,6 @@ There is no need to wait for anything prior to performing a task.
 
 You will learn:
 - How to write the first test
-- How to write the first test
 - How to perform tasks and actions
 - How to use questions
 

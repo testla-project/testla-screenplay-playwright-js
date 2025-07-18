@@ -26,7 +26,7 @@ async function verifyBodies(actor: Actor, response: ResponseType, expectedBody: 
         await actor.asks(
             Response.has.body(response, {}),
         );
-    } catch (error) {
+    } catch {
         bodyRes = true;
     }
 
@@ -38,7 +38,7 @@ async function verifyBodies(actor: Actor, response: ResponseType, expectedBody: 
         await actor.asks(
             Response.hasNot.body(response, expectedBody),
         );
-    } catch (error) {
+    } catch {
         notBodyRes = true;
     }
 
@@ -190,7 +190,7 @@ test.describe('Testing screenplay-playwright-js api module', () => {
             await actor.asks(
                 Response.has.statusCode(response, 404),
             );
-        } catch (error) {
+        } catch {
             statusRes = true;
         }
         expect(statusRes).toBeTruthy();
@@ -200,7 +200,7 @@ test.describe('Testing screenplay-playwright-js api module', () => {
             await actor.asks(
                 Response.hasNot.statusCode(response, 200),
             );
-        } catch (error) {
+        } catch {
             notStatusRes = true;
         }
         expect(notStatusRes).toBeTruthy();
@@ -216,12 +216,18 @@ test.describe('Testing screenplay-playwright-js api module', () => {
         );
 
         const expectedBodyJSON = {
-            'post code': '90210',
             country: 'United States',
             'country abbreviation': 'US',
-            places: [{
-                'place name': 'Beverly Hills', longitude: '-118.4065', state: 'California', 'state abbreviation': 'CA', latitude: '34.0901',
-            }],
+            'post code': '90210',
+            places: [
+                {
+                    'place name': 'Beverly Hills',
+                    longitude: '-118.4065',
+                    latitude: '34.0901',
+                    state: 'California',
+                    'state abbreviation': 'CA',
+                },
+            ],
         };
 
         await verifyBodies(actor, responseJSON, expectedBodyJSON);
@@ -260,7 +266,7 @@ test.describe('Testing screenplay-playwright-js api module', () => {
             await actor.asks(
                 Response.has.headers(response, { '???': '???' }),
             );
-        } catch (error) {
+        } catch {
             headersRes = true;
         }
         expect(headersRes).toBeTruthy();
@@ -270,7 +276,7 @@ test.describe('Testing screenplay-playwright-js api module', () => {
             await actor.asks(
                 Response.hasNot.headers(response, expectedHeaders),
             );
-        } catch (error) {
+        } catch {
             notHeadersRes = true;
         }
         expect(notHeadersRes).toBeTruthy();
@@ -299,7 +305,7 @@ test.describe('Testing screenplay-playwright-js api module', () => {
             await actor.asks(
                 Response.has.beenReceivedWithin(response, 1),
             );
-        } catch (error) {
+        } catch {
             receivedRes = true;
         }
         expect(receivedRes).toBeTruthy();
@@ -309,7 +315,7 @@ test.describe('Testing screenplay-playwright-js api module', () => {
             await actor.asks(
                 Response.hasNot.beenReceivedWithin(response, expectedReceived),
             );
-        } catch (error) {
+        } catch {
             notReceivedRes = true;
         }
         expect(notReceivedRes).toBeTruthy();

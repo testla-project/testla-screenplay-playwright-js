@@ -1,0 +1,33 @@
+<html>
+    <head>
+        <title>Screenplay Report</title>
+        <meta charset="UTF-8">
+        <link rel="shortcut icon" href="./files/icons/favicon.ico" />
+        <link rel="stylesheet" href="./files/styles.css" />
+        <script src="./files/report.js"></script>
+        <script src="./files/scripts.js"></script>
+    </head>
+    <body>
+        <div id="container">
+            <div id="status-bar">
+                <div id="all" class="count-container active" onClick="reporter.displayFiltered('all')">All<span class="count" id="all-count" /></div>
+                <div id="passed" class="count-container" onClick="reporter.displayFiltered('passed')"><span class="icon"><script>document.write(reporter.getStatusIcon('passed'))</script></span>Passed<span class="count" id="passed-count" /></div>
+                <div id="failed" class="count-container" onClick="reporter.displayFiltered('failed')"><span class="icon"><script>document.write(reporter.getStatusIcon('failed'))</script></span>Failed<span class="count" id="failed-count" /></div>
+                <div id="flaky" class="count-container" onClick="reporter.displayFiltered('flaky')"><span class="icon"><script>document.write(reporter.getStatusIcon('flaky'))</script></span>Flaky<span class="count" id="flaky-count" /></div>
+                <div id="skipped" class="count-container" onClick="reporter.displayFiltered('skipped')"><span class="icon"><script>document.write(reporter.getStatusIcon('skipped'))</script></span>Skipped<span class="count" id="skipped-count" /></div>
+                <div id="interrupted" class="count-container" onClick="reporter.displayFiltered('interrupted')"><span class="icon"><script>document.write(reporter.getStatusIcon('interrupted'))</script></span>Interrupted<span class="count" id="interrupted-count" /></div>
+            </div>
+            <div id="report"></div>
+        </div>
+        <div id="flyin-background" class="collapsible collapsed" onclick="reporter.setFylinOpen(false);"></div>
+        <div id="flyin" class="collapsible collapsed">
+            <div class="inner">
+                <header onclick="reporter.setFylinOpen(false);">
+                    &times; CLOSE EXECUTION DETAILS
+                </header>
+                <div id="flyin-content"></div>
+            </div>
+        </div>
+        <script>reporter.init(report)</script>
+    </body>
+</html>
