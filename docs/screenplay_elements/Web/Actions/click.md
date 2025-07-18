@@ -15,6 +15,8 @@ The `Click` class is an action class in the Screenplay pattern designed for use 
       - [inFrame](#inframe)
       - [withAbilityAlias](#withabilityalias)
       - [orSkipOnFail](#orskiponfail)
+    - [Options](#options)
+      - [ClickOptions](#clickoptions)
 
 ## Class Overview
 
@@ -34,13 +36,13 @@ public async performAs(actor: Actor): Promise<void>;
 #### on
 
 ```typescript
-public static on(selector: Selector, options?: SelectorOptions): Click;
+public static on(selector: Selector, options?: SelectorOptions & ClickOptions): Click;
 ```
 
 - **Description:** Creates a new instance of the `Click` class specifically for clicking on an element specified by a selector.
 - **Parameters:**
   - `selector` - The Selector.
-  - `options` (optional) - Advanced selector lookup options.
+  - `options` (optional) - An object that can include both advanced selector lookup options (e.g., Playwright locator options) and click options.
 - **Returns:** `Click` - Returns a new `Click` instance.
 
 #### inFrame
@@ -75,5 +77,24 @@ public get orSkipOnFail(): Click;
 
 - **Description:** Allows to skip an action on fail.
 - **Returns:** `Click` - Returns the current action.
+
+### Options
+
+#### ClickOptions
+
+*Introduced in 1.8.0*
+
+|Option|Mandatory|Type|Default Value|
+|--|--|--|--|
+|force|-|boolean|-|
+|button|-|'left' \| 'right' \| 'middle'|-|
+|clickCount|-|number|-|
+|delay|-|number|-|
+|modifiers|-|Array<'Alt' \| 'Control' \| 'Meta' \| 'Shift'>|-|
+|noWaitAfter|-|boolean|-|
+|position|-|{ x: number; y: number }|-|
+|trial|-|boolean-|
+
+For detailed explainations per option please refer to the Playwright documentation.
 
 [Back to overview](../../screenplay_elements.md)

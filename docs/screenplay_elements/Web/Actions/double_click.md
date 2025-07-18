@@ -15,6 +15,8 @@ The `DoubleClick` class is an action class in the Screenplay pattern designed fo
       - [inFrame](#inframe)
       - [withAbilityAlias](#withabilityalias)
       - [orSkipOnFail](#orskiponfail)
+    - [Options](#options)
+      - [DoubleClickOptions](#doubleclickoptions)
 
 ## Class Overview
 
@@ -34,13 +36,13 @@ public async performAs(actor: Actor): Promise<void>;
 #### on
 
 ```typescript
-public static on(selector: Selector, options?: SelectorOptions): DoubleClick;
+public static on(selector: Selector, options?: SelectorOptions & DoubleClickOptions): DoubleClick;
 ```
 
 - **Description:** Creates a new instance of the `DoubleClick` class specifically for double clicking on an element specified by a selector.
 - **Parameters:**
   - `selector` - The Selector.
-  - `options` (optional) - Advanced selector lookup options.
+  - `options` (optional) - An object that can include both advanced selector lookup options (e.g., Playwright locator options) and double click options.
 - **Returns:** `DoubleClick` - Returns a new `DoubleClick` instance.
 
 #### inFrame
@@ -75,5 +77,23 @@ public get orSkipOnFail(): DoubleClick;
 
 - **Description:** Allows to skip an action on fail.
 - **Returns:** `DoubleClick` - Returns the current action.
+
+### Options
+
+#### DoubleClickOptions
+
+*Introduced in 1.8.0*
+
+|Option|Mandatory|Type|Default Value|
+|--|--|--|--|
+|force|-|boolean|-|
+|button|-|'left' \| 'right' \| 'middle'|-|
+|delay|-|number|-|
+|modifiers|-|Array<'Alt' \| 'Control' \| 'Meta' \| 'Shift'>|-|
+|noWaitAfter|-|boolean|-|
+|position|-|{ x: number; y: number }|-|
+|trial|-|boolean-|
+
+For detailed explainations per option please refer to the Playwright documentation.
 
 [Back to overview](../../screenplay_elements.md)
