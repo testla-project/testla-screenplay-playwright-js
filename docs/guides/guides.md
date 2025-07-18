@@ -20,6 +20,8 @@
 - **Logging**
   - [Logging](./logging/logging.md) - How to enable debug logs
 - **Reporter**
-  - [Logging](./reporter/text.md) - Screenplay report in text format
+  - [JSON Reporter](./reporter/json.md) - Screenplay report in JSON format
+  - [Text Reporter](./reporter/text.md) - Screenplay report in text format
+  - [HTML Reporter](./reporter/html.md) - Screenplay report in HTML format
 
 [Back to overview](../../README.md)

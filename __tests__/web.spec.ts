@@ -1,4 +1,3 @@
-/* eslint-disable no-restricted-syntax */
 import {
     BrowserContext, Cookie,
     test as base,
@@ -45,9 +44,9 @@ test.describe('Testing screenplay-playwright-js web module', () => {
     test('Navigate', async ({ actor }) => {
         await test.step('Navigate to playwright page', async () => {
             await actor.attemptsTo(
-                Navigate.to('https://google.de'),
+                Navigate.to('https://google.com'),
             );
-            await expect(BrowseTheWeb.as(actor).getPage()).toHaveURL('https://www.google.de');
+            await expect(BrowseTheWeb.as(actor).getPage()).toHaveURL('https://www.google.com');
         });
     });
 
@@ -316,7 +315,7 @@ test.describe('Testing screenplay-playwright-js web module', () => {
             expect(await actor.asks(
                 Element.toBe.visible('h3', { hasText: 'this does not exist', timeout: 1000 }),
             )).toBe(true);
-        } catch (error) {
+        } catch {
             visibleRes = true;
         }
         expect(visibleRes).toBeTruthy();
@@ -330,7 +329,7 @@ test.describe('Testing screenplay-playwright-js web module', () => {
             expect(await actor.asks(
                 Element.notToBe.visible('h3', { hasText: 'Data Tables', timeout: 1000 }),
             )).toBe(true);
-        } catch (error) {
+        } catch {
             notVisibleRes = true;
         }
         expect(notVisibleRes).toBeTruthy();
@@ -360,7 +359,7 @@ test.describe('Testing screenplay-playwright-js web module', () => {
             expect(await actor.asks(
                 Element.toBe.enabled(DISABLED_ELEMENT, { timeout: 1000 }),
             )).toBe(true);
-        } catch (error) {
+        } catch {
             enabledRes = true;
         }
         expect(enabledRes).toBeTruthy();
@@ -374,7 +373,7 @@ test.describe('Testing screenplay-playwright-js web module', () => {
             expect(await actor.asks(
                 Element.notToBe.enabled(ENABLED_ELEMENT, { timeout: 1000 }),
             )).toBe(true);
-        } catch (error) {
+        } catch {
             notEnabledRes = true;
         }
         expect(notEnabledRes).toBeTruthy();
@@ -395,7 +394,7 @@ test.describe('Testing screenplay-playwright-js web module', () => {
             expect(await actor.asks(
                 Element.toHave.text('h3', 'this text does not exist', { timeout: 1000 }),
             )).toBe(true);
-        } catch (error) {
+        } catch {
             textRes = true;
         }
         expect(textRes).toBeTruthy();
@@ -409,7 +408,7 @@ test.describe('Testing screenplay-playwright-js web module', () => {
             expect(await actor.asks(
                 Element.notToHave.text('h3', ['Data Tables'], { timeout: 1000 }),
             )).toBe(true);
-        } catch (error) {
+        } catch {
             notTextRes = true;
         }
         expect(notTextRes).toBeTruthy();
@@ -436,7 +435,7 @@ test.describe('Testing screenplay-playwright-js web module', () => {
             expect(await actor.asks(
                 Element.toHave.value('[id="username"]', 'this value is wrong', { timeout: 1000 }),
             )).toBe(true);
-        } catch (error) {
+        } catch {
             textRes = true;
         }
         expect(textRes).toBeTruthy();
@@ -450,7 +449,7 @@ test.describe('Testing screenplay-playwright-js web module', () => {
             expect(await actor.asks(
                 Element.notToHave.value('[id="username"]', /test/, { timeout: 1000 }), // RegExp for the string 'test'
             )).toBe(true);
-        } catch (error) {
+        } catch {
             notTextRes = true;
         }
         expect(notTextRes).toBeTruthy();
@@ -471,7 +470,7 @@ test.describe('Testing screenplay-playwright-js web module', () => {
             expect(await actor.asks(
                 Element.toBe.checked('[type="checkbox"]:nth-of-type(1)', { timeout: 1000 }),
             )).toBe(true);
-        } catch (error) {
+        } catch {
             enabledRes = true;
         }
         expect(enabledRes).toBeTruthy();
@@ -485,7 +484,7 @@ test.describe('Testing screenplay-playwright-js web module', () => {
             expect(await actor.asks(
                 Element.notToBe.checked('[type="checkbox"]:nth-of-type(2)', { timeout: 1000 }),
             )).toBe(true);
-        } catch (error) {
+        } catch {
             notEnabledRes = true;
         }
         expect(notEnabledRes).toBeTruthy();
@@ -506,7 +505,7 @@ test.describe('Testing screenplay-playwright-js web module', () => {
             expect(await actor.asks(
                 Element.toHave.count('h3', 2, { timeout: 1000 }),
             )).toBe(true);
-        } catch (error) {
+        } catch {
             enabledRes = true;
         }
         expect(enabledRes).toBeTruthy();
@@ -520,7 +519,7 @@ test.describe('Testing screenplay-playwright-js web module', () => {
             expect(await actor.asks(
                 Element.notToHave.count('h3', 1, { timeout: 1000 }),
             )).toBe(true);
-        } catch (error) {
+        } catch {
             notEnabledRes = true;
         }
         expect(notEnabledRes).toBeTruthy();
@@ -542,7 +541,7 @@ test.describe('Testing screenplay-playwright-js web module', () => {
             expect(await actor.asks(
                 Element.toHave.minCount('h3', 2, { timeout: 1000 }),
             )).toBe(true);
-        } catch (error) {
+        } catch {
             enabledRes = true;
         }
         expect(enabledRes).toBeTruthy();
@@ -556,7 +555,7 @@ test.describe('Testing screenplay-playwright-js web module', () => {
             expect(await actor.asks(
                 Element.notToHave.minCount('h3', 1, { timeout: 1000 }),
             )).toBe(true);
-        } catch (error) {
+        } catch {
             notEnabledRes = true;
         }
         expect(notEnabledRes).toBeTruthy();
@@ -625,7 +624,7 @@ test.describe('Testing screenplay-playwright-js web module', () => {
             expect(await actor.asks(
                 Page.toHave.url(URL_B, { timeout: 1000 }),
             )).toBe(true);
-        } catch (error) {
+        } catch {
             urlRes = true;
         }
         expect(urlRes).toBeTruthy();
@@ -639,7 +638,7 @@ test.describe('Testing screenplay-playwright-js web module', () => {
             expect(await actor.asks(
                 Page.notToHave.url(URL_A, { timeout: 1000 }),
             )).toBe(true);
-        } catch (error) {
+        } catch {
             notUrlRes = true;
         }
         expect(notUrlRes).toBeTruthy();

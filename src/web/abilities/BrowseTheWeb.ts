@@ -65,6 +65,7 @@ export class BrowseTheWeb extends Ability {
      * @param proceedOptions Options to proceed based on types string, function or Locator
      * @returns Result of the proceeding function
      */
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
     private static async typeBasedProceeding(selector: Selector, proceedOptions: { str: Function; fn: Function; loc: Function }) {
         if (typeof selector === 'string') {
             return proceedOptions.str();
@@ -96,6 +97,7 @@ export class BrowseTheWeb extends Ability {
                 // if selector is a string, need to find it using locator.locator()
                 str: () => resolvedLocator.locator(subSelector[0] as string, { hasText: subSelector[1]?.hasText }),
                 // in case of selector is a function we will propagate the current base (which i.e. is page) to it so that we can use build constructs like page.getByRole
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
                 fn: () => (subSelector[0] as Function)(base),
                 // if it is already a Playwright Locator use it directly.
                 loc: () => BrowseTheWeb.filterLocator(resolvedLocator, subSelector[0] as Locator, subSelector[1]?.hasText),
@@ -149,6 +151,7 @@ export class BrowseTheWeb extends Ability {
             // if selector is a string, need to find it using page.locator()
             str: () => base.locator(selector as string, { hasText: options?.hasText }),
             // in case of selector is a function we will propagate the current base (which i.e. is page) to it so that we can use build constructs like page.getByRole
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
             fn: () => (selector as Function)(base),
             // if it is already a Playwright Locator use it directly.
             loc: () => BrowseTheWeb.filterLocator(selector as Locator, undefined, options?.hasText),

@@ -21,14 +21,14 @@ const test = base.extend<MyActors>({
 test.describe('Testing screenplay-playwright-js failure handling', () => {
     test('orSkipOnFail', async ({ actor }) => {
         await actor.attemptsTo(
-            Navigate.to('https://google.de'),
+            Navigate.to('https://google.com'),
             Click.on('#not-existing-element', { timeout: 1000 }).orSkipOnFail,
         );
     });
 
     test('failAsFalse', async ({ actor }) => {
         await actor.attemptsTo(
-            Navigate.to('https://google.de'),
+            Navigate.to('https://google.com'),
         );
 
         const shallBeFalse = await actor.asks(

@@ -7,35 +7,40 @@ const readline = require('readline').createInterface({
 });
 const package = require('../package.json');
 
-const confirmToProceed = (message, callback) => {
+const confirmToProceed = (message, callback, stopOnNo = true) => {
     readline.question(`${message} (y/n): `, (answer) => {
-        if (answer.toLowerCase() !== 'y') {
+        const answeredWith = answer.toLowerCase();
+
+        if (answeredWith !== 'y' && stopOnNo) {
             readline.close();
             console.log('Cancelled release');
             return;
         }
 
-        callback();
+        callback(answeredWith === 'y');
     });
 };
 
 console.log(`Current package version: ${package.version}`);
 
 confirmToProceed('Is the set version correct for this release?', () => {
-    confirmToProceed('Did all tests pass?', () => {
-        const releasePackage = { ...package };
-        delete releasePackage.scripts;
+    confirmToProceed('Is this a beta?', (isBeta) => {
+        confirmToProceed('Did all tests pass?', () => {
+            const releasePackage = { ...package };
+            delete releasePackage.scripts;
 
-        try {
-            fs.writeFileSync('lib/package.json', JSON.stringify(releasePackage));
-            fs.copyFileSync('README.md', 'lib/README.md');
+            try {
+                fs.writeFileSync('lib/package.json', JSON.stringify(releasePackage));
+                fs.copyFileSync('README.md', 'lib/README.md');
 
-            require('child_process').execSync('npm publish ./lib');
-        } catch (err) {
-            console.error(err);
-        }
+                execSync(`npm publish ./lib${isBeta ? ' --tag beta' : ''}`);
+            } catch (err) {
+                console.error(err);
+                throw new Error('Failed to publish package');
+            }
 
-        readline.close();
-        console.log('Package released');
-    });
+            readline.close();
+            console.log('Package released');
+        });
+    }, false);
 });
