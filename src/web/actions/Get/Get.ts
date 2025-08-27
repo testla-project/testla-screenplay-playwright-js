@@ -1,24 +1,21 @@
 import { Actor } from '@testla/screenplay';
-import { Page } from '@playwright/test';
-import { BrowseTheWeb } from '../abilities/BrowseTheWeb';
-import { Selector, SelectorOptions } from '../types';
-import { FrameEnabledAction } from '../templates/FrameEnabledAction';
+import { FrameEnabledAction } from '../../templates/FrameEnabledAction';
+import { GetCookiesStrategy } from './strategies/GetCookiesStrategy';
+import { Selector, SelectorOptions } from '../../types';
+import { GetElementsStrategy } from './strategies/GetElementsStrategy';
+import { GetStorageItemStrategy } from './strategies/GetStorageItemStrategy';
 
-type Mode = 'cookies' | 'sessionStorage' | 'localStorage' | 'element' | 'elements';
+type Strategy = GetCookiesStrategy | GetElementsStrategy | GetStorageItemStrategy;
 
 /**
  * Action Class. Get either Cookies, Session Storage Items, Local Storage Items or Elements from the Browser.
  */
 export class Get extends FrameEnabledAction {
-    private mode: Mode;
+    private strategy: Strategy;
 
-    private payload: any;
-
-    private constructor(mode: Mode, payload: any) {
+    private constructor(strategy: Strategy) {
         super();
-
-        this.mode = mode;
-        this.payload = payload;
+        this.strategy = strategy;
     }
 
     /**
@@ -27,32 +24,8 @@ export class Get extends FrameEnabledAction {
      * @param {Actor} actor Actor performing this action
      * @return {any} Returns cookies, session storage items, local storage items or Locator(s)
      */
-    public async performAs(actor: Actor): Promise<any> {
-        const {
-            abilityAlias, payload, mode, frameTree,
-        } = this;
-        const page = BrowseTheWeb.as(actor, abilityAlias).getPage();
-
-        if (mode === 'cookies') {
-            return page.context().cookies(payload);
-        }
-        if (mode === 'sessionStorage' || mode === 'localStorage') {
-            return Get.getStorageItem(page, mode, payload);
-        }
-        // fallback: mode === 'element'
-        const locator = (await BrowseTheWeb.as(actor, abilityAlias).resolveSelectorToLocator(payload.selector, { ...payload.options, evaluateVisible: false }, frameTree)).filter();
-        return payload.singular === false ? locator.all() : locator.first();
-    }
-
-    private static async getStorageItem(page: Page, storageType: 'sessionStorage' | 'localStorage', key: string): Promise<any> {
-        return page.evaluate(({ k, t }) => {
-            const storage = t === 'sessionStorage' ? sessionStorage : localStorage;
-            const value = storage.getItem(k);
-            if (value) {
-                return Promise.resolve(JSON.parse(value));
-            }
-            return Promise.resolve(undefined);
-        }, { k: key, t: storageType });
+    public async performAs(actor: Actor) {
+        return this.strategy.performAs(actor, this.abilityAlias, this.frameTree);
     }
 
     /**
@@ -62,7 +35,8 @@ export class Get extends FrameEnabledAction {
      * @return {Get} new Get instance for cookies
      */
     public static cookies(urls?: string | string[] | undefined): Get {
-        const instance = new Get('cookies', urls);
+        const strategy = new GetCookiesStrategy(urls);
+        const instance = new Get(strategy);
         instance.setCallStackInitializeCalledWith({ urls });
         return instance;
     }
@@ -74,7 +48,8 @@ export class Get extends FrameEnabledAction {
      * @return {Get} new Get instance for session storage
      */
     public static sessionStorageItem(key: string): Get {
-        const instance = new Get('sessionStorage', key);
+        const strategy = new GetStorageItemStrategy('sessionStorage', key);
+        const instance = new Get(strategy);
         instance.setCallStackInitializeCalledWith({ key });
         return instance;
     }
@@ -86,7 +61,8 @@ export class Get extends FrameEnabledAction {
      * @return {Get} new Get instance for local storage
      */
     public static localStorageItem(key: string): Get {
-        const instance = new Get('localStorage', key);
+        const strategy = new GetStorageItemStrategy('localStorage', key);
+        const instance = new Get(strategy);
         instance.setCallStackInitializeCalledWith({ key });
         return instance;
     }
@@ -99,7 +75,8 @@ export class Get extends FrameEnabledAction {
      * @returns new Get instance
      */
     public static element(selector: Selector, options?: SelectorOptions): Get {
-        const instance = new Get('element', { selector, options });
+        const strategy = new GetElementsStrategy(selector, options, true);
+        const instance = new Get(strategy);
         instance.setCallStackInitializeCalledWith({ selector, options });
         return instance;
     }
@@ -112,7 +89,8 @@ export class Get extends FrameEnabledAction {
      * @returns new Get instance
      */
     public static elements(selector: Selector, options?: SelectorOptions): Get {
-        const instance = new Get('element', { selector, options, singular: false });
+        const strategy = new GetElementsStrategy(selector, options, false);
+        const instance = new Get(strategy);
         instance.setCallStackInitializeCalledWith({ selector, options });
         return instance;
     }
