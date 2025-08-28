@@ -35,9 +35,7 @@ export class Element extends FrameEnabledQuestion {
         if (!this.strategy) {
             throw new Error('No strategy defined to resolve Element question');
         }
-        const {
-            checkMode, frameTree, abilityAlias,
-        } = this;
+        const { checkMode, frameTree, abilityAlias } = this;
         await this.strategy.execute({ actor, abilityAlias, frameTree, checkMode });
         return Promise.resolve(true); // if the ability method is not the expected result there will be an exception
     }

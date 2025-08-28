@@ -1,7 +1,7 @@
 import { Actor, Question } from '@testla/screenplay';
 import { expect } from '@playwright/test';
-import { BrowseTheWeb } from '../abilities/BrowseTheWeb';
-import { CheckMode } from '../../types';
+import { BrowseTheWeb } from '../../abilities/BrowseTheWeb';
+import { CheckMode } from '../../../types';
 
 type PageOptions = {
     timeout?: number;
@@ -29,9 +29,7 @@ export class Page extends Question<boolean> {
      * @return {boolean} if .is was called -> positive check, if .not was called -> negative check
      */
     public async answeredBy(actor: Actor): Promise<boolean> {
-        const {
-            urlDef = '', checkMode, options, abilityAlias,
-        } = this;
+        const { urlDef = '', checkMode, options, abilityAlias } = this;
 
         const page = await BrowseTheWeb.as(actor, abilityAlias).getPage();
 
