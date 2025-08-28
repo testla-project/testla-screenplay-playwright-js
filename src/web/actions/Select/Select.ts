@@ -1,7 +1,7 @@
 import { Actor } from '@testla/screenplay';
-import { BrowseTheWeb } from '../abilities/BrowseTheWeb';
-import { Selector, SelectorOptions } from '../types';
-import { FrameEnabledAction } from '../templates/FrameEnabledAction';
+import { BrowseTheWeb } from '../../abilities/BrowseTheWeb';
+import { Selector, SelectorOptions } from '../../types';
+import { FrameEnabledAction } from '../../templates/FrameEnabledAction';
 /**
  * Action Class. Set the value of a Selector of type select to the given option.
  */
