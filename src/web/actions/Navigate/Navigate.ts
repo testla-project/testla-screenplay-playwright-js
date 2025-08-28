@@ -1,6 +1,6 @@
 import { Action, Actor } from '@testla/screenplay';
 import { Response } from '@playwright/test';
-import { BrowseTheWeb } from '../abilities/BrowseTheWeb';
+import { BrowseTheWeb } from '../../abilities/BrowseTheWeb';
 
 /**
  * Action Class. Navigate to a URL using the specified url string.
