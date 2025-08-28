@@ -1,6 +1,6 @@
 import { Cookie } from '@playwright/test';
 import { Action, Actor } from '@testla/screenplay';
-import { BrowseTheWeb } from '../abilities/BrowseTheWeb';
+import { BrowseTheWeb } from '../../abilities/BrowseTheWeb';
 
 /**
  * Action Class. Add Cookies to the Browser.
