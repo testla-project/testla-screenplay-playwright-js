@@ -1,7 +1,7 @@
-import { Actor } from "@testla/screenplay";
 import { BrowseTheWeb } from "../../../abilities/BrowseTheWeb";
 import { Locator } from "@playwright/test";
 import { Selector, SelectorOptions } from "../../../types";
+import { ExecuteParams } from "../types";
 
 export class GetElementsStrategy {
     private selector: Selector;
@@ -16,7 +16,7 @@ export class GetElementsStrategy {
         this.singular = singular;
     }
 
-    public async performAs(actor: Actor, abilityAlias?: string, frameTree?: string[]): Promise<Locator | Locator[]> {
+    public async execute({ actor, abilityAlias, frameTree }: ExecuteParams): Promise<Locator | Locator[]> {
         const locator = (await BrowseTheWeb.as(actor, abilityAlias).resolveSelectorToLocator(this.selector, { ...this.options, evaluateVisible: false }, frameTree)).filter();
         return this.singular === false ? locator.all() : locator.first();
     }

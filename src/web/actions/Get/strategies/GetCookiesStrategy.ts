@@ -1,6 +1,6 @@
-import { Actor } from "@testla/screenplay";
 import { BrowseTheWeb } from "../../../abilities/BrowseTheWeb";
 import { Cookie } from "@playwright/test";
+import { ExecuteParams } from "../types";
 
 type Urls = string | string[] | undefined;
 
@@ -11,7 +11,7 @@ export class GetCookiesStrategy {
         this.urls = urls;
     }
 
-    public async performAs(actor: Actor, abilityAlias?: string): Promise<Cookie[]> {
+    public async execute({ actor, abilityAlias }: ExecuteParams): Promise<Cookie[]> {
         const page = BrowseTheWeb.as(actor, abilityAlias).getPage();
         return page.context().cookies(this.urls);
     }

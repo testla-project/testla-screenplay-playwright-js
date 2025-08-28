@@ -25,7 +25,8 @@ export class Get extends FrameEnabledAction {
      * @return {any} Returns cookies, session storage items, local storage items or Locator(s)
      */
     public async performAs(actor: Actor) {
-        return this.strategy.performAs(actor, this.abilityAlias, this.frameTree);
+        const { frameTree, abilityAlias } = this;
+        return this.strategy.execute({ actor, abilityAlias, frameTree });
     }
 
     /**
