@@ -1,5 +1,5 @@
 import { Actor, Action } from '@testla/screenplay';
-import { BrowseTheWeb } from '../abilities/BrowseTheWeb';
+import { BrowseTheWeb } from '../../abilities/BrowseTheWeb';
 
 export class Reload extends Action {
     public async performAs(actor: Actor): Promise<any> {
