@@ -1,5 +1,5 @@
 import { Action, Actor } from '@testla/screenplay';
-import { BrowseTheWeb } from '../abilities/BrowseTheWeb';
+import { BrowseTheWeb } from '../../abilities/BrowseTheWeb';
 
 /**
  * Action Class. Remove either Session Storage Items or Local Storage Items from the Browser.
