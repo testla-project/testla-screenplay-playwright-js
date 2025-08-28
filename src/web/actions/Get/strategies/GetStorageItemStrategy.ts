@@ -1,6 +1,6 @@
 import { BrowseTheWeb } from "../../../abilities/BrowseTheWeb";
 import { Page } from "@playwright/test";
-import { ExecuteParams } from "../types";
+import { ActionStrategyExecuteParams } from "../../types";
 
 type StorageType = 'sessionStorage' | 'localStorage';
 
@@ -14,7 +14,7 @@ export class GetStorageItemStrategy {
         this.key = key;
     }
 
-    public async execute({ actor, abilityAlias }: ExecuteParams): Promise<any> {
+    public async execute({ actor, abilityAlias }: ActionStrategyExecuteParams): Promise<any> {
         const page = BrowseTheWeb.as(actor, abilityAlias).getPage();
         return GetStorageItemStrategy.getStorageItem(page, this.storageType, this.key);
     }

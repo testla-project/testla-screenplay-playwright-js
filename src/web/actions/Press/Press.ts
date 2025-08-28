@@ -1,22 +1,21 @@
 import { Actor } from '@testla/screenplay';
-import { BrowseTheWeb } from '../abilities/BrowseTheWeb';
-import { Maskable, Selector, SelectorOptions } from '../types';
-import { FrameEnabledAction } from '../templates/FrameEnabledAction';
-import { MASKING_STRING } from '../../constants';
+import { Maskable, Selector, SelectorOptions } from '../../types';
+import { FrameEnabledAction } from '../../templates/FrameEnabledAction';
+import { MASKING_STRING } from '../../../constants';
+import { PressKeyStrategy } from './strategies/PressKeyStrategy';
+import { PressSequentiallyStrategy } from './strategies/PressSequentiallyStrategy';
+
+type Strategy = PressKeyStrategy | PressSequentiallyStrategy;
 
 /**
  * Action Class. Press the specified key on the keyboard.
  */
 export class Press extends FrameEnabledAction {
-    private mode: 'key' | 'sequentially';
+    private strategy: Strategy;
 
-    private payload: any;
-
-    private constructor(mode: 'key' | 'sequentially', payload: any) {
+    private constructor(strategy: Strategy) {
         super();
-
-        this.mode = mode;
-        this.payload = payload;
+        this.strategy = strategy;
     }
 
     /**
@@ -25,17 +24,9 @@ export class Press extends FrameEnabledAction {
      * @param {Actor} actor Actor performing this action
      * @return {void} Returns when the `key` can specify the intended value or a single character to generate the text for.
      */
-    public async performAs(actor: Actor): Promise<void> {
-        const {
-            abilityAlias, payload, frameTree,
-        } = this;
-
-        if (this.mode === 'key') {
-            const page = BrowseTheWeb.as(actor, this.abilityAlias).getPage();
-            return page.keyboard.press(payload.keys);
-        }
-        const locator = await BrowseTheWeb.as(actor, abilityAlias).resolveSelectorToLocator(payload.selector, payload.options, frameTree);
-        return locator.pressSequentially(payload.input);
+    public async performAs(actor: Actor) {
+        const { frameTree, abilityAlias } = this;
+        return this.strategy.execute({ actor, abilityAlias, frameTree });
     }
 
     /**
@@ -45,7 +36,8 @@ export class Press extends FrameEnabledAction {
      * @return {Press} new Press instance
      */
     public static key(keys: string): Press {
-        const instance = new Press('key', { keys });
+        const strategy = new PressKeyStrategy(keys);
+        const instance = new Press(strategy);
         instance.setCallStackInitializeCalledWith({ keys });
         return instance;
     }
@@ -58,7 +50,8 @@ export class Press extends FrameEnabledAction {
      * @return {Press} new Press instance
      */
     public static sequentially(selector: Selector, input: string, options?: SelectorOptions & Maskable): Press {
-        const instance = new Press('sequentially', { selector, input, options });
+        const strategy = new PressSequentiallyStrategy(selector, input, options);
+        const instance = new Press(strategy);
         const inputToLog = options?.maskInLogs ? MASKING_STRING : input;
         instance.setCallStackInitializeCalledWith({ selector, input: inputToLog, options });
         return instance;

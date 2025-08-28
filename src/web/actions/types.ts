@@ -1,6 +1,6 @@
 import { Actor } from "@testla/screenplay";
 
-export type ExecuteParams = {
+export type ActionStrategyExecuteParams = {
     actor: Actor;
     abilityAlias?: string;
     frameTree?: string[];
