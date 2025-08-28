@@ -1,7 +1,7 @@
 import { Actor } from '@testla/screenplay';
-import { Selector, SelectorOptions } from '../types';
-import { BrowseTheWeb } from '../abilities/BrowseTheWeb';
-import { FrameEnabledAction } from '../templates/FrameEnabledAction';
+import { Selector, SelectorOptions } from '../../types';
+import { BrowseTheWeb } from '../../abilities/BrowseTheWeb';
+import { FrameEnabledAction } from '../../templates/FrameEnabledAction';
 
 /**
  * Action Class. Check a checkbox specified by a selector string.
