@@ -1,7 +1,7 @@
 import { Actor } from '@testla/screenplay';
-import { Selector, SelectorOptions } from '../types';
-import { BrowseTheWeb } from '../abilities/BrowseTheWeb';
-import { FrameEnabledAction } from '../templates/FrameEnabledAction';
+import { Selector, SelectorOptions } from '../../types';
+import { BrowseTheWeb } from '../../abilities/BrowseTheWeb';
+import { FrameEnabledAction } from '../../templates/FrameEnabledAction';
 
 /**
  * Options for the Click action.
