@@ -1,8 +1,8 @@
 import { Action, Actor } from '@testla/screenplay';
 import { Download as PlaywrightDownload } from '@playwright/test';
-import { Selector, SelectorOptions } from '../types';
-import { Wait } from './Wait';
-import { Click } from './Click';
+import { Selector, SelectorOptions } from '../../types';
+import { Wait } from '../Wait';
+import { Click } from '../Click';
 
 /**
  * Action Class. Download.
