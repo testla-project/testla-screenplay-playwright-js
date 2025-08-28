@@ -1,5 +1,5 @@
 import { Action, Actor } from '@testla/screenplay';
-import { BrowseTheWeb } from '../abilities/BrowseTheWeb';
+import { BrowseTheWeb } from '../../abilities/BrowseTheWeb';
 
 /**
  * Action Class. Remove from the Browser.
