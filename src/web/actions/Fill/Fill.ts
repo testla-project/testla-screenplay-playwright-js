@@ -1,8 +1,8 @@
 import { Actor } from '@testla/screenplay';
-import { Maskable, Selector, SelectorOptions } from '../types';
-import { BrowseTheWeb } from '../abilities/BrowseTheWeb';
-import { FrameEnabledAction } from '../templates/FrameEnabledAction';
-import { MASKING_STRING } from '../../constants';
+import { Maskable, Selector, SelectorOptions } from '../../types';
+import { BrowseTheWeb } from '../../abilities/BrowseTheWeb';
+import { FrameEnabledAction } from '../../templates/FrameEnabledAction';
+import { MASKING_STRING } from '../../../constants';
 
 /**
  * Action Class. Fill an element specified by a selector string with the specified input.
