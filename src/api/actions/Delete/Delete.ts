@@ -1,8 +1,8 @@
 import { Actor } from '@testla/screenplay';
-import { UseAPI } from '../abilities/UseAPI';
-import { RequestMethod } from '../constants';
-import { Headers, Response, ResponseBodyFormat } from '../types';
-import { ARequest } from './ARequest';
+import { UseAPI } from '../../abilities/UseAPI';
+import { RequestMethod } from '../../constants';
+import { Headers, Response, ResponseBodyFormat } from '../../types';
+import { ARequest } from '../ARequest';
 
 /**
  * Action Class. Send a HTTP DELETE Request.
