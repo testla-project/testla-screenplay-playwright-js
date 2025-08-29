@@ -1,28 +1,20 @@
 import { Actor, Question } from '@testla/screenplay';
-import { UseAPI } from '../abilities/UseAPI';
+import { UseAPI } from '../../abilities/UseAPI';
 import { Headers, Response as ResponseType, ResponseBodyType } from '../types';
-import { CheckMode } from '../../types';
+import { CheckMode } from '../../../types';
+import { QuestionResponseCheckCommand } from './types';
 
 /**
  * Question Class. Verify certain aspects of an API Response.
  */
 export class Response extends Question<boolean> {
-    // the response to check.
-    private response: ResponseType = {
-        body: null,
-        status: 0,
-        headers: {},
-        duration: 0,
-    };
+    private checkMode: CheckMode;
 
-    // the expected values to check + which values to check.
-    private action!: {
-        mode: 'status' | 'body' | 'header' | 'duration';
-        payload?: any;
-    };
-
-    private constructor(private checkMode: CheckMode) {
+    private command?: QuestionResponseCheckCommand;
+    
+    private constructor(checkMode: CheckMode) {
         super();
+        this.checkMode = checkMode;
     }
 
     /**
@@ -32,31 +24,16 @@ export class Response extends Question<boolean> {
      * @return {boolean} the verification result true or false
      */
     public async answeredBy(actor: Actor): Promise<boolean> {
-        if (this.action.mode === 'status') {
-            // if .is was called -> positive check, if .not was called -> negative check
-            return Promise.resolve(
-                await UseAPI.as(actor, this.abilityAlias).checkStatus(this.response, this.action.payload.statusCode, this.checkMode === 'positive' ? 'equal' : 'unequal'),
-            ); // if the ability method is not the expected result there will be an exception
+        if (!this.command) {
+            throw new Error('No check to execute set');
         }
-        if (this.action.mode === 'body') {
-            // if .is was called -> positive check, if .not was called -> negative check
-            return Promise.resolve(
-                await UseAPI.as(actor, this.abilityAlias).checkBody(this.response, this.action.payload.body, this.checkMode === 'positive' ? 'equal' : 'unequal'),
-            ); // if the ability method is not the expected result there will be an exception
-        }
-        if (this.action.mode === 'header') {
-            // if .is was called -> positive check, if .not was called -> negative check
-            return Promise.resolve(
-                await UseAPI.as(actor, this.abilityAlias).checkHeaders(this.response, this.action.payload.headers, this.checkMode === 'positive' ? 'included' : 'excluded'),
-            ); // if the ability method is not the expected result there will be an exception
-        }
-        if (this.action.mode === 'duration') {
-            // if .is was called -> positive check, if .not was called -> negative check
-            return Promise.resolve(
-                await UseAPI.as(actor, this.abilityAlias).checkDuration(this.response, this.action.payload.duration, this.checkMode === 'positive' ? 'lessOrEqual' : 'greater'),
-            ); // if the ability method is not the expected result there will be an exception
-        }
-        throw new Error('Unknown mode for Response.answeredBy');
+        // if .is was called -> positive check, if .not was called -> negative check
+        return Promise.resolve(
+            // eslint-disable-next-line
+            // @ts-ignore
+            await UseAPI.as(actor, this.abilityAlias)[this.command.method](...this.command.args),
+            // this is not a problem since we ensure type safety when creating the command
+        ); // if the ability method is not the expected result there will be an exception
     }
 
     /**
@@ -83,10 +60,11 @@ export class Response extends Question<boolean> {
      * @return {Response} the Response instance
      */
     public statusCode(response: ResponseType, statusCode: number): Response {
-        this.response = response;
+        this.command = {
+            method: 'checkStatus',
+            args: [response, statusCode, this.checkMode === 'positive' ? 'equal' : 'unequal'],
+        };
         this.addToCallStack({ caller: 'statusCode', calledWith: { response, statusCode } });
-        this.action = { mode: 'status', payload: { statusCode } };
-
         return this;
     }
 
@@ -98,10 +76,11 @@ export class Response extends Question<boolean> {
      * @return {Response} the Response instance
      */
     public body(response: ResponseType, body: ResponseBodyType): Response {
-        this.response = response;
+        this.command = {
+            method: 'checkBody',
+            args: [response, body, this.checkMode === 'positive' ? 'equal' : 'unequal'],
+        };
         this.addToCallStack({ caller: 'body', calledWith: { response, body } });
-        this.action = { mode: 'body', payload: { body } };
-
         return this;
     }
 
@@ -113,10 +92,11 @@ export class Response extends Question<boolean> {
      * @return {Response} the Response instance
      */
     public headers(response: ResponseType, headers: Headers): Response {
-        this.response = response;
+        this.command = {
+            method: 'checkHeaders',
+            args: [response, headers, this.checkMode === 'positive' ? 'included' : 'excluded'],
+        };
         this.addToCallStack({ caller: 'headers', calledWith: { response, headers } });
-        this.action = { mode: 'header', payload: { headers } };
-
         return this;
     }
 
@@ -128,10 +108,11 @@ export class Response extends Question<boolean> {
      * @return {Response} the Response instance
      */
     public beenReceivedWithin(response: ResponseType, duration: number): Response {
-        this.response = response;
+        this.command = {
+            method: 'checkDuration',
+            args: [response, duration, this.checkMode === 'positive' ? 'lessOrEqual' : 'greater'],
+        };
         this.addToCallStack({ caller: 'beenReceivedWithin', calledWith: { response, duration } });
-        this.action = { mode: 'duration', payload: { duration } };
-
         return this;
     }
 }
