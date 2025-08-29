@@ -1,6 +1,6 @@
 import { Actor, Question } from '@testla/screenplay';
 import { UseAPI } from '../../abilities/UseAPI';
-import { Headers, Response as ResponseType, ResponseBodyType } from '../types';
+import { Headers, Response as ResponseType, ResponseBodyType } from '../../types';
 import { CheckMode } from '../../../types';
 import { QuestionResponseCheckCommand } from './types';
 
