@@ -561,6 +561,50 @@ test.describe('Testing screenplay-playwright-js web module', () => {
         expect(notEnabledRes).toBeTruthy();
     });
 
+    test('Element.attributeValue', async ({ actor }) => {
+        await actor.attemptsTo(
+            Navigate.to('https://the-internet.herokuapp.com/login'),
+            Wait.forLoadState('networkidle'),
+        );
+
+        // toHave.attributeValue: expect the input to have type="text"
+        expect(await actor.asks(
+            Element.toHave.attributeValue('[id="username"]', 'type', 'text'),
+        )).toBe(true);
+
+        // toHave.attributeValue with RegExp
+        expect(await actor.asks(
+            Element.toHave.attributeValue('[id="password"]', 'type', /password/),
+        )).toBe(true);
+
+        // toHave.attributeValue: expect the question to fail if the expected value is wrong
+        let attrRes = false;
+        try {
+            expect(await actor.asks(
+                Element.toHave.attributeValue('[id="username"]', 'type', 'password', { timeout: 1000 }),
+            )).toBe(true);
+        } catch {
+            attrRes = true;
+        }
+        expect(attrRes).toBeTruthy();
+
+        // notToHave.attributeValue: expect the input to NOT have type="password"
+        expect(await actor.asks(
+            Element.notToHave.attributeValue('[id="username"]', 'type', 'password'),
+        )).toBe(true);
+
+        // notToHave.attributeValue: expect the question to fail if the value actually matches
+        let notAttrRes = false;
+        try {
+            expect(await actor.asks(
+                Element.notToHave.attributeValue('[id="username"]', 'type', 'text', { timeout: 1000 }),
+            )).toBe(true);
+        } catch {
+            notAttrRes = true;
+        }
+        expect(notAttrRes).toBeTruthy();
+    });
+
     // the download page contents change a lot
     // thus keeping a few options in place
     // const DOWNLOAD_FILENAME = 'file.txt';

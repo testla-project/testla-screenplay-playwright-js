@@ -9,8 +9,9 @@ import { CheckValueStrategy } from './strategies/CheckValueStrategy';
 import { CheckCheckedStrategy } from './strategies/CheckCheckedStrategy';
 import { CheckCountStrategy } from './strategies/CheckCountStrategy';
 import { CheckMinCountStrategy } from './strategies/CheckMinCountStrategy';
+import { CheckAttributeValueStrategy } from './strategies/CheckAttributeValueStrategy';
 
-type Strategy = CheckVisibilityStrategy | CheckEnabledStrategy | CheckTextStrategy | CheckValueStrategy | CheckCheckedStrategy | CheckCountStrategy | CheckMinCountStrategy;
+type Strategy = CheckVisibilityStrategy | CheckEnabledStrategy | CheckTextStrategy | CheckValueStrategy | CheckCheckedStrategy | CheckCountStrategy | CheckMinCountStrategy | CheckAttributeValueStrategy;
 
 /**
  * Question Class. Get a specified state for a selector like visible or enabled.
@@ -162,6 +163,21 @@ export class Element extends FrameEnabledQuestion {
     public checked(selector: Selector, options?: SelectorOptions): Element {
         this.strategy = new CheckCheckedStrategy(selector, options);
         this.addToCallStack({ caller: 'checked', calledWith: { selector, options } });
+        return this;
+    }
+
+    /**
+     * Verifies if an element has an attribute with the given value.
+     *
+     * @param selector the selector.
+     * @param attribute the attribute name to check.
+     * @param value the expected attribute value.
+     * @param options (optional) advanced selector lookup options.
+     * @return {Element} this Element instance
+     */
+    public attributeValue(selector: Selector, attribute: string, value: string | RegExp, options?: SelectorOptions): Element {
+        this.strategy = new CheckAttributeValueStrategy(selector, attribute, value, options);
+        this.addToCallStack({ caller: 'attributeValue', calledWith: { selector, attribute, value, options } });
         return this;
     }
 }
