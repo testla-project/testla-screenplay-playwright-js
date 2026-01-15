@@ -3,18 +3,18 @@ import { BrowseTheWeb } from "../../../abilities/BrowseTheWeb";
 import { ExecuteParams } from "../types";
 import { Selector, SelectorOptions } from "../../../types";
 
-type AttributeValue = string | RegExp;
+type AttributeValue = string | RegExp | undefined;
 
 export class CheckAttributeValueStrategy {
     private selector: Selector;
 
     private attribute: string;
 
-    private value: AttributeValue;
+    private value?: AttributeValue;
 
     private options?: SelectorOptions;
 
-    constructor(selector: Selector, attribute: string, value: AttributeValue, options?: SelectorOptions) {
+    constructor(selector: Selector, attribute: string, value?: AttributeValue, options?: SelectorOptions) {
         this.selector = selector;
         this.attribute = attribute;
         this.value = value;
@@ -26,9 +26,17 @@ export class CheckAttributeValueStrategy {
         const locator = await BrowseTheWeb.as(actor, abilityAlias).resolveSelectorToLocator(selector, options, frameTree);
 
         if (checkMode === 'positive') {
-            await expect(locator).toHaveAttribute(attribute, value, { timeout: options?.timeout });
+            if (value !== undefined) {
+                await expect(locator).toHaveAttribute(attribute, value, { timeout: options?.timeout });
+            } else {
+                await expect(locator).toHaveAttribute(attribute, { timeout: options?.timeout });
+            }
         } else {
-            await expect(locator).not.toHaveAttribute(attribute, value, { timeout: options?.timeout });
+            if (value !== undefined) {
+                await expect(locator).not.toHaveAttribute(attribute, value, { timeout: options?.timeout });
+            } else {
+                await expect(locator).not.toHaveAttribute(attribute, { timeout: options?.timeout });
+            }
         }
     }
 }

@@ -167,15 +167,15 @@ export class Element extends FrameEnabledQuestion {
     }
 
     /**
-     * Verifies if an element has an attribute with the given value.
+     * Verifies if an element has an attribute, optionally with a specific value.
      *
      * @param selector the selector.
      * @param attribute the attribute name to check.
-     * @param value the expected attribute value.
+     * @param value (optional) the expected attribute value. If omitted, only checks for attribute existence.
      * @param options (optional) advanced selector lookup options.
      * @return {Element} this Element instance
      */
-    public attributeValue(selector: Selector, attribute: string, value: string | RegExp, options?: SelectorOptions): Element {
+    public attributeValue(selector: Selector, attribute: string, value?: string | RegExp, options?: SelectorOptions): Element {
         this.strategy = new CheckAttributeValueStrategy(selector, attribute, value, options);
         this.addToCallStack({ caller: 'attributeValue', calledWith: { selector, attribute, value, options } });
         return this;

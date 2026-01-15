@@ -603,6 +603,38 @@ test.describe('Testing screenplay-playwright-js web module', () => {
             notAttrRes = true;
         }
         expect(notAttrRes).toBeTruthy();
+
+        // toHave.attributeValue without value: check attribute existence only
+        expect(await actor.asks(
+            Element.toHave.attributeValue('[id="username"]', 'type'),
+        )).toBe(true);
+
+        // toHave.attributeValue without value: expect to fail for non-existent attribute
+        let attrExistsRes = false;
+        try {
+            expect(await actor.asks(
+                Element.toHave.attributeValue('[id="username"]', 'data-nonexistent', undefined, { timeout: 1000 }),
+            )).toBe(true);
+        } catch {
+            attrExistsRes = true;
+        }
+        expect(attrExistsRes).toBeTruthy();
+
+        // notToHave.attributeValue without value: check attribute does NOT exist
+        expect(await actor.asks(
+            Element.notToHave.attributeValue('[id="username"]', 'data-nonexistent'),
+        )).toBe(true);
+
+        // notToHave.attributeValue without value: expect to fail if attribute exists
+        let notAttrExistsRes = false;
+        try {
+            expect(await actor.asks(
+                Element.notToHave.attributeValue('[id="username"]', 'type', undefined, { timeout: 1000 }),
+            )).toBe(true);
+        } catch {
+            notAttrExistsRes = true;
+        }
+        expect(notAttrExistsRes).toBeTruthy();
     });
 
     // the download page contents change a lot
