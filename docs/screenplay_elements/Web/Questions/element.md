@@ -25,6 +25,7 @@ The `Element` class is a question class in the Screenplay pattern designed for u
       - [inFrame](#inframe)
       - [withAbilityAlias](#withabilityalias)
       - [failAsFalse](#failasfalse)
+      - [attributeValue](#attributevalue)
 
 ## Class Overview
 
@@ -197,5 +198,21 @@ public get failAsFalse(): Element;
 
 - **Description:** Returns false instead of failing when exception occurrs.
 - **Returns:** `Element` - Returns the current question.
+
+#### attributeValue
+
+*Introduced in: 1.9.0*
+
+```typescript
+public attributeValue(selector: Selector, attribute: string, value?: string | RegExp, options?: SelectorOptions): Element;
+```
+
+- **Description:** Verifies if an element has an attribute, optionally with a specific value. If value is omitted, only checks for attribute existence.
+- **Parameters:**
+  - `selector` - The selector.
+  - `attribute` - The attribute name to check.
+  - `value` - (optional) The expected attribute value. Supports string or RegExp. If omitted, only checks if the attribute exists.
+  - `options` - (optional) Advanced selector lookup options.
+- **Returns:** `Element` - Returns this `Element` instance.
 
 [Back to overview](../../screenplay_elements.md)

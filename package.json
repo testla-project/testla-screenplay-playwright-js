@@ -1,6 +1,6 @@
 {
   "name": "@testla/screenplay-playwright",
-  "version": "1.8.0",
+  "version": "1.9.0",
   "description": "Implementation of the Playwright abilities, actions and questions.",
   "main": "index.js",
   "types": "index.d.ts",
@@ -52,7 +52,7 @@
     "v8-to-istanbul": "^9.0.1"
   },
   "peerDependencies": {
-    "@playwright/test": "^1.38.0"
+    "@playwright/test": "^1.39.0"
   },
   "dependencies": {
     "@testla/screenplay": "^1.2.0"
